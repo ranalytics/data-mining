@@ -1,0 +1,16 @@
+Package: FuseBox
+Type: Package
+Title: Combining Classifiers
+Version: 1.0
+Date: 2011-03-15
+Author: Max Kuhn
+Maintainer: Max Kuhn <max.kuhn@pfizer.com>
+Description: A platform for combining (ie "fusing") classification models via ensembles
+Depends: foreach
+Suggests: caret, QSARdata, randomForest, kernlab
+License: GPL 2.0
+LazyLoad: yes
+Repository: R-Forge
+Repository/R-Forge/Project: fusebox
+Repository/R-Forge/Revision: 2
+Packaged: 2012-04-03 14:31:33 UTC; rforge

@@ -1,0 +1,10 @@
+
+export(fuse,
+       fuse.default,
+       predict.fuse)
+
+
+S3method(print, fuse)
+S3method(predict, fuse)
+
+S3method(fuse, default)
