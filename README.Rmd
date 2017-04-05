@@ -28,7 +28,7 @@
 
 <br>
 <div style="width:150px; height=50px">
-![](www/license.png)
+![](http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png)
 </div>
 © 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий
 
