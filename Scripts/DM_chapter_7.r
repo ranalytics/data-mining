@@ -1,12 +1,12 @@
 #########################################################################
-# Шитиков В.К., Мастицкий С.Э. (2017) Классификация, регрессия и другие алгоритмы Data Mining 
-# с использованием R. (Адрес доступа: http://www.ievbras.ru/ecostat/Kiril/R/DM )
+# РЁРёС‚РёРєРѕРІ Р’.Рљ., РњР°СЃС‚РёС†РєРёР№ РЎ.Р­. (2017) РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ, СЂРµРіСЂРµСЃСЃРёСЏ Рё РґСЂСѓРіРёРµ Р°Р»РіРѕСЂРёС‚РјС‹ Data Mining 
+# СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј R. (РђРґСЂРµСЃ РґРѕСЃС‚СѓРїР°: http://www.ievbras.ru/ecostat/Kiril/R/DM )
 #########################################################################
 #########################################################################
-# Глава 7. МОДЕЛИ КЛАССИФИКАЦИИ ПРИ КАТЕГОРИАЛЬНОМ ОТКЛИКЕ
+# Р“Р»Р°РІР° 7. РњРћР”Р•Р›Р РљР›РђРЎРЎРР¤РРљРђР¦РР РџР Р РљРђРўР•Р“РћР РРђР›Р¬РќРћРњ РћРўРљР›РРљР•
 #########################################################################
 
-#  7.1. Ирисы Фишера и метод k-ближайших соседей
+#  7.1. РСЂРёСЃС‹ Р¤РёС€РµСЂР° Рё РјРµС‚РѕРґ k-Р±Р»РёР¶Р°Р№С€РёС… СЃРѕСЃРµРґРµР№
 #-----------------------------------------------------------------------
 data(iris) ; library(ggplot2)
 qplot(Sepal.Length, Sepal.Width, data = iris) +
@@ -21,16 +21,16 @@ mod.pca <- rda(iris[,-5], scale = TRUE)
 scores <- as.data.frame(scores(mod.pca, display ="sites",
  scaling = 3))
 scores$Species <- iris$Species
-# Включаем в названия осей доли объясненных дисперсий
+# Р’РєР»СЋС‡Р°РµРј РІ РЅР°Р·РІР°РЅРёСЏ РѕСЃРµР№ РґРѕР»Рё РѕР±СЉСЏСЃРЅРµРЅРЅС‹С… РґРёСЃРїРµСЂСЃРёР№
 axX <- paste("PC1 (",
    as.integer(100*mod.pca$CA$eig[1]/sum(mod.pca$CA$eig)),"%)")
 axY <- paste("PC2 (",
    as.integer(100*mod.pca$CA$eig[2]/sum(mod.pca$CA$eig)),"%)")
-# Составляем таблицу для hull "каркаса точек на графике"
+# РЎРѕСЃС‚Р°РІР»СЏРµРј С‚Р°Р±Р»РёС†Сѓ РґР»СЏ hull "РєР°СЂРєР°СЃР° С‚РѕС‡РµРє РЅР° РіСЂР°С„РёРєРµ"
 l <- lapply(unique(scores$Species), function(c) 
          { f <- subset(scores,Species==c); f[chull(f),]})
 hull <- do.call(rbind, l)
-# Выводим ординационную диаграмму
+# Р’С‹РІРѕРґРёРј РѕСЂРґРёРЅР°С†РёРѕРЅРЅСѓСЋ РґРёР°РіСЂР°РјРјСѓ
 ggplot() + 
   geom_polygon(data=hull,aes(x=PC1,y=PC2, fill=Species),
 alpha=0.4, linetype=0) +  
@@ -39,11 +39,11 @@ colour=Species),size=3) +
   scale_colour_manual( values = c('purple', 'green', 'blue'))+
   xlab(axX) + ylab(axY) + coord_equal() + theme_bw() 
 
-library(kknn)   #   -------- Метод к-ближайших соседей  kNN
+library(kknn)   #   -------- РњРµС‚РѕРґ Рє-Р±Р»РёР¶Р°Р№С€РёС… СЃРѕСЃРµРґРµР№  kNN
 train.kknn(Species ~ ., iris, kmax = 50, kernel="rectangular") 
 max_K=20 ; gen.err.kknn <- numeric(max_K)
 mycv.err.kknn <- numeric(max_K) ; n <- nrow(iris)
-#  Рассматриваем число возможных соседей от 1 до 20
+#  Р Р°СЃСЃРјР°С‚СЂРёРІР°РµРј С‡РёСЃР»Рѕ РІРѕР·РјРѕР¶РЅС‹С… СЃРѕСЃРµРґРµР№ РѕС‚ 1 РґРѕ 20
 for (k.val in 1:max_K)  {  
   pred.train <- kknn(Species ~ .,
      iris,train=iris,test=iris,k=k.val,kernel="rectangular")
@@ -55,10 +55,10 @@ for (k.val in 1:max_K)  {
         (pred.mycv$fit != iris$Species[i])   }
 }  ;  mycv.err.kknn <- mycv.err.kknn/n
 plot(1:20,gen.err.kknn,type="l",xlab='k', ylim=c(0,0.07),
-    ylab='Ошибка классификации', col="limegreen", lwd=2) 
+    ylab='РћС€РёР±РєР° РєР»Р°СЃСЃРёС„РёРєР°С†РёРё', col="limegreen", lwd=2) 
 points(1:max_K,mycv.err.kknn,type="l",col="red", lwd=2)
-legend("bottomright",c("При обучении",
-   "Скользящий контроль"),lwd=2,col=c("limegreen", "red")) 
+legend("bottomright",c("РџСЂРё РѕР±СѓС‡РµРЅРёРё",
+   "РЎРєРѕР»СЊР·СЏС‰РёР№ РєРѕРЅС‚СЂРѕР»СЊ"),lwd=2,col=c("limegreen", "red")) 
 
 library(caret) ; set.seed(123)
 contrl <- trainControl(method="repeatedcv",repeats = 3)
@@ -71,12 +71,12 @@ train.ind <- sample(seq_len(nrow(iris)), size = samp.size)
 train <- iris[train.ind,]  ;  test <- iris[-train.ind, ] 
 knn.iris <- knn(train = train[,-5], test = test[,-5], 
 cl = train[,"Species"], k = 13, prob = T)
-table(Факт=test$Species,Прогноз=knn.iris)
+table(Р¤Р°РєС‚=test$Species,РџСЂРѕРіРЅРѕР·=knn.iris)
 Acc = mean(knn.iris == test$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 #-----------------------------------------------------------------------
-#  7.2. "Наивный" классификатор Байеса
+#  7.2. "РќР°РёРІРЅС‹Р№" РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ Р‘Р°Р№РµСЃР°
 #-----------------------------------------------------------------------
 
 library(klaR)
@@ -85,32 +85,32 @@ naive_iris$tables$Petal.Width
 plot(naive_iris,lwd=2)
 
 pred <- predict(naive_iris,iris[,-5])$class
-table(Факт=iris$Species, Прогноз=pred)
+table(Р¤Р°РєС‚=iris$Species, РџСЂРѕРіРЅРѕР·=pred)
 Acc = mean(pred == iris$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 library(caret)
-#  Определим условия кросс-проверки в объекте  
+#  РћРїСЂРµРґРµР»РёРј СѓСЃР»РѕРІРёСЏ РєСЂРѕСЃСЃ-РїСЂРѕРІРµСЂРєРё РІ РѕР±СЉРµРєС‚Рµ  
 train_control <- trainControl(method='cv',number=10)
 Test <- train(Species~., data = iris, trControl=train_control, method="nb")
 print(Test)
 Acc = mean(predict(Test$finalModel,iris[,-5])$class
                           == iris$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 #-----------------------------------------------------------------------
-#  7.3. Классификация в линейном дискриминантном пространстве
+#  7.3. РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ РІ Р»РёРЅРµР№РЅРѕРј РґРёСЃРєСЂРёРјРёРЅР°РЅС‚РЅРѕРј РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРµ
 #-----------------------------------------------------------------------
 
 require(MASS)
 LDA.iris <- lda(formula = Species ~ .,data = iris)
-LDA.iris$scaling # Коэффициенты линейных лискриминантов
+LDA.iris$scaling # РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ Р»РёРЅРµР№РЅС‹С… Р»РёСЃРєСЂРёРјРёРЅР°РЅС‚РѕРІ
 LDA.iris$svd
 (prop = LDA.iris$svd^2/sum(LDA.iris$svd^2)) 
 prop =percent(prop)
 pred <-predict(LDA.iris,newdata = iris)
 scores = data.frame(Species = iris$Species,pred$x)
-# Выводим ординационную диаграмму
+# Р’С‹РІРѕРґРёРј РѕСЂРґРёРЅР°С†РёРѕРЅРЅСѓСЋ РґРёР°РіСЂР°РјРјСѓ
 require(ggplot2)
 ggplot() +   geom_point(data=scores,
   aes(x=LD1,y=LD2,shape=Species,colour=Species),size=3) + 
@@ -126,62 +126,62 @@ plda = predict(LDA.iris3,newdata = iris[-train, ])
 data.frame(Species=iris[-train,5], plda$class, plda$posterior)
 
 Acc = mean(pred$class == iris$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 LDA.irisCV <- lda(Species ~ ., data = iris,  CV = TRUE)
-table(Факт=iris$Species,Прогноз=LDA.irisCV$class)
+table(Р¤Р°РєС‚=iris$Species,РџСЂРѕРіРЅРѕР·=LDA.irisCV$class)
 Acc = mean(LDA.irisCV$class==iris$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 #-----------------------------------------------------------------------
-#  7.4. Нелинейные классификаторы в R
+#  7.4. РќРµР»РёРЅРµР№РЅС‹Рµ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂС‹ РІ R
 #-----------------------------------------------------------------------
 
-# Квадратичный дискриминантный анализ 
+# РљРІР°РґСЂР°С‚РёС‡РЅС‹Р№ РґРёСЃРєСЂРёРјРёРЅР°РЅС‚РЅС‹Р№ Р°РЅР°Р»РёР· 
 require(MASS)
 QDA.iris = qda(Species~ Petal.Length+Petal.Width, data = iris)
 pred = predict(QDA.iris)$class
-table(Факт=iris$Species,Прогноз=pred)
+table(Р¤Р°РєС‚=iris$Species,РџСЂРѕРіРЅРѕР·=pred)
 Acc = mean(pred ==iris$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 library(klaR)
 partimat(Species ~ Petal.Length + Petal.Width,
          data = iris, method="qda")
 
 library(caret)
 set.seed(123)
-# Используем только размеры лепестка
+# РСЃРїРѕР»СЊР·СѓРµРј С‚РѕР»СЊРєРѕ СЂР°Р·РјРµСЂС‹ Р»РµРїРµСЃС‚РєР°
 train(Species ~ Petal.Length + Petal.Width, data = iris, method = "qda", trControl = trainControl(method = "cv"))
 
-# Используем весь набор признаков
+# РСЃРїРѕР»СЊР·СѓРµРј РІРµСЃСЊ РЅР°Р±РѕСЂ РїСЂРёР·РЅР°РєРѕРІ
 train(Species ~ ., data = iris, method = "qda", 
 trControl = trainControl(method = "cv"))
 
-# Регуляризованный дискриминантный анализ 
+# Р РµРіСѓР»СЏСЂРёР·РѕРІР°РЅРЅС‹Р№ РґРёСЃРєСЂРёРјРёРЅР°РЅС‚РЅС‹Р№ Р°РЅР°Р»РёР· 
 library(rda)
 set.seed(123)
-#  1- этап грубой оптимизации
+#  1- СЌС‚Р°Рї РіСЂСѓР±РѕР№ РѕРїС‚РёРјРёР·Р°С†РёРё
 train(Species ~ ., data = iris, method = "rda", 
 trControl = trainControl(method = "cv"))
 
-#  2- этап с диапазоном lambda = 0.1:0.5 и gamma = 0.02:0.1
+#  2- СЌС‚Р°Рї СЃ РґРёР°РїР°Р·РѕРЅРѕРј lambda = 0.1:0.5 Рё gamma = 0.02:0.1
 RDAGrid <- expand.grid(.lambda = (1:5)/10, .gamma = (1:5)/50)
 train(Species ~ ., data = iris, method = "rda", 
 tuneGrid =RDAGrid, trControl = trainControl(method = "cv"))
 
-#  Построение классификатора и оценка его точности
+#  РџРѕСЃС‚СЂРѕРµРЅРёРµ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР° Рё РѕС†РµРЅРєР° РµРіРѕ С‚РѕС‡РЅРѕСЃС‚Рё
 RDA.iris <- rda(Species~., data=iris, gamma=0.02, lambda=0.5)
 pred = predict(RDA.iris)$class
 Acc = mean(pred ==iris$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
-# Машина опорных векторов 
+# РњР°С€РёРЅР° РѕРїРѕСЂРЅС‹С… РІРµРєС‚РѕСЂРѕРІ 
 library(e1071)
 SVM.iris <- svm(Species~., data=iris)
 pred <- predict(SVM.iris, iris[,1:4], type="response")
-table(Факт=iris$Species,Прогноз=pred)
+table(Р¤Р°РєС‚=iris$Species,РџСЂРѕРіРЅРѕР·=pred)
 Acc = mean(pred ==iris$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 pred.DV <- predict(SVM.iris, iris[,1:4], 
 decision.values = TRUE)
 ind <- sort(sample(150,9))
@@ -190,12 +190,12 @@ data.frame(attr(pred.DV, "decision.values")[ind,],
 
 plot(cmdscale(dist(iris[,-5])), col = as.integer(iris[,5])+1,
      pch = c("o","+")[1:150 %in% SVM.iris$index + 1], font=2,
-xlab="Шкала 1",ylab="Шкала 1" ) 
+xlab="РЁРєР°Р»Р° 1",ylab="РЁРєР°Р»Р° 1" ) 
 legend (0,1.2, c("setosa","versicolor","virginica"),pch = "o", 
         col =2:4)
 
 #-----------------------------------------------------------------------
-# 7.5. Мультиномиальная логистическая регрессия
+# 7.5. РњСѓР»СЊС‚РёРЅРѕРјРёР°Р»СЊРЅР°СЏ Р»РѕРіРёСЃС‚РёС‡РµСЃРєР°СЏ СЂРµРіСЂРµСЃСЃРёСЏ
 #-----------------------------------------------------------------------
 
 library(nnet)
@@ -204,18 +204,18 @@ summary(MN.iris)
 Probs <- fitted(MN.iris) 
 pred=apply(Probs,1,function(x)
         colnames(Probs)[which(x==max(x))])
-table(Факт=iris$Species,Прогноз=pred)
+table(Р¤Р°РєС‚=iris$Species,РџСЂРѕРіРЅРѕР·=pred)
 Acc = mean(pred ==iris$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 z <- summary(MN.iris)$coefficients/
        summary(MN.iris)$standard.errors
-# p-значения на основе теста Вальда 
+# p-Р·РЅР°С‡РµРЅРёСЏ РЅР° РѕСЃРЅРѕРІРµ С‚РµСЃС‚Р° Р’Р°Р»СЊРґР° 
 (1 - pnorm(abs(z), 0, 1))*2 
-# p-значения на основе  t-статистики
+# p-Р·РЅР°С‡РµРЅРёСЏ РЅР° РѕСЃРЅРѕРІРµ  t-СЃС‚Р°С‚РёСЃС‚РёРєРё
 pt(z, df = nrow(iris) - 5, lower=FALSE) 
 
 #-----------------------------------------------------------------------
-# 7.6. Классификаторы на основе искусственных нейронных сетей
+# 7.6. РљР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂС‹ РЅР° РѕСЃРЅРѕРІРµ РёСЃРєСѓСЃСЃС‚РІРµРЅРЅС‹С… РЅРµР№СЂРѕРЅРЅС‹С… СЃРµС‚РµР№
 #-----------------------------------------------------------------------
 
 data(iris)
@@ -236,9 +236,9 @@ plot(net.iris)
 net.prob = compute(net.iris, testset[-5])$net.result
 pred = c("versicolor",   "virginica",   "setosa")
  [apply(net.prob,   1,   which.max)]
-table(Факт=testset$Species, Прогноз= pred)
+table(Р¤Р°РєС‚=testset$Species, РџСЂРѕРіРЅРѕР·= pred)
 Acc = mean(pred == testset$Species)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 
 

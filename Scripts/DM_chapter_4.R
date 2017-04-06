@@ -1,21 +1,21 @@
 #########################################################################
-# Шитиков В.К., Мастицкий С.Э. (2017) Классификация, регрессия и другие алгоритмы Data Mining 
-# с использованием R. (Адрес доступа: http://www.ievbras.ru/ecostat/Kiril/R/DM )
+# РЁРёС‚РёРєРѕРІ Р’.Рљ., РњР°СЃС‚РёС†РєРёР№ РЎ.Р­. (2017) РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ, СЂРµРіСЂРµСЃСЃРёСЏ Рё РґСЂСѓРіРёРµ Р°Р»РіРѕСЂРёС‚РјС‹ Data Mining 
+# СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј R. (РђРґСЂРµСЃ РґРѕСЃС‚СѓРїР°: http://www.ievbras.ru/ecostat/Kiril/R/DM )
 #########################################################################
 #########################################################################
-# Глава 4. ПОСТРОЕНИЕ РЕГРЕССИОННЫХ МОДЕЛЕЙ РАЗЛИЧНОГО ТИПА 
+# Р“Р»Р°РІР° 4. РџРћРЎРўР РћР•РќРР• Р Р•Р“Р Р•РЎРЎРРћРќРќР«РҐ РњРћР”Р•Р›Р•Р™ Р РђР—Р›РР§РќРћР“Рћ РўРРџРђ 
 #########################################################################
 
-#  4.1. Селекция оптимального набора предикторов линейной модели
+#  4.1. РЎРµР»РµРєС†РёСЏ РѕРїС‚РёРјР°Р»СЊРЅРѕРіРѕ РЅР°Р±РѕСЂР° РїСЂРµРґРёРєС‚РѕСЂРѕРІ Р»РёРЅРµР№РЅРѕР№ РјРѕРґРµР»Рё
 #-----------------------------------------------------------------------
 
 library(DMwR)
 data(algae)
 library(caret)
-# Заполним пропуски в данных на основе алгоритма бэггинга
+# Р—Р°РїРѕР»РЅРёРј РїСЂРѕРїСѓСЃРєРё РІ РґР°РЅРЅС‹С… РЅР° РѕСЃРЅРѕРІРµ Р°Р»РіРѕСЂРёС‚РјР° Р±СЌРіРіРёРЅРіР°
 pPbI <- preProcess(algae[,4:11], method='bagImpute')
 algae[,4:11] <-  predict(pPbI, algae[,4:11])
-# Сохраним таблицу для использования в дальнейшем
+# РЎРѕС…СЂР°РЅРёРј С‚Р°Р±Р»РёС†Сѓ РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІ РґР°Р»СЊРЅРµР№С€РµРј
 save(algae, file="algae.RData") 
 
 Mcor <-cor(algae[,4:11])
@@ -39,7 +39,7 @@ lm_step.a1.cv <- train( a1 ~ size + mxPH + mnO2 + NO3 + NH4 +
 
 x <- model.matrix(a1 ~ .,data=algae[,1:12])[,-1]
 set.seed(10)
-#--Рекурсивное исключение переменных
+#--Р РµРєСѓСЂСЃРёРІРЅРѕРµ РёСЃРєР»СЋС‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅС‹С…
 ctrl <- rfeControl(functions = lmFuncs, method = "cv", 
 verbose = FALSE,    returnResamp = "final")
 lmProfileF <- rfe(as.data.frame(x), algae$a1, 
@@ -49,7 +49,7 @@ ggplot(lmProfileF, metric = "Rsquared")
 predictors(lmProfileF)
 summary(lmProfileF$fit) 
 
-#--Генетический алгоритм
+#--Р“РµРЅРµС‚РёС‡РµСЃРєРёР№ Р°Р»РіРѕСЂРёС‚Рј
 set.seed(10)
 ctrl <- gafsControl(functions = rfGA, method = "cv", 
 verbose = FALSE,     returnResamp = "final")
@@ -63,7 +63,7 @@ train(a1 ~ size + mxPH +Cl + NO3 + PO4,
 data=algae[,1:12], method='lm',
 trControl = trainControl(method = "cv"))
 
-#--Тестирование моделей 
+#--РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ РјРѕРґРµР»РµР№ 
 Eval <- read.table('Eval.txt',header=F,dec='.',
    col.names=c('season','size','speed','mxPH','mnO2','Cl',
   'NO3','NH4','oPO4','PO4','Chla'),na.strings=c('XXXXXXX'))
@@ -72,11 +72,11 @@ Sols <- read.table('Sols.txt',header=F,dec='.',
           na.strings=c('XXXXXXX'))
 ImpEval <- preProcess(Eval[,4:11], method='bagImpute')
 Eval[,4:11] <-  predict(ImpEval, Eval[,4:11])
-# Cохраним данные для дальнейшего использования
+# CРѕС…СЂР°РЅРёРј РґР°РЅРЅС‹Рµ РґР»СЏ РґР°Р»СЊРЅРµР№С€РµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
 save(Eval,Sols, file="algae_test.RData")
 y <- Sols$a1
 EvalF <- as.data.frame(model.matrix(y ~ .,Eval)[,-1])
-# Функция, выводящая вектор критериев
+# Р¤СѓРЅРєС†РёСЏ, РІС‹РІРѕРґСЏС‰Р°СЏ РІРµРєС‚РѕСЂ РєСЂРёС‚РµСЂРёРµРІ
 ModCrit <- function (pred, fact) {
   mae <- mean(abs(pred-fact))
   rmse <- sqrt(mean((pred-fact)^2))
@@ -93,10 +93,10 @@ Result <- rbind(
 Result
 
 #-----------------------------------------------------------------------
-#  4.2. Регуляризация, частные наименьшие квадраты и kNN-регрессия 
+#  4.2. Р РµРіСѓР»СЏСЂРёР·Р°С†РёСЏ, С‡Р°СЃС‚РЅС‹Рµ РЅР°РёРјРµРЅСЊС€РёРµ РєРІР°РґСЂР°С‚С‹ Рё kNN-СЂРµРіСЂРµСЃСЃРёСЏ 
 #-----------------------------------------------------------------------
-#  Регрессия Лассо
-load(file="algae.RData") # Загрузка таблицы algae - раздел 4.1
+#  Р РµРіСЂРµСЃСЃРёСЏ Р›Р°СЃСЃРѕ
+load(file="algae.RData") # Р—Р°РіСЂСѓР·РєР° С‚Р°Р±Р»РёС†С‹ algae - СЂР°Р·РґРµР» 4.1
 grid=10^seq(10,-2,length=100)
 library( glmnet)
 lasso.a1 <- glmnet(x,algae$a1, alpha=1, lambda=grid)  
@@ -112,7 +112,7 @@ lasso.a1.train <- train(as.data.frame(x), algae$a1,
 coef(lasso.a1.train$finalModel,
  lasso.a1.train$bestTune$lambda)
 
-#  Метод частных наименьших квадратов (PLS)
+#  РњРµС‚РѕРґ С‡Р°СЃС‚РЅС‹С… РЅР°РёРјРµРЅСЊС€РёС… РєРІР°РґСЂР°С‚РѕРІ (PLS)
 library(pls)
 M.pls <- plsr(algae$a1~x, scale=TRUE, 
                 validation="CV", method="oscorespls")
@@ -130,17 +130,17 @@ pcrTune.a1 <- train(x, algae$a1, method = "pcr",
          tuneLength = 14, trControl = ctrl,
          preProc = c("center", "scale"))
 
-#  Регрессия по методу k ближайших соседей
+#  Р РµРіСЂРµСЃСЃРёСЏ РїРѕ РјРµС‚РѕРґСѓ k Р±Р»РёР¶Р°Р№С€РёС… СЃРѕСЃРµРґРµР№
 knnTune.a1 <- train(x, algae$a1, method = "knn",
          preProc = c("center", "scale"),
          trControl = ctrl, tuneGrid = data.frame(.k = 4:30))
 plot( knnTune.a1)
 
-#  Тестирование моделей 
-load (file="algae_test.RData") # Загрузка таблиц Eval,Sols
+#  РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ РјРѕРґРµР»РµР№ 
+load (file="algae_test.RData") # Р—Р°РіСЂСѓР·РєР° С‚Р°Р±Р»РёС† Eval,Sols
 y <- Sols$a1
 EvalF <- as.data.frame(model.matrix(y ~ .,Eval)[,-1])
-# Функция, выводящая вектор критериев
+# Р¤СѓРЅРєС†РёСЏ, РІС‹РІРѕРґСЏС‰Р°СЏ РІРµРєС‚РѕСЂ РєСЂРёС‚РµСЂРёРµРІ
 ModCrit <- function (pred, fact) {
   mae <- mean(abs(pred-fact))
   rmse <- sqrt(mean((pred-fact)^2))
@@ -155,24 +155,24 @@ lasso = ModCrit(predict(lasso.a1.train,EvalF),Sols[,1]),
 Result
 
 #-----------------------------------------------------------------------
-#  4.3. Построение деревьев регрессии
+#  4.3. РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµСЂРµРІСЊРµРІ СЂРµРіСЂРµСЃСЃРёРё
 #-----------------------------------------------------------------------
 
-#  Построение деревьев рекурсивного разделения
-load(file="algae.RData") # Загрузка таблицы algae - раздел 4.1
+#  РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµСЂРµРІСЊРµРІ СЂРµРєСѓСЂСЃРёРІРЅРѕРіРѕ СЂР°Р·РґРµР»РµРЅРёСЏ
+load(file="algae.RData") # Р—Р°РіСЂСѓР·РєР° С‚Р°Р±Р»РёС†С‹ algae - СЂР°Р·РґРµР» 4.1
 (rt.a1 <- rpart(a1 ~ .,data=algae[,1:12]))
 prettyTree(rt.a1) 
 printcp(rt.a1) 
 
-#   Снижаем порог стоимости сложности с шагом .005
+#   РЎРЅРёР¶Р°РµРј РїРѕСЂРѕРі СЃС‚РѕРёРјРѕСЃС‚Рё СЃР»РѕР¶РЅРѕСЃС‚Рё СЃ С€Р°РіРѕРј .005
 rtp.a1 <- rpart(a1 ~ .,data=algae[,1:12], 
    control=rpart.control(cp=.005)) 
-#  График изменения относительных ошибок от числа узлов дерева
+#  Р“СЂР°С„РёРє РёР·РјРµРЅРµРЅРёСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС€РёР±РѕРє РѕС‚ С‡РёСЃР»Р° СѓР·Р»РѕРІ РґРµСЂРµРІР°
 plotcp(rtp.a1) 
 with(rtp.a1, {lines(cptable[,2]+1,cptable[,3],
    type="b",col="red")
-   legend(locator(1),c("Ошибка обучения",
-   "Ошибка крос-проверки (CV)","min(CV ошибка)+SE"),
+   legend(locator(1),c("РћС€РёР±РєР° РѕР±СѓС‡РµРЅРёСЏ",
+   "РћС€РёР±РєР° РєСЂРѕСЃ-РїСЂРѕРІРµСЂРєРё (CV)","min(CV РѕС€РёР±РєР°)+SE"),
    lty=c(1,1,2),col=c("red","black","black"),bty="n") })
 rtp.a1 <- prune(rtp.a1, cp=0.029)
 prettyTree(rtp.a1) 
@@ -185,8 +185,8 @@ plot(rt.a1.train)
 rtt.a1 <- rt.a1.train$finalModel
 prettyTree(rtt.a1) 
 
-#   Построение деревьев с использованием алгортма условного вывода
-library(party)  # Построение дерева методом "условного вывода"
+#   РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµСЂРµРІСЊРµРІ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј Р°Р»РіРѕСЂС‚РјР° СѓСЃР»РѕРІРЅРѕРіРѕ РІС‹РІРѕРґР°
+library(party)  # РџРѕСЃС‚СЂРѕРµРЅРёРµ РґРµСЂРµРІР° РјРµС‚РѕРґРѕРј "СѓСЃР»РѕРІРЅРѕРіРѕ РІС‹РІРѕРґР°"
 (ctree.a1 <- ctree(a1 ~ .,data=algae[,1:12]))
 plot(ctree.a1)
 
@@ -195,9 +195,9 @@ ctree.a1.train <- train(a1 ~ .,data=algae[,1:12],
 ctreet.a1 <- ctree.a1.train$finalModel
 plot(ctreet.a1)
 
-#  Тестирование моделей 
-load (file="algae_test.RData") # Загрузка таблиц Eval,Sols
-# Функция, выводящая вектор критериев
+#  РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ РјРѕРґРµР»РµР№ 
+load (file="algae_test.RData") # Р—Р°РіСЂСѓР·РєР° С‚Р°Р±Р»РёС† Eval,Sols
+# Р¤СѓРЅРєС†РёСЏ, РІС‹РІРѕРґСЏС‰Р°СЏ РІРµРєС‚РѕСЂ РєСЂРёС‚РµСЂРёРµРІ
 ModCrit <- function (pred, fact) {
   mae <- mean(abs(pred-fact))
   rmse <- sqrt(mean((pred-fact)^2))
@@ -213,9 +213,9 @@ Result <- rbind(
 Result
 
 #-----------------------------------------------------------------------
-#  4.4. Ансамбли моделей: бэггинг, случайные леса, бустинг
+#  4.4. РђРЅСЃР°РјР±Р»Рё РјРѕРґРµР»РµР№: Р±СЌРіРіРёРЅРі, СЃР»СѓС‡Р°Р№РЅС‹Рµ Р»РµСЃР°, Р±СѓСЃС‚РёРЅРі
 #-----------------------------------------------------------------------
-load(file="algae.RData") # Загрузка таблицы algae - раздел 4.1
+load(file="algae.RData") # Р—Р°РіСЂСѓР·РєР° С‚Р°Р±Р»РёС†С‹ algae - СЂР°Р·РґРµР» 4.1
 x <- as.data.frame(model.matrix(a1~.,data=algae[,1:12])[,-1])
 library(randomForest)
 randomForest(x, algae$a1, mtry= ncol(x))
@@ -238,7 +238,7 @@ plot(bag.a1$finalModel, col="green", lwd=2, add=TRUE)
 legend("topright",c("Bagging", "RandomForrest"),
           col=c("green","blue"), lwd=2)
 
-#  Бустинг
+#  Р‘СѓСЃС‚РёРЅРі
 library(gbm)
 set.seed(1)
 xd <- cbind(a1 = algae$a1, x)
@@ -263,11 +263,11 @@ boostFit.a1 <- train(a1 ~ ., data= xd,
       preProc=c('center','scale'))
 plot(boostFit)
 
-#  Тестирование моделей 
-load (file="algae_test.RData") # Загрузка таблиц Eval,Sols
+#  РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ РјРѕРґРµР»РµР№ 
+load (file="algae_test.RData") # Р—Р°РіСЂСѓР·РєР° С‚Р°Р±Р»РёС† Eval,Sols
 y <- Sols$a1
 EvalF <- as.data.frame(model.matrix(y ~ .,Eval)[,-1])
-# Функция, выводящая вектор критериев
+# Р¤СѓРЅРєС†РёСЏ, РІС‹РІРѕРґСЏС‰Р°СЏ РІРµРєС‚РѕСЂ РєСЂРёС‚РµСЂРёРµРІ
 ModCrit <- function (pred, fact) {
   mae <- mean(abs(pred-fact))
   rmse <- sqrt(mean((pred-fact)^2))
@@ -282,20 +282,20 @@ Result <- rbind(
 Result
 
 #-----------------------------------------------------------------------
-#  4.5. Сравнение построенных моделей и оценка информативности предикторов
+#  4.5. РЎСЂР°РІРЅРµРЅРёРµ РїРѕСЃС‚СЂРѕРµРЅРЅС‹С… РјРѕРґРµР»РµР№ Рё РѕС†РµРЅРєР° РёРЅС„РѕСЂРјР°С‚РёРІРЅРѕСЃС‚Рё РїСЂРµРґРёРєС‚РѕСЂРѕРІ
 #-----------------------------------------------------------------------
 Models <- read.delim('Models.txt',header=T)
 plot(Models$Rsq,Models$Rsquared,pch=CIRCLE<-16, 
      col=8-Models$col, cex=2.5,
-     xlab="Rsquared на дополнительной выборке", 
-     ylab="Rsquared при кросс-проверке")
+     xlab="Rsquared РЅР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕР№ РІС‹Р±РѕСЂРєРµ", 
+     ylab="Rsquared РїСЂРё РєСЂРѕСЃСЃ-РїСЂРѕРІРµСЂРєРµ")
 text(Models$Rsq,Models$Rsquared,rownames(Models), 
      pos=4, font=4,cex=0.8)
-legend('bottomright',c('Бэггинг/бустинг','Деревья',
-     'Регрессия kNN','PLS/PCR','Лассо','Линейные модели'),
+legend('bottomright',c('Р‘СЌРіРіРёРЅРі/Р±СѓСЃС‚РёРЅРі','Р”РµСЂРµРІСЊСЏ',
+     'Р РµРіСЂРµСЃСЃРёСЏ kNN','PLS/PCR','Р›Р°СЃСЃРѕ','Р›РёРЅРµР№РЅС‹Рµ РјРѕРґРµР»Рё'),
      col=2:7, pch=CIRCLE<-16, cex=1)
 
-load(file="algae.RData") # Загрузка таблицы algae - раздел 4.1
+load(file="algae.RData") # Р—Р°РіСЂСѓР·РєР° С‚Р°Р±Р»РёС†С‹ algae - СЂР°Р·РґРµР» 4.1
 library(Boruta)
 algae.mod <- as.data.frame(model.matrix(a1 ~ .,
                     data=algae[,1:12])[,-1])
@@ -315,9 +315,9 @@ axis(side = 1,las=2,labels = names(Labels),
      at = 1:ncol(algae.Boruta$ImpHistory), cex.axis = 0.7
 
 #-----------------------------------------------------------------------
-#  4.6. Деревья регрессии с многомерным откликомв
+#  4.6. Р”РµСЂРµРІСЊСЏ СЂРµРіСЂРµСЃСЃРёРё СЃ РјРЅРѕРіРѕРјРµСЂРЅС‹Рј РѕС‚РєР»РёРєРѕРјРІ
 #-----------------------------------------------------------------------
-load(file="algae.RData") # Загрузка таблицы algae - раздел 4.1
+load(file="algae.RData") # Р—Р°РіСЂСѓР·РєР° С‚Р°Р±Р»РёС†С‹ algae - СЂР°Р·РґРµР» 4.1
 library(caret)
 Transal = preProcess(algae[,12:18], 
 method = c("BoxCox", "scale"))
@@ -330,7 +330,7 @@ xv="pick", xval=nrow(Species), xvmult = 1,
 plot(spe.mvpart) ; text(spe.mvpart)  
 summary(spe.mvpart)
 
-# Относительная доля групп водорослей в кластерах
+# РћС‚РЅРѕСЃРёС‚РµР»СЊРЅР°СЏ РґРѕР»СЏ РіСЂСѓРїРї РІРѕРґРѕСЂРѕСЃР»РµР№ РІ РєР»Р°СЃС‚РµСЂР°С…
 groups.mrt <- levels(as.factor(spe.mvpart$where))
 leaf.sum <- matrix(0, length(groups.mrt), ncol(Species))  
  colnames(leaf.sum) <- colnames(Species)
@@ -341,12 +341,12 @@ for(i in 1:length(groups.mrt)){
    }  
 leaf.sum
 opar <- par() 
-#  Вывод диаграммы типа "разрезанный пирог"
+#  Р’С‹РІРѕРґ РґРёР°РіСЂР°РјРјС‹ С‚РёРїР° "СЂР°Р·СЂРµР·Р°РЅРЅС‹Р№ РїРёСЂРѕРі"
 par(mfrow=c(2,2)) ; for(i in 1:length(groups.mrt)){
 pie(leaf.sum[i,which(leaf.sum[i,]>0)], radius=1, 
-main = paste("Кл. №", groups.mrt[i])) }
+main = paste("РљР». в„–", groups.mrt[i])) }
 par(opar)
-#  Вывод диаграммы РСА
+#  Р’С‹РІРѕРґ РґРёР°РіСЂР°РјРјС‹ Р РЎРђ
 rpart.pca(spe.mvpart)
 
 

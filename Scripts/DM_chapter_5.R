@@ -1,68 +1,68 @@
 #########################################################################
-# Шитиков В.К., Мастицкий С.Э. (2017) Классификация, регрессия и другие алгоритмы Data Mining 
-# с использованием R. (Адрес доступа: http://www.ievbras.ru/ecostat/Kiril/R/DM )
+# РЁРёС‚РёРєРѕРІ Р’.Рљ., РњР°СЃС‚РёС†РєРёР№ РЎ.Р­. (2017) РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ, СЂРµРіСЂРµСЃСЃРёСЏ Рё РґСЂСѓРіРёРµ Р°Р»РіРѕСЂРёС‚РјС‹ Data Mining 
+# СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј R. (РђРґСЂРµСЃ РґРѕСЃС‚СѓРїР°: http://www.ievbras.ru/ecostat/Kiril/R/DM )
 #########################################################################
 #########################################################################
-# Глава 5. БИНАРНЫЕ МАТРИЦЫ И АССОЦИАТИВНЫЕ ПРАВИЛА
+# Р“Р»Р°РІР° 5. Р‘РРќРђР РќР«Р• РњРђРўР РР¦Р« Р РђРЎРЎРћР¦РРђРўРР’РќР«Р• РџР РђР’РР›Рђ
 #########################################################################
 
-#  5.1. Классификация в бинарных пространствах с использованием классических моделей
+#  5.1. РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ РІ Р±РёРЅР°СЂРЅС‹С… РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР°С… СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РєР»Р°СЃСЃРёС‡РµСЃРєРёС… РјРѕРґРµР»РµР№
 #-----------------------------------------------------------------------
 DFace <- read.delim(file="Faces.txt", header=TRUE, row.names=1)
 head(DFace,8)
 
-# Логистическая регрессия
+# Р›РѕРіРёСЃС‚РёС‡РµСЃРєР°СЏ СЂРµРіСЂРµСЃСЃРёСЏ
 logit <- glm((Class-1) ~ ., data=DFas, family=binomial)
 logit.step <- step(logit)
 summary(logit.step)
 mp <- predict(logit.step, type="response") 
 pred = ifelse(mp>0.5,2,1)
-CTab <- table(Факт=DFace$Class, Прогноз=pred))
+CTab <- table(Р¤Р°РєС‚=DFace$Class, РџСЂРѕРіРЅРѕР·=pred))
 Acc = mean(pred == DGlass$F)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
-barplot(mp-0.5, col = "steelblue",xlab = "Члены выборки",
-       ylab = "Вероятности P - 0.5"))
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
+barplot(mp-0.5, col = "steelblue",xlab = "Р§Р»РµРЅС‹ РІС‹Р±РѕСЂРєРё",
+       ylab = "Р’РµСЂРѕСЏС‚РЅРѕСЃС‚Рё P - 0.5"))
 
 library(boot)
 cv.glm(DFace, logit.step)$delta
 
-# Дискриминантный анализ
+# Р”РёСЃРєСЂРёРјРёРЅР°РЅС‚РЅС‹Р№ Р°РЅР°Р»РёР·
 library("MASS") 
 Fac.lda <- lda(DFace[,1:16], grouping = DFace$Class) 
 pred <- predict(Fac.lda, DFace[,1:16])
-table(Факт=DFace$Class, Прогноз=pred$class)
+table(Р¤Р°РєС‚=DFace$Class, РџСЂРѕРіРЅРѕР·=pred$class)
 Acc = mean(DFace$Class == pred$class)
-paste("Точность=", round(100*Acc, 2), "%", sep="") 
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="") 
 
-# Бинарный Дискриминантный анализ
+# Р‘РёРЅР°СЂРЅС‹Р№ Р”РёСЃРєСЂРёРјРёРЅР°РЅС‚РЅС‹Р№ Р°РЅР°Р»РёР·
 library(binda)
 Xtrain <- as.matrix(DFace[,1:16])
-is.binaryMatrix(Xtrain) # Проверяем бинарность матрицы
+is.binaryMatrix(Xtrain) # РџСЂРѕРІРµСЂСЏРµРј Р±РёРЅР°СЂРЅРѕСЃС‚СЊ РјР°С‚СЂРёС†С‹
 Class = as.factor(DFace$Class)
 binda.fit = binda(Xtrain,Class,lambda.freq=1)
 pred <- predict(binda.fit, Xtrain)
-table(Факт=DFace$Class, Прогноз=pred$class)
+table(Р¤Р°РєС‚=DFace$Class, РџСЂРѕРіРЅРѕР·=pred$class)
 Acc = mean(DFace$Class!= pred$class)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
-# ранжируем предикторы
+# СЂР°РЅР¶РёСЂСѓРµРј РїСЂРµРґРёРєС‚РѕСЂС‹
 binda.x <-  binda.ranking(Xtrain, Class)
 plot(binda.x, top=40, arrow.col="blue", zeroaxis.col="red",
-ylab="Предикторы", main="")
+ylab="РџСЂРµРґРёРєС‚РѕСЂС‹", main="")
 
 library(caret) 
 binda.train <- train(Xtrain,Class, method = "binda")
 binda.train$finalModel 
 pred.train <- predict(binda.train, Xtrain)
-CTab <- table(Факт=DFace$Class, Прогноз=pred.train)
+CTab <- table(Р¤Р°РєС‚=DFace$Class, РџСЂРѕРіРЅРѕР·=pred.train)
 Acc = mean(DFace$Class == pred.train)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 #-----------------------------------------------------------------------
-#  5.2. Бинарные деревья решений
+#  5.2. Р‘РёРЅР°СЂРЅС‹Рµ РґРµСЂРµРІСЊСЏ СЂРµС€РµРЅРёР№
 #-----------------------------------------------------------------------
 
-#  Набор пользовательских функций для выполнения расчетов
+#  РќР°Р±РѕСЂ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёС… С„СѓРЅРєС†РёР№ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ СЂР°СЃС‡РµС‚РѕРІ
 Entropy <- function( vls ) {
   res <- vls/sum(vls)*log2(vls/sum(vls)) ; res[vls == 0] <- 0
   -sum(res)
@@ -80,28 +80,28 @@ IsPure <- function(data) {
 }
 TrainID3 <- function(node, data) {
       node$obsCount <- nrow(data)
-  #  если текущий набор данных принадлежит к одному классу, то
+  #  РµСЃР»Рё С‚РµРєСѓС‰РёР№ РЅР°Р±РѕСЂ РґР°РЅРЅС‹С… РїСЂРёРЅР°РґР»РµР¶РёС‚ Рє РѕРґРЅРѕРјСѓ РєР»Р°СЃСЃСѓ, С‚Рѕ
   if (IsPure(data)) {
-    #создается лист дерева с экземплярами этого класса
+    #СЃРѕР·РґР°РµС‚СЃСЏ Р»РёСЃС‚ РґРµСЂРµРІР° СЃ СЌРєР·РµРјРїР»СЏСЂР°РјРё СЌС‚РѕРіРѕ РєР»Р°СЃСЃР°
     child <- node$AddChild(unique(data[,ncol(data)]))
     node$feature <- tail(names(data), 1)
     child$obsCount <- nrow(data)
     child$feature <- ''
   } else {
-    # рассчитывается вектор информационный выигрышей IG
+    # СЂР°СЃСЃС‡РёС‚С‹РІР°РµС‚СЃСЏ РІРµРєС‚РѕСЂ РёРЅС„РѕСЂРјР°С†РёРѕРЅРЅС‹Р№ РІС‹РёРіСЂС‹С€РµР№ IG
     ig <- sapply(colnames(data)[-ncol(data)], 
             function(x) InformationGain(
               table(data[,x], data[,ncol(data)])))
-    #  выбирается значение признака с наибольшей величиной IG
+    #  РІС‹Р±РёСЂР°РµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµ РїСЂРёР·РЅР°РєР° СЃ РЅР°РёР±РѕР»СЊС€РµР№ РІРµР»РёС‡РёРЅРѕР№ IG
     feature <- names(which.max(ig))
     node$feature <- feature
-    # создается подмножества данных на основе этого значения 
+    # СЃРѕР·РґР°РµС‚СЃСЏ РїРѕРґРјРЅРѕР¶РµСЃС‚РІР° РґР°РЅРЅС‹С… РЅР° РѕСЃРЅРѕРІРµ СЌС‚РѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ 
     childObs <- split(data[ ,names(data) != feature, 
 		drop = FALSE], data[ ,feature], drop = TRUE)
-    #  создаются дочерние узлы дерева c именем признака
+    #  СЃРѕР·РґР°СЋС‚СЃСЏ РґРѕС‡РµСЂРЅРёРµ СѓР·Р»С‹ РґРµСЂРµРІР° c РёРјРµРЅРµРј РїСЂРёР·РЅР°РєР°
     for(i in 1:length(childObs)) {
       child <- node$AddChild(names(childObs)[i])
-    # осуществляется рекурсия алгоритма для дочернего узла
+    # РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ СЂРµРєСѓСЂСЃРёСЏ Р°Р»РіРѕСЂРёС‚РјР° РґР»СЏ РґРѕС‡РµСЂРЅРµРіРѕ СѓР·Р»Р°
       TrainID3(child, childObs[[i]])
     }
   }
@@ -113,25 +113,25 @@ Predict <- function(tree, features) {
   return ( Predict(child, features))
 }
 
-#  Выполнение расчетов
+#  Р’С‹РїРѕР»РЅРµРЅРёРµ СЂР°СЃС‡РµС‚РѕРІ
 DFace <- read.delim(file="Faces.txt",header=TRUE, row.names=1)
 DFaceN <-DFace[,-17]; Class <- DFace$Class 
-DFaceN[DFaceN==1]<- "Да" ; DFaceN[DFaceN==0] <- "Нет"
-Class[Class==1] <- "Патриот" ; Class[Class==2] <- "Демократ"
+DFaceN[DFaceN==1]<- "Р”Р°" ; DFaceN[DFaceN==0] <- "РќРµС‚"
+Class[Class==1] <- "РџР°С‚СЂРёРѕС‚" ; Class[Class==2] <- "Р”РµРјРѕРєСЂР°С‚"
 DFaceN <- cbind(DFaceN,Class) 
-colnames(DFaceN) <- c("голова_круглая","уши_оттопырен",
-"нос_круглый","глаза_круглые","лоб_морщины",
-"носогубн_складка","губы_толстые","волосы","усы","борода",
-"очки","родинка_щеке","бабочка","брови_подняты","серьга",
-"курит_трубка","Группа")
+colnames(DFaceN) <- c("РіРѕР»РѕРІР°_РєСЂСѓРіР»Р°СЏ","СѓС€Рё_РѕС‚С‚РѕРїС‹СЂРµРЅ",
+"РЅРѕСЃ_РєСЂСѓРіР»С‹Р№","РіР»Р°Р·Р°_РєСЂСѓРіР»С‹Рµ","Р»РѕР±_РјРѕСЂС‰РёРЅС‹",
+"РЅРѕСЃРѕРіСѓР±РЅ_СЃРєР»Р°РґРєР°","РіСѓР±С‹_С‚РѕР»СЃС‚С‹Рµ","РІРѕР»РѕСЃС‹","СѓСЃС‹","Р±РѕСЂРѕРґР°",
+"РѕС‡РєРё","СЂРѕРґРёРЅРєР°_С‰РµРєРµ","Р±Р°Р±РѕС‡РєР°","Р±СЂРѕРІРё_РїРѕРґРЅСЏС‚С‹","СЃРµСЂСЊРіР°",
+"РєСѓСЂРёС‚_С‚СЂСѓР±РєР°","Р“СЂСѓРїРїР°")
 library(data.tree)
-tree <- Node$new("DFaceN")  # Создаем "пустое" дерево
+tree <- Node$new("DFaceN")  # РЎРѕР·РґР°РµРј "РїСѓСЃС‚РѕРµ" РґРµСЂРµРІРѕ
 TrainID3(tree, DFaceN)
 print(tree, "feature", "obsCount")
 pred <- apply(DFaceN[,-17],1, function(x) Predict(tree,x))
-table(Факт=DFaceN$Группа, Прогноз=pred)  
+table(Р¤Р°РєС‚=DFaceN$Р“СЂСѓРїРїР°, РџСЂРѕРіРЅРѕР·=pred)  
 
-#  Скользящий контроль
+#  РЎРєРѕР»СЊР·СЏС‰РёР№ РєРѕРЅС‚СЂРѕР»СЊ
 Nerr <- 0
 for (i in 1:nrow(DFaceN)) {
     tree <- Node$new("DFaceN")
@@ -141,19 +141,19 @@ sum(DFaceN[i,17]!=Predict(tree,DFaceN[i,-17]))  }
  (Nerr/nrow(DFaceN)) 
 
 #-----------------------------------------------------------------------
-#  5.3. Поиск логических закономерностей в данных 
+#  5.3. РџРѕРёСЃРє Р»РѕРіРёС‡РµСЃРєРёС… Р·Р°РєРѕРЅРѕРјРµСЂРЅРѕСЃС‚РµР№ РІ РґР°РЅРЅС‹С… 
 #-----------------------------------------------------------------------
 
-#  Набор пользовательских функций для выполнения расчетов
-#  Преобазование числа в последовательность битов (5 -> "0101")
+#  РќР°Р±РѕСЂ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёС… С„СѓРЅРєС†РёР№ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ СЂР°СЃС‡РµС‚РѕРІ
+#  РџСЂРµРѕР±Р°Р·РѕРІР°РЅРёРµ С‡РёСЃР»Р° РІ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ Р±РёС‚РѕРІ (5 -> "0101")
 number2binchar = function(number, nBits) {
    paste(tail(rev(as.numeric(intToBits(number))),nBits),collapse="")}
-#  Поиск коньюнкций по набору битовых масок 
+#  РџРѕРёСЃРє РєРѕРЅСЊСЋРЅРєС†РёР№ РїРѕ РЅР°Р±РѕСЂСѓ Р±РёС‚РѕРІС‹С… РјР°СЃРѕРє 
 MaskCompare = function(Nclass, KSize, BitMask, vec_pos, vec_neg, ColCom) {
   nK <- sapply(BitMask, function(x) {
        if (sum(x==vec_neg)>0) return (0)
        countK = sum(x==vec_pos) ; if (minNum>countK) return (0)
-      #  Cохранение конъюнкции  в трех объектах класса list
+      #  CРѕС…СЂР°РЅРµРЅРёРµ РєРѕРЅСЉСЋРЅРєС†РёРё  РІ С‚СЂРµС… РѕР±СЉРµРєС‚Р°С… РєР»Р°СЃСЃР° list
        Value.list[[length(Value.list)+1]] <<- list(Nclass=Nclass, KSize=KSize, 
                countK=countK, Bits=x)
        ColCom.list[[length(ColCom.list)+1]] <<- list(ColCom)
@@ -165,10 +165,10 @@ MaskCompare = function(Nclass, KSize, BitMask, vec_pos, vec_neg, ColCom) {
 DFace <- read.delim(file="Faces.txt", header=TRUE, row.names=1)
 maxKSize <- 4
 minNum <- 4
-#  Списки для хранения результатов
-Value.list <- list()  # Значения Nclass, KSize, BitMask, countK
-ColCom.list <- list()  # Вектора наименований переменных ColCom
-RowList.list <- list()  # Номера индексов строк RowList
+#  РЎРїРёСЃРєРё РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
+Value.list <- list()  # Р—РЅР°С‡РµРЅРёСЏ Nclass, KSize, BitMask, countK
+ColCom.list <- list()  # Р’РµРєС‚РѕСЂР° РЅР°РёРјРµРЅРѕРІР°РЅРёР№ РїРµСЂРµРјРµРЅРЅС‹С… ColCom
+RowList.list <- list()  # РќРѕРјРµСЂР° РёРЅРґРµРєСЃРѕРІ СЃС‚СЂРѕРє RowList
 
 for (KSize in 2:maxKSize) {
    BitMask <- sapply(0:(2^KSize-1),function(x) number2binchar(x,KSize))
@@ -181,12 +181,12 @@ for (KSize in 2:maxKSize) {
         MaskCompare(2, KSize, BitMask, vec2, vec1, cols[,i])
      }
 }
-#  Создание результирующей таблицы
+#  РЎРѕР·РґР°РЅРёРµ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰РµР№ С‚Р°Р±Р»РёС†С‹
 DFval = do.call(rbind.data.frame, Value.list)
 nrow = length(Value.list)
 DFvar <- as.data.frame(matrix(NA, ncol=maxKSize+1, nrow=nrow,
               dimnames = list(1:nrow, c(
-              paste("L", 1:maxKSize, sep=""),"Объекты:"))))
+              paste("L", 1:maxKSize, sep=""),"РћР±СЉРµРєС‚С‹:"))))
 for (i in 1:nrow) {
     Varl <- unlist(ColCom.list[[i]])
     DFvar[i, 1:length( Varl)] <- Varl
@@ -196,23 +196,23 @@ for (i in 1:nrow) {
 DFvar[is.na(DFvar)] <- " "
 DFout <- cbind(DFval, DFvar)
 
-#  Вывод результатов
-print ("Конъюнкции класса 1") ; DFout[DFout$Nclass==1,]
-print ("Конъюнкции класса 2") ; DFout[DFout$Nclass==2,]
+#  Р’С‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
+print ("РљРѕРЅСЉСЋРЅРєС†РёРё РєР»Р°СЃСЃР° 1") ; DFout[DFout$Nclass==1,]
+print ("РљРѕРЅСЉСЋРЅРєС†РёРё РєР»Р°СЃСЃР° 2") ; DFout[DFout$Nclass==2,]
 
 #-----------------------------------------------------------------------
-#  5.4.  Алгоритмы выделения ассоциативных правил
+#  5.4.  РђР»РіРѕСЂРёС‚РјС‹ РІС‹РґРµР»РµРЅРёСЏ Р°СЃСЃРѕС†РёР°С‚РёРІРЅС‹С… РїСЂР°РІРёР»
 #-----------------------------------------------------------------------
-# Переформирование исходных данных
+# РџРµСЂРµС„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РёСЃС…РѕРґРЅС‹С… РґР°РЅРЅС‹С…
 DFace <- read.delim(file="Faces.txt", 
                           header=TRUE, row.names=1)
 Class <- DFace$Class ; DFaceN <-DFace[,-17]
-colnames(DFaceN) <- c("голова_круглая","уши_оттопырен",
-   "нос_круглый","глаза_круглые","лоб_морщины",
-   "носогубн_складка","губы_толстые","волосы","усы","борода",
-   "очки","родинка_щеке","бабочка", "брови_подняты","серьга",
-   "курит_трубка")
-Class[Class==1] <- "Патриот" ; Class[Class==2] <- "Демократ"
+colnames(DFaceN) <- c("РіРѕР»РѕРІР°_РєСЂСѓРіР»Р°СЏ","СѓС€Рё_РѕС‚С‚РѕРїС‹СЂРµРЅ",
+   "РЅРѕСЃ_РєСЂСѓРіР»С‹Р№","РіР»Р°Р·Р°_РєСЂСѓРіР»С‹Рµ","Р»РѕР±_РјРѕСЂС‰РёРЅС‹",
+   "РЅРѕСЃРѕРіСѓР±РЅ_СЃРєР»Р°РґРєР°","РіСѓР±С‹_С‚РѕР»СЃС‚С‹Рµ","РІРѕР»РѕСЃС‹","СѓСЃС‹","Р±РѕСЂРѕРґР°",
+   "РѕС‡РєРё","СЂРѕРґРёРЅРєР°_С‰РµРєРµ","Р±Р°Р±РѕС‡РєР°", "Р±СЂРѕРІРё_РїРѕРґРЅСЏС‚С‹","СЃРµСЂСЊРіР°",
+   "РєСѓСЂРёС‚_С‚СЂСѓР±РєР°")
+Class[Class==1] <- "РџР°С‚СЂРёРѕС‚" ; Class[Class==2] <- "Р”РµРјРѕРєСЂР°С‚"
 items_list <- sapply(1:nrow(DFaceN),function(i) 
 paste(c(Class[i], colnames(DFaceN[i,DFaceN[i,]==1])),
             collapse=",",sep="\n"))
@@ -222,22 +222,22 @@ write(items_list, file = "face_basket.txt")
 library("arules")
 trans = read.transactions("face_basket.txt", 
                     format = "basket", sep=",")
-inspect(trans)   #  Выводимые данные не показаны
-summary(trans)   #  Выводимые данные показаны частично
+inspect(trans)   #  Р’С‹РІРѕРґРёРјС‹Рµ РґР°РЅРЅС‹Рµ РЅРµ РїРѕРєР°Р·Р°РЅС‹
+summary(trans)   #  Р’С‹РІРѕРґРёРјС‹Рµ РґР°РЅРЅС‹Рµ РїРѕРєР°Р·Р°РЅС‹ С‡Р°СЃС‚РёС‡РЅРѕ
 image(trans)
 itemFrequencyPlot(trans, support = 0.1, cex.names=0.8)
 rules <- apriori(trans,
     parameter = list(support = 0.01, confidence = 0.6))
-summary(rules)  #  Выводимые данные показаны частично
+summary(rules)  #  Р’С‹РІРѕРґРёРјС‹Рµ РґР°РЅРЅС‹Рµ РїРѕРєР°Р·Р°РЅС‹ С‡Р°СЃС‚РёС‡РЅРѕ
 library("arulesViz")
 plot(rules, measure=c("support","lift"), shading="confidence")
-# Выделение подмножеств правил
-rulesPat <- subset(rules, subset = rhs %in% "Патриот" & 
+# Р’С‹РґРµР»РµРЅРёРµ РїРѕРґРјРЅРѕР¶РµСЃС‚РІ РїСЂР°РІРёР»
+rulesPat <- subset(rules, subset = rhs %in% "РџР°С‚СЂРёРѕС‚" & 
                            lift > 1.8)
 inspect(head(rulesPat, n = 10, by = "support"))
 plot(head(sort(rulesPat, by="support"), 10),
          method="paracoord")
-rulesDem <- subset(rules, subset = rhs %in% "Демократ" &
+rulesDem <- subset(rules, subset = rhs %in% "Р”РµРјРѕРєСЂР°С‚" &
                     lift > 1.8)
 inspect(head(rulesDem, n = 10, by = "support"))
 plot (head(sort(rulesDem, by="support"), 10), method="graph",
@@ -245,13 +245,13 @@ plot (head(sort(rulesDem, by="support"), 10), method="graph",
         edgeCol = grey(.7), alpha = 1))
 
 #-----------------------------------------------------------------------
-# 5.5. Анализ последовательностей знаков или событий
+# 5.5. РђРЅР°Р»РёР· РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚РµР№ Р·РЅР°РєРѕРІ РёР»Рё СЃРѕР±С‹С‚РёР№
 #-----------------------------------------------------------------------
 library(TraMineR)
 data(biofam)
-summary(biofam) #  Результаты не приведены
-biofam.lab <- c("Родит", "Отд", "Сем+Род", 
-        "Сем.", "Один+Род", "Один+Отд", "Сем+Дет", "Развод") 
+summary(biofam) #  Р РµР·СѓР»СЊС‚Р°С‚С‹ РЅРµ РїСЂРёРІРµРґРµРЅС‹
+biofam.lab <- c("Р РѕРґРёС‚", "РћС‚Рґ", "РЎРµРј+Р РѕРґ", 
+        "РЎРµРј.", "РћРґРёРЅ+Р РѕРґ", "РћРґРёРЅ+РћС‚Рґ", "РЎРµРј+Р”РµС‚", "Р Р°Р·РІРѕРґ") 
 biofam.seq <- seqdef(biofam[, 10:25], labels = biofam.lab)
 par(mfrow = c(2, 2)); seqiplot(biofam.seq, withlegend = FALSE)
 seqdplot(biofam.seq, withlegend = FALSE)
@@ -265,11 +265,11 @@ ageg = cut(biofam$birthy, c(1909,1918,1928,1938,1948,1958),
 label = c("1909-18","1919-28","1929-38","1939-48","1949-58"),
            include.lowest = TRUE)
 boxplot(Entropy ~ ageg, data = biofam, 
-    xlab = "Диапазон годов рождения", 
-    ylab = "Энтропия последовательностей", col = "cyan")
+    xlab = "Р”РёР°РїР°Р·РѕРЅ РіРѕРґРѕРІ СЂРѕР¶РґРµРЅРёСЏ", 
+    ylab = "Р­РЅС‚СЂРѕРїРёСЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚РµР№", col = "cyan")
 Turbulence <- seqST(biofam.seq)
-plot(Turbulence, Entropy, xlab = "Турбулентность", 
-                          ylab = "Энтропия")
+plot(Turbulence, Entropy, xlab = "РўСѓСЂР±СѓР»РµРЅС‚РЅРѕСЃС‚СЊ", 
+                          ylab = "Р­РЅС‚СЂРѕРїРёСЏ")
 m.turb <- lm(Turbulence ~ sex + birthyr, data = biofam)  
 summary(m.turb)
 couts <- seqsubm(biofam.seq, method = "TRATE")
@@ -281,14 +281,14 @@ library(cluster)
 clusterward <- agnes(biofam.om, diss = TRUE, method = "ward")
 plot(clusterward, which.plots = 2)
 
-# Распилим дерево на три части 
+# Р Р°СЃРїРёР»РёРј РґРµСЂРµРІРѕ РЅР° С‚СЂРё С‡Р°СЃС‚Рё 
 cluster3 <- cutree(clusterward, k = 3) 
 cluster3 <- factor(cluster3, 
-        labels = c("Кластер 1", "Кластер 2", "Кластер 3"))
+        labels = c("РљР»Р°СЃС‚РµСЂ 1", "РљР»Р°СЃС‚РµСЂ 2", "РљР»Р°СЃС‚РµСЂ 3"))
 table(cluster3)
 par(mfrow = c(2,2))
 seqmtplot(biofam.seq, group = cluster3)
-dissvar(biofam.om) # Общая дисперсия попарных расстояний
+dissvar(biofam.om) # РћР±С‰Р°СЏ РґРёСЃРїРµСЂСЃРёСЏ РїРѕРїР°СЂРЅС‹С… СЂР°СЃСЃС‚РѕСЏРЅРёР№
 da <- dissassoc(biofam.om, group=biofam$sex, R = 1000) 
 print(da)
 dlm <- dissmfac(biofam.om ~ sex + ageg, data =biofam, R = 100)

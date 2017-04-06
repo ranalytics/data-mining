@@ -1,33 +1,33 @@
 #########################################################################
-# Шитиков В.К., Мастицкий С.Э. (2017) Классификация, регрессия и другие алгоритмы Data Mining 
-# с использованием R. (Адрес доступа: http://www.ievbras.ru/ecostat/Kiril/R/DM )
+# РЁРёС‚РёРєРѕРІ Р’.Рљ., РњР°СЃС‚РёС†РєРёР№ РЎ.Р­. (2017) РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ, СЂРµРіСЂРµСЃСЃРёСЏ Рё РґСЂСѓРіРёРµ Р°Р»РіРѕСЂРёС‚РјС‹ Data Mining 
+# СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј R. (РђРґСЂРµСЃ РґРѕСЃС‚СѓРїР°: http://www.ievbras.ru/ecostat/Kiril/R/DM )
 #########################################################################
 #########################################################################
-# Глава 8. МОДЕЛИРОВАНИЕ ПОРЯДКОВЫХ И СЧЕТНЫХ ПЕРЕМЕННЫХ
+# Р“Р»Р°РІР° 8. РњРћР”Р•Р›РР РћР’РђРќРР• РџРћР РЇР”РљРћР’Р«РҐ Р РЎР§Р•РўРќР«РҐ РџР•Р Р•РњР•РќРќР«РҐ
 #########################################################################
 
-#  8.1. Модель логита для порядковой переменной
+#  8.1. РњРѕРґРµР»СЊ Р»РѕРіРёС‚Р° РґР»СЏ РїРѕСЂСЏРґРєРѕРІРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№
 #-----------------------------------------------------------------------
 # abalone <- read.csv("http://archive.ics.uci.edu/ml/
 # 		machine-learning-databases/abalone/abalone.data",
 # 		header=FALSE)
 abalone <- read.csv("abalone.data", header = FALSE)
-names(abalone) <- c("пол", "длина", "диаметр", "высота", "вес.общ", "вес.тела", "вес.внут", "вес.рак", "rings")
+names(abalone) <- c("РїРѕР»", "РґР»РёРЅР°", "РґРёР°РјРµС‚СЂ", "РІС‹СЃРѕС‚Р°", "РІРµСЃ.РѕР±С‰", "РІРµСЃ.С‚РµР»Р°", "РІРµСЃ.РІРЅСѓС‚", "РІРµСЃ.СЂР°Рє", "rings")
 summary(abalone[,c(1,2,9)]) 
 
 require(ggplot2) ;  library(ggcorrplot)
-# Отображение корреляционной матрицы (рис. 8.2)
+# РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РєРѕСЂСЂРµР»СЏС†РёРѕРЅРЅРѕР№ РјР°С‚СЂРёС†С‹ (СЂРёСЃ. 8.2)
 M <- cor(abalone[,2:8])
 ggcorrplot(M, hc.order = TRUE, type = "lower",
   colors = c("white","yellow","purple" ),    lab = TRUE)
-# Отображение линейной зависимости (рис. 8.3)
+# РћС‚РѕР±СЂР°Р¶РµРЅРёРµ Р»РёРЅРµР№РЅРѕР№ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё (СЂРёСЃ. 8.3)
 
-ggplot(abalone) + aes(длина, rings, color = пол) +
-    geom_point() + labs(x = "Длина раковины",
-              y = "Число колец", color = "Пол") + 
+ggplot(abalone) + aes(РґР»РёРЅР°, rings, color = РїРѕР») +
+    geom_point() + labs(x = "Р”Р»РёРЅР° СЂР°РєРѕРІРёРЅС‹",
+              y = "Р§РёСЃР»Рѕ РєРѕР»РµС†", color = "РџРѕР»") + 
     stat_smooth(method = "lm", se = FALSE, size = 2)
 
-ggplot(abalone) + aes(rings, fill = пол) + 
+ggplot(abalone) + aes(rings, fill = РїРѕР») + 
      geom_density(position = "stack")+ 
      geom_vline(xintercept = quantile(abalone$rings, 
      p = c(0.25, 0.5, 0.75)),colour = "blue", 
@@ -35,44 +35,44 @@ ggplot(abalone) + aes(rings, fill = пол) +
 table (cut(abalone$rings,breaks=quantile(abalone$rings,
      c(0,.25,.50,.75,1),include.lowest=TRUE)))
 
-abalone$Возраст <- cut(abalone$rings,breaks=c(0,7,9,11,29),
+abalone$Р’РѕР·СЂР°СЃС‚ <- cut(abalone$rings,breaks=c(0,7,9,11,29),
   labels=c("Q1","Q2","Q3","Q4"),include.lowest=TRUE)
 save(abalone,file="abalone.RData")
-table (abalone$Возраст )
+table (abalone$Р’РѕР·СЂР°СЃС‚ )
 
 library(MASS)
-CL.aq <- polr(Возраст ~ .,  data = abalone[,-9])
+CL.aq <- polr(Р’РѕР·СЂР°СЃС‚ ~ .,  data = abalone[,-9])
 summary(CL.aq, digits = 3)
-# Оценка доверительных интервалов для коэффициентов
+# РћС†РµРЅРєР° РґРѕРІРµСЂРёС‚РµР»СЊРЅС‹С… РёРЅС‚РµСЂРІР°Р»РѕРІ РґР»СЏ РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ
 confint.default(CL.aq)
 
 CLs.aq <- stepAIC (CL.aq)
 summary(CLs.aq, digits = 3) 
 confint.default(CLs.aq) 
-CL0.aq <- polr(Возраст ~ 1,  data = abalone[,-9])
+CL0.aq <- polr(Р’РѕР·СЂР°СЃС‚ ~ 1,  data = abalone[,-9])
 anova(CL0.aq, CLs.aq)
 
 Probs <- fitted(CLs.aq)
 head(Probs,3)
 
-#  Построение таблицы сопряженности "Факт-Прогноз"
+#  РџРѕСЃС‚СЂРѕРµРЅРёРµ С‚Р°Р±Р»РёС†С‹ СЃРѕРїСЂСЏР¶РµРЅРЅРѕСЃС‚Рё "Р¤Р°РєС‚-РџСЂРѕРіРЅРѕР·"
 pred=apply(Probs,1,function(x) colnames(Probs)[which(x==max(x))])
-table(Факт=abalone$Возраст,Прогноз=pred)
-Acc = mean(pred == abalone$Возраст)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+table(Р¤Р°РєС‚=abalone$Р’РѕР·СЂР°СЃС‚,РџСЂРѕРіРЅРѕР·=pred)
+Acc = mean(pred == abalone$Р’РѕР·СЂР°СЃС‚)
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
-#   Подготовка данных для графика
+#   РџРѕРґРіРѕС‚РѕРІРєР° РґР°РЅРЅС‹С… РґР»СЏ РіСЂР°С„РёРєР°
 VM <- apply(abalone[,2:8],2, mean)
 d.plot <- as.data.frame(matrix(VM, ncol=7, nrow=50,
  byrow=TRUE, dimnames = list(1:50,names(VM))))
-d.plot <- cbind(пол=rep("F",50), d.plot)
-d.plot$диаметр <- seq(min(abalone$диаметр),
-         max(abalone$диаметр), len = 50)
+d.plot <- cbind(РїРѕР»=rep("F",50), d.plot)
+d.plot$РґРёР°РјРµС‚СЂ <- seq(min(abalone$РґРёР°РјРµС‚СЂ),
+         max(abalone$РґРёР°РјРµС‚СЂ), len = 50)
 d.pplot <- cbind(d.plot, predict(CL.aq, newdata = d.plot,
          type = "probs", se = TRUE))
-#   Прорисовка компонент графика
-plot (1,1, xlim=c(0,max(abalone$диаметр)),ylim=c(0,0.8),
- 	type='n', xlab="Диаметр раковины", ylab="Вероятность Р")
+#   РџСЂРѕСЂРёСЃРѕРІРєР° РєРѕРјРїРѕРЅРµРЅС‚ РіСЂР°С„РёРєР°
+plot (1,1, xlim=c(0,max(abalone$РґРёР°РјРµС‚СЂ)),ylim=c(0,0.8),
+ 	type='n', xlab="Р”РёР°РјРµС‚СЂ СЂР°РєРѕРІРёРЅС‹", ylab="Р’РµСЂРѕСЏС‚РЅРѕСЃС‚СЊ Р ")
 lines(d.pplot[,c(3,9)],lwd=2, col="green")
 lines(d.pplot[,c(3,10)],lwd=2, col="blue")
 lines(d.pplot[,c(3,11)],lwd=2, col="black")
@@ -81,19 +81,19 @@ legend("topright", c("Q1","Q2","Q3","Q4"), lwd=2,
        col=c(3,4,1,2))
 
 #-----------------------------------------------------------------------
-#  8.2. Настройка параметров нейронных сетей в пакте caret
+#  8.2. РќР°СЃС‚СЂРѕР№РєР° РїР°СЂР°РјРµС‚СЂРѕРІ РЅРµР№СЂРѕРЅРЅС‹С… СЃРµС‚РµР№ РІ РїР°РєС‚Рµ caret
 #-----------------------------------------------------------------------
 library(nnet); library(caret)
 set.seed(123) ; load (file="abalone.RData")
-train.aba <- train(Возраст ~ ., data = abalone[,c(3:8,10)],
+train.aba <- train(Р’РѕР·СЂР°СЃС‚ ~ ., data = abalone[,c(3:8,10)],
 method = "nnet", trace = F, linout = 1,
 tuneGrid = expand.grid(.decay = c(0,0.05,0.2), .size = 4:9),
 trControl = trainControl(method = "cv")) 
 
 source("nnet_plot_update.r")
-# plot.nnet(train.aba)  - можно все извлечь из train-объекта
+# plot.nnet(train.aba)  - РјРѕР¶РЅРѕ РІСЃРµ РёР·РІР»РµС‡СЊ РёР· train-РѕР±СЉРµРєС‚Р°
 # nn.aba <- train.aba$finalModel
-nn.aba <- nnet(Возраст ~ .,  data = abalone[,c(3:8,10)],
+nn.aba <- nnet(Р’РѕР·СЂР°СЃС‚ ~ .,  data = abalone[,c(3:8,10)],
 decay =0,size = 7, niter=200)
 plot.nnet(nn.aba)
 summary(nn.aba) 
@@ -103,50 +103,50 @@ confusionMatrix(nn.table)
 
 pcaNNet.Fit <- pcaNNet(abalone[,3:8], abalone[,10], size = 7, thresh = 0.975, linout = TRUE, trace = FALSE)
 pred <- predict(pcaNNet.Fit ,abalone[,3:8],   type="class")
-table(Факт=abalone$Возраст,Прогноз=pred)
-Acc = mean(pred == abalone$Возраст)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+table(Р¤Р°РєС‚=abalone$Р’РѕР·СЂР°СЃС‚,РџСЂРѕРіРЅРѕР·=pred)
+Acc = mean(pred == abalone$Р’РѕР·СЂР°СЃС‚)
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
-avNNet.Fit <- avNNet(Возраст ~ ., data = abalone[,c(3:8,10)],
+avNNet.Fit <- avNNet(Р’РѕР·СЂР°СЃС‚ ~ ., data = abalone[,c(3:8,10)],
     size = 7, repeats = 10, linout = TRUE, 
     trace = FALSE, bag = TRUE)
 pred <- predict(avNNet.Fit ,abalone[,3:8],   type="class")
-Acc = mean(pred == abalone$Возраст)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+Acc = mean(pred == abalone$Р’РѕР·СЂР°СЃС‚)
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 #-----------------------------------------------------------------------
-#  8.3. Методы комплексации модельных прогнозов
+#  8.3. РњРµС‚РѕРґС‹ РєРѕРјРїР»РµРєСЃР°С†РёРё РјРѕРґРµР»СЊРЅС‹С… РїСЂРѕРіРЅРѕР·РѕРІ
 #-----------------------------------------------------------------------
 load(file="abalone.RData")
-# Формирование матрицы предикторов
+# Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ РјР°С‚СЂРёС†С‹ РїСЂРµРґРёРєС‚РѕСЂРѕРІ
 X <- model.matrix(rings ~ .,data=abalone[,1:9])[,-1]
 Y <- abalone$rings
-# Разделение на обучающую и тестовую выборки
+# Р Р°Р·РґРµР»РµРЅРёРµ РЅР° РѕР±СѓС‡Р°СЋС‰СѓСЋ Рё С‚РµСЃС‚РѕРІСѓСЋ РІС‹Р±РѕСЂРєРё
 train <- runif(nrow(X)) <= .66
 
 library(caret); library(party)
 myControl <- trainControl(method='cv', number=10, 
   savePredictions=TRUE, returnData=FALSE, verboseIter=TRUE)
 PP <- c('center', 'scale')
-# Обучение избранных моделей
-# Регрессия на k-ближайших соседей 
+# РћР±СѓС‡РµРЅРёРµ РёР·Р±СЂР°РЅРЅС‹С… РјРѕРґРµР»РµР№
+# Р РµРіСЂРµСЃСЃРёСЏ РЅР° k-Р±Р»РёР¶Р°Р№С€РёС… СЃРѕСЃРµРґРµР№ 
 m.knn <- train(X[train,], Y[train], method='knn',
               trControl=myControl, preProcess=PP)
-# Линейная модель
+# Р›РёРЅРµР№РЅР°СЏ РјРѕРґРµР»СЊ
 m.lm <- train(X[train,], Y[train], method='lm',
               trControl=myControl, preProcess=PP)
-# Гребневая регрессия с регуляризацией
+# Р“СЂРµР±РЅРµРІР°СЏ СЂРµРіСЂРµСЃСЃРёСЏ СЃ СЂРµРіСѓР»СЏСЂРёР·Р°С†РёРµР№
 m.rlm <- train(X[train,], Y[train], method='glmnet', trControl=myControl, preProcess=PP)
-# Модель опорных векторов
+# РњРѕРґРµР»СЊ РѕРїРѕСЂРЅС‹С… РІРµРєС‚РѕСЂРѕРІ
 m.svm <- train(X[train,], Y[train], method='svmRadial', trControl=myControl, preProcess=PP)
-#  Метод случайного леса
+#  РњРµС‚РѕРґ СЃР»СѓС‡Р°Р№РЅРѕРіРѕ Р»РµСЃР°
 m.rf <- train(X[train,], Y[train], method='rf', trControl=myControl)
-# Бэггинг деревьев условного вывода
+# Р‘СЌРіРіРёРЅРі РґРµСЂРµРІСЊРµРІ СѓСЃР»РѕРІРЅРѕРіРѕ РІС‹РІРѕРґР°
 m.ctr <- train(X[train,], Y[train], "bag",
     B = 10, bagControl = bagControl(fit = ctreeBag$fit,
     predict = ctreeBag$pred, aggregate = ctreeBag$aggregate)) 
 
-# Создание списка всех моделей
+# РЎРѕР·РґР°РЅРёРµ СЃРїРёСЃРєР° РІСЃРµС… РјРѕРґРµР»РµР№
 all.models <- list(m.knn, m.lm, m.rlm, m.svm, m.rf, m.ctr)
 names(all.models) <- sapply(all.models, function(x) x$method)
 sort(sapply(all.models, function(x) min(x$results$RMSE)))
@@ -155,7 +155,7 @@ preds.all <- data.frame(sapply(all.models,
                    function(x){predict(x, X)}))
 head(preds.all)
 rmse <- function(x,y){sqrt(mean((x - y)^2))}
-print("Среднеквадратичная ошибка на тестовой выборке")
+print("РЎСЂРµРґРЅРµРєРІР°РґСЂР°С‚РёС‡РЅР°СЏ РѕС€РёР±РєР° РЅР° С‚РµСЃС‚РѕРІРѕР№ РІС‹Р±РѕСЂРєРµ")
 print(sort(apply(preds.all[!train,], 2, rmse, y = Y[!train])), digits= 3) 
 
 library(ForecastCombinations)
@@ -187,27 +187,27 @@ coef(m.nnls)
 combine_f_all <- Forecast_comb_all(Y[train],
        fhat = as.matrix(preds.all[train, ]),
       fhat_new = as.matrix(preds.all[!train, ]))
-# Усредняем комбинированные прогнозы по всем регрессиям
+# РЈСЃСЂРµРґРЅСЏРµРј РєРѕРјР±РёРЅРёСЂРѕРІР°РЅРЅС‹Рµ РїСЂРѕРіРЅРѕР·С‹ РїРѕ РІСЃРµРј СЂРµРіСЂРµСЃСЃРёСЏРј
 Combined_f_all_simple <- apply(combine_f_all$pred, 1, mean)
 print(sqrt(mean((Combined_f_all_simple - Y[!train])^2)),
       digits= 3 )
 
-# Комбинирование прогнозов с использованием Cp Mallow:
+# РљРѕРјР±РёРЅРёСЂРѕРІР°РЅРёРµ РїСЂРѕРіРЅРѕР·РѕРІ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј Cp Mallow:
 Combined_f_all_mal <- 
          t( combine_f_all$mal %*% t(combine_f_all$pred) )
 print(sqrt(mean((Combined_f_all_mal - Y[!train])^2)),
       digits= 3)
 
 #-----------------------------------------------------------------------
-#  8.4. Обобщенные линейные модели на основе регрессии Пуассона
+#  8.4. РћР±РѕР±С‰РµРЅРЅС‹Рµ Р»РёРЅРµР№РЅС‹Рµ РјРѕРґРµР»Рё РЅР° РѕСЃРЅРѕРІРµ СЂРµРіСЂРµСЃСЃРёРё РџСѓР°СЃСЃРѕРЅР°
 #-----------------------------------------------------------------------
 RK <- read.table(file = "RoadKills.txt", 
                       header = TRUE, dec = ".")
 y <- RK$TOT.N
 library(vcd)   ##  Visualizing Categorical Data
 gf<-goodfit(table(y),type= "poisson",method= "ML") 
-#  Визуализация подогнанных данных гистограммой 
-plot(gf,ylab="Частоты", xlab="Число классов")
+#  Р’РёР·СѓР°Р»РёР·Р°С†РёСЏ РїРѕРґРѕРіРЅР°РЅРЅС‹С… РґР°РЅРЅС‹С… РіРёСЃС‚РѕРіСЂР°РјРјРѕР№ 
+plot(gf,ylab="Р§Р°СЃС‚РѕС‚С‹", xlab="Р§РёСЃР»Рѕ РєР»Р°СЃСЃРѕРІ")
 
 M1 <-  glm(TOT.N ~ D.PARK, family =  poisson, data =  RK)
 summary(M1)
@@ -220,7 +220,7 @@ MyData$FSELOW<-exp(G$fit-1.96*G$se.fit)
 ggplot(MyData, aes(D.PARK, F)) +
   geom_ribbon(aes(ymin = FSEUP, ymax = FSELOW), 
   fill = 3, alpha = .25) +   geom_line(colour = 3) +
-  labs(x = "Расстояние до парка", y = "Убийства на дорогах")+
+  labs(x = "Р Р°СЃСЃС‚РѕСЏРЅРёРµ РґРѕ РїР°СЂРєР°", y = "РЈР±РёР№СЃС‚РІР° РЅР° РґРѕСЂРѕРіР°С…")+
   geom_point(data=RK, aes(D.PARK, TOT.N) )
 
 RK[, 7:14] <- sqrt(RK[, 7:14])
@@ -277,17 +277,17 @@ train(TOT.N ~ D.WAT.RES + WAT.RES + D.PARK + L.P.ROAD +
    trControl = trainControl(method = "cv"))
 
 #-----------------------------------------------------------------------
-# 8.5. ZIP- и барьерные модели счетных данных 
+# 8.5. ZIP- Рё Р±Р°СЂСЊРµСЂРЅС‹Рµ РјРѕРґРµР»Рё СЃС‡РµС‚РЅС‹С… РґР°РЅРЅС‹С… 
 #-----------------------------------------------------------------------
 library(AER)
-data("NMES1988")        # Загружаем данные и отбираем столбцы
-nmes <- NMES1988[, c(1, 6:8, 13, 15, 18)]  # переменных
+data("NMES1988")        # Р—Р°РіСЂСѓР¶Р°РµРј РґР°РЅРЅС‹Рµ Рё РѕС‚Р±РёСЂР°РµРј СЃС‚РѕР»Р±С†С‹
+nmes <- NMES1988[, c(1, 6:8, 13, 15, 18)]  # РїРµСЂРµРјРµРЅРЅС‹С…
 plot(table(nmes$visits))  
-sum(nmes$visits < 1)   # наблюдаемое число нулей
+sum(nmes$visits < 1)   # РЅР°Р±Р»СЋРґР°РµРјРѕРµ С‡РёСЃР»Рѕ РЅСѓР»РµР№
 mod1 <- glm(visits ~ ., data = nmes, family = "poisson")
-mu <- predict(mod1, type = "response") # среднее Пуассона
-exp <- sum(dpois(x = 0, lambda = mu))  # теоретическая частота
-round(exp)                             # нулевых значений
+mu <- predict(mod1, type = "response") # СЃСЂРµРґРЅРµРµ РџСѓР°СЃСЃРѕРЅР°
+exp <- sum(dpois(x = 0, lambda = mu))  # С‚РµРѕСЂРµС‚РёС‡РµСЃРєР°СЏ С‡Р°СЃС‚РѕС‚Р°
+round(exp)                             # РЅСѓР»РµРІС‹С… Р·РЅР°С‡РµРЅРёР№
 
 library(pscl)
 M.ZIP <- zeroinfl(visits ~ ., data = nmes, 

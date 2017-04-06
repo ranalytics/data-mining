@@ -1,36 +1,36 @@
 #########################################################################
-# Шитиков В.К., Мастицкий С.Э. (2017) Классификация, регрессия и другие алгоритмы Data Mining 
-# с использованием R. (Адрес доступа: http://www.ievbras.ru/ecostat/Kiril/R/DM )
+# РЁРёС‚РёРєРѕРІ Р’.Рљ., РњР°СЃС‚РёС†РєРёР№ РЎ.Р­. (2017) РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ, СЂРµРіСЂРµСЃСЃРёСЏ Рё РґСЂСѓРіРёРµ Р°Р»РіРѕСЂРёС‚РјС‹ Data Mining 
+# СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј R. (РђРґСЂРµСЃ РґРѕСЃС‚СѓРїР°: http://www.ievbras.ru/ecostat/Kiril/R/DM )
 #########################################################################
 #########################################################################
-# Глава 2. СТАТИСТИЧЕСКИЕ МОДЕЛИ: КРИТЕРИИ И МЕТОДЫ ИХ ОЦЕНИВАНИЯ 
+# Р“Р»Р°РІР° 2. РЎРўРђРўРРЎРўРР§Р•РЎРљРР• РњРћР”Р•Р›Р: РљР РРўР•Р РР Р РњР•РўРћР”Р« РРҐ РћР¦Р•РќРР’РђРќРРЇ 
 #########################################################################
 
-#  2.1. Основные шаги построения и верификации моделей
+#  2.1. РћСЃРЅРѕРІРЅС‹Рµ С€Р°РіРё РїРѕСЃС‚СЂРѕРµРЅРёСЏ Рё РІРµСЂРёС„РёРєР°С†РёРё РјРѕРґРµР»РµР№
 #-----------------------------------------------------------------------
 
-# Загрузка и визуализация данных в виде традиционного биплота
+# Р—Р°РіСЂСѓР·РєР° Рё РІРёР·СѓР°Р»РёР·Р°С†РёСЏ РґР°РЅРЅС‹С… РІ РІРёРґРµ С‚СЂР°РґРёС†РёРѕРЅРЅРѕРіРѕ Р±РёРїР»РѕС‚Р°
 library(DAAG) 
 data("fruitohms")
 library('ggplot2')
 ggplot(fruitohms, aes(x=juice, y=ohms)) + geom_point() +
     stat_smooth(method="lm") + 
-    xlab("Содержание сока, %") + 
-    ylab("Сопротивление, Ом")
+    xlab("РЎРѕРґРµСЂР¶Р°РЅРёРµ СЃРѕРєР°, %") + 
+    ylab("РЎРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ, РћРј")
     
 library(hexbin)
 ggplot(fruitohms, aes(x=juice, y=ohms)) +
     geom_hex(binwidth=c(3, 500)) +
     geom_smooth(color="red", se=F) + 
-    xlab("Содержание сока, %") + 
-    ylab("Сопротивление, Ом")
+    xlab("РЎРѕРґРµСЂР¶Р°РЅРёРµ СЃРѕРєР°, %") + 
+    ylab("РЎРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ, РћРј")
 
-#  Строим модель lm() с одним предиктором
+#  РЎС‚СЂРѕРёРј РјРѕРґРµР»СЊ lm() СЃ РѕРґРЅРёРј РїСЂРµРґРёРєС‚РѕСЂРѕРј
 x <- fruitohms$juice
 y <- fruitohms$ohms/1000
 n <- dim(as.matrix(x))[1] ; m <- dim(as.matrix(x))[2] 
 M_reg <- lm(y~x) ; pred <- predict(M_reg)
-#  Показатели модели
+#  РџРѕРєР°Р·Р°С‚РµР»Рё РјРѕРґРµР»Рё
 RSS <- sum((y-pred)*(y-pred))
 RMSE <- sqrt(RSS/n)
 RSE <- sqrt(RSS/(n - m -1)) 
@@ -43,7 +43,7 @@ summary(M_reg)
 anova(M_reg)
 ncvTest (M_reg)
 
-#  Строим модель glm() с одним предиктором
+#  РЎС‚СЂРѕРёРј РјРѕРґРµР»СЊ glm() СЃ РѕРґРЅРёРј РїСЂРµРґРёРєС‚РѕСЂРѕРј
 M_glm <- glm(y~x)
 lgLik <- logLik(M_glm)
 D.null <- M_glm$null.deviance 
@@ -60,10 +60,10 @@ AIC <- AIC(M_glm) ; AICc <- AIC(M_glm) + 2*k*(k+1)/(n-k-1)
 BIC <- BIC(M_glm) ;  BIC <- AIC(M_glm, k=log(n))
 c(AIC, AICc, BIC)
 
-# Построение моделей со степенью полинома от 1 до 7
+# РџРѕСЃС‚СЂРѕРµРЅРёРµ РјРѕРґРµР»РµР№ СЃРѕ СЃС‚РµРїРµРЅСЊСЋ РїРѕР»РёРЅРѕРјР° РѕС‚ 1 РґРѕ 7
 max.poly <- 7
-# Создание пустой таблицы для хранения значений AIC и BIC 
-# рассчитанных для всех моделей и ее заполнение 
+# РЎРѕР·РґР°РЅРёРµ РїСѓСЃС‚РѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ Р·РЅР°С‡РµРЅРёР№ AIC Рё BIC 
+# СЂР°СЃСЃС‡РёС‚Р°РЅРЅС‹С… РґР»СЏ РІСЃРµС… РјРѕРґРµР»РµР№ Рё РµРµ Р·Р°РїРѕР»РЅРµРЅРёРµ 
 AIC.BIC <- data.frame(criterion=c(rep("AIC",max.poly),
 rep("BIC",max.poly)), value=numeric(max.poly*2),
 degree=rep(1:max.poly, times=2))
@@ -71,16 +71,16 @@ for(i in 1:max.poly)  {
      AIC.BIC[i,2] <- AIC(lm(y~poly(x,i)))
      AIC.BIC[i+max.poly,2] <- BIC(lm(y~poly(x,i)))
 }
-# График AIC и BIC для разных степеней полинома
+# Р“СЂР°С„РёРє AIC Рё BIC РґР»СЏ СЂР°Р·РЅС‹С… СЃС‚РµРїРµРЅРµР№ РїРѕР»РёРЅРѕРјР°
 library('ggplot2')
 qplot(degree, value, data=AIC.BIC,
 geom="line", linetype=criterion) +
-xlab("Степень полинома") + ylab("Значение критерия")
+xlab("РЎС‚РµРїРµРЅСЊ РїРѕР»РёРЅРѕРјР°") + ylab("Р—РЅР°С‡РµРЅРёРµ РєСЂРёС‚РµСЂРёСЏ")
 
 #-----------------------------------------------------------------------
-#2.2. Использование алгоритмов ресэмплинга для тестирования и оптимизации параметров моделей
+#2.2. РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ Р°Р»РіРѕСЂРёС‚РјРѕРІ СЂРµСЃСЌРјРїР»РёРЅРіР° РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ Рё РѕРїС‚РёРјРёР·Р°С†РёРё РїР°СЂР°РјРµС‚СЂРѕРІ РјРѕРґРµР»РµР№
 #-----------------------------------------------------------------------
-# Функция скользящего контроля для модели y~poly(x, degree) 
+# Р¤СѓРЅРєС†РёСЏ СЃРєРѕР»СЊР·СЏС‰РµРіРѕ РєРѕРЅС‚СЂРѕР»СЏ РґР»СЏ РјРѕРґРµР»Рё y~poly(x, degree) 
 crossvalidate <- function(x, y, degree) {
    preds <- numeric(length(x))
    for(i in 1:length(x)) {
@@ -90,19 +90,19 @@ crossvalidate <- function(x, y, degree) {
       new <- data.frame(x.in = seq(-3, 3, by=0.1))
       preds[i]<- predict(m, newdata=data.frame(x.in=x.out))
    }
-  # Тестовая статистика - сумма квадратов отклонений:
+  # РўРµСЃС‚РѕРІР°СЏ СЃС‚Р°С‚РёСЃС‚РёРєР° - СЃСѓРјРјР° РєРІР°РґСЂР°С‚РѕРІ РѕС‚РєР»РѕРЅРµРЅРёР№:
   return(sum((y-preds)^2))
 } 
-# Заполнение таблицы результатами кросс-проверки 
-# и сохранение квадрата ошибки в таблице "a"
+# Р—Р°РїРѕР»РЅРµРЅРёРµ С‚Р°Р±Р»РёС†С‹ СЂРµР·СѓР»СЊС‚Р°С‚Р°РјРё РєСЂРѕСЃСЃ-РїСЂРѕРІРµСЂРєРё 
+# Рё СЃРѕС…СЂР°РЅРµРЅРёРµ РєРІР°РґСЂР°С‚Р° РѕС€РёР±РєРё РІ С‚Р°Р±Р»РёС†Рµ "a"
 a <- data.frame(cross=numeric(max.poly))
 for(i in 1:max.poly)
 {
   a[i,1] <- crossvalidate(x, y, degree=i)
 }
-# График суммы квадратов ошибки при кросспроверке
+# Р“СЂР°С„РёРє СЃСѓРјРјС‹ РєРІР°РґСЂР°С‚РѕРІ РѕС€РёР±РєРё РїСЂРё РєСЂРѕСЃСЃРїСЂРѕРІРµСЂРєРµ
 qplot(1:max.poly,cross, data=a, geom=c("line"))+
-xlab("Степень полинома ") + ylab("Квадратичная ошибка")
+xlab("РЎС‚РµРїРµРЅСЊ РїРѕР»РёРЅРѕРјР° ") + ylab("РљРІР°РґСЂР°С‚РёС‡РЅР°СЏ РѕС€РёР±РєР°")
 
 (M_poly <- glm(y~poly(x, 4)))
 anova(M_glm, M_poly , test ="Chisq")
@@ -117,28 +117,28 @@ BootMat <- sapply(1:max.poly, function(k)
 )
 apply(BootMat, 2, mean)
 
-library(reshape) # для функции melt()
+library(reshape) # РґР»СЏ С„СѓРЅРєС†РёРё melt()
 BootMat.df <- data.frame( melt(BootMat))
 ggplot(data = BootMat.df, aes(X2, value)) +
    geom_jitter(position = position_jitter(width = 0.1), 
                 alpha = 0.2) + 
-# Добавляем средние значения в виде точек красного цвета:
+# Р”РѕР±Р°РІР»СЏРµРј СЃСЂРµРґРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РІ РІРёРґРµ С‚РѕС‡РµРє РєСЂР°СЃРЅРѕРіРѕ С†РІРµС‚Р°:
   stat_summary(fun.y = mean, geom = "point", color = "red",
                 size = 5)  + 
-# Добавляем отрезки, символизирующие 0.25 и 0.75 квантили:
+# Р”РѕР±Р°РІР»СЏРµРј РѕС‚СЂРµР·РєРё, СЃРёРјРІРѕР»РёР·РёСЂСѓСЋС‰РёРµ 0.25 Рё 0.75 РєРІР°РЅС‚РёР»Рё:
   stat_summary(fun.y = mean,
      fun.ymin = function(x){quantile(x, p = 0.25)},
      fun.ymax = function(x){quantile(x, p = 0.75)},
      geom = "errorbar", color = "magenta", width = 0.5,
              size =1.5) +
-     xlab("Степень полинома") + 
-     ylab("Информационный критерий Байеса")
+     xlab("РЎС‚РµРїРµРЅСЊ РїРѕР»РёРЅРѕРјР°") + 
+     ylab("РРЅС„РѕСЂРјР°С†РёРѕРЅРЅС‹Р№ РєСЂРёС‚РµСЂРёР№ Р‘Р°Р№РµСЃР°")
 
 Nboot = 1000  ; n=100
 mean(replicate(Nboot, length(unique(sample(n,replace=T)))))
 
 #-----------------------------------------------------------------------
-# 2.3. Модели предсказания класса объектов 
+# 2.3. РњРѕРґРµР»Рё РїСЂРµРґСЃРєР°Р·Р°РЅРёСЏ РєР»Р°СЃСЃР° РѕР±СЉРµРєС‚РѕРІ 
 #-----------------------------------------------------------------------
 # spamD <- read.table(
 #        'https://raw.github.com/WinVector/zmPDSwR/master/Spambase/spamD.tsv',
@@ -147,32 +147,32 @@ spamD <- read.table('spamD.tsv',header=T,sep='\t')
 dim(spamD)
 spamTrain <- subset(spamD,spamD$rgroup>=10)
 spamTest <- subset(spamD,spamD$rgroup<10)
-с(nrow(spamTrain), nrow(spamTest))
-# Составляем список переменных и объект типа формула
+СЃ(nrow(spamTrain), nrow(spamTest))
+# РЎРѕСЃС‚Р°РІР»СЏРµРј СЃРїРёСЃРѕРє РїРµСЂРµРјРµРЅРЅС‹С… Рё РѕР±СЉРµРєС‚ С‚РёРїР° С„РѕСЂРјСѓР»Р°
 spamVars <- setdiff(colnames(spamD),list('rgroup','spam'))
 spamFormula <- as.formula(paste('spam=="spam"',
    paste(spamVars,collapse=' + '),sep=' ~ '))
 spamModel <- glm(spamFormula,family=binomial(link='logit'),
    data=spamTrain)
-# Добавляем столбец с прогнозируемыми вероятности спама
+# Р”РѕР±Р°РІР»СЏРµРј СЃС‚РѕР»Р±РµС† СЃ РїСЂРѕРіРЅРѕР·РёСЂСѓРµРјС‹РјРё РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё СЃРїР°РјР°
 spamTrain$pred <- predict(spamModel,newdata=spamTrain,
              type='response')
 spamTest$pred  <- predict(spamModel,newdata=spamTest,
              type='response')
-#  На обучающей выборке
-cM.train <- table(Факт=spamTrain$spam,
-   Прогноз=spamTrain$pred>0.5)
-#  При экзамене
-cM <- table(Факт=spamTest$spam,
-   Прогноз=spamTest$pred>0.5)
-c( Точность <- (cM[1,1]+cM[2,2])/sum(cM),
-   Чувствительность <- cM[1,1]/(cM[1,1]+cM[2,1]),
-   Специфичность    <- cM[2,2]/(cM[2,2]+cM[1,2]))
+#  РќР° РѕР±СѓС‡Р°СЋС‰РµР№ РІС‹Р±РѕСЂРєРµ
+cM.train <- table(Р¤Р°РєС‚=spamTrain$spam,
+   РџСЂРѕРіРЅРѕР·=spamTrain$pred>0.5)
+#  РџСЂРё СЌРєР·Р°РјРµРЅРµ
+cM <- table(Р¤Р°РєС‚=spamTest$spam,
+   РџСЂРѕРіРЅРѕР·=spamTest$pred>0.5)
+c( РўРѕС‡РЅРѕСЃС‚СЊ <- (cM[1,1]+cM[2,2])/sum(cM),
+   Р§СѓРІСЃС‚РІРёС‚РµР»СЊРЅРѕСЃС‚СЊ <- cM[1,1]/(cM[1,1]+cM[2,1]),
+   РЎРїРµС†РёС„РёС‡РЅРѕСЃС‚СЊ    <- cM[2,2]/(cM[2,2]+cM[1,2]))
 library(caret)
 pred <- ifelse(spamTest$pred>0.5,"spam","non-spam") 
 confusionMatrix(spamTest$spam, pred) 
 
-#  Информационные показатели
+#  РРЅС„РѕСЂРјР°С†РёРѕРЅРЅС‹Рµ РїРѕРєР°Р·Р°С‚РµР»Рё
 entropy <- function(x) { xpos <- x[x>0]
    scaled <- xpos/sum(xpos) ; sum(-scaled*log(scaled,2))
 }
@@ -182,14 +182,14 @@ conditionalEntropy <- function(t) {
 }
 print(conditionalEntropy(cM))
 
-# ROC кривая
+# ROC РєСЂРёРІР°СЏ
 library(pROC)
 m_ROC.roc <- roc(spamTest$spam,spamTest$pred)
 plot(m_ROC.roc, grid.col=c("green", "red"), grid=c(0.1, 0.2),
       print.auc=TRUE, print.thres=TRUE)
 plot(smooth(m_ROC.roc), col="blue", add = T, print.auc=F)
 
-# Анализ статзначимости
+# РђРЅР°Р»РёР· СЃС‚Р°С‚Р·РЅР°С‡РёРјРѕСЃС‚Рё
 (LL <- logLik(spamModel))
 df <- with(spamModel, df.null - df.residual)
 c(D.null <- spamModel$null.deviance,
@@ -204,14 +204,14 @@ ggplot (data=spamTest) +
         geom_density (aes (x=pred, color=spam, linetype=spam))
 
 #-----------------------------------------------------------------------
-#  2.4. Проецирование многомерных данных на плоскости
+#  2.4. РџСЂРѕРµС†РёСЂРѕРІР°РЅРёРµ РјРЅРѕРіРѕРјРµСЂРЅС‹С… РґР°РЅРЅС‹С… РЅР° РїР»РѕСЃРєРѕСЃС‚Рё
 #-----------------------------------------------------------------------
 DGlass <- read.table(file="Glass.txt", sep=","
 ,header=TRUE,row.names=1)
 print(t(apply(DGlass[,-10],2,function (x) {
-c(Минимум=min(x),Максимум=max(x),
- 		Среднее=mean(x), Отклонение=sd(x),
- 		Корреляция=cor(x,DClass$Class))  # признаков с Class
+c(РњРёРЅРёРјСѓРј=min(x),РњР°РєСЃРёРјСѓРј=max(x),
+ 		РЎСЂРµРґРЅРµРµ=mean(x), РћС‚РєР»РѕРЅРµРЅРёРµ=sd(x),
+ 		РљРѕСЂСЂРµР»СЏС†РёСЏ=cor(x,DClass$Class))  # РїСЂРёР·РЅР°РєРѕРІ СЃ Class
 })),3)
 library(vegan)
 Y <- as.data.frame(DGlass[,1:9])
@@ -220,16 +220,16 @@ summary(mod.pca)
 F <- as.factor(ifelse(DGlass$Class==2,2,1))
 pca.scores <- as.data.frame(summary(mod.pca)$sites [,1:2])
 pca.scores <- cbind(pca.scores,F)
-# Составляем таблицу для hull "каркаса точек на графике"
+# РЎРѕСЃС‚Р°РІР»СЏРµРј С‚Р°Р±Р»РёС†Сѓ РґР»СЏ hull "РєР°СЂРєР°СЃР° С‚РѕС‡РµРє РЅР° РіСЂР°С„РёРєРµ"
 l <- lapply(unique(pca.scores$F), function(c) 
          { f <- subset(pca.scores,F==c); f[chull(f),]})
 hull <- do.call(rbind, l)
-# Включаем в названия осей доли объясненных дисперсий
+# Р’РєР»СЋС‡Р°РµРј РІ РЅР°Р·РІР°РЅРёСЏ РѕСЃРµР№ РґРѕР»Рё РѕР±СЉСЏСЃРЅРµРЅРЅС‹С… РґРёСЃРїРµСЂСЃРёР№
 axX <- paste("PC1 (",
    as.integer(100*mod.pca$CA$eig[1]/sum(mod.pca$CA$eig)),"%)")
 axY <- paste("PC2 (",
    as.integer(100*mod.pca$CA$eig[2]/sum(mod.pca$CA$eig)),"%)")
-# Выводим ординационную диаграмму
+# Р’С‹РІРѕРґРёРј РѕСЂРґРёРЅР°С†РёРѕРЅРЅСѓСЋ РґРёР°РіСЂР°РјРјСѓ
 ggplot() + 
   geom_polygon(data=hull,aes(x=PC1,y=PC2, fill=F),
            alpha=0.4, linetype=0) +  
@@ -239,7 +239,7 @@ ggplot() +
   xlab(axX) + ylab(axY) + coord_equal() + theme_bw()
 
 #-----------------------------------------------------------------------
-#  2.5. Многомерный статистический анализ данных
+#  2.5. РњРЅРѕРіРѕРјРµСЂРЅС‹Р№ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРёР№ Р°РЅР°Р»РёР· РґР°РЅРЅС‹С…
 #-----------------------------------------------------------------------
 F <- as.factor(ifelse(DGlass$Class==2,2,1)) 
 Y <- as.data.frame(DGlass[,1:9])
@@ -249,13 +249,13 @@ rda.scores <- as.data.frame(scores(mod.rda, display="sites",
                           scales=3))
 rda.scores <- cbind(F,rda.scores)
 centroids <- aggregate(cbind(RDA1,PC1)~F,rda.scores, mean)
-f <- function(z)sd(z)/sqrt(length(z)) # функция для std.err
+f <- function(z)sd(z)/sqrt(length(z)) # С„СѓРЅРєС†РёСЏ РґР»СЏ std.err
 se <- aggregate(cbind(RDA1,PC1)~F, rda.scores,f)
 names(se) <- c("F","RDA1.se","PC1.se")
-# объединяем  координаты центроидов и стандартные ошибки 
+# РѕР±СЉРµРґРёРЅСЏРµРј  РєРѕРѕСЂРґРёРЅР°С‚С‹ С†РµРЅС‚СЂРѕРёРґРѕРІ Рё СЃС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РѕС€РёР±РєРё 
 centroids <- merge(centroids,se, by="F")    
 
-#  Формируем диаграмму
+#  Р¤РѕСЂРјРёСЂСѓРµРј РґРёР°РіСЂР°РјРјСѓ
 ggplot() +  geom_point(data=rda.scores,
     aes(x=RDA1,y=PC1,shape=F,colour=F),size=2) + 
   xlim(c(-2, 5)) + ylim(c(-0.75, 1)) +
@@ -270,7 +270,7 @@ ggplot() +  geom_point(data=rda.scores,
 #  geom_errorbarh(data=centroids, aes(xmin=RDA1-RDA1.se,
           xmax=RDA1+RDA1.se),height=0.1) + theme_bw()
 
-#  Многомерный дисперсионный анализ
+#  РњРЅРѕРіРѕРјРµСЂРЅС‹Р№ РґРёСЃРїРµСЂСЃРёРѕРЅРЅС‹Р№ Р°РЅР°Р»РёР·
 mod.an <- manova(as.matrix(Y) ~ F)
 anova(mod.an)
 library(Hotelling) ; split.data <- split(Y,F)  
@@ -278,7 +278,7 @@ summ.hot <- hotelling.test(split.data[[1]], split.data[[2]],
                  perm = T, B = 1000)
 
 #-----------------------------------------------------------------------
-#  2.6. Методы кластеризации без учителя 
+#  2.6. РњРµС‚РѕРґС‹ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёРё Р±РµР· СѓС‡РёС‚РµР»СЏ 
 ##-----------------------------------------------------------------------
 
 set.seed(32297) 

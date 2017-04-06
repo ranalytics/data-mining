@@ -1,12 +1,12 @@
 #########################################################################
-# Шитиков В.К., Мастицкий С.Э. (2017) Классификация, регрессия и другие алгоритмы Data Mining 
-# с использованием R. (Адрес доступа: http://www.ievbras.ru/ecostat/Kiril/R/DM )
+# РЁРёС‚РёРєРѕРІ Р’.Рљ., РњР°СЃС‚РёС†РєРёР№ РЎ.Р­. (2017) РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ, СЂРµРіСЂРµСЃСЃРёСЏ Рё РґСЂСѓРіРёРµ Р°Р»РіРѕСЂРёС‚РјС‹ Data Mining 
+# СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј R. (РђРґСЂРµСЃ РґРѕСЃС‚СѓРїР°: http://www.ievbras.ru/ecostat/Kiril/R/DM )
 #########################################################################
 #########################################################################
-# Глава 6. БИНАРНЫЕ КЛАССИФИКАТОРЫ С РАЗЛИЧНЫМИ РАДЕЛЯЮЩИМИ ПОВЕРХНОСТЯМИ
+# Р“Р»Р°РІР° 6. Р‘РРќРђР РќР«Р• РљР›РђРЎРЎРР¤РРљРђРўРћР Р« РЎ Р РђР—Р›РР§РќР«РњР Р РђР”Р•Р›РЇР®Р©РРњР РџРћР’Р•Р РҐРќРћРЎРўРЇРњР
 #########################################################################
 
-#  6.1. Дискриминантный анализ
+#  6.1. Р”РёСЃРєСЂРёРјРёРЅР°РЅС‚РЅС‹Р№ Р°РЅР°Р»РёР·
 #-----------------------------------------------------------------------
 
 DGlass <- read.table(file="Glass.txt", sep=","
@@ -18,29 +18,29 @@ mshapiro.test(t(DGlass[DGlass$F == 2, 1:9]))
 library(biotools) 
 boxM(as.matrix(DGlass[, 1:9]), DGlass$F ) 
 
-# Функция вывода результатов классифицирования
+# Р¤СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РєР»Р°СЃСЃРёС„РёС†РёСЂРѕРІР°РЅРёСЏ
 Out_CTab <- function (model, group, type="lda") {
-# Таблица неточности "Факт/Прогноз" по обучающей выборке
+# РўР°Р±Р»РёС†Р° РЅРµС‚РѕС‡РЅРѕСЃС‚Рё "Р¤Р°РєС‚/РџСЂРѕРіРЅРѕР·" РїРѕ РѕР±СѓС‡Р°СЋС‰РµР№ РІС‹Р±РѕСЂРєРµ
 classified<-predict(model)$class  
 t1 <-  table(group,classified)  
-# Точность классифицирования  и расстояние Махалонобиса
-# Функция вывода результатов классифицирования
+# РўРѕС‡РЅРѕСЃС‚СЊ РєР»Р°СЃСЃРёС„РёС†РёСЂРѕРІР°РЅРёСЏ  Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ РњР°С…Р°Р»РѕРЅРѕР±РёСЃР°
+# Р¤СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РєР»Р°СЃСЃРёС„РёС†РёСЂРѕРІР°РЅРёСЏ
 Out_CTab <- function (model, group, type="lda") {
-# Таблица неточности "Факт/Прогноз" по обучающей выборке
+# РўР°Р±Р»РёС†Р° РЅРµС‚РѕС‡РЅРѕСЃС‚Рё "Р¤Р°РєС‚/РџСЂРѕРіРЅРѕР·" РїРѕ РѕР±СѓС‡Р°СЋС‰РµР№ РІС‹Р±РѕСЂРєРµ
    classified<-predict(model)$class  
    t1 <-  table(group,classified)  
-# Точность классифицирования  и расстояние Махалонобиса
+# РўРѕС‡РЅРѕСЃС‚СЊ РєР»Р°СЃСЃРёС„РёС†РёСЂРѕРІР°РЅРёСЏ  Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ РњР°С…Р°Р»РѕРЅРѕР±РёСЃР°
    Err_S <- mean(group != classified) ; mahDist <- NA
    if (type=="lda") 
        { mahDist <- dist(model$means %*% model$scaling) }
-# Таблица "Факт/Прогноз" и ошибка при скользящем контроле
+# РўР°Р±Р»РёС†Р° "Р¤Р°РєС‚/РџСЂРѕРіРЅРѕР·" Рё РѕС€РёР±РєР° РїСЂРё СЃРєРѕР»СЊР·СЏС‰РµРј РєРѕРЅС‚СЂРѕР»Рµ
    t2 <-  table(group, update(model, CV=T)$class->LDA.cv) 
    Err_CV <- mean(group != LDA.cv) 
    Err_S.MahD  <-c(Err_S, mahDist) 
    Err_CV.N <-c(Err_CV, length(group)) 
    cbind(t1, Err_S.MahD, t2, Err_CV.N)
 }
-# --- Выполнение расчетов
+# --- Р’С‹РїРѕР»РЅРµРЅРёРµ СЂР°СЃС‡РµС‚РѕРІ
 library(MASS)
 lda.all <- lda(F ~ ., data=DGlass[,-10])
 Out_CTab(lda.all, DGlass$F) 
@@ -58,16 +58,16 @@ sizes = 2:9,
 rfeControl = rfeControl(functions = ldaFuncs, 
              method = "repeatedcv",repeats = 6))
 
-# Модель на основе всех 9 предикторов
+# РњРѕРґРµР»СЊ РЅР° РѕСЃРЅРѕРІРµ РІСЃРµС… 9 РїСЂРµРґРёРєС‚РѕСЂРѕРІ
 lda.full.pro <- train(DGlass[, 1:9], DGlass$F1, 
         data= DGlass,method="lda",
   trControl = trainControl(method="repeatedcv",repeats=5, 
   classProbs = TRUE), metric = "Accuracy")
-# Модель на основе 2 предикторов  stepclass
+# РњРѕРґРµР»СЊ РЅР° РѕСЃРЅРѕРІРµ 2 РїСЂРµРґРёРєС‚РѕСЂРѕРІ  stepclass
 lda.step.pro <- train(F1 ~ Mg + Al, data= DGlass,method="lda",
   trControl = trainControl(method="repeatedcv",repeats=5, 
   classProbs = TRUE), metric = "Accuracy")
-# Модель на основе 3 предикторов rfe
+# РњРѕРґРµР»СЊ РЅР° РѕСЃРЅРѕРІРµ 3 РїСЂРµРґРёРєС‚РѕСЂРѕРІ rfe
 lda.rfe.pro <- train(F1 ~ Al + K + Fe, 
        data= DGlass,method="lda",
     trControl = trainControl(method="repeatedcv",repeats=5, 
@@ -75,7 +75,7 @@ lda.rfe.pro <- train(F1 ~ Al + K + Fe,
 plot(varImp(lda.full.pro))
 
 #-----------------------------------------------------------------------
-#  6.2. Метод опорных векторов
+#  6.2. РњРµС‚РѕРґ РѕРїРѕСЂРЅС‹С… РІРµРєС‚РѕСЂРѕРІ
 #-----------------------------------------------------------------------
 
 DGlass <- read.table(file="Glass.txt", sep=",",
@@ -83,11 +83,11 @@ DGlass <- read.table(file="Glass.txt", sep=",",
 DGlass$F <- as.factor(ifelse(DGlass$Class==2,2,1))
 svm.all <-  svm(formula = F ~ ., data=DGlass[,-10], 
        cross=10, kernel = "linear")  
-table(Факт=DGlass$F, Прогноз=predict(svm.all))
+table(Р¤Р°РєС‚=DGlass$F, РџСЂРѕРіРЅРѕР·=predict(svm.all))
 Acc = mean(predict(svm.all) == DGlass$F )
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
-#   Функция вычисления ошибки кросс-проверки  
+#   Р¤СѓРЅРєС†РёСЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РѕС€РёР±РєРё РєСЂРѕСЃСЃ-РїСЂРѕРІРµСЂРєРё  
 library(e1071)    
 CVsvm <- function(x, y) {
    n <- nrow(x) ; Err_S  <- 0 
@@ -97,7 +97,7 @@ CVsvm <- function(x, y) {
              Err_S <- Err_S +1 }  
    Err_S/n }
 Acc <- 1-CVsvm(DGlass[,1:9],DGlass$F)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 library ( klaR)
 stepclass(F ~ ., data=DGlass[,-10], method="svmlight", 
@@ -116,9 +116,9 @@ data.frame(Index=featureRankedList, NameFeat =
 DGlass.sel <- DGlass[, c(featureRankedList[1:7], 11)]
 (svm.sel <- svm(formula = F ~ ., data=DGlass.sel, cross=10,
        kernel = "linear", prob=TRUE))
-table(Факт=DGlass.sel$F, Прогноз=predict(svm.sel))
+table(Р¤Р°РєС‚=DGlass.sel$F, РџСЂРѕРіРЅРѕР·=predict(svm.sel))
 Acc = mean(predict(svm.all) == DGlass$F )
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 library (caret)
 DGlass$F1 <- as.factor(ifelse(DGlass$Class==2,"No","Flash"))
@@ -128,18 +128,18 @@ svmProfile <- rfe(DGlass[,1:9], DGlass$F1, sizes = 2:9,
 
 ctrl <- trainControl(method="repeatedcv",repeats=5,	
      summaryFunction=twoClassSummary, classProbs=TRUE)
-print(" Модель на основе всех 9 предикторов ")
+print(" РњРѕРґРµР»СЊ РЅР° РѕСЃРЅРѕРІРµ РІСЃРµС… 9 РїСЂРµРґРёРєС‚РѕСЂРѕРІ ")
 train(DGlass[,1:9], DGlass$F1, method = "svmLinear",
               metric="ROC",trControl=ctrl)	
-print(" Модель на основе 7 предикторов ")
+print(" РњРѕРґРµР»СЊ РЅР° РѕСЃРЅРѕРІРµ 7 РїСЂРµРґРёРєС‚РѕСЂРѕРІ ")
 train(DGlass[,c(4,6,9,8,3,5,7)], DGlass$F1,
    method = "svmLinear", metric="ROC", trControl=ctrl)
-print(" Модель на основе 5 предикторов ")
+print(" РњРѕРґРµР»СЊ РЅР° РѕСЃРЅРѕРІРµ 5 РїСЂРµРґРёРєС‚РѕСЂРѕРІ ")
 train(DGlass[,c(4,6,9,8,5)], DGlass$F1, method = "svmLinear",
               metric="ROC",trControl=ctrl)
 
 #-----------------------------------------------------------------------
-#  6.3. Классификаторы с использованием нелинейных разделяющих поверхностей
+#  6.3. РЇРґРµСЂРЅС‹Рµ С„СѓРЅРєС†РёРё РјР°С€РёРЅС‹ РѕРїРѕСЂРЅС‹С… РІРµРєС‚РѕСЂРѕРІ
 #-----------------------------------------------------------------------
 
 DGlass <- read.table(file="Glass.txt", sep=",",
@@ -151,18 +151,18 @@ tune.svm(F ~ ., data=DGlass[,-10], gamma = 2^(-1:1),
 
 svm.rbf <- svm(formula = F ~ ., data=DGlass[,-10], 
    		kernel = "radial",cost = 4, gamma = 0.5)
-table(Факт=DGlass$F, Прогноз=predict(svm.rbf)) 
+table(Р¤Р°РєС‚=DGlass$F, РџСЂРѕРіРЅРѕР·=predict(svm.rbf)) 
 Acc <- mean(predict(svm.rbf) == DGlass$F )
-paste("Точность=", round(100*Acc, 2), "%", sep="") 
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="") 
 
 svm2.rbf <- svm(formula = F ~ Al+Mg, data=DGlass[,-10], 
    kernel = "radial",cost = 4, gamma = 2.5)
 Acc <- mean(predict(svm2.rbf) == DGlass$F )
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 plot(svm2.rbf,DGlass[,c(3,4,11)],
 svSymbol = 16, dataSymbol = 2,color.palette = terrain.colors)
-legend("bottomleft",c("Опорные кл.1", "Опорные кл.2", 
-      "Данные кл.1", "Данные кл.2"),col=c(1,2,1,2),
+legend("bottomleft",c("РћРїРѕСЂРЅС‹Рµ РєР».1", "РћРїРѕСЂРЅС‹Рµ РєР».2", 
+      "Р”Р°РЅРЅС‹Рµ РєР».1", "Р”Р°РЅРЅС‹Рµ РєР».2"),col=c(1,2,1,2),
        pch=c(16,16,2,2))
 
 library (caret)
@@ -174,24 +174,24 @@ svmRad.tune <- train(DGlass[,1:9], DGlass$F1,
    tuneGrid = grid, trControl=ctrl)
 
 pred <- predict(svmRad.tune,DGlass[,1:9])
-table(Факт=DGlass$F1, Прогноз=pred)
+table(Р¤Р°РєС‚=DGlass$F1, РџСЂРѕРіРЅРѕР·=pred)
 Acc <- mean(pred == DGlass$F1)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 library('kernlab') ; library('ggplot2')
 set.seed(2335246L) ; data('spirals')
-#  Спектральная функция выделяет две различные спирали
+#  РЎРїРµРєС‚СЂР°Р»СЊРЅР°СЏ С„СѓРЅРєС†РёСЏ РІС‹РґРµР»СЏРµС‚ РґРІРµ СЂР°Р·Р»РёС‡РЅС‹Рµ СЃРїРёСЂР°Р»Рё
 sc <- specc(spirals, centers = 2)
 s <- data.frame(x=spirals[,1],y=spirals[,2],
 class=as.factor(sc))
-#  Данные делятся на обучающую и тестовую выборки
+#  Р”Р°РЅРЅС‹Рµ РґРµР»СЏС‚СЃСЏ РЅР° РѕР±СѓС‡Р°СЋС‰СѓСЋ Рё С‚РµСЃС‚РѕРІСѓСЋ РІС‹Р±РѕСЂРєРё
 s$group <- sample.int(100,size=dim(s)[[1]],replace=T)
 sTrain <- subset(s,group>10)
 sTest <- subset(s,group<=10)
-#  Снова используем Гауссово или радиальное ядро
+#  РЎРЅРѕРІР° РёСЃРїРѕР»СЊР·СѓРµРј Р“Р°СѓСЃСЃРѕРІРѕ РёР»Рё СЂР°РґРёР°Р»СЊРЅРѕРµ СЏРґСЂРѕ
 mSVMG <- ksvm(class~x+y,data=sTrain,kernel='rbfdot')
 sTest$predSVMG <- predict(mSVMG,newdata=sTest,type='response')
-table(Факт=sTest$class, Прогноз=sTest$predSVMG) 
+table(Р¤Р°РєС‚=sTest$class, РџСЂРѕРіРЅРѕР·=sTest$predSVMG) 
 
 ggplot() +
    geom_text(data=sTest,aes(x=x,y=y,
@@ -202,7 +202,7 @@ ggplot() +
    theme_bw() + theme(legend.position='none') 
 
 #-----------------------------------------------------------------------
-#  6.4. Деревья классификации, случайный лес и логистическая регрессия
+#  6.4. Р”РµСЂРµРІСЊСЏ РєР»Р°СЃСЃРёС„РёРєР°С†РёРё, СЃР»СѓС‡Р°Р№РЅС‹Р№ Р»РµСЃ Рё Р»РѕРіРёСЃС‚РёС‡РµСЃРєР°СЏ СЂРµРіСЂРµСЃСЃРёСЏ
 #-----------------------------------------------------------------------
 
 DGlass <- read.table(file="Glass.txt", sep=",",
@@ -211,95 +211,95 @@ DGlass$F1 <- as.factor(ifelse(DGlass$Class==2,"No","Flash"))
 library (caret)
 control<-trainControl(method="repeatedcv",number=10,repeats=3)
 
-# Деревья классификации
+# Р”РµСЂРµРІСЊСЏ РєР»Р°СЃСЃРёС„РёРєР°С†РёРё
 set.seed(7)
 fit.cart <- train(DGlass[,1:9], DGlass$F1, 
                  method="rpart", trControl=control)
 library(rpart.plot)
 rpart.plot(fit.cart$finalModel)
 pred <- predict( fit.cart,DGlass[,1:9])
-table(Факт=DGlass$F1, Прогноз=pred)
+table(Р¤Р°РєС‚=DGlass$F1, РџСЂРѕРіРЅРѕР·=pred)
 Acc <- mean(pred == DGlass$F1)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
-# Случайный лес (Random Forrest)
+# РЎР»СѓС‡Р°Р№РЅС‹Р№ Р»РµСЃ (Random Forrest)
 set.seed(7)
 fit.rf <- train(DGlass[,1:9], DGlass$F1, 
                  method="rf", trControl=control)
 fit.rf$finalModel
 pred <- predict(fit.rf,DGlass[,1:9])
-table(Факт=DGlass$F1, Прогноз=pred)
+table(Р¤Р°РєС‚=DGlass$F1, РџСЂРѕРіРЅРѕР·=pred)
 Acc <- mean(pred == DGlass$F1)
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
-# Логистическая регрессия
+# Р›РѕРіРёСЃС‚РёС‡РµСЃРєР°СЏ СЂРµРіСЂРµСЃСЃРёСЏ
 DGlass$F1 <- ifelse(DGlass$Class==2,1,0)
 logit.all <- glm(F1 ~ .,data=DGlass[,-10], family=binomial)
 mp.all <- predict(logit.all, type="response")
 Acc <- mean(DGlass$F1 == ifelse(mp.all>0.5,1,0))
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 library(boot)
 cost <- function(r, pi = 0) mean(abs(r-pi) > 0.5)
 Acc <- 1 - cv.glm(DGlass[,-10], logit.all, cost)$delta[1]
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
-# Регрессия на информативные переменные
+# Р РµРіСЂРµСЃСЃРёСЏ РЅР° РёРЅС„РѕСЂРјР°С‚РёРІРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 logit.step <- step(logit.all)
 summary(logit.step)
 
-# Ошибка на обучающей выборке
+# РћС€РёР±РєР° РЅР° РѕР±СѓС‡Р°СЋС‰РµР№ РІС‹Р±РѕСЂРєРµ
 mp.step <- predict(logit.step, type="response")
 Acc <- mean(DGlass$F1== ifelse(mp.step>0.5,1,0))
-paste("Точность=", round(100*Acc, 2), "%", sep="")
-# Ошибка при скользящем контроле
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
+# РћС€РёР±РєР° РїСЂРё СЃРєРѕР»СЊР·СЏС‰РµРј РєРѕРЅС‚СЂРѕР»Рµ
 Acc <- 1 - cv.glm(DGlass[,-10], logit.step, cost)$delta[1]
-paste("Точность=", round(100*Acc, 2), "%", sep="")
+paste("РўРѕС‡РЅРѕСЃС‚СЊ=", round(100*Acc, 2), "%", sep="")
 
 #-----------------------------------------------------------------------
-#  6.5. Процедуры сравнения эффективности моделей классификации
+#  6.5. РџСЂРѕС†РµРґСѓСЂС‹ СЃСЂР°РІРЅРµРЅРёСЏ СЌС„С„РµРєС‚РёРІРЅРѕСЃС‚Рё РјРѕРґРµР»РµР№ РєР»Р°СЃСЃРёС„РёРєР°С†РёРё
 #-----------------------------------------------------------------------
 
 set.seed(7)
 train <- createDataPartition(DGlass$F1, p=0.7)
-# определение схемы тестирования
+# РѕРїСЂРµРґРµР»РµРЅРёРµ СЃС…РµРјС‹ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 control <- trainControl(method="repeatedcv", 
     number=10, repeats=3, classProbs = T)
 
-#     Выполняем обучение шести моделей
-# LDA - линейный дискриминантный анализ
+#     Р’С‹РїРѕР»РЅСЏРµРј РѕР±СѓС‡РµРЅРёРµ С€РµСЃС‚Рё РјРѕРґРµР»РµР№
+# LDA - Р»РёРЅРµР№РЅС‹Р№ РґРёСЃРєСЂРёРјРёРЅР°РЅС‚РЅС‹Р№ Р°РЅР°Р»РёР·
 set.seed(7)
 fit.lda <- train(DGlass[train,3:4], DGlass$F1[train],
        method="lda", trControl=control)
-# SVML - метод опорных векторов с линейным ядром
+# SVML - РјРµС‚РѕРґ РѕРїРѕСЂРЅС‹С… РІРµРєС‚РѕСЂРѕРІ СЃ Р»РёРЅРµР№РЅС‹Рј СЏРґСЂРѕРј
 set.seed(7)
 fit.svL <- train(DGlass[train,1:9], DGlass$F1[train],
       method="svmLinear", trControl=control)
-# SVMR  - метод опорных векторов с радиальным ядром
+# SVMR  - РјРµС‚РѕРґ РѕРїРѕСЂРЅС‹С… РІРµРєС‚РѕСЂРѕРІ СЃ СЂР°РґРёР°Р»СЊРЅС‹Рј СЏРґСЂРѕРј
 set.seed(7)
 fit.svR <- train(DGlass[train,1:9], DGlass$F1[train],
     method="svmRadial", trControl=control,
     tuneGrid = expand.grid(sigma = 0.4, C = 2))
-# CART - дерево классификации
+# CART - РґРµСЂРµРІРѕ РєР»Р°СЃСЃРёС„РёРєР°С†РёРё
 set.seed(7)
 fit.cart <- train(DGlass[train,1:9], DGlass$F1[train],
     method="rpart", trControl=control)
-# RF - случайный лес
+# RF - СЃР»СѓС‡Р°Р№РЅС‹Р№ Р»РµСЃ
 set.seed(7)
 fit.rf <- train(DGlass[train,1:9], DGlass$F1[train],
     method="rf", trControl=control)
-# GLM - Логистическая регрессия
+# GLM - Р›РѕРіРёСЃС‚РёС‡РµСЃРєР°СЏ СЂРµРіСЂРµСЃСЃРёСЏ
 set.seed(7)
 fit.glm <- train(DGlass[train,-c(1,4,10,11)],DGlass$F1[train],
  method="glm", family=binomial, trControl=control)
 caret.models <-  list(LDA=fit.lda, SVML=fit.svL,
     SVMR=fit.svR, CART=fit.cart, RF=fit.rf, GLM=fit.glm)
 
-# ресэмплинг коллекции моделей
+# СЂРµСЃСЌРјРїР»РёРЅРі РєРѕР»Р»РµРєС†РёРё РјРѕРґРµР»РµР№
 results <- resamples(caret.models)
-# обобщение различий между моделями
+# РѕР±РѕР±С‰РµРЅРёРµ СЂР°Р·Р»РёС‡РёР№ РјРµР¶РґСѓ РјРѕРґРµР»СЏРјРё
 summary(results, metric = "Accuracy")
-#  Оценка доверительных интервалов и построение графика
+#  РћС†РµРЅРєР° РґРѕРІРµСЂРёС‚РµР»СЊРЅС‹С… РёРЅС‚РµСЂРІР°Р»РѕРІ Рё РїРѕСЃС‚СЂРѕРµРЅРёРµ РіСЂР°С„РёРєР°
 scales <- list(x=list(relation="free"),
                         y=list(relation="free"))
 dotplot(results, scales=scales) 
@@ -307,7 +307,7 @@ diffs <- diff(results)
 # summarize p-values for pair-wise comparisons
 summary(diffs) 
 
-#  прогноз на тестовой выборкей
+#  РїСЂРѕРіРЅРѕР· РЅР° С‚РµСЃС‚РѕРІРѕР№ РІС‹Р±РѕСЂРєРµР№
 pred.fm <- data.frame(
     LDA=predict(fit.lda,DGlass[-train,3:4]),
     SVML=predict(fit.svL, DGlass[-train,1:9]),
@@ -317,13 +317,13 @@ pred.fm <- data.frame(
     GLM=predict(fit.glm, DGlass[-train,-c(1,4,10,11)])
 )
 CombyPred <- apply(pred.fm, 1, function (voice) {
-     voice2 <- c(voice, voice[5]) # У RF двойной голос
+     voice2 <- c(voice, voice[5]) # РЈ RF РґРІРѕР№РЅРѕР№ РіРѕР»РѕСЃ
      ifelse(sum(voice2=="Flash") > 3,"Flash", "No") }
          )
 pred.fm <- cbind(pred.fm, COMB=CombyPred)
 head(pred.fm)
 
-# Функция формирования строки критериев
+# Р¤СѓРЅРєС†РёСЏ С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ СЃС‚СЂРѕРєРё РєСЂРёС‚РµСЂРёРµРІ
 ModCrit <- function (fact, pred) {
 cM <- table(fact, pred)
 c( Accur <- (cM[1,1]+cM[2,2])/sum(cM),
@@ -336,16 +336,16 @@ c( Accur <- (cM[1,1]+cM[2,2])/sum(cM),
 }
 Result <- t(apply(pred.fm,2, function (x) 
                    ModCrit(DGlass$F1[-train], x)))
-colnames(Result) <- c("Точность","Чувствит.","Специфичн.",
-            "F-мера","КК Мэтьюса")
+colnames(Result) <- c("РўРѕС‡РЅРѕСЃС‚СЊ","Р§СѓРІСЃС‚РІРёС‚.","РЎРїРµС†РёС„РёС‡РЅ.",
+            "F-РјРµСЂР°","РљРљ РњСЌС‚СЊСЋСЃР°")
 round(Result,3)
 
-# Извлекаем вероятности классов по всей выборке
+# РР·РІР»РµРєР°РµРј РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё РєР»Р°СЃСЃРѕРІ РїРѕ РІСЃРµР№ РІС‹Р±РѕСЂРєРµ
 pred.lda.roc <- predict(fit.lda,DGlass[,3:4],type = "prob")
 pred.svmR.roc <- predict(fit.svR,DGlass[,1:9],type = "prob")
 pred.rf.roc <- predict(fit.rf,DGlass[,1:9],type = "prob")
 library(pROC)
-# Строим три ROC-модели
+# РЎС‚СЂРѕРёРј С‚СЂРё ROC-РјРѕРґРµР»Рё
 m1.roc <- roc(DGlass$F1, pred.lda.roc[,1])
 m2.roc <- roc(DGlass$F1, pred.svmR.roc[,1])
 m3.roc <- roc(DGlass$F1, pred.rf.roc[,1])
@@ -357,7 +357,7 @@ plot(m3.roc , add = T, col="blue", print.auc=T,
       print.auc.y=0.40,print.thres=TRUE)
 legend("bottomright", c("LDA","SVM","RF"),lwd=2,
       col=c("black","green","blue"))
-# Доверительные интервалы для параметров ROC-анализа:
+# Р”РѕРІРµСЂРёС‚РµР»СЊРЅС‹Рµ РёРЅС‚РµСЂРІР°Р»С‹ РґР»СЏ РїР°СЂР°РјРµС‚СЂРѕРІ ROC-Р°РЅР°Р»РёР·Р°:
 ci.auc(m2.roc); ci.auc(m3.roc)
 roc.test(m2.roc,m3.roc)
 
@@ -388,7 +388,7 @@ coords(m.Comby, "best",
 
 
 #-----------------------------------------------------------------------
-#  6.4. Деревья классификации, случайный лес и логистическая регрессия
+#  6.4. Р”РµСЂРµРІСЊСЏ РєР»Р°СЃСЃРёС„РёРєР°С†РёРё, СЃР»СѓС‡Р°Р№РЅС‹Р№ Р»РµСЃ Рё Р»РѕРіРёСЃС‚РёС‡РµСЃРєР°СЏ СЂРµРіСЂРµСЃСЃРёСЏ
 #-----------------------------------------------------------------------
 
 

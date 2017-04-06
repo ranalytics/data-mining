@@ -1,12 +1,12 @@
 #########################################################################
-# Шитиков В.К., Мастицкий С.Э. (2017) Классификация, регрессия и другие алгоритмы Data Mining 
-# с использованием R. (Адрес доступа: http://www.ievbras.ru/ecostat/Kiril/R/DM )
+# РЁРёС‚РёРєРѕРІ Р’.Рљ., РњР°СЃС‚РёС†РєРёР№ РЎ.Р­. (2017) РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ, СЂРµРіСЂРµСЃСЃРёСЏ Рё РґСЂСѓРіРёРµ Р°Р»РіРѕСЂРёС‚РјС‹ Data Mining 
+# СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј R. (РђРґСЂРµСЃ РґРѕСЃС‚СѓРїР°: http://www.ievbras.ru/ecostat/Kiril/R/DM )
 #########################################################################
 #########################################################################
-# Глава 10. КЛАСТЕРНЫЙ АНАЛИЗ
+# Р“Р»Р°РІР° 10. РљР›РђРЎРўР•Р РќР«Р™ РђРќРђР›РР—
 #########################################################################
 
-#  10.1. Алгоритмы кластеризации, основанные на разделении
+#  10.1. РђР»РіРѕСЂРёС‚РјС‹ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёРё, РѕСЃРЅРѕРІР°РЅРЅС‹Рµ РЅР° СЂР°Р·РґРµР»РµРЅРёРё
 #-----------------------------------------------------------------------
 library(cluster)
 data("USArrests")
@@ -14,13 +14,13 @@ df.stand <- as.data.frame(scale(USArrests))
 C(kmeans(df.stand,centers=5, nstart=1)$tot.withinss,
   kmeans(df.stand,centers=5, nstart=25)$tot.withinss) 
 
-k.max <- 15 # максимальное число кластеров
+k.max <- 15 # РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ С‡РёСЃР»Рѕ РєР»Р°СЃС‚РµСЂРѕРІ
 wss <- sapply(1:k.max, function(k)
      {kmeans(df.stand, k, nstart=10 )$tot.withinss})
 plot(1:k.max, wss, type="b", pch = 19, frame = FALSE, 
-       xlab="Число кластеров K", 
-       ylab="Общая внутригрупповая сумма квадратов")
-# Формируем график с помощью fviz_nbclust()
+       xlab="Р§РёСЃР»Рѕ РєР»Р°СЃС‚РµСЂРѕРІ K", 
+       ylab="РћР±С‰Р°СЏ РІРЅСѓС‚СЂРёРіСЂСѓРїРїРѕРІР°СЏ СЃСѓРјРјР° РєРІР°РґСЂР°С‚РѕРІ")
+# Р¤РѕСЂРјРёСЂСѓРµРј РіСЂР°С„РёРє СЃ РїРѕРјРѕС‰СЊСЋ fviz_nbclust()
 library(factoextra)
 fviz_nbclust(df.stand, kmeans, method = "wss") +
     geom_vline(xintercept = 4, linetype = 2)
@@ -28,7 +28,7 @@ fviz_nbclust(df.stand, kmeans, method = "wss") +
 set.seed(123)
 gap_stat <- clusGap(df.stand, FUN = kmeans, nstart = 10,
                     K.max = 10, B = 50)
-# Печать и визуализация результатов
+# РџРµС‡Р°С‚СЊ Рё РІРёР·СѓР°Р»РёР·Р°С†РёСЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
 print(gap_stat, method = "firstmax")
 fviz_gap_stat(gap_stat)
 
@@ -48,19 +48,19 @@ fviz_cluster(clara(df.stand, 4), stand=FALSE, frame.type = "t", frame.level = 0.
 
 
 #-----------------------------------------------------------------------
-#  10.2. Иерархическая кластеризация 
+#  10.2. РРµСЂР°СЂС…РёС‡РµСЃРєР°СЏ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёСЏ 
 #-----------------------------------------------------------------------
 
 library(cluster)
 data("USArrests")
 d <- dist(scale(USArrests), method = "euclidean")
-# Параметр hang=-1  выравнивает метки
+# РџР°СЂР°РјРµС‚СЂ hang=-1  РІС‹СЂР°РІРЅРёРІР°РµС‚ РјРµС‚РєРё
 plot(hclust(d, method = "average" ), cex = 0.7, hang=-1)
 
 plot(hclust(d, method = "single" ), cex = 0.7)
 
 res.hc <- hclust(d, method = "complete" )
-grp <- cutree(res.hc, k = 4)  # Разрезание дерева на 4 группы
+grp <- cutree(res.hc, k = 4)  # Р Р°Р·СЂРµР·Р°РЅРёРµ РґРµСЂРµРІР° РЅР° 4 РіСЂСѓРїРїС‹
 plot(res.hc, cex = 0.7)
 rect.hclust(res.hc, k = 4, border = 2:5)
 
@@ -71,34 +71,34 @@ plot(hcd,  xlab = "Height", nodePar = nodePar, horiz = TRUE,
                 edgePar = list(col = 2:3, lwd = 2:1))
 
 library(dendextend)
-# Вычисляем 2 иерархические кластеризации
+# Р’С‹С‡РёСЃР»СЏРµРј 2 РёРµСЂР°СЂС…РёС‡РµСЃРєРёРµ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёРё
 hc1 <- hclust(d, method = "average")
 hc2 <- hclust(d, method = "ward.D2")
-# Создаем две дендрограммы
+# РЎРѕР·РґР°РµРј РґРІРµ РґРµРЅРґСЂРѕРіСЂР°РјРјС‹
 dend1 <- as.dendrogram (hc1); dend2 <- as.dendrogram (hc2)
-# На диаграмме типа "клубок" показываем цветом общие ветви
+# РќР° РґРёР°РіСЂР°РјРјРµ С‚РёРїР° "РєР»СѓР±РѕРє" РїРѕРєР°Р·С‹РІР°РµРј С†РІРµС‚РѕРј РѕР±С‰РёРµ РІРµС‚РІРё
 tanglegram(dend1, dend2,
   common_subtrees_color_branches = TRUE)
 
-c(cor_cophenetic(dend1, dend2), # кофенетическая корреляция
-cor_bakers_gamma(dend1, dend2))  # корреляция Бейкера
+c(cor_cophenetic(dend1, dend2), # РєРѕС„РµРЅРµС‚РёС‡РµСЃРєР°СЏ РєРѕСЂСЂРµР»СЏС†РёСЏ
+cor_bakers_gamma(dend1, dend2))  # РєРѕСЂСЂРµР»СЏС†РёСЏ Р‘РµР№РєРµСЂР°
 
-# Создаем множество дендрограмм для сравнения
+# РЎРѕР·РґР°РµРј РјРЅРѕР¶РµСЃС‚РІРѕ РґРµРЅРґСЂРѕРіСЂР°РјРј РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ
 dend1 <- d %>% hclust("com") %>% as.dendrogram
 dend2 <- d %>% hclust("single") %>% as.dendrogram
 dend3 <- d %>% hclust("ave") %>% as.dendrogram
 dend4 <- d %>% hclust("centroid") %>% as.dendrogram
 dend5 <- d %>% hclust("ward.D2") %>% as.dendrogram
-# Создаем список дендрограмм и корреляционную матрицу
+# РЎРѕР·РґР°РµРј СЃРїРёСЃРѕРє РґРµРЅРґСЂРѕРіСЂР°РјРј Рё РєРѕСЂСЂРµР»СЏС†РёРѕРЅРЅСѓСЋ РјР°С‚СЂРёС†Сѓ
 dend_list <- dendlist("Complete" = dend1, "Single" = dend2,
      "Average" = dend3, "Centroid" = dend4, "Ward.D2" = dend5)
 cors <- cor.dendlist(dend_list)
 round(cors, 2)  
-library(corrplot) # изображение корреляционной матрицы
+library(corrplot) # РёР·РѕР±СЂР°Р¶РµРЅРёРµ РєРѕСЂСЂРµР»СЏС†РёРѕРЅРЅРѕР№ РјР°С‚СЂРёС†С‹
 corrplot(cors, "pie", "lower")
 
 #-----------------------------------------------------------------------
-#  10.3. Оценка качества кластеризации 
+#  10.3. РћС†РµРЅРєР° РєР°С‡РµСЃС‚РІР° РєР»Р°СЃС‚РµСЂРёР·Р°С†РёРё 
 #-----------------------------------------------------------------------
 
 library(cluster)  ; data("USArrests")
@@ -125,24 +125,24 @@ MantelP <- unlist(lapply(hc_list,
      function (hc) mantel(d, cophenetic(hc))$signif)))
 colnames(Coph) <- c("Complete", "Single","Average",
      "Centroid","Ward.D2") 
-rownames(Coph) <- c("W Мантеля","Р-значение")
+rownames(Coph) <- c("W РњР°РЅС‚РµР»СЏ","Р -Р·РЅР°С‡РµРЅРёРµ")
 round(Coph, 3)
 
 data(Boston, package = "MASS")
 library(pvclust)
 set.seed(123)
-#  Бутстреп деревьев и расчет BP- и AU- вероятностей для узлов
+#  Р‘СѓС‚СЃС‚СЂРµРї РґРµСЂРµРІСЊРµРІ Рё СЂР°СЃС‡РµС‚ BP- Рё AU- РІРµСЂРѕСЏС‚РЅРѕСЃС‚РµР№ РґР»СЏ СѓР·Р»РѕРІ
 boston.pv <- pvclust(Boston, nboot=100, method.dist="cor", 
                   method.hclust="average")
-plot(boston.pv)  # дендрограмма с p-значениями
-pvrect(boston.pv) # выделение боксами достоверных фрагментов
+plot(boston.pv)  # РґРµРЅРґСЂРѕРіСЂР°РјРјР° СЃ p-Р·РЅР°С‡РµРЅРёСЏРјРё
+pvrect(boston.pv) # РІС‹РґРµР»РµРЅРёРµ Р±РѕРєСЃР°РјРё РґРѕСЃС‚РѕРІРµСЂРЅС‹С… С„СЂР°РіРјРµРЅС‚РѕРІ
 
 
 #-----------------------------------------------------------------------
-#  10.4. Другие алгоритмы кластеризации  
+#  10.4. Р”СЂСѓРіРёРµ Р°Р»РіРѕСЂРёС‚РјС‹ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёРё  
 #-----------------------------------------------------------------------
 
-#-  Иерархическая кластеризация на главные компоненты
+#-  РРµСЂР°СЂС…РёС‡РµСЃРєР°СЏ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёСЏ РЅР° РіР»Р°РІРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 library(FactoMineR)
 data(Boston, package = "MASS")
 df.scale <- scale(Boston)
@@ -153,7 +153,7 @@ res.hcpc <- HCPC(res.pca, graph = TRUE)
 plot(res.hcpc, choice ="tree")
 plot(res.hcpc, choice = "3D.map", ind.names=FALSE)
 
-#-  Метод нечетких k-средних (fuzzy analysis clustering)
+#-  РњРµС‚РѕРґ РЅРµС‡РµС‚РєРёС… k-СЃСЂРµРґРЅРёС… (fuzzy analysis clustering)
 library(cluster) 
 data("USArrests")
 set.seed(123)
@@ -162,16 +162,16 @@ res.fanny <- fanny(USArrests, k = 4, memb.exp = 1.7,
 print(head(res.fanny$membership),3)
 res.fanny$coeff
 
-# Визуализация с использованием corrplot
+# Р’РёР·СѓР°Р»РёР·Р°С†РёСЏ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј corrplot
 library(corrplot)
 Dunn <- res.fanny$membership^2
 corrplot(Dunn[rev(order(rowSums(Dunn))),], is.corr = FALSE)
-# Ординационная диаграмма
+# РћСЂРґРёРЅР°С†РёРѕРЅРЅР°СЏ РґРёР°РіСЂР°РјРјР°
 library(factoextra)
 fviz_cluster(res.fanny, frame.type = "norm",
              frame.level = 0.7)
 
-# Статистическая модель кластеризации
+# РЎС‚Р°С‚РёСЃС‚РёС‡РµСЃРєР°СЏ РјРѕРґРµР»СЊ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёРё
 data("faithful")
 head(faithful, 3)
 library("ggplot2")
@@ -188,12 +188,12 @@ plot(mc, "BIC")
 
 
 #-----------------------------------------------------------------------
-#  10.5. Самоорганизующиеся карты Кохонена   
+#  10.5. РЎР°РјРѕРѕСЂРіР°РЅРёР·СѓСЋС‰РёРµСЃСЏ РєР°СЂС‚С‹ РљРѕС…РѕРЅРµРЅР°   
 #-----------------------------------------------------------------------
 
 data(Boston, package = "MASS")
 VarName = c("indus", "dis", "nox",  "medv", "lstat", "age", "rad") 
-# отбор переменных для обучения SOM
+# РѕС‚Р±РѕСЂ РїРµСЂРµРјРµРЅРЅС‹С… РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ SOM
 data_train <- Boston[, VarName]
 data_train_matrix <- as.matrix(scale(data_train))
 set.seed(123)
@@ -203,12 +203,12 @@ som_model <- som(data_train_matrix,
      keep.data = TRUE)
 plot(som_model, type = "changes")
 
-# Зададим палитру цветов
+# Р—Р°РґР°РґРёРј РїР°Р»РёС‚СЂСѓ С†РІРµС‚РѕРІ
 coolBlueHotRed <- function(n, alpha = 1) {
         rainbow(n, end=4/6, alpha=alpha)[n:1] }
-# Сколько объектов связано с каждым узлом?
+# РЎРєРѕР»СЊРєРѕ РѕР±СЉРµРєС‚РѕРІ СЃРІСЏР·Р°РЅРѕ СЃ РєР°Р¶РґС‹Рј СѓР·Р»РѕРј?
 plot(som_model, type = "counts", palette.name=coolBlueHotRed)
-# Каково среднее расстояние объектов узла до его прототипов?
+# РљР°РєРѕРІРѕ СЃСЂРµРґРЅРµРµ СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕР±СЉРµРєС‚РѕРІ СѓР·Р»Р° РґРѕ РµРіРѕ РїСЂРѕС‚РѕС‚РёРїРѕРІ?
 plot(som_model, type = "quality", palette.name=coolBlueHotRed)
 
 colB <- ifelse(Boston$black <= 100, "red", "gray70")
@@ -217,22 +217,22 @@ plot(som_model, type = "codes")
 
 plot(som_model, type = "property", 
         property = som_model$codes[[1]][,1], 
-        main = "indus - доля домов, продаваемых в розницу",
+        main = "indus - РґРѕР»СЏ РґРѕРјРѕРІ, РїСЂРѕРґР°РІР°РµРјС‹С… РІ СЂРѕР·РЅРёС†Сѓ",
         palette.name=coolBlueHotRed)
 var_unscaled <- aggregate(as.numeric(data_train[,3]),
  by=list(som_model$unit.classif), FUN=mean, simplify=TRUE)[,2]
 plot(som_model, type = "property", property=var_unscaled,
-        main="nox - содержание окислов азота",
+        main="nox - СЃРѕРґРµСЂР¶Р°РЅРёРµ РѕРєРёСЃР»РѕРІ Р°Р·РѕС‚Р°",
         palette.name=coolBlueHotRed) 
 
-## Формируем матрицу "узлы   переменные"
+## Р¤РѕСЂРјРёСЂСѓРµРј РјР°С‚СЂРёС†Сѓ "СѓР·Р»С‹   РїРµСЂРµРјРµРЅРЅС‹Рµ"
 mydata <- as.matrix(som_model$codes[[1]])
-# Используем иерархическую кластеризацию с порогом при k=5
+# РСЃРїРѕР»СЊР·СѓРµРј РёРµСЂР°СЂС…РёС‡РµСЃРєСѓСЋ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёСЋ СЃ РїРѕСЂРѕРіРѕРј РїСЂРё k=5
 som_cluster <- cutree(hclust(dist(mydata)), 5)
-# Определяем палитру цветов
+# РћРїСЂРµРґРµР»СЏРµРј РїР°Р»РёС‚СЂСѓ С†РІРµС‚РѕРІ
 pretty_palette <- c("#1f77b4", '#ff7f0e', '#2ca02c',
            '#d62728', '#9467bd', '#8c564b', '#e377c2')
-# Показываем разными цветами кластеры узлов и переменные
+# РџРѕРєР°Р·С‹РІР°РµРј СЂР°Р·РЅС‹РјРё С†РІРµС‚Р°РјРё РєР»Р°СЃС‚РµСЂС‹ СѓР·Р»РѕРІ Рё РїРµСЂРµРјРµРЅРЅС‹Рµ
 plot(som_model, type="codes", 
                 bgcol = pretty_palette[som_cluster])
 add.cluster.boundaries(som_model, som_cluster) 
