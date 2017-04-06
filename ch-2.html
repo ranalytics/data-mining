@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия, алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия, алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия, алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-03-24">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="ch-1.html">
+<link rel="next" href="ch-3.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="ch-1.html"><a href="ch-1.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R</a><ul>
+<li class="chapter" data-level="1.1" data-path="ch-1.html"><a href="ch-1.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных </a><ul>
+<li><a href="ch-1.html#------data-mining"><em>От статистического анализа разового эксперимента к Data Mining</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch-2.html"><a href="ch-2.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="ch-2.html"><a href="ch-2.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="ch-2.html"><a href="ch-2.html#sec_2_2"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="ch-2.html"><a href="ch-2.html#sec_2_3"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="ch-2.html"><a href="ch-2.html#sec_2_4"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="ch-2.html"><a href="ch-2.html#sec_2_5"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="ch-2.html"><a href="ch-2.html#sec_2_6"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch-3.html"><a href="ch-3.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="ch-3.html"><a href="ch-3.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="ch-3.html"><a href="ch-3.html#sec_3_2"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="ch-3.html"><a href="ch-3.html#sec_3_3"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="ch-3.html"><a href="ch-3.html#sec_3_4"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="ch-3.html"><a href="ch-3.html#-train---caret"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch-4.html"><a href="ch-4.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="ch-4.html"><a href="ch-4.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-----"><i class="fa fa-check"></i>Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#--"><i class="fa fa-check"></i>Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-"><i class="fa fa-check"></i>Генетический алгоритм</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#------"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="ch-4.html"><a href="ch-4.html#sec_4_2"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#---"><i class="fa fa-check"></i>Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#----pls"><i class="fa fa-check"></i>Метод частных наименьших квадратов (PLS)</a></li>
+<li><a href="ch-4.html#---k--">Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-------1"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="ch-4.html"><a href="ch-4.html#sec_4_3"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-----"><i class="fa fa-check"></i>Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#------"><i class="fa fa-check"></i>Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-------2"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="ch-4.html"><a href="ch-4.html#sec_4_4"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#---"><i class="fa fa-check"></i>Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#d091d183d181d182d0b8d0bdd0b3"><i class="fa fa-check"></i>Бустинг</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-------3"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="ch-4.html"><a href="ch-4.html#sec_4_5"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="ch-4.html"><a href="ch-4.html#sec_4_6"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch-5.html"><a href="ch-5.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="ch-5.html"><a href="ch-5.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="ch-5.html"><a href="ch-5.html#sec_5_2"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="ch-5.html"><a href="ch-5.html#sec_5_3"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="ch-5.html"><a href="ch-5.html#sec_5_4"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch-6.html"><a href="ch-6.html"><i class="fa fa-check"></i><b>6</b> Бинарные классфикаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="ch-6.html"><a href="ch-6.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="ch-6.html"><a href="ch-6.html#sec_6_2"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="ch-6.html"><a href="ch-6.html#sec_6_3"><i class="fa fa-check"></i><b>6.3</b> Классификаторы с использованием нелинейных разделяющих поверхностей</a></li>
+<li class="chapter" data-level="6.4" data-path="ch-6.html"><a href="ch-6.html#sec_6_4"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="ch-6.html"><a href="ch-6.html#sec_6_5"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия, алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch_2" class="section level1">
+<h1><span class="header-section-number">ГЛАВА 2</span> Статистические модели: критерии и методы оценивания их качества</h1>
+<div id="sec_2_1" class="section level2">
+<h2><span class="header-section-number">2.1</span> Основные шаги построения и верификации моделей</h2>
+<p>Построение и последующая проверка работоспособности полученных моделей представляет собой сложный и итеративный процесс, по итогам которого достигается приемлемый уровень уверенности исследователя в том, что результаты, получаемые с помощью итоговой модели, окажутся практически полезными. При этом выделяются следующие стандартные шаги (Kuhn, Johnson, 2013), которые мы будем подробно обсуждать далее:</p>
+<ol style="list-style-type: decimal">
+<li>Разведочный анализ данных (exploratory data analysis), главная цель которого – изучение статистических свойств имеющихся в наличии выборок (распределение переменных, наличие выбросов, необходимость трансформации и др.) и выявление характера взаимосвязей между откликом и предикторами (Mount, Zumel, 2014).<br />
+</li>
+<li><p>Выбор методов построения моделей и спецификация систематической части последних. Например, модели типа “доза-эффект” в биологии на одном и том же исходном материале могут быть построены с использованием самых различных функций: логистической, экспоненциальной, Вейбулла, Гомперца, Михаелиса-Ментен, Брейна-Кузенса и т.д. (Шитиков, 2016).</p></li>
+<li><p>Оценка параметров моделей и их диагностика (Мастицкий, Шитиков, 2014). Диагностика и оценка валидности (model validation) включает в себя ряд стандартных процедур. Так, в случае с классическими регрессионными моделями, подгоняемыми по методу наименьших квадратов, выполняются: а) проверка статистической значимости модели в целом и анализ неопределенности оцененных коэффициентов; б) проверка допущений в отношении остатков модели; в) обнаружение необычных наблюдений и выбросов; г) построение графиков, позволяющих оценить соответствие модели структуре анализируемых данных.</p></li>
+<li><p>Анализ вклада отдельных предикторов и селекция оптимальной комбинации из них (model selection). Оценка качества каждой модели-претендента (model evaluation) по совокупности объективных критериев эффективности, включая тестирование на порции “свежих” данных, не участвовавших в процессе оценивания коэффициентов.</p></li>
+<li><p>Ранжирование нескольких альтернативных моделей и, при необходимости, подстройка их важнейших параметров (model tuning). Рассматриваемые в этом разделе параметрические регрессионные модели в классическом представлении являются аппроксимацией математического ожидания отклика Y по обучающей выборке с помощью неизвестной функции регрессии <span class="math inline">\(f(\dots)\)</span>: <span class="math display">\[E(Y | x_1, x_2, \dots, x_m) = f(\boldsymbol{\beta}, x_1, x_2, \dots, x_m) + \boldsymbol{\epsilon}, \]</span></p></li>
+</ol>
+<p>где остатки <span class="math inline">\(\boldsymbol{\epsilon}\)</span> отражают ошибку модели, т.е. необъяснимую случайную вариацию наблюдаемых значений зависимой переменной относительно ожидаемого среднего значения.</p>
+<p>С практической точки зрения, тестирование таких моделей ставит своей задачей выявление следующих основных проблем их возможного использования:</p>
+<ul>
+<li><em>Смещение</em> (bias), или <em>систематическая ошибка</em> модели (сдвиг предсказываемых значений на некоторую трудно объяснимую величину);</li>
+<li>Высокая <em>случайная дисперсия</em> прогноза, определяемая чаще всего излишней чувствительностью модели к небольшим изменениям в распределении обучающих данных;</li>
+<li><em>Неадекватность</em> - тенденция модели не отражать основных закономерностей генеральной совокупности данных и основываться на случайных флуктуациях обучающей выборки;;</li>
+<li><em>Переусложнение модели</em> (overfitting), которое “так же вредно, как и ее недоусложнение” (Ивахненко, 1982).</li>
+</ul>
+<p>Действительно, для любого проверочного наблюдения <span class="math inline">\(x_0\)</span> математическое ожидание среднеквадратичной ошибки его прогноза можно разложить на сумму трех величин: дисперсии <span class="math inline">\(f(x_0)\)</span>, квадрата смещения <span class="math inline">\(f(x_0)\)</span> и дисперсии остатков <span class="math inline">\(\epsilon\)</span> (подробнее см. James et al., 2013): <span class="math display">\[ E[y_0 - f(x_0)]^2 = \text{Var}[f(x_0)] + [\text{Bias}(f(x_0))]^2 + \text{Var}(\epsilon), \]</span></p>
+<p>где <span class="math inline">\(\text{Bias}\)</span> означает смещение, а <span class="math inline">\(\text{Var}\)</span> - дисперсию. Здесь мы предположили, что неизвестная истинная функция <span class="math inline">\(f(\dots)\)</span> была оцененая на большом числе обучающих выборок, а отклонения <span class="math inline">\(y_0\)</span> вычислялись по каждой из множества моделей с последующим усреднением результатов.</p>
+<p>Из приведенного уравнения следует, что для минимизации ожидаемой ошибки прогноза мы должны подобрать такую модель, для которой одновременно достигаются низкое смещение и низкая дисперсия. Обратите внимание, что дисперсия никогда не может быть ниже некоторого уровня <em>неустранимой ошибки</em> <span class="math inline">\(\text{Var}(\epsilon)\)</span>.</p>
+<p>Выше мы упомянули также феномен переусложнения модели, при котором наблюдается низкая дисперсия прогноза на обучающей совокупности, но часто получаются непредсказуемые результаты при тестировании блоков “свежих” данных, не участвоваших в построении модели.</p>
+<p>В качестве простого примера используем данные по электрическому сопротивлению (Ом) мякоти фруктов киви в зависимости от процентного содержания в ней сока. Таблица с этими данными (<code>fruitohms</code>) входит в состав пакета <code>DAAG</code>, который является приложением к книге Maindonald (2010). В рассматриваемом примере у нас есть лишь один предиктор - содержание сока в мякоти фруктов <code>juice</code>, и было бы вполне логичным на первоначальном этапе рассмотреть простую линейную регрессию.</p>
+<p>Для визуализации данных воспользуемся одним из лучших графических пакетов для R - <code>ggplot2</code>, который позволяет строить как всевозможные простые диаграммы рассеяния, так и гораздо более сложные графики, включающие, например, двумерные диаграммы распределения плотности (Мастицкий, 2016). Легко показать линию регрессии с ее доверительными интервалами, которые накрывают менее половины наблюдений (рис. <a href="ch-2.html#fig:fig-2-1">2.1</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DAAG) 
+<span class="kw">data</span>(<span class="st">&quot;fruitohms&quot;</span>)
+<span class="kw">library</span>(ggplot2)
+
+<span class="kw">ggplot</span>(fruitohms, <span class="kw">aes</span>(<span class="dt">x =</span> juice, <span class="dt">y =</span> ohms)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_point</span>() +
+<span class="st">    </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Содержание сока, %&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Сопротивление, Ом&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-1"></span>
+<img src="_main_files/figure-html/fig-2-1-1.png" alt="График линейной зависимости электрического сопротивления мякоти плодов киви от содержания сока" width="672" />
+<p class="caption">
+Рисунок 2.1: График линейной зависимости электрического сопротивления мякоти плодов киви от содержания сока
+</p>
+</div>
+<p>Все критерии оценки качества классических моделей регрессии <code>f</code> так или иначе основаны на анализе остатков (residuals), т.е. разностей между прогнозируемыми <code>f(x[i,])</code> и наблюдаемыми <code>y[i]</code> значениями, где <code>x</code> - матрица независимых переменных. Базовыми критериями являются сумма квадратов остатков <code>RSS</code> (residual sum of squares), корень из среднеквадратичной ошибки <code>RMSE</code> (root mean square error) и стандартное отклонение остатков <code>RSE</code> (residual standard error). Для унификации обозначений в листингах кода перейдем от математических обозначений переменных к их формальным эквивалентам (<code>y</code> и <code>x</code> соответственно). Преобразуем заодно омы в килоомы, чтобы избежать слишком больших значений:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>fruitohms$juice
+y &lt;-<span class="st"> </span>fruitohms$ohms/<span class="dv">1000</span>
+
+<span class="co">#  Строим модель с одним предиктором:</span>
+n &lt;-<span class="st"> </span><span class="kw">dim</span>(<span class="kw">as.matrix</span>(x))[<span class="dv">1</span>]; m &lt;-<span class="st"> </span><span class="kw">dim</span>(<span class="kw">as.matrix</span>(x))[<span class="dv">2</span>] 
+M_reg &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>x); pred &lt;-<span class="st"> </span><span class="kw">predict</span>(M_reg)
+
+<span class="co"># Рассчитываем критерии качества:</span>
+RSS &lt;-<span class="st"> </span><span class="kw">sum</span>((y -<span class="st"> </span>pred) *<span class="st"> </span>(y -<span class="st"> </span>pred))
+RMSE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(RSS/n)
+RSE &lt;-<span class="st"> </span><span class="kw">sqrt</span>(RSS/(n -<span class="st"> </span>m -<span class="st"> </span><span class="dv">1</span>)) 
+<span class="kw">c</span>(RSS, RMSE, RSE)</code></pre></div>
+<pre><code>## [1] 158.706891   1.113507   1.122309</code></pre>
+<p>Мы не можем сказать с определенностью, малы или велики эти ошибки, поскольку все зависит от шкалы измерения y, и поэтому необходимо определиться с набором “эталонов” для сравнения. Тогда, выбрав некоторый подходящий критерий качества, мы сможем оценить, насколько эффективность тестируемой модели по этому критерию отличается от эталона. Такими эталонными моделями являются (Mount, Zumel, 2014):</p>
+<ol style="list-style-type: decimal">
+<li><em>Нулевая модель</em>, определяющая нижнюю границу качества. Если тестируемая модель значимо не превосходит по своей эффективности нулевую, то результат моделирования можно трактовать как неудачу. Обычно нуль-модель строится в соответствии с двумя принципами: а) она является независимой и не усматривает какой-либо связи между переменными и откликом, б) эквивалентна константе и дает на выходе один и тот же результат для всех возможных входов. Как правило, это среднее значение отклика для располагаемой выборки, либо наиболее популярная категория при классификации.</li>
+<li><em>Модель с минимальным уровнем байесовской ошибки</em> (Bayes rate model) – самая лучшая модель для данных, имеющихся под рукой. Она, как правило, основывается на всех имеющихся переменных (т.е. является максимально “насыщенной” – saturated model) и ее ошибка определяется только набором наблюдений с разными значениями отклика y при одних и тех же <span class="math inline">\(x_1, \dots, х_n\)</span>. Если тестируемая модель по критерию эффективности значимо лучше нуль-модели и приближается к максимально насыщенной, то процесс селекции моделей можно считать завершенным.</li>
+<li><em>Модель с одной наиболее информативной переменной</em>. Если в процессе селекции более сложные модели по своей эффективности не превосходят модель с одной переменной, то включение дополнительных переменных вряд ли имеет смысл.</li>
+</ol>
+<p>Традиционными оценками качества аппроксимации данных является коэффициент детерминации <code>Rsquared</code>, дисперсионное отношение Фишера <span class="math inline">\(F\)</span> и соответствующее ему <span class="math inline">\(p\)</span>-значение. Отметим, что <span class="math inline">\(F\)</span>-критерий интерпретируется как мера превышения точности предсказания отклика у построенной модели над нуль-моделью:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Rsquared &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span>RSS/<span class="kw">sum</span>((<span class="kw">mean</span>(y) -<span class="st"> </span>y)^<span class="dv">2</span>)
+Fcr &lt;-<span class="st"> </span>(<span class="kw">sum</span>((<span class="kw">mean</span>(y) -<span class="st"> </span>pred)^<span class="dv">2</span>)/m)/(RSS/(n -<span class="st"> </span>m -<span class="st"> </span><span class="dv">1</span>))
+p &lt;-<span class="st"> </span><span class="kw">pf</span>(<span class="dt">q =</span> Fcr, <span class="dt">df1 =</span> m, <span class="dt">df2 =</span> (n -<span class="st"> </span>m -<span class="st"> </span><span class="dv">1</span>), <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)
+<span class="kw">c</span>(Rsquared, Fcr, p)</code></pre></div>
+<pre><code>## [1] 6.387089e-01 2.227492e+02 1.234110e-29</code></pre>
+<p>Разумеется, все эти величины можно получить и с помощью стандартной функции <code>summary()</code>, но нам показалось интересным показать всю “кухню” их расчетов.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(M_reg)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.1984 -0.7939  0.0038  0.6143  3.1395 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  7.519404   0.233779   32.16   &lt;2e-16 ***
+## x           -0.089877   0.006022  -14.93   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.122 on 126 degrees of freedom
+## Multiple R-squared:  0.6387, Adjusted R-squared:  0.6358 
+## F-statistic: 222.7 on 1 and 126 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(M_reg)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: y
+##            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## x           1 280.57  280.57  222.75 &lt; 2.2e-16 ***
+## Residuals 126 158.71    1.26                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Мы убедились в том, что линейная модель со статистически значимыми коэффициентами по всем формальным критериям вполне адекватна полученным данным. Для проверки условия однородности дисперсии остатков в пакете car имеется функция <code>ncvTest()</code> (от “non-constant variance test” – “тест на непостоянную дисперсию”), которая позволяет проверить нулевую гипотезу о том, что дисперсия остатков никак не связана с предсказанными моделью значениями.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">car::<span class="kw">ncvTest</span>(M_reg)</code></pre></div>
+<pre><code>## Non-constant Variance Score Test 
+## Variance formula: ~ fitted.values 
+## Chisquare = 4.647123    Df = 1     p = 0.03110564</code></pre>
+<p>Те же данные мы можем использовать для построения обобщенной линейной модели (general linear model, GLM), задав в качестве аргумента <code>family</code> функции <code>glm()</code> гауссовый характер распределения данных <code>&quot;gaussian&quot;</code>. Вместо минимизации суммы квадратов отклонений эта модель ищет экстремум логарифма функции наибольшего правдоподобия (log maximum likelihood), вид которой зависит от заданного распределения.</p>
+<p>В общем случае, значение функции правдоподобия численно равно вероятности того, что модель правильно предсказывает любое предъявленное ей наблюдение из заданной выборки. Логарифм функции правдоподобия <code>LL</code> будет всегда отрицательным, и, поскольку <span class="math inline">\(\log 1 = 0\)</span>, то для оптимальной модели, прогнозирующей наименее ошибочное значение отклика, значение <code>LL</code> будет стремиться к 0. Часто для оценки расхождений между наблюдаемыми и прогнозируемыми данными вместо <code>LL</code> используют остаточный <em>девианс</em><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> (deviance), который определен как <code>D = -2(LL - S)</code>, где <code>S</code> – правдоподобие “насыщенной модели” с минимально возможным уровнем неустранимой ошибки. Обычно принимают <code>S = 0</code>, поскольку наилучшая модель выполняет, как правило, верное предсказание.</p>
+<p>Чем меньше выборочный остаточный девианс <code>D</code>, тем лучше построенная модель. Аналогично можно рассчитать логарифм правдоподобия и девианс для нулевой модели <code>D.null</code>. Тогда адекватность модели определяется соотношением девианса остатков <code>D</code> и нуль-девианса <code>D.null</code> путем вычисления псевдо-коэффициента детерминации PRsquare. Девианс-анализ является обобщением техники дисперсионного анализа и статистическую значимость разности двух значений девианса <code>(D.null – D)</code> можно оценить по критерию <span class="math inline">\(\chi^2\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M_glm &lt;-<span class="st"> </span><span class="kw">glm</span>(y ~<span class="st"> </span>x)
+lgLik &lt;-<span class="st"> </span><span class="kw">logLik</span>(M_glm)
+D.null &lt;-<span class="st"> </span>M_glm$null.deviance 
+D &lt;-<span class="st"> </span>M_glm$deviance
+df &lt;-<span class="st"> </span><span class="kw">with</span>(M_glm, df.null -<span class="st"> </span>df.residual)
+p &lt;-<span class="st"> </span><span class="kw">pchisq</span>(D.null -<span class="st"> </span>D, df, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)
+PRsquare =<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span>D/D.null
+<span class="kw">c</span>(lgLik, D, D.null, p, PRsquare)</code></pre></div>
+<pre><code>## [1] -1.953860e+02  1.587069e+02  4.392770e+02  5.641050e-63  6.387089e-01</code></pre>
+<p>Те же величины можно получить с использованием функции <code>summary()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(M_glm)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = y ~ x)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -4.1984  -0.7939   0.0038   0.6143   3.1395  
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  7.519404   0.233779   32.16   &lt;2e-16 ***
+## x           -0.089877   0.006022  -14.93   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for gaussian family taken to be 1.259579)
+## 
+##     Null deviance: 439.28  on 127  degrees of freedom
+## Residual deviance: 158.71  on 126  degrees of freedom
+## AIC: 396.77
+## 
+## Number of Fisher Scoring iterations: 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(M_glm, null.deviance -<span class="st"> </span>deviance)</code></pre></div>
+<pre><code>## [1] 280.5701</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(M_glm, <span class="kw">glm</span>(x ~<span class="st"> </span><span class="dv">1</span>), <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: gaussian, link: identity
+## 
+## Response: y
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##      Df Deviance Resid. Df Resid. Dev  Pr(&gt;Chi)    
+## NULL                   127     439.28              
+## x     1   280.57       126     158.71 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Нетрудно заметить, что классическая и обобщенная линейные модели в случае нормального распределения дают идентичные результаты и отличаются лишь по характеру используемой терминологии.</p>
+<p>Рассмотрим теперь обоснованность выбора систематической части модели. Поверим утверждениям, что наиболее совершенным инструментом экспертизы нелинейности пока остается глаз человека, и отметим на рис. <a href="ch-2.html#fig:fig-2-1">2.1</a> некоторую асимметрию распределения точек относительно линии регрессии: в середине шкалы <span class="math inline">\(x\)</span> модель имеет тенденцию к завышению значений <span class="math inline">\(y\)</span>, тогда как в области низких и высоких значений <span class="math inline">\(x\)</span> наблюдается обратная тенденция.</p>
+<p>Прекрасным способом оценить возможную нелинейность зависимости является использование кривых сглаживания, рассчитанных при помощи моделей локальной регрессии с использованием функции <code>loess()</code>, или <em>сплайнов</em>. Вместо обычного облака рассеяния точек покажем двумерную гистограмму <code>hexbin</code> (или “сотовую карту”), в которой данные распределены по ячейкам и число наблюдений в каждой ячейке представлено соответствующим оттенком цвета (рис. <a href="ch-2.html#fig:fig-2-2">2.2</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(hexbin)
+<span class="kw">ggplot</span>(fruitohms, <span class="kw">aes</span>(<span class="dt">x =</span> juice, <span class="dt">y =</span> ohms)) +
+<span class="st">    </span><span class="kw">geom_hex</span>(<span class="dt">binwidth =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">500</span>)) +
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Содержание сока, %&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Сопротивление, Ом&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-2"></span>
+<img src="_main_files/figure-html/fig-2-2-1.png" alt="Кривая сглаживания зависимости электрического сопротивления мякоти плодов киви от содержания сока" width="672" />
+<p class="caption">
+Рисунок 2.2: Кривая сглаживания зависимости электрического сопротивления мякоти плодов киви от содержания сока
+</p>
+</div>
+<p>Поскольку функциональная форма истинной модели нам неизвестна, сделаем предположение, что удовлетворительная аппроксимация данных может быть выполнена полиномиальной зависимостью. Отметим, что при увеличении степени m полинома любые критерии эффективности, основанные на остатках (<code>RSE</code>, <code>Rsquared</code>, <code>F</code>) будут монотонно улучшаться, поскольку каждая новая модель будет полнее отражать характер зависимости, имеющий место в обучающей выборке (рис. <a href="ch-2.html#fig:fig-2-3">2.3</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-3"></span>
+<img src="_main_files/figure-html/fig-2-3-1.png" alt="Аппроксимация данных полиномами разных степеней" width="672" />
+<p class="caption">
+Рисунок 2.3: Аппроксимация данных полиномами разных степеней
+</p>
+</div>
+<p>Однако решение с минимально возможной ошибкой на обучающей выборке оказывается неоправданно сложным - аппроксимирующая функция старательно учитывает все случайные флуктуации измерений и не в состоянии отследить основную форму тренда. Такая ситуация называется переобучением модели и выражается она в том, что на новых независимых данных такие модели могут вести себя довольно непредсказуемым образом. Теряется обобщающая способность решения (model generalization), связанная как со способностью модели описать наиболее характерные закономерности изучаемого явления, так и с универсальной применимостью прогнозов к широкому множеству новых примеров. Поэтому построение модели оптимальной сложности, в которой сбалансированы точность и устойчивость прогноза, является фундаментальной задачей совершенствования методов моделирования.</p>
+<p>Одним из путей поиска наилучшей аппроксимирующей функции является использование метода <em>регуляризации</em>, когда задача минимизации ошибки решается на основе критериев, налагающих “штраф” за увеличение сложности модели. Если <code>D</code> - выборочный остаточный девианс, <code>k</code> - число свободных параметров модели, а <code>n</code> - объем обучающей выборки, то можно определить семейство следующих весьма популярных критериев, которые обобщены под названием <em>информационных</em> (Burnham, Anderson, 2002):</p>
+<ul>
+<li>классический критерий Акаике: <code>AIC = D + 2*k</code>;</li>
+<li>байеслвский критерий Шварца: <code>BIC = D + k*ln(n)</code>;</li>
+<li>скорректированный критерий Акаике: <code>AICс= AIC+2k(k+1)/(n-k-1)</code>.</li>
+</ul>
+<p>При построении параметрических моделей с использованием функций R рассчитать эти критерии можно различными способами:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">k &lt;-<span class="st"> </span><span class="kw">extractAIC</span>(M_glm)[<span class="dv">1</span>]
+AIC &lt;-<span class="st"> </span><span class="kw">extractAIC</span>(M_glm)[<span class="dv">2</span>]
+AIC &lt;-<span class="st"> </span><span class="kw">AIC</span>(M_glm)
+AICc &lt;-<span class="st"> </span><span class="kw">AIC</span>(M_glm) +<span class="st"> </span><span class="dv">2</span>*k*(k +<span class="st"> </span><span class="dv">1</span>)/(n -<span class="st"> </span>k -<span class="st"> </span><span class="dv">1</span>)
+BIC &lt;-<span class="st"> </span><span class="kw">BIC</span>(M_glm)
+BIC &lt;-<span class="st"> </span><span class="kw">AIC</span>(M_glm, <span class="dt">k =</span> <span class="kw">log</span>(n))
+<span class="kw">c</span>(AIC, AICc, BIC)</code></pre></div>
+<pre><code>## [1] 396.7719 396.8679 405.3280</code></pre>
+<p>Оптимальной считается такая модель, которой соответствуют субэкстремальные значения критериев качества (например, минимум AIC). Рассмотрим пример использования информационных критериев для выбора оптимального числа параметров полиномиальной регрессии (рис. <a href="ch-2.html#fig:fig-2-4">2.4</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Построение моделей со степенью полинома от 1 до 7</span>
+max.poly &lt;-<span class="st"> </span><span class="dv">7</span>
+
+<span class="co"># Создание пустой таблицы для хранения значений AIC и BIC, </span>
+<span class="co"># рассчитанных для всех моделей, и ее заполнение </span>
+AIC.BIC &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">criterion =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;AIC&quot;</span>, max.poly),
+<span class="kw">rep</span>(<span class="st">&quot;BIC&quot;</span>, max.poly)), <span class="dt">value =</span> <span class="kw">numeric</span>(max.poly*<span class="dv">2</span>),
+<span class="dt">degree =</span> <span class="kw">rep</span>(<span class="dv">1</span>:max.poly, <span class="dt">times =</span> <span class="dv">2</span>))
+
+for (i in <span class="dv">1</span>:max.poly)  {
+     AIC.BIC[i, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">AIC</span>(<span class="kw">lm</span>(y ~<span class="st"> </span><span class="kw">poly</span>(x, i)))
+     AIC.BIC[i +<span class="st"> </span>max.poly, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">BIC</span>(<span class="kw">lm</span>(y ~<span class="st"> </span><span class="kw">poly</span>(x, i)))
+}
+
+<span class="co"># График AIC и BIC для разных степеней полинома</span>
+<span class="kw">qplot</span>(degree, value, <span class="dt">data =</span> AIC.BIC,
+<span class="dt">geom =</span> <span class="st">&quot;line&quot;</span>, <span class="dt">linetype =</span> criterion) +
+<span class="kw">xlab</span>(<span class="st">&quot;Степень полинома&quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Значение критерия&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-4"></span>
+<img src="_main_files/figure-html/fig-2-4-1.png" alt="Поиск оптимальной степени полинома с использованием информационных критериев" width="672" />
+<p class="caption">
+Рисунок 2.4: Поиск оптимальной степени полинома с использованием информационных критериев
+</p>
+</div>
+<p>Минимальные значения информационных критериев соответствуют выводу, что наилучшая модель - полином 4-й степени.</p>
+
+</div>
+<div id="sec_2_2" class="section level2">
+<h2><span class="header-section-number">2.2</span> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</h2>
+<p>Фундаментальным для статистики является рассуждение о соотношении свойств случайных выборок и генеральной совокупности, из которых они были извлечены. Любой эксперимент в принципе ограничен некоторым (чаще всего, небольшим) множеством наблюдений, причем никакие сверхинтеллектуальные методы обработки не являются панацеей от влияния неучтенных факторов или систематических погрешностей. Один из возможных путей надежного оценивания свойств данных заключается в использовании компьютерно-интенсивных (computer-intensive) технологий, объединенных общим термином “численный ресэмплинг” (англ. resampling) или, как их иногда называют в русскоязычной литературе, “методов генерации повторных выборок” (Эфрон, 1988; Edgington, 1995; Davison, Hinkley, 2006). Ключевая особенность этой технологии заключается в том, что повторные выборки при классическом сценарии извлекаются из генеральной совокупности, а псевдоповторные выборки при выполнении ресэмплинга - из самой эмпирической выборки (хорошо известна фраза <em>“The population is to the sample as the sample is to the bootstrap samples”</em> из работы Fox, 2002).</p>
+<p>Ресэмплинг объединяет четыре разных подхода к обработке данных, отличающихся по алгоритму, но близких по сути: перекрестная проверка (cross-validation, CV), бутстреп (bootstrap), рандомизация, или перестановочный тест (permutation), и метод “складного ножа” (jackknife). Ниже рассматриваются два из них: перекрестная проверка для оптимизации параметров модели и бутстреп для оценивания доверительных интервалов критериев эффективности моделей.</p>
+<p>Минимизация ошибок на обучающем множестве, которое не бывает ни идеальным, ни бесконечно большим, неизбежно приводит к моделям, смещенным относительно истинной функции процесса, порождающего наблюдаемые данные. Преодолеть это смещение можно только с использованием “принципа внешнего дополнения”, т.е. блоков “свежих” данных, не участвовавших в построении модели.</p>
+<p>При отсутствии дополнительных блоков данных, специально предназначенных для тестирования, вполне естественно выглядит идея провести случайное разбиение исходной выборки на обучающее (train sample) и проверочное (test sample) подмножества, после чего оценить параметры модели только на обучающей выборке, тогда как оценку погрешности прогноза отклика <span class="math inline">\(\hat{y}_i\)</span> осуществить для значений из проверочной совокупности. Если подобные шаги выполняются многократно и каждое из наблюдений используется поочередно то для обучения, то для контроля, то такая процедура эмпирического оценивания моделей, построенных по прецедентам, называется <em>перекрестной проверкой</em>, или “кросс-проверкой”.</p>
+<p>Стандартной считается методика <span class="math inline">\(r \times k\)</span>-кратной кросс-проверки (<span class="math inline">\(r \times k\)</span>-fold cross-validation), когда исходная выборка случайным образом <span class="math inline">\(r\)</span> раз разбивается на <span class="math inline">\(k\)</span> блоков (folds) равной (или почти равной) длины. При реализации каждой повторности <span class="math inline">\(r\)</span> (replication) один из блоков по очереди становится проверочной совокупностью, а все остальные блоки - одной большой обучающей выборкой (рис. <a href="ch-2.html#fig:fig-2-5">2.5</a>):</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-5"></span>
+<img src="figures/r_k_cv.png" alt="Пример 1x&lt;U+F0B4&gt;3-кратной кросс-проверки" width="600px" />
+<p class="caption">
+Рисунок 2.5: Пример 1x<U+F0B4>3-кратной кросс-проверки
+</p>
+</div>
+<p>При этом генерируется <span class="math inline">\(r \times k\)</span> значений отклика <span class="math inline">\(\hat{y}\)</span>, и ошибкой перекрестной проверки при использовании модели <span class="math inline">\(М\)</span> на исходной выборке <span class="math inline">\(X^n\)</span> называется средняя по всем <span class="math inline">\(k\)</span> разбиениям величина ошибки на контрольных подмножествах: <span class="math display">\[S_{CV} = \sqrt{\frac{1}{r \times n} \sum_{i=1}^{r \times n} (y_i - \hat{y}_i)^2}.\]</span></p>
+<p>Выполнить разбиение исходной выборки <code>y</code> на <code>k</code> блоков можно с использованием различных функций R, например, из пакета <code>caret</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">createDataPartition</span>(y, <span class="dt">p =</span> <span class="fl">0.5</span>) 
+<span class="kw">createFolds</span> (y, <span class="dt">k =</span> <span class="dv">10</span>)
+<span class="kw">createMultiFolds</span> (y, <span class="dt">k =</span> <span class="dv">10</span>, <span class="dt">times =</span> r)</code></pre></div>
+<p>Частным случаем является “скользящий контроль”, или перекрестная проверка с последовательным исключением одного наблюдения (leave-one-out CV, LOOCV), т.е. <span class="math inline">\(k = n\)</span>. При этом строится <span class="math inline">\(n\)</span> моделей по <span class="math inline">\((n – 1)\)</span> выборочным значениям, а исключенное наблюдение каждый раз используется для расчета ошибки прогноза. В. Н. Вапник (1984) теоретически обосновал применение скользящего контроля и показал, что если исходные выборки независимы, то средняя ошибка перекрестной проверки даёт несмещённую оценку ошибки модели. Это выгодно отличает её от средней ошибки на обучающей выборке, которая при переусложнении модели может оказаться оптимистично заниженной.</p>
+<p>В разделе <a href="#section_2_1">2.1</a> мы рассматривали пример выбора оптимального числа параметров полиномиальной регрессии с использованием информационных критериев. Попробуем достичь той же цели, выполнив перекрестную проверку моделей в режиме “leave-one-out” с использованием самостоятельно оформленной функции:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Функция скользящего контроля для модели y~poly(x, degree):</span>
+crossvalidate &lt;-<span class="st"> </span>function(x, y, degree) {
+   preds &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="kw">length</span>(x))
+   for (i in <span class="dv">1</span>:<span class="kw">length</span>(x)) {
+      x.in &lt;-<span class="st"> </span>x[-i]; x.out &lt;-<span class="st"> </span>x[i]
+      y.in &lt;-<span class="st"> </span>y[-i]; y.out &lt;-<span class="st"> </span>x[i]
+      m &lt;-<span class="st"> </span><span class="kw">lm</span>(y.in ~<span class="st"> </span><span class="kw">poly</span>(x.in, <span class="dt">degree =</span> degree) )
+      new &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x.in =</span> <span class="kw">seq</span>(-<span class="dv">3</span>, <span class="dv">3</span>, <span class="dt">by =</span> <span class="fl">0.1</span>))
+      preds[i] &lt;-<span class="st"> </span><span class="kw">predict</span>(m, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">x.in =</span> x.out))
+   }
+  <span class="co"># Тестовая статистика - сумма квадратов отклонений:</span>
+  <span class="kw">return</span>(<span class="kw">sum</span>((y -<span class="st"> </span>preds)^<span class="dv">2</span>))
+} 
+
+<span class="co"># Заполнение таблицы результатами кросс-проверки </span>
+<span class="co"># и сохранение квадрата ошибки в таблице &quot;a&quot;</span>
+a &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">cross =</span> <span class="kw">numeric</span>(max.poly))
+for (i in <span class="dv">1</span>:max.poly) {
+  a[i, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">crossvalidate</span>(x, y, <span class="dt">degree =</span> i)
+}
+
+<span class="co"># График суммы квадратов ошибки при кросс-проверке:</span>
+<span class="kw">qplot</span>(<span class="dv">1</span>:max.poly, cross, <span class="dt">data =</span> a, <span class="dt">geom =</span> <span class="kw">c</span>(<span class="st">&quot;line&quot;</span>))+
+<span class="kw">xlab</span>(<span class="st">&quot;Степень полинома &quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Квадратичная ошибка&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-6"></span>
+<img src="_main_files/figure-html/fig-2-6-1.png" alt="Поиск степени функции полиномиальной регрессии с использованием перекрестной проверки" width="672" />
+<p class="caption">
+Рисунок 2.6: Поиск степени функции полиномиальной регрессии с использованием перекрестной проверки
+</p>
+</div>
+<p>Как видно из графика на рис. <a href="ch-2.html#fig:fig-2-6">2.6</a>, по мере усложнения модели от линейной регрессии с одним предиктором до полинома 7-й степени ошибка предсказаний на проверочном множестве (test error) сначала снижается, а затем после достижения некоторого минимума начинает возрастать. Такая <span class="math inline">\(U\)</span>-образная форма поведения ошибки является универсальной и справедлива практически для любых алгоритмов и методов создания предсказательных моделей. Повторный рост ошибки на проверочных данных является сигналом о том, что модель стала переобученной. Результаты, представленные на рис. <a href="ch-2.html#fig:fig-2-4">2.4</a> и <a href="ch-2.html#fig:fig-2-6">2.6</a>, говорят о том, что в нашем конкретном случае оба метода одинаково выбирают в качестве наилучшей модели полином 4-й степени.</p>
+<p>Проверим, является ли статистически значимым превышение качества полиномиальной модели над моделью с одним предиктором:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(M_poly &lt;-<span class="st"> </span><span class="kw">glm</span>(y ~<span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">4</span>)))</code></pre></div>
+<pre><code>## 
+## Call:  glm(formula = y ~ poly(x, 4))
+## 
+## Coefficients:
+## (Intercept)  poly(x, 4)1  poly(x, 4)2  poly(x, 4)3  poly(x, 4)4  
+##       4.360      -16.750        4.751        3.946       -3.371  
+## 
+## Degrees of Freedom: 127 Total (i.e. Null);  123 Residual
+## Null Deviance:       439.3 
+## Residual Deviance: 109.2     AIC: 354.9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(M_glm, M_poly, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: y ~ x
+## Model 2: y ~ poly(x, 4)
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1       126     158.71                          
+## 2       123     109.21  3   49.501 4.743e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Имеет место статистически значимое снижение ошибки модели.</p>
+<p>В среде R перекрестную проверку модели можно выполнить не только на основе самостоятельно оформленных процедур, но и с использованием нескольких общедоступных функций из известных пакетов:</p>
+<ul>
+<li><code>CVlm(df, form.lm, m = 3)</code> из пакета <code>DAAG</code>, где <code>df</code> - исходная таблица с данными, <code>form.lm</code> - формула линейной модели, <code>m</code> - число блоков (сюда подставляется значение <span class="math inline">\(k\)</span>);</li>
+<li><code>cv.glm(df, glmfit, K = n)</code> из пакета <code>boot</code>, где <code>df</code> - исходная таблица с данными, <code>glmfit</code> - объект обобщенной линейной модели типа <code>glm</code>, <code>K</code> - число блоков (т.е. по умолчанию выполняется скользящий контроль);</li>
+<li><code>cvLm(lmfit, folds = cvFolds(n, K, R), cost)</code> из пакета <code>cvTools</code>, где <code>lmfit</code> - объект обобщенной линейной модели <code>lm</code>, <code>K</code> - число блоков, <code>R</code> - число повторностей, <code>cost</code> - наименование одного из пяти разновидностей используемых критериев качества;</li>
+<li><code>train(form, df, method, trainControl, ...)</code> из пакета caret, где <code>df</code> - исходная таблица с данными, <code>form</code>, <code>method</code> - формула и метод построения модели, <code>trainControl</code> - объект, в котором прописываются все необходимые параметры перекрестной проверки.</li>
+</ul>
+<p>Бутстреп-процедура состоит в том, чтобы случайным образом многократно извлекать повторные выборки из эмпирического распределения. Конкретно, если мы имеем исходную выборку из <span class="math inline">\(n\)</span> членов <span class="math inline">\(x_1, x_2, \dots, x_{n - 1}, x_n\)</span>, то с помощью датчика случайных чисел, равномерно распределенных на интервале <span class="math inline">\([1, n]\)</span>, можем вытянуть из нее произвольный элемент <span class="math inline">\(x_k\)</span>, который снова вернем в исходную выборку для возможного повторного извлечения. Такая процедура повторяется <span class="math inline">\(n\)</span> раз и образуется бутстреп-выборка, в которой одни элементы могут повторяться два или более раз, тогда как другие элементы - отсутствовать. Например, при <span class="math inline">\(n = 6\)</span> одна из таких бутстреп-комбинаций имеет вид <span class="math inline">\(x_4, x_2, x_2, x_1, x_4, x_5\)</span>.</p>
+<p>В R бутстреп легко реализуется с помощью функции <code>sample(..., replace = TRUE)</code>, генерирующей любые случайные выборки с “возвращением”. Вероятность того, что конкретное наблюдение не войдет в бутстреп-выборку размера <span class="math inline">\(n\)</span>, равна$ (1 - 1/n)n$ и стремится к <span class="math inline">\(1/е = 0.368\)</span> при <span class="math inline">\(n \rightarrow \infty\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Nboot =<span class="st"> </span><span class="dv">1000</span>; n =<span class="st"> </span><span class="dv">100</span>
+<span class="kw">mean</span>(<span class="kw">replicate</span>(Nboot, <span class="kw">length</span>(<span class="kw">unique</span>(<span class="kw">sample</span>(n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)))))</code></pre></div>
+<pre><code>## [1] 63.61</code></pre>
+<p>Таким способом можно сформировать любое, сколь угодно большое число бутстреп-выборок (обычно 500-1000), каждая из которых содержит около 2/3 уникальных значений эмпирической совокупности.</p>
+<p>В результате легкой модификации частотного распределения реализаций исходных данных можно ожидать, что каждая следующая генерируемая псевдовыборка будет обладать значением оцениваемого параметра, немного отличающемся от вычисленного для первоначальной совокупности. На основе разброса значений анализируемого показателя, полученного в ходе такого процесса имитации, можно построить, например, доверительные интервалы оцениваемого параметра.</p>
+<p>В предыдущем разделе мы рассматривали использование информационных критериев для выбора оптимальной степени полинома. Осуществим оценку квантильных интервалов байесовского критерия <code>BIC</code> для каждой из модели-претендента:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+Nboot =<span class="st"> </span><span class="dv">1000</span>
+BootMat &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span>:max.poly, function(k) 
+   <span class="kw">replicate</span>(Nboot, {
+       ind &lt;-<span class="st"> </span><span class="kw">sample</span>(n, <span class="dt">replace=</span>T)
+       <span class="kw">BIC</span>(<span class="kw">glm</span>(y[ind]~<span class="kw">poly</span>(x[ind],k)))
+     } )
+)
+<span class="kw">apply</span>(BootMat, <span class="dv">2</span>, mean)</code></pre></div>
+<pre><code>## [1] 311.5186 316.0324 305.9600 303.1222 304.7347 308.1959 305.3907</code></pre>
+<p>Искомые интервалы покажем на графике (рис. <a href="ch-2.html#fig:fig-2-7">2.7</a>), подключив функцию <code>stat_summary()</code> из пакета <code>ggplot2</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(reshape) <span class="co"># для функции melt()</span>
+BootMat.df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">melt</span>(BootMat))
+<span class="kw">ggplot</span>(<span class="dt">data =</span> BootMat.df, <span class="kw">aes</span>(X2, value)) +
+<span class="st">   </span><span class="kw">geom_jitter</span>(<span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">width =</span> <span class="fl">0.1</span>), 
+               <span class="dt">alpha =</span> <span class="fl">0.2</span>) +<span class="st"> </span>
+<span class="co"># Добавляем средние значения в виде точек красного цвета:</span>
+<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>,
+                <span class="dt">size =</span> <span class="dv">5</span>)  +<span class="st"> </span>
+<span class="co"># Добавляем отрезки, символизирующие 0.25 и 0.75 квантили:</span>
+<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean,
+     <span class="dt">fun.ymin =</span> function(x){<span class="kw">quantile</span>(x, <span class="dt">p =</span> <span class="fl">0.25</span>)},
+     <span class="dt">fun.ymax =</span> function(x){<span class="kw">quantile</span>(x, <span class="dt">p =</span> <span class="fl">0.75</span>)},
+     <span class="dt">geom =</span> <span class="st">&quot;errorbar&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;magenta&quot;</span>, <span class="dt">width =</span> <span class="fl">0.5</span>,
+             <span class="dt">size =</span><span class="fl">1.5</span>) +
+<span class="st">     </span><span class="kw">xlab</span>(<span class="st">&quot;Степень полинома&quot;</span>) +<span class="st"> </span>
+<span class="st">     </span><span class="kw">ylab</span>(<span class="st">&quot;Информационный критерий Байеса&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-7"></span>
+<img src="_main_files/figure-html/fig-2-7-1.png" alt="Доверительные интервалы байесовского информационного критерия для разных степеней полинома" width="672" />
+<p class="caption">
+Рисунок 2.7: Доверительные интервалы байесовского информационного критерия для разных степеней полинома
+</p>
+</div>
+<p>Для оценки 95%-х доверительных интервалов методом процентилей достаточно установить значения р = с(0.025, 0.975) (мы это не сделали исключительно из эстетических соображений). Из результатов бутстрепа можно сделать содержательные выводы, например: если доверительные интервалы смежных степеней полинома будут пересекаться, то уменьшение BIC статистически незначимо и вполне можно ограничиться более простой моделью. Подробнее о различных возможностях ресэмплинга см. книгу В. Шитикова и Г. Розенберга (2014).</p>
+
+</div>
+<div id="sec_2_3" class="section level2">
+<h2><span class="header-section-number">2.3</span> Модели для предсказания класса объектов</h2>
+<p>Классификация – наиболее часто встречающаяся задача машинного обучения, и заключается в построении моделей, выполняющих отнесение интересующего нас объекта к одному из нескольких известных классов. Существуют сотни методов классификации (см. Fernandez-Delgado et al., 2014), которые можно использовать для предсказания значения отклика с двумя и более классами. Возникает вопрос: отвечает ли такое множество потребностям реально решаемых задач?</p>
+<p>Попробуем выделить основные характерные черты, отличающие эти методы. Во-первых, многое зависит от того, что является поставленной целью исследования: <em>объяснение</em> внутренних механизмов изучаемых процессов или только <em>прогнозирование</em> отклика. Если ставится задача “вскрытия” структуры взаимосвязей между независимыми переменными и откликом, то создаваемая модель должна в <em>явном</em> виде отображать их в виде наглядной схемы, либо осуществлять сравнительную оценку силы влияния отдельных переменных. Примерами хорошо интерпретируемых моделей классификации являются деревья решений, логистическая регрессия и модели дискриминации.</p>
+<p>Если же основной задачей является достижение высокой общей точности предсказаний (overall accuracy) значения целевого признака <span class="math inline">\(y\)</span> для объекта <span class="math inline">\(a\)</span>, то представление модели в явном виде не требуется. Изучаемый процесс, который часто имеет объективно сложный характер, представляется в виде “черного ящика”, а решающие процедуры могут иметь большое (до десятков тысяч) или неопределенное число трудно интерпретируемых параметров. Эффективными методами прогнозирования классов являются случайные леса, бустинг, бэггинг, искусственные нейронные сети, машины опорных векторов, групповой учет аргументов МГУА и др.</p>
+<p>Во-вторых, некоторую систематичность в типизацию моделей классификации может внести их связь с тремя основными парадигмами машинного обучения: геометрической, вероятностной и логической. Обычно множество объектов имеет некую <em>геометрическую</em> структуру: каждый из них, описанный числовыми признаками, можно рассматриваться как точка в многомерной системе координат. Геометрическая модель разделения на классы строится в пространстве признаков с применением таких геометрических понятий, как прямые, плоскости и криволинейные поверхности (в общем виде “гиперплоскости”). Примеры моделей, реализующих геометрическую парадигму: логистическая регрессия, метод опорных векторов и дискриминантный анализ. Другим важным геометрическим понятием является функция расстояния между объектами, которая приводит к классификатору по ближайшим соседям.</p>
+<p>Вероятностный подход заключается в предположении о существовании некоего случайного процесса, который порождает значения целевых переменных, подчиняющиеся вполне определенному, но неизвестному нам распределению вероятностей. Примером модели вероятностного характера является байесовский классификатор, формирующий решающее правило по принципу апостериорного максимума. Модели <em>логического</em> типа по своей природе наиболее алгоритмичны, поскольку легко выражаются на языке правил, понятных человеку, таких как: <em>if <условие> = 1 then Y = <категория класса></em>. Примером таких моделей являются ассоциативные правила и деревья классификации. Некоторые авторы (Mount, Zumel, 2014, р. 91) подчеркивают различие терминов “предсказание” (prediction) и “прогнозирование” (forecasting). Предсказание лишь озвучивает результат (например, «Завтра будет дождь»), а при прогнозировании итог связывается с вероятностью события («Завтра с шансом 80% будет дождь»). Мы считаем, что на практике трудно провести между этими терминами четкую границу. К тому же, часто эта разница в совершенно не принципиальна – главное понимать контекст задачи.</p>
+<p>Наконец, третьим основанием для группировки методов является природа наблюдаемых признаков, которые можно разделить на четыре типа: бинарные (0/1), категориальные, счетные и метрические. Имеются определенные нюансы при использовании перечисленных типов признаков в качестве предикторов, которые оговариваются нами ниже в рекомендациях по применению каждого метода моделирования. Например, бинарное пространство переменных некорректно использовать для линейного дискриминантного анализа. Однако принципиально важное значение имеет, к какому типу признаков относится отклик: задача классификации предполагает, что он измерен в бинарных, категориальных или, отчасти, порядковых шкалах.</p>
+<p><em>Бинарный классификатор</em> формирует некоторое диагностическое правило и оценивает, к какому из двух возможных классов следует отнести изучаемый объект (согласно медицинской терминологии условно назовем эти классы “норма” или “патология”). Группы точек “патология/норма” в заданном пространстве предикторов, как правило, статистически неразделимы: например, повышение температуры тела до 37.5C часто свидетельствует о заболевании, хотя не всегда болезнь может сопровождаться высокой температурой. Поэтому при тестировании модели вероятны ошибочные ситуации, такие как пропуск положительного (патологического) заключения <code>FN</code> или его “гипердиагностика” <code>FP</code>, т.е. отнесение нормального состояния к патологическому.</p>
+<p>Результаты теста на некоторой контрольной выборке можно представить обычной таблицей сопряженности, которую часто называют <em>матрицей неточностей</em> (confusion matrix):</p>
+<table>
+<colgroup>
+<col width="40%" />
+<col width="31%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right"></th>
+<th align="right">Результаты теста:</th>
+<th align="right"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><strong>Истинное состояние тест-объектов:</strong></td>
+<td align="right"><em>Предсказана патология (1)</em></td>
+<td align="right"><em>Предсказана норма (0)</em></td>
+</tr>
+<tr class="even">
+<td align="right"><em>Патология (1)</em></td>
+<td align="right">Истинно-положительные <code>TP</code> (True positives)</td>
+<td align="right">Ложно-отрицательные <code>FN</code> (False negatives)</td>
+</tr>
+<tr class="odd">
+<td align="right"><em>Норма (1)</em></td>
+<td align="right">Ложно-положительные <code>FP</code> (False positives)</td>
+<td align="right">Истинно-отрицательные <code>TN</code> (True negatives)</td>
+</tr>
+</tbody>
+</table>
+<p>В этих обозначениях объективная ценность рассматриваемого бинарного классификатора определяется следующими показателями:</p>
+<ul>
+<li><em>Чувствительность</em> (sensitivity) <span class="math inline">\(SE = Err_{II} = TP / (TP + FN)\)</span>, определяющая насколько хорош тест для выявления патологических экземпляров;</li>
+<li><em>Специфичность</em> (specificity) <span class="math inline">\(SP = Err_{I} = FP / (FP + TN)\)</span>, показывающая эффективность теста для правильной диагностики отклонений от нормального состояния;</li>
+<li><em>Точность</em> (accuracy) <span class="math inline">\(AC = (TP + TN) / (TP + FP + FN + TN)\)</span>, определяющая общую вероятность теста давать правильные результаты.</li>
+</ul>
+<p>По аналогии с классической проверкой статистических гипотез специфичность <span class="math inline">\(Err_I\)</span> определяет ошибку I рода и, соответственно, вероятность нулевой гипотезы, тогда как чувствительность <span class="math inline">\(Err_{II}\)</span> - мощность теста. Точность является, безусловно, наиболее широко известной мерой производительности классификатора, которая становится катастрофически некорректной в случае несбалансированных частот классов. Если, например, число пациентов, заболевших лихорадкой, составляет менее 1% от числа обследованных, то полный пропуск патологии даст вполне приличный результат тестирования 99%.</p>
+<p>Рассмотрим популярный пример выделения спама (“spam” от слияния двух слов - “spiced” и “ham”, или “пряная ветчина”, как образец некачественного пищевого продукта) в электронных письмах в зависимости от встречаемости тех или иных слов (всего 58 частотных показателей). Выборка по спаму представлена в обширной коллекции наборов данных Центра машинного обучения и интеллектуальных систем Калифорнийского университета (<a href="http://archive.ics.uci.edu/ml/">UCI Machine Learning Repository</a>) и после некоторой предварительной обработки используется для иллюстрации в книге Mount, Zumel (2014). Скачаем этот файл с сайта ее авторов и разделим исходные данные в соотношении 10:1 на обучающую и проверочную выборки:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spamD &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&#39;https://raw.github.com/WinVector/zmPDSwR/master/Spambase/spamD.tsv&#39;</span>, 
+                    <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)
+<span class="kw">dim</span>(spamD)</code></pre></div>
+<pre><code>## [1] 4601   59</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spamTrain &lt;-<span class="st"> </span><span class="kw">subset</span>(spamD, spamD$rgroup &gt;=<span class="st"> </span><span class="dv">10</span>)
+spamTest &lt;-<span class="st"> </span><span class="kw">subset</span>(spamD, spamD$rgroup &lt;<span class="st"> </span><span class="dv">10</span>)
+<span class="kw">c</span>(<span class="kw">nrow</span>(spamTrain), <span class="kw">nrow</span>(spamTest))</code></pre></div>
+<pre><code>## [1] 4143  458</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Составляем список переменных и объект типа &quot;формула&quot;</span>
+spamVars &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">colnames</span>(spamD), <span class="kw">list</span>(<span class="st">&#39;rgroup&#39;</span>, <span class="st">&#39;spam&#39;</span>))
+spamFormula &lt;-<span class="st"> </span><span class="kw">as.formula</span>(<span class="kw">paste</span>(<span class="st">&#39;spam==&quot;spam&quot;&#39;</span>, 
+                                <span class="kw">paste</span>(spamVars, <span class="dt">collapse =</span> <span class="st">&#39; + &#39;</span>), <span class="dt">sep =</span> <span class="st">&#39; ~ &#39;</span>))
+spamModel &lt;-<span class="st"> </span><span class="kw">glm</span>(spamFormula, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&#39;logit&#39;</span>), <span class="dt">data =</span> spamTrain)
+
+<span class="co"># Добавляем столбец со значениями вероятности спама:</span>
+spamTrain$pred &lt;-<span class="st"> </span><span class="kw">predict</span>(spamModel, <span class="dt">newdata =</span> spamTrain, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
+spamTest$pred  &lt;-<span class="st"> </span><span class="kw">predict</span>(spamModel,<span class="dt">newdata =</span> spamTest, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</code></pre></div>
+<p>Компоненты матрицы неточностей и перечисленные показатели легко получить с использованием обычной функции <code>table(...)</code> - например, так:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  На обучающей выборке:</span>
+(cM.train &lt;-<span class="st"> </span><span class="kw">table</span>(Факт =<span class="st"> </span>spamTrain$spam, Прогноз =<span class="st"> </span>spamTrain$pred &gt;<span class="st"> </span><span class="fl">0.5</span>))</code></pre></div>
+<pre><code>##           Прогноз
+## Факт       FALSE TRUE
+##   non-spam  2396  114
+##   spam       178 1455</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  На проверочной выборке:</span>
+(cM &lt;-<span class="st"> </span><span class="kw">table</span>(Факт =<span class="st"> </span>spamTest$spam, Прогноз =<span class="st"> </span>spamTest$pred &gt;<span class="st"> </span><span class="fl">0.5</span>))</code></pre></div>
+<pre><code>##           Прогноз
+## Факт       FALSE TRUE
+##   non-spam   264   14
+##   spam        22  158</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(Точность &lt;-<span class="st"> </span>(cM[<span class="dv">1</span>, <span class="dv">1</span>] +<span class="st"> </span>cM[<span class="dv">2</span>, <span class="dv">2</span>])/<span class="kw">sum</span>(cM), 
+          Чувствительность &lt;-<span class="st"> </span>cM[<span class="dv">1</span>, <span class="dv">1</span>]/(cM[<span class="dv">1</span>, <span class="dv">1</span>] +<span class="st"> </span>cM[<span class="dv">2</span>, <span class="dv">1</span>]),
+          Специфичность &lt;-<span class="st"> </span>cM[<span class="dv">2</span>, <span class="dv">2</span>]/(cM[<span class="dv">2</span>, <span class="dv">2</span>] +<span class="st"> </span>cM[<span class="dv">1</span>, <span class="dv">2</span>]))</code></pre></div>
+<pre><code>## [1] 0.9213974 0.9230769 0.9186047</code></pre>
+<p>Иногда предпочтительнее использовать функцию <code>confusionMatrix(y, pred)</code> из пакета <code>caret</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+<span class="kw">library</span>(e1071)
+pred &lt;-<span class="st"> </span><span class="kw">ifelse</span>(spamTest$pred &gt;<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;spam&quot;</span>, <span class="st">&quot;non-spam&quot;</span>) 
+<span class="kw">confusionMatrix</span>(spamTest$spam, pred)</code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction non-spam spam
+##   non-spam      264   14
+##   spam           22  158
+##                                           
+##                Accuracy : 0.9214          
+##                  95% CI : (0.8928, 0.9443)
+##     No Information Rate : 0.6245          
+##     P-Value [Acc &gt; NIR] : &lt;2e-16          
+##                                           
+##                   Kappa : 0.834           
+##  Mcnemar&#39;s Test P-Value : 0.2433          
+##                                           
+##             Sensitivity : 0.9231          
+##             Specificity : 0.9186          
+##          Pos Pred Value : 0.9496          
+##          Neg Pred Value : 0.8778          
+##              Prevalence : 0.6245          
+##          Detection Rate : 0.5764          
+##    Detection Prevalence : 0.6070          
+##       Balanced Accuracy : 0.9208          
+##                                           
+##        &#39;Positive&#39; Class : non-spam        
+## </code></pre>
+<p>Выбрать другой класс в качестве положительного исхода можно, задав аргумент <code>positive = &quot;spam&quot;</code>. Функция предоставляет пользователю такие статистики, как доверительные интервалы и р-значение для точности, результаты теста <span class="math inline">\(\chi^2\)</span> по Мак-Немару, вероятностный индекс<span class="math inline">\(\kappa\)</span> (каппа) Дж. Коэна, а также еще шесть других критериев оценки эффективности классификатора, интересных, по всей вероятности, ограниченному кругу специалистов:</p>
+<ul>
+<li>прогностическая ценность (prevalence) <code>PV = (TP + FN)/(TP + FP + FN + TN)</code>;</li>
+<li>положительная прогностическая ценность (вероятность фактической патологии при положительном диагнозе) <code>PPV = SE*PV/(SE*PV + (1- SP)*(1 - PV))</code>;</li>
+<li>отрицательная прогностическая ценность (вероятность отсутствия патологии при негативном результате теста) <code>NPV = SP*(1 - PV)/(PV*(1 - SE) + SP*(1 - PV))</code>;</li>
+<li>частота выявления (detection rate) <code>DR = TP/( TP + FP + FN + TN)</code>;</li>
+<li>частота распространения (detection drevalence) <code>DP = (TP + FP)/(TP + FP + FN + TN)</code>; сбалансированная точность (balanced accuracy) <code>BAC = (SE + SP)^2</code>.</li>
+</ul>
+<p>Эффективность классификатора может также оцениваться с использованием информационных критериев - энтропии <span class="math inline">\(E = \sum -р_i\log_2 p_i\)</span>, где <span class="math inline">\(p_i\)</span> - вероятности каждого возможного исхода, и условной энтропии (conditional entropy). Эти меры могут быть рассчитаны с использованием функций:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">entropy &lt;-<span class="st"> </span>function(x) { 
+    xpos &lt;-<span class="st"> </span>x[x &gt;<span class="st"> </span><span class="dv">0</span>]
+    scaled &lt;-<span class="st"> </span>xpos/<span class="kw">sum</span>(xpos) ; <span class="kw">sum</span>(-scaled*<span class="kw">log</span>(scaled, <span class="dv">2</span>))
+   }
+<span class="kw">print</span>(<span class="kw">entropy</span>(<span class="kw">table</span>(spamTest$spam))) </code></pre></div>
+<pre><code>## [1] 0.9667165</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conditionalEntropy &lt;-<span class="st"> </span>function(t) {
+    (<span class="kw">sum</span>(t[, <span class="dv">1</span>])*<span class="kw">entropy</span>(t[, <span class="dv">1</span>]) +<span class="st"> </span><span class="kw">sum</span>(t[, <span class="dv">2</span>])*<span class="kw">entropy</span>(t[, <span class="dv">2</span>]))/<span class="kw">sum</span>(t)
+    }
+<span class="kw">print</span>(<span class="kw">conditionalEntropy</span>(cM))</code></pre></div>
+<pre><code>## [1] 0.3971897</code></pre>
+<p>Исходная энтропия <code>Е = entropy(table(y))</code> определяет среднее количество информации, измеряемой в битах, которую мы приобретаем, если извлечь из выборки очередной экземпляр того или иного класса. Условная энтропия <code>conditionalEntropy(y, pred)</code> показывает, насколько эта мера информации уменьшается из-за ошибок предсказания для различных категорий.</p>
+<p>Общепринятым графоаналитическим методом оценки качества теста и интерпретации перечисленных показателей является <em>ROC-анализ</em> (от “Receiver Operator Characteristic” - функциональная характеристика приемника), название которого взято из методологии оценки качества сигнала при радиолокации.</p>
+<p>ROC-кривая получается следующим образом (Goddard, Hinberg, 1989). Пусть мы имеем выборку значений независимого количественного показателя, который варьирует от xmin до xmax, и сопряженного с ним бинарного отклика (1 – патология, 0 – норма). Любое произвольное значение <span class="math inline">\(х\)</span> на этом диапазоне может считаться классификационным <em>порогом</em>, или <em>точкой отсечения</em> (cutt-off value), делящим вектор <span class="math inline">\(y\)</span> на два подмножества, и для этого разбиения можно рассчитать значения чувствительности <span class="math inline">\(SE\)</span> и специфичности <span class="math inline">\(SP\)</span>. Если выполнить сканирование всех возможных значений <span class="math inline">\(x_{\max} \geq x \geq x_{\min}\)</span>, то можно построить график зависимости, где по оси Y откладывается <span class="math inline">\(SE\)</span>, а по оси X - <span class="math inline">\((1 - SP)\)</span>. Реализация этой процедуры в R может привести к ступенчатой или сглаженной кривой следующего вида (рис. <a href="ch-2.html#fig:fig-2-8">2.8</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ROC кривая:</span>
+<span class="kw">library</span>(pROC)
+m_ROC.roc &lt;-<span class="st"> </span><span class="kw">roc</span>(spamTest$spam, spamTest$pred)
+<span class="kw">plot</span>(m_ROC.roc, <span class="dt">grid.col =</span> <span class="kw">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">grid =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.2</span>),
+     <span class="dt">print.auc =</span> <span class="ot">TRUE</span>, <span class="dt">print.thres =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(<span class="kw">smooth</span>(m_ROC.roc), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">print.auc =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-8"></span>
+<img src="_main_files/figure-html/fig-2-8-1.png" alt="ROC-кривая для оценки вероятности спама" width="672" />
+<p class="caption">
+Рисунок 2.8: ROC-кривая для оценки вероятности спама
+</p>
+</div>
+<p>В случае идеального классификатора ROC-кривая проходит вблизи верхнего левого угла, где доля истинно-положительных случаев равна 1, а доля ложно-положительных примеров равна нулю. Поэтому чем ближе кривая к верхнему левому углу, тем выше предсказательная способность модели. Наоборот, главная диагональная линия соответствует “бесполезному” классификатору, который “угадывает” классовую принадлежность случайным образом. Следовательно, близость ROC-кривой к диагонали говорит о низкой эффективности построенной модели.</p>
+<p>Для нахождения оптимального порога, соответствующего наиболее безошибочному классификатору, через крайнюю точку ROC-кривой проводят линию максимальной точности, параллельную главной диагонали. На приведенном графике такая точка, соответствующая значению <code>х = 0.382</code>, имеет наилучшую комбинацию значений чувствительности <code>SE = 0.932</code> и специфичности <code>SP = 0.922</code>. Обратите внимание, что в качестве значений <span class="math inline">\(х\)</span> фигурирует оценка вероятности отнесения к спаму и, видимо, мы совершенно напрасно принимали ранее в качестве порога величину 0.5.</p>
+<p>Полезным показателем является численная оценка площади под ROC-кривыми AUC (Area Under Curve). Практически она изменяется от 0.5 (“бесполезный” классификатор) до 1.0 (“идеальная” модель). Показатель AUC предназначен исключительно для сравнительного анализа нескольких моделей, поэтому связывать его величину с прогностической силой можно только с большими допущениями.</p>
+<p>В нашем примере в качестве классификатора писем со спамом мы использовали модель логистической регрессии, полагая, что бинарный отклик имеет биномиальное распределение. Напомним, что в случае обобщенных линейных моделей GLM вместо минимизации суммы квадратов отклонений ищется экстремум логарифма функции максимального правдоподобия (log maximum likelihood), вид которой зависит от характера распределения данных. В нашем случае логарифм функции правдоподобия <code>LL</code> численно равен сумме логарифмов вероятностей классов, которые модель правильно предсказывает для каждого наблюдения:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(LL &lt;-<span class="st"> </span><span class="kw">logLik</span>(spamModel))</code></pre></div>
+<pre><code>## &#39;log Lik.&#39; -807.0323 (df=58)</code></pre>
+<p>Как и в случае гауссова распределения (см. раздел <a href="#section_2_1">2.1</a>), оценка адекватности биномиальной модели осуществляется с использованием девианса <code>D = -2(LL - S)</code>, где <code>S = 0</code> - правдоподобие “насыщенной модели” с минимальным уровнем байесовской ошибки. Исходя из априорной вероятности одного из классов, можно рассчитать логарифм правдоподобия и девианс для нулевой модели <code>D.null</code>. Эффективность классификатора определяется соотношением девианса остатков D и нуль-девианса <code>D.null</code>, что соответствует псевдо-коэффициенту детерминации <code>Rsquared</code> модели. Статистическую значимость разности девиансов (D.null – D) можно оценить по критерию <span class="math inline">\(\chi^2\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">with</span>(spamModel, df.null -<span class="st"> </span>df.residual)
+<span class="kw">c</span>(D.null &lt;-<span class="st"> </span>spamModel$null.deviance,
+  D &lt;-<span class="st"> </span>spamModel$deviance,
+  <span class="dt">Rsquared =</span> <span class="dv">1</span> -<span class="st"> </span>D/D.null,
+  <span class="kw">pchisq</span>(D.null -<span class="st"> </span>D, df, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>##                               Rsquared              
+## 5556.3602041 1614.0646078    0.7095104    0.0000000</code></pre>
+<p>Мы получили модель, вполне адекватную по отношению к имеющимся данным. Разумеется, все эти вычисления могут быть выполнены с использованием базовых функций <code>summary()</code> и <code>anova()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(spamModel)  </code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = spamFormula, family = binomial(link = &quot;logit&quot;), 
+##     data = spamTrain)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -4.3418  -0.2015   0.0000   0.0977   5.4077  
+## 
+## Coefficients:
+##                              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                -1.616e+00  1.513e-01 -10.682  &lt; 2e-16 ***
+## word.freq.make             -3.268e-01  2.372e-01  -1.378 0.168320    
+## word.freq.address          -1.546e-01  7.714e-02  -2.004 0.045116 *  
+## word.freq.all               1.494e-01  1.226e-01   1.218 0.223041    
+## word.freq.3d                2.194e+00  1.562e+00   1.405 0.160134    
+## word.freq.our               4.756e-01  1.017e-01   4.677 2.91e-06 ***
+## word.freq.over              7.444e-01  2.519e-01   2.955 0.003130 ** 
+## word.freq.remove            2.339e+00  3.492e-01   6.700 2.08e-11 ***
+## word.freq.internet          8.005e-01  2.205e-01   3.631 0.000283 ***
+## word.freq.order             6.449e-01  2.997e-01   2.151 0.031438 *  
+## word.freq.mail              1.044e-01  7.307e-02   1.429 0.153014    
+## word.freq.receive          -2.830e-01  3.130e-01  -0.904 0.365897    
+## word.freq.will             -1.315e-01  7.801e-02  -1.686 0.091802 .  
+## word.freq.people           -1.501e-01  2.433e-01  -0.617 0.537361    
+## word.freq.report            1.371e-01  1.399e-01   0.980 0.327165    
+## word.freq.addresses         1.132e+00  7.154e-01   1.582 0.113572    
+## word.freq.free              1.368e+00  1.800e-01   7.600 2.97e-14 ***
+## word.freq.business          9.770e-01  2.359e-01   4.142 3.44e-05 ***
+## word.freq.email             2.489e-02  1.300e-01   0.191 0.848153    
+## word.freq.you               1.104e-01  3.684e-02   2.998 0.002715 ** 
+## word.freq.credit            1.765e+00  6.596e-01   2.676 0.007443 ** 
+## word.freq.your              2.102e-01  5.564e-02   3.778 0.000158 ***
+## word.freq.font              1.769e-01  1.673e-01   1.057 0.290313    
+## word.freq.000               2.043e+00  4.721e-01   4.327 1.51e-05 ***
+## word.freq.money             4.124e-01  1.646e-01   2.505 0.012229 *  
+## word.freq.hp               -1.816e+00  3.085e-01  -5.885 3.98e-09 ***
+## word.freq.hpl              -8.932e-01  4.431e-01  -2.016 0.043833 *  
+## word.freq.george           -1.177e+01  2.245e+00  -5.242 1.59e-07 ***
+## word.freq.650               3.842e-01  2.817e-01   1.364 0.172540    
+## word.freq.lab              -2.548e+00  1.617e+00  -1.576 0.115021    
+## word.freq.labs             -6.103e-01  3.997e-01  -1.527 0.126796    
+## word.freq.telnet            8.901e-01  9.988e-01   0.891 0.372822    
+## word.freq.857               2.467e+00  3.685e+00   0.670 0.503101    
+## word.freq.data             -6.475e-01  3.044e-01  -2.127 0.033393 *  
+## word.freq.415              -1.615e+01  4.160e+00  -3.883 0.000103 ***
+## word.freq.85               -2.115e+00  8.273e-01  -2.557 0.010560 *  
+## word.freq.technology        7.414e-01  3.274e-01   2.264 0.023567 *  
+## word.freq.1999              8.544e-02  1.748e-01   0.489 0.624957    
+## word.freq.parts            -7.668e-01  4.404e-01  -1.741 0.081649 .  
+## word.freq.pm               -9.883e-01  4.069e-01  -2.429 0.015152 *  
+## word.freq.direct           -3.051e-01  3.729e-01  -0.818 0.413301    
+## word.freq.cs               -4.458e+01  2.558e+01  -1.743 0.081325 .  
+## word.freq.meeting          -2.955e+00  9.608e-01  -3.076 0.002100 ** 
+## word.freq.original         -1.408e+00  9.377e-01  -1.502 0.133201    
+## word.freq.project          -1.891e+00  5.819e-01  -3.250 0.001154 ** 
+## word.freq.re               -8.785e-01  1.724e-01  -5.095 3.48e-07 ***
+## word.freq.edu              -1.427e+00  2.773e-01  -5.143 2.70e-07 ***
+## word.freq.table            -2.381e+00  2.148e+00  -1.109 0.267523    
+## word.freq.conference       -3.776e+00  1.580e+00  -2.389 0.016873 *  
+## char.freq.semi             -1.267e+00  4.670e-01  -2.714 0.006643 ** 
+## char.freq.lparen           -4.789e-02  2.993e-01  -0.160 0.872883    
+## char.freq.lbrack           -4.073e-01  6.962e-01  -0.585 0.558554    
+## char.freq.bang              3.029e-01  8.105e-02   3.737 0.000186 ***
+## char.freq.dollar            5.667e+00  7.543e-01   7.513 5.79e-14 ***
+## char.freq.hash              2.572e+00  1.156e+00   2.225 0.026095 *  
+## capital.run.length.average  1.034e-02  1.931e-02   0.536 0.592101    
+## capital.run.length.longest  9.437e-03  2.573e-03   3.668 0.000244 ***
+## capital.run.length.total    7.884e-04  2.238e-04   3.523 0.000427 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 5556.4  on 4142  degrees of freedom
+## Residual deviance: 1614.1  on 4085  degrees of freedom
+## AIC: 1730.1
+## 
+## Number of Fisher Scoring iterations: 13</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Null_Model &lt;-<span class="st"> </span><span class="kw">glm</span>(spam ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&#39;logit&#39;</span>), <span class="dt">data =</span> spamTrain)
+<span class="kw">anova</span>(spamModel, Null_Model , <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: spam == &quot;spam&quot;
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##                            Df Deviance Resid. Df Resid. Dev  Pr(&gt;Chi)    
+## NULL                                        4142     5556.4              
+## word.freq.make              1    60.98      4141     5495.4 5.769e-15 ***
+## word.freq.address           1     4.10      4140     5491.3 0.0428060 *  
+## word.freq.all               1   162.03      4139     5329.2 &lt; 2.2e-16 ***
+## word.freq.3d                1    46.10      4138     5283.2 1.126e-11 ***
+## word.freq.our               1   221.83      4137     5061.3 &lt; 2.2e-16 ***
+## word.freq.over              1   190.24      4136     4871.1 &lt; 2.2e-16 ***
+## word.freq.remove            1   634.74      4135     4236.3 &lt; 2.2e-16 ***
+## word.freq.internet          1   171.69      4134     4064.7 &lt; 2.2e-16 ***
+## word.freq.order             1   137.05      4133     3927.6 &lt; 2.2e-16 ***
+## word.freq.mail              1    17.30      4132     3910.3 3.194e-05 ***
+## word.freq.receive           1    47.40      4131     3862.9 5.792e-12 ***
+## word.freq.will              1    10.41      4130     3852.5 0.0012518 ** 
+## word.freq.people            1    25.23      4129     3827.3 5.094e-07 ***
+## word.freq.report            1     9.07      4128     3818.2 0.0025950 ** 
+## word.freq.addresses         1    37.42      4127     3780.8 9.509e-10 ***
+## word.freq.free              1   237.22      4126     3543.5 &lt; 2.2e-16 ***
+## word.freq.business          1    84.01      4125     3459.5 &lt; 2.2e-16 ***
+## word.freq.email             1    13.50      4124     3446.0 0.0002389 ***
+## word.freq.you               1    88.06      4123     3358.0 &lt; 2.2e-16 ***
+## word.freq.credit            1    76.49      4122     3281.5 &lt; 2.2e-16 ***
+## word.freq.your              1    96.63      4121     3184.9 &lt; 2.2e-16 ***
+## word.freq.font              1    50.78      4120     3134.1 1.033e-12 ***
+## word.freq.000               1   234.98      4119     2899.1 &lt; 2.2e-16 ***
+## word.freq.money             1    64.07      4118     2835.0 1.202e-15 ***
+## word.freq.hp                1   254.17      4117     2580.9 &lt; 2.2e-16 ***
+## word.freq.hpl               1    15.30      4116     2565.6 9.153e-05 ***
+## word.freq.george            1   299.32      4115     2266.2 &lt; 2.2e-16 ***
+## word.freq.650               1     0.04      4114     2266.2 0.8447451    
+## word.freq.lab               1    26.27      4113     2239.9 2.964e-07 ***
+## word.freq.labs              1     4.78      4112     2235.1 0.0288150 *  
+## word.freq.telnet            1     0.24      4111     2234.9 0.6238236    
+## word.freq.857               1     0.53      4110     2234.4 0.4685768    
+## word.freq.data              1    11.95      4109     2222.4 0.0005470 ***
+## word.freq.415               1     0.17      4108     2222.3 0.6801302    
+## word.freq.85                1     3.09      4107     2219.2 0.0786053 .  
+## word.freq.technology        1     5.28      4106     2213.9 0.0216183 *  
+## word.freq.1999              1     2.07      4105     2211.8 0.1497687    
+## word.freq.parts             1    12.19      4104     2199.6 0.0004809 ***
+## word.freq.pm                1    25.50      4103     2174.1 4.417e-07 ***
+## word.freq.direct            1     0.14      4102     2174.0 0.7075130    
+## word.freq.cs                1    59.39      4101     2114.6 1.296e-14 ***
+## word.freq.meeting           1    55.95      4100     2058.6 7.418e-14 ***
+## word.freq.original          1     4.64      4099     2054.0 0.0312824 *  
+## word.freq.project           1    38.90      4098     2015.1 4.472e-10 ***
+## word.freq.re                1    41.10      4097     1974.0 1.446e-10 ***
+## word.freq.edu               1    70.89      4096     1903.1 &lt; 2.2e-16 ***
+## word.freq.table             1     3.95      4095     1899.2 0.0468927 *  
+## word.freq.conference        1     8.85      4094     1890.3 0.0029296 ** 
+## char.freq.semi              1    11.24      4093     1879.1 0.0008021 ***
+## char.freq.lparen            1     2.51      4092     1876.6 0.1129334    
+## char.freq.lbrack            1     1.06      4091     1875.5 0.3034364    
+## char.freq.bang              1    41.36      4090     1834.2 1.269e-10 ***
+## char.freq.dollar            1   109.94      4089     1724.2 &lt; 2.2e-16 ***
+## char.freq.hash              1     9.16      4088     1715.1 0.0024738 ** 
+## capital.run.length.average  1    36.78      4087     1678.3 1.324e-09 ***
+## capital.run.length.longest  1    44.05      4086     1634.2 3.208e-11 ***
+## capital.run.length.total    1    20.16      4085     1614.1 7.115e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Мы не станем приводить здесь длинные протоколы с результатами этих процедур, включающие статистический анализ 58 коэффициентов модели. Отложим также для специального раздела обсуждение возможных путей решения проблемы поиска оптимального состава предикторов.</p>
+<p>Вероятностные модели логита, как и иные детерминированные классификаторы, выполняют предсказание класса каждого тестируемого объекта, но при этом возвращают также оцененную вероятность такой принадлежности. При этом весьма полезно проанализировать график плотности распределения вероятностей обоих классов, особенно при подборе оптимальных пороговых значений классификатора. Следующая команда R обеспечивает построение такого графика:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> spamTest) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x =</span> pred, <span class="dt">color =</span> spam, <span class="dt">linetype =</span> spam))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-9"></span>
+<img src="_main_files/figure-html/fig-2-9-1.png" alt="Кривые плотности апостериорной вероятности принадлежности объектов к двум классам: электронным письмам с наличием спама и без него" width="672" />
+<p class="caption">
+Рисунок 2.9: Кривые плотности апостериорной вероятности принадлежности объектов к двум классам: электронным письмам с наличием спама и без него
+</p>
+</div>
+
+</div>
+<div id="sec_2_4" class="section level2">
+<h2><span class="header-section-number">2.4</span> Проецирование многомерных данных на плоскости</h2>
+<p><em>Многомерный анализ</em> (Кендалл, Стьюарт, 1976) представляет собой часть статистики, которая выполняет обработку и интерпретацию результатов, полученных на основе наблюдений одновременно нескольких взаимосвязанных случайных переменных, каждая из которых представляется одинаково важной, по крайней мере, первоначально. В случае, если данные измерены в метрических шкалах и предполагаются линейные отношения между переменными, то в анализе применяются многомерные статистические методы, основанные на операциях матричной алгебры.</p>
+<p>Во многих задачах обработки многомерных наблюдений исследователя интересует, в первую очередь, возможность снижения размерности, т.е. способ выделения небольшого набора исходных признаков или их линейных комбинаций, которые в наибольшей степени объясняют изменчивость наблюдаемых объектов. Это обусловлено следующими тремя причинами: а) возможностью наглядного представления (визуализация и ординация); б) стремлению к лаконизму исследуемых моделей и в) необходимостью сжатия объемов информации (Айвазян и др., 1989).</p>
+<p>Принцип <em>ординации наблюдений</em> (нем. Ordnung) заключается в использовании различных методов оптимального целенаправленного проецирования (projecting pursuit) облака точек из многомерного пространства в пространство малой размерности (с 2 или 3 осями координат). Для этого используются различные методы или их модификации, но в целом сущность ординации заключается в представлении исходной матрицы данных <span class="math inline">\(\mathbf Y\)</span> в виде совокупности <span class="math inline">\(p\)</span> латентных переменных <span class="math inline">\(\mathbf F\)</span>: <span class="math display">\[Y_1, Y_2, \dots, Y_m \Rightarrow F_1, F_2, \dots, F_p,\]</span> которые и являются осями ординационной диаграммы (двумерной при <span class="math inline">\(р = 2\)</span> или трехмерной в случае с тремя такими латентными переменными). Выбор осей ординации осуществляется с использованием принципа оптимальности: стремления достичь минимума потерь содержательной информации, имеющейся в исходных данных.</p>
+<p>Как правило, первая ось <span class="math inline">\(F_1\)</span> проводится через центр сгущения значений <span class="math inline">\(y_{ij}\)</span> и совпадает с направлением наибольшей по длине оси эллипсоида рассеяния. Вторая ось <span class="math inline">\(F_2\)</span>, также проходит через центр распределения, но проводится перпендикулярно к первой и совпадает по направлению со второй из главных полуосей эллипсоида рассеяния. Эта операция обеспечивает формирование “картинки” данных с минимально возможными искажениями, а новые обобщающие переменные <span class="math inline">\(F_1\)</span> и <span class="math inline">\(F_2\)</span> становятся ортогональными (т.е. взаимно некоррелированными, независимыми).</p>
+<p>Большинство методов снижения размерности основано на анализе собственных значений и собственных векторов, который является важнейшим разделом линейной (матричной) алгебры. В кратком изложении суть преобразований <span class="math inline">\(\mathbf Y \Rightarrow \mathbf F\)</span> заключается в следующем:</p>
+<ol style="list-style-type: decimal">
+<li>Нахождение собственных значений и собственных векторов осуществляется в ходе математической операции линейного преобразования квадратной симметричной матрицы C размерностью <span class="math inline">\(m\)</span>. Это может быть любая матрица дистанций, но чаще всего используется дисперсионно-ковариационная матрица <span class="math inline">\(\mathbf C = \mathbf Y&#39; \mathbf Y /(n - 1)\)</span> стандартизованных исходных данных.</li>
+<li>Coбственными значениями квадратной матрицы <span class="math inline">\(\mathbf C\)</span> называются такие значения <span class="math inline">\(\lambda_k\)</span>, при которых система <span class="math inline">\(m\)</span> уравнений вида <span class="math inline">\((\mathbf{C} - \lambda_k \mathbf{I})\mathbf{u}_k = \mathbf{0}\)</span> имеет нетривиальное решение. Здесь <span class="math inline">\(\mathbf{u}_k\)</span> - собственные векторы матрицы <span class="math inline">\(\mathbf{C}\)</span>, соответствующие <span class="math inline">\(\lambda_k\)</span>, <span class="math inline">\(k = 1, 2, \dots, m\)</span>, <span class="math inline">\(\mathbf{I}\)</span> - единичная матрица.</li>
+<li>Матрица из <span class="math inline">\(k\)</span> собственных векторов <span class="math inline">\(\mathbf{U}_k\)</span> представляет собой веса для пересчета из исходного в редуцированное информационное пространство, т.е. матрицы переменных <span class="math inline">\(\mathbf Y\)</span> и <span class="math inline">\(\mathbf F\)</span> связаны соотношением <span class="math inline">\(\mathbf{F}_{n \times k} = \mathbf{Y}_{n \times m} \mathbf{U}_{m \times k}\)</span>.</li>
+<li>Каждое собственное значение <span class="math inline">\(\lambda_k\)</span> соответствует величине дисперсии, объясняемой на <span class="math inline">\(k\)</span>-м уровне, т.е. сумма всех собственных значений будет равняться сумме дисперсий всех исходных переменных.</li>
+<li>Ряд собственных значений обычно ранжируется от самого большого до минимального: первое собственное значение <span class="math inline">\(\lambda_1\)</span>, объясняющее наибольшую долю вариации данных, часто называют “доминирующим” или “ведущим”. Значения <span class="math inline">\(\lambda_1\)</span> и <span class="math inline">\(\lambda_2\)</span> определяют меру значимости осей <span class="math inline">\(F_1\)</span> и <span class="math inline">\(F_2\)</span> ординационной диаграммы, т.е. концентрацию исходных точек вдоль каждой оси и, в итоге, ее выраженность.</li>
+<li>Собственные значения <span class="math inline">\(\lambda_k\)</span> находят в ходе итерационной процедуры, и точность их вычисления зависит от степени обусловленности исходной матрицы <span class="math inline">\(\mathbf C\)</span>.</li>
+</ol>
+<p>Классическим методом снижения размерности данных является анализ главных компонент (PCA, Principal Components Analysis), который широко используется в различных областях науки и техники и детально описан в многочисленных руководствах (ter Braak, 1983; Айвазян и др., 1989; Джонгман и др., 1999; Legendre, Legendre, 2012).</p>
+<p>Снижение размерности исходного пространства методом PCA можно представить как последовательный, итеративный процесс, который можно оборвать на любом шаге <span class="math inline">\(u\)</span>. Вследствие ортогональности системы координат главных компонент (т.е. фактически, их взаимной независимости) нет необходимости перестраивать матрицы счетов (scores) <span class="math inline">\(\mathbf F\)</span> и нагрузок (loadings) <span class="math inline">\(\mathbf U\)</span> при изменении числа компонент: последующие столбцы или строки просто прибавляются или отбрасываются.</p>
+<p>Используем в качестве примера идентификацию типа оконных стекол (Glass Identification) по выборке, представленный в коллекции баз данных <a href="http://archive.ics.uci.edu/ml/">UCI Machine Learning Repository</a>. Существует два основных способа производства листового стекла: горизонтальный на расплаве олова (флэш-стекло) и по принципу вертикального вытягивания. Термически полированное флэш-стекло отличается идеально глянцевой поверхностью, высокой светопропускающей способностью и великолепными оптическими свойствами, исключающими искажение изображения.</p>
+<p>В ходе криминалистической экспертизы мельчайших осколков стекла можно определить их оптическую рефракцию (<code>RI</code>) и сделать химический анализ содержания окислов основных элементов. Ставится вопрос, можно ли по этим данным выполнить прогноз типа производства стекла <code>Сlass</code>. Исходные данные представлены в файле <code>Glass.txt</code><a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> и можно предварительно рассмотреть описательные статистики отдельных переменных:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;data/Glass.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>,
+                     <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">t</span>(<span class="kw">apply</span>(DGlass[, -<span class="dv">10</span>], <span class="dv">2</span>, function(x) {
+<span class="kw">c</span>(Минимум =<span class="st"> </span><span class="kw">min</span>(x), Максимум =<span class="st"> </span><span class="kw">max</span>(x),
+        Среднее =<span class="st"> </span><span class="kw">mean</span>(x), Отклонение =<span class="st"> </span><span class="kw">sd</span>(x),
+        Корреляция =<span class="st"> </span><span class="kw">cor</span>(x, DGlass$Class))  <span class="co"># признаков с Class</span>
+})), <span class="dv">3</span>)</code></pre></div>
+<pre><code>##    Минимум Максимум Среднее Отклонение Корреляция
+## RI    1.51     1.53  1.5186    0.00305    -0.0601
+## Na   10.73    14.86 13.2017    0.58830     0.0186
+## Mg    0.00     4.49  3.2949    0.88778    -0.1462
+## Al    0.29     2.12  1.2817    0.32374     0.1998
+## Si   69.81    74.45 72.5869    0.64117    -0.0785
+## K     0.00     1.10  0.4775    0.21873     0.0386
+## Ca    7.08    16.19  8.9247    1.37263     0.0446
+## Ba    0.00     3.15  0.0298    0.25353     0.0312
+## Fe    0.00     0.37  0.0676    0.09951     0.0532</code></pre>
+<p>В среде R расчет главных компонент может быть осуществлен с использованием функций <code>princomp()</code> или <code>prcomp()</code>, но мы будем ориентироваться на многообразие возможностей пакета <code>vegan()</code> и его функцию <code>rda()</code>. Протокол анализа ограничим четырьмя главными компонентами, объясняющими 98% общей вариации данных:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vegan)
+Y &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>])
+mod.pca &lt;-<span class="st"> </span>vegan::<span class="kw">rda</span>(Y ~<span class="st"> </span><span class="dv">1</span>)
+<span class="kw">head</span>(<span class="kw">summary</span>(mod.pca))</code></pre></div>
+<pre><code>## 
+## Call:
+## rda(formula = Y ~ 1) 
+## 
+## Partitioning of variance:
+##               Inertia Proportion
+## Total           3.656          1
+## Unconstrained   3.656          1
+## 
+## Eigenvalues, and their contribution to the variance 
+## 
+## Importance of components:
+##                          PC1    PC2     PC3     PC4     PC5     PC6
+## Eigenvalue            2.6056 0.5828 0.21129 0.18895 0.04308 0.01403
+## Proportion Explained  0.7126 0.1594 0.05779 0.05168 0.01178 0.00384
+## Cumulative Proportion 0.7126 0.8720 0.92984 0.98152 0.99330 0.99714
+##                            PC7      PC8       PC9
+## Eigenvalue            0.008907 0.001562 6.952e-07
+## Proportion Explained  0.002440 0.000430 0.000e+00
+## Cumulative Proportion 0.999570 1.000000 1.000e+00
+## 
+## Scaling 2 for species and site scores
+## * Species are scaled proportional to eigenvalues
+## * Sites are unscaled: weighted dispersion equal on all dimensions
+## * General scaling constant of scores:  4.93332 
+## 
+## 
+## Species scores
+## 
+##          PC1       PC2       PC3        PC4        PC5        PC6
+## RI -0.006663  0.003040 -0.001587 -0.0007297  0.0005398  9.075e-05
+## Na  0.461583  1.180084  0.833131  0.0499341  0.0109644  2.782e-03
+## Mg  2.037591  0.659746 -0.616211 -0.5223737 -0.0598691  4.080e-02
+## Al  0.240546 -0.337483 -0.107770  0.6588300 -0.2282742  1.616e-01
+## Si  0.691702 -1.339222  0.458279 -0.4986449  0.0521649  4.062e-02
+## K   0.265988 -0.302647 -0.111021  0.2512089 -0.1346813 -2.370e-01
+## Ca -3.512043  0.228783 -0.158561 -0.3491594 -0.0734353  2.515e-02
+## Ba -0.190199 -0.009844 -0.267021  0.3372595  0.4523324  1.708e-02
+## Fe -0.039086 -0.017137 -0.046526  0.0299297  0.0074709 -8.279e-02
+## 
+## 
+## Site scores (weighted sums of species scores)
+## 
+##         PC1      PC2      PC3      PC4       PC5      PC6
+## 1    0.1468  0.65354 -0.45248 -0.29870 -0.042920  0.93669
+## 2    0.2831  0.14066  0.44579  0.17972  0.156651  0.10489
+## 3    0.2893 -0.07868  0.33811  0.17331  0.112400  0.71176
+## 4    0.1923  0.01262 -0.08129  0.03596  0.003594 -0.17275
+## 5    0.2337 -0.14621  0.16040 -0.10747  0.193631 -0.07327
+## 6    0.2215 -0.29717 -0.20023  0.14445 -0.180684  0.05884
+## ....</code></pre>
+<p>Рассмотрим, какую конфигурацию имеет распределение наблюдений в пространстве первых двух главных компонент <code>PC1</code> и <code>PC2</code>. Наибольший интерес для нас представляет взаимное расположение сгущений точек, принадлежащих стеклам двух типов: <code>Class = {1, 3}</code> - оконное и автомобильное флэш-стекло, и <code>Class = 2</code> - тянутое стекло. Выполним построение ординационной диаграммы с использованием пакета <code>ggplot2</code> (рис. <a href="ch-2.html#fig:fig-2-11">2.11</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FAC &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(DGlass$Class ==<span class="st"> </span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>))
+pca.scores &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">summary</span>(mod.pca)$sites[, <span class="dv">1</span>:<span class="dv">2</span>])
+pca.scores &lt;-<span class="st"> </span><span class="kw">cbind</span>(pca.scores, FAC)
+
+<span class="co"># Составляем таблицу для &quot;каркаса&quot; точек на графике:</span>
+l &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">unique</span>(pca.scores$FAC), function(c) 
+         { f &lt;-<span class="st"> </span><span class="kw">subset</span>(pca.scores, FAC ==<span class="st"> </span>c); f[<span class="kw">chull</span>(f), ]})
+hull &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, l)
+
+<span class="co"># Включаем в названия осей доли объясненной дисперсии:</span>
+axX &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;PC1 (&quot;</span>, <span class="kw">as.integer</span>(<span class="dv">100</span>*mod.pca$CA$eig[<span class="dv">1</span>]/<span class="kw">sum</span>(mod.pca$CA$eig)), <span class="st">&quot;%)&quot;</span>)
+axY &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;PC2 (&quot;</span>, <span class="kw">as.integer</span>(<span class="dv">100</span>*mod.pca$CA$eig[<span class="dv">2</span>]/<span class="kw">sum</span>(mod.pca$CA$eig)), <span class="st">&quot;%)&quot;</span>)
+
+<span class="co"># Выводим ординационную диаграмму:</span>
+<span class="kw">ggplot</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> hull, 
+               <span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">fill =</span> FAC), <span class="dt">alpha =</span> <span class="fl">0.4</span>, <span class="dt">linetype =</span> <span class="dv">0</span>) +<span class="st">  </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> pca.scores, 
+             <span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">shape =</span> FAC, <span class="dt">colour =</span> FAC), <span class="dt">size =</span> <span class="dv">3</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;purple&#39;</span>, <span class="st">&#39;blue&#39;</span>)) +
+<span class="st">  </span><span class="kw">xlab</span>(axX) +<span class="st"> </span><span class="kw">ylab</span>(axY) +<span class="st"> </span><span class="kw">coord_equal</span>() +<span class="st"> </span><span class="kw">theme_bw</span>()</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-10"></span>
+<img src="_main_files/figure-html/fig-2-10-1.png" alt="Ординационная диаграмма, построенная методом PCA" width="768" />
+<p class="caption">
+Рисунок 2.10: Ординационная диаграмма, построенная методом PCA
+</p>
+</div>
+<p>Заметим, что для выделения наблюдений каждого класса на диаграммах обычно применяются четыре вспомогательных графических объекта: а) “каркас” (hull) или контур, проводимый через крайние точки, как мы это выполнили на рис. <a href="ch-2.html#fig:fig-2-10">2.10</a>; б) эллипс, ограничивающий, например, 95% наблюдений; в) точка центроида или “центра тяжести” облака точек; г) “паук” (spider), т.е. набор линий, соединяющих каждую точку с центроидом своего класса.</p>
+<p>По существу расчетов можно отметить следующее:</p>
+<ul>
+<li>первая главная компонента объясняет 71% совокупной дисперсии в данных, а <span class="math inline">\(F_1\)</span> и <span class="math inline">\(F_2\)</span> совместно - 87%, что является вполне обнадеживающим результатом;</li>
+<li>ось <code>РС1</code> в значительной мере определяется содержанием магния и кальция, а ось <code>РС2</code> - концентрациями натрия и кремния;</li>
+<li>диаграмма на рис. <a href="ch-2.html#fig:fig-2-10">2.10</a> показывает, что химический состав флэш-стекла в целом не отличается от тянутого, но для него не характерно повышенное содержание кальция (точки левее <code>РС1 = -0.5</code>).</li>
+</ul>
+<p>Итак, ординация показала, что облака точек обоих классов являются плохо разделяемыми. Обратим внимание, что в расчетах не использовался такой ключевой показатель, как тип производства стекла, известный нам по примерам обучающей выборки.</p>
+
+</div>
+<div id="sec_2_5" class="section level2">
+<h2><span class="header-section-number">2.5</span> Многомерный статистический анализ данных</h2>
+<p>Взаимосвязь между двумя комплексами переменных может быть установлена в ходе канонического анализа (от греческого <span class="math inline">\(\kappa \alpha \nu \omega \nu\)</span>). В математике, канонической формой называется самая простая и универсальная форма, к который определенные функции, отношения, или выражения могут быть приведены без потери общности. Наиболее распространенными формами канонической ординации, основанной на приведении к собственным значениям и собственным векторам, являются анализ избыточности RDA (redundancy analysis) и линейный дискриминантный анализ LDA (linear discriminant analysis).</p>
+<p>Анализ избыточности (Джонгман и др., 1999; Legendre, Legendre, 2012) является непосредственным расширением идей множественной регрессии на моделирование данных с многомерным откликом. Анализ асимметричен, т.е., если <span class="math inline">\(\mathbf{Y} (n \times m)\)</span> - таблица зависимых и <span class="math inline">\(X(n \times q)\)</span> - таблица объясняющих переменных, то есть <span class="math inline">\(m \neq q\)</span>. RDA выполняется в три этапа:</p>
+<ol style="list-style-type: decimal">
+<li>Оцениваются коэффициенты <span class="math inline">\(\mathbf В\)</span> модели множественной линейной регрессии <span class="math inline">\(\mathbf Y\)</span> на <span class="math inline">\(\mathbf X\)</span> и формируется матрица прогнозируемых значений: <span class="math inline">\(\mathbf{\hat{Y}} = \mathbf{XB} = \mathbf{fX[X&#39;X]^{-1}X&#39;Y}\)</span>;</li>
+<li>Вычисляется матрица канонических коэффициентов <span class="math inline">\(\mathbf{S = BU_с}\)</span> размерностью <span class="math inline">\(m \times q\)</span>, которая рассчитывается на основе собственных векторов <span class="math inline">\(\mathbf{U_с}\)</span>, взвешивающих влияние объясняющих переменных (constrained eigenvalues).</li>
+<li>Рассчитывается ковариационная матрица <span class="math inline">\(\mathbf{C_{y|x}}\)</span> на основе значений <span class="math inline">\(\mathbf{\hat{Y}}\)</span>, выполняется анализ главных компонент: <span class="math inline">\(\mathbf{ (C_{y|x} - \lambda_k I)u_k = 0}\)</span>, где <span class="math inline">\(\mathbf{C_{y|x} = C_{YX}C_{XX}^{-1}C^T_{YX}}\)</span> и обычным путем вычисляется матрица нагрузок на основе <span class="math inline">\(k\)</span> собственных векторов, не связанных с объясняющими переменными Х (unconstrained eigenvalues).</li>
+</ol>
+<p>Для примера, описанного в разделе <a href="#section_2_4">2.4</a>, матрица <span class="math inline">\(\mathbf Х\)</span> сводится к вектору типа стекла <code>FAC</code>, и анализ избыточности приводит к следующим результатам:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FAC &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(DGlass$Class ==<span class="st"> </span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>)) 
+Y &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>])
+mod.rda &lt;-<span class="st"> </span>vegan::<span class="kw">rda</span>(Y ~<span class="st"> </span>FAC)
+<span class="kw">head</span>(<span class="kw">summary</span>(mod.rda))</code></pre></div>
+<pre><code>## 
+## Call:
+## rda(formula = Y ~ FAC) 
+## 
+## Partitioning of variance:
+##               Inertia Proportion
+## Total          3.6563    1.00000
+## Constrained    0.1183    0.03236
+## Unconstrained  3.5380    0.96764
+## 
+## Eigenvalues, and their contribution to the variance 
+## 
+## Importance of components:
+##                          RDA1    PC1    PC2     PC3     PC4     PC5
+## Eigenvalue            0.11833 2.5441 0.5584 0.21014 0.15944 0.04155
+## Proportion Explained  0.03236 0.6958 0.1527 0.05747 0.04361 0.01136
+## Cumulative Proportion 0.03236 0.7282 0.8809 0.93837 0.98197 0.99334
+##                           PC6      PC7      PC8       PC9
+## Eigenvalue            0.01401 0.008824 0.001533 6.816e-07
+## Proportion Explained  0.00383 0.002410 0.000420 0.000e+00
+## Cumulative Proportion 0.99717 0.999580 1.000000 1.000e+00
+## 
+## Accumulated constrained eigenvalues
+## Importance of components:
+##                         RDA1
+## Eigenvalue            0.1183
+## Proportion Explained  1.0000
+## Cumulative Proportion 1.0000
+## 
+## Scaling 2 for species and site scores
+## * Species are scaled proportional to eigenvalues
+## * Sites are unscaled: weighted dispersion equal on all dimensions
+## * General scaling constant of scores:  4.93332 
+## 
+## 
+## Species scores
+## 
+##          RDA1       PC1        PC2       PC3       PC4        PC5
+## RI  6.164e-05  0.006766 -0.0027906  0.001443  0.001003 -0.0006039
+## Na -2.177e-01 -0.423708 -1.1896878 -0.802298 -0.127952 -0.0081867
+## Mg -7.082e-01 -1.943017 -0.5819804  0.515740  0.600069  0.0399950
+## Al  3.060e-01 -0.296512  0.2471444  0.226655 -0.564066  0.2380706
+## Si  2.683e-02 -0.715098  1.3444594 -0.549095  0.330432 -0.0552179
+## K   1.054e-01 -0.289194  0.2676415  0.153595 -0.215380  0.1439493
+## Ca  3.605e-01  3.501644 -0.1493831  0.091594  0.335991  0.0649667
+## Ba  4.946e-02  0.183784 -0.0005734  0.318738 -0.313081 -0.4360001
+## Fe  2.934e-02  0.034801  0.0124987  0.051718 -0.014555 -0.0109148
+## 
+## 
+## Site scores (weighted sums of species scores)
+## 
+##         RDA1      PC1      PC2     PC3      PC4      PC5
+## 1    -1.4339 -0.08483 -0.58103  0.3921  0.34455  0.03627
+## 2    -0.9342 -0.23104 -0.09355 -0.4244 -0.40769 -0.06320
+## 3    -0.7459 -0.23923  0.13105 -0.3224 -0.40484 -0.01532
+## 4    -0.6680 -0.13896  0.05276  0.0700 -0.16978  0.07211
+## 5    -0.6964 -0.18207  0.21579 -0.1948 -0.08712 -0.12232
+## 6    -0.3891 -0.17193  0.36383  0.2010 -0.29294  0.27612
+## ....                                                    
+## 
+## 
+## Site constraints (linear combinations of constraining variables)
+## 
+##         RDA1      PC1      PC2     PC3      PC4      PC5
+## 1    -0.3612 -0.08483 -0.58103  0.3921  0.34455  0.03627
+## 2    -0.3612 -0.23104 -0.09355 -0.4244 -0.40769 -0.06320
+## 3    -0.3612 -0.23923  0.13105 -0.3224 -0.40484 -0.01532
+## 4    -0.3612 -0.13896  0.05276  0.0700 -0.16978  0.07211
+## 5    -0.3612 -0.18207  0.21579 -0.1948 -0.08712 -0.12232
+## 6    -0.3612 -0.17193  0.36383  0.2010 -0.29294  0.27612
+## ....                                                    
+## 
+## 
+## Biplot scores for constraining variables
+## 
+##      RDA1 PC1 PC2 PC3 PC4 PC5
+## FAC2    1   0   0   0   0   0
+## 
+## 
+## Centroids for factor constraints
+## 
+##         RDA1 PC1 PC2 PC3 PC4 PC5
+## FAC1 -0.3612   0   0   0   0   0
+## FAC2  0.4134   0   0   0   0   0</code></pre>
+<p>После включения в анализ объясняющего фактора “Тип производства стекла” появляется связанная с ним ось новой переменной <code>RDA1</code>, а к матрице нагрузок на главные компоненты добавляется столбец соответствующих канонических коэффициентов. Собственное значение, определяющее RDA1, невелико и составляет только 3.2% от общей вариации данных.</p>
+<p>Сформируем ординационную диаграмму в координатах <code>{RDA1, PC1}</code>, на которой обозначим координаты центроидов и выделим 95% доверительные области в виде эллисов (рис. <a href="ch-2.html#fig:fig-2-11">2.11</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+rda.scores &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(vegan::<span class="kw">scores</span>(mod.rda, 
+                                          <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">scales =</span> <span class="dv">3</span>))
+rda.scores &lt;-<span class="st"> </span><span class="kw">cbind</span>(FAC, rda.scores)
+centroids &lt;-<span class="st"> </span><span class="kw">aggregate</span>(<span class="kw">cbind</span>(RDA1, PC1) ~<span class="st"> </span>FAC, rda.scores, mean)
+
+<span class="co"># функция для std.err</span>
+f &lt;-<span class="st"> </span>function(z)<span class="kw">sd</span>(z)/<span class="kw">sqrt</span>(<span class="kw">length</span>(z)) 
+se &lt;-<span class="st"> </span><span class="kw">aggregate</span>(<span class="kw">cbind</span>(RDA1, PC1) ~<span class="st"> </span>FAC, rda.scores, f)
+<span class="kw">names</span>(se) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FAC&quot;</span>, <span class="st">&quot;RDA1.se&quot;</span>, <span class="st">&quot;PC1.se&quot;</span>)
+
+<span class="co"># объединяем координаты центроидов и стандартные ошибки </span>
+centroids &lt;-<span class="st"> </span><span class="kw">merge</span>(centroids, se, <span class="dt">by =</span> <span class="st">&quot;FAC&quot;</span>)    
+
+<span class="co"># формируем диаграмму</span>
+<span class="kw">ggplot</span>() +<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> rda.scores,
+                       <span class="kw">aes</span>(<span class="dt">x =</span> RDA1, <span class="dt">y =</span> PC1, <span class="dt">shape =</span> FAC, <span class="dt">colour =</span> FAC), <span class="dt">size =</span> <span class="dv">2</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">xlim</span>(<span class="kw">c</span>(-<span class="dv">2</span>, <span class="dv">5</span>)) +<span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(-<span class="fl">0.75</span>, <span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;purple&#39;</span>, <span class="st">&#39;blue&#39;</span>)) +
+<span class="st">    </span><span class="kw">stat_ellipse</span>(<span class="dt">data =</span> rda.scores, <span class="kw">aes</span>(<span class="dt">x =</span> RDA1, <span class="dt">y =</span> PC1, <span class="dt">fill =</span> FAC),
+                 <span class="dt">geom =</span> <span class="st">&quot;polygon&quot;</span>, <span class="dt">level =</span> <span class="fl">0.8</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>) +
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> centroids, <span class="kw">aes</span>(<span class="dt">x =</span> RDA1, <span class="dt">y =</span> PC1, <span class="dt">colour =</span> FAC),
+               <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">size =</span> <span class="dv">4</span>) +<span class="st"> </span><span class="kw">theme_bw</span>()</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-11"></span>
+<img src="_main_files/figure-html/fig-2-11-1.png" alt="Ординационная диаграмма, построенная методом RDA (не показаны 7 точек за пределами верхнего правого угла графика)" width="672" />
+<p class="caption">
+Рисунок 2.11: Ординационная диаграмма, построенная методом RDA (не показаны 7 точек за пределами верхнего правого угла графика)
+</p>
+</div>
+<p>Несмотря на небольшую долю дисперсии, объясняемой фактором способа производства стекла <code>F</code>, координаты центроидов, определяющих центры тяжести сравниваемых групп, стали располагаться на некотором расстоянии друг от друга на рис. <a href="ch-2.html#fig:fig-2-11">2.11</a>, что позволяет мысленно провести разделяющую линию между ними.</p>
+<p>В арсенал многомерных процедур входят не только задачи снижения размерности или распознавания групп, но и методы, предназначенные для традиционной проверки статистических гипотез. Многомерный дисперсионный анализ является обобщением обычного одномерного дисперсионного анализа и предназначен для выявления различий между группами по совокупности средних значений комплекса признаков. Нулевая гипотеза заключается в предположении о равенстве векторов средних значений для сравниваемых групп наблюдений.</p>
+<p>Для формирования модели многомерного дисперсионного анализа можно воспользоваться функциями <code>aov()</code>, <code>lm()</code> либо <code>manova()</code>, которые приводят к идентичным результатам. Получить традиционную дисперсионную таблицу можно с использованием функции <code>anova()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod.an &lt;-<span class="st"> </span><span class="kw">manova</span>(<span class="kw">as.matrix</span>(Y) ~<span class="st"> </span>FAC)
+<span class="kw">anova</span>(mod.an)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+##              Df  Pillai approx F num Df den Df    Pr(&gt;F)    
+## (Intercept)   1 1.00000 65548701      9    153 &lt; 2.2e-16 ***
+## FAC           1 0.27971        7      9    153 6.106e-08 ***
+## Residuals   161                                             
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Теснота связи между химическим составом стекла <code>Y</code> и способом его изготовления <code>F</code> была оценена с использованием статистики Пиллая (Pillai’s trace).</p>
+<p>Поскольку мы имеем лишь две группы наблюдений, то статистическая проверка гипотезы о равенстве средних двух векторов <span class="math inline">\(H_0: \bar{X}_1 = \bar{X}_2\)</span> может быть осуществлена также с использованием статистики Хотеллинга, которая является многомерным аналогом <em>t</em>-критерия Стьюдента:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Hotelling)
+split.data &lt;-<span class="st"> </span><span class="kw">split</span>(Y, FAC)  
+(summ.hot &lt;-<span class="st"> </span><span class="kw">hotelling.test</span>(split.data[[<span class="dv">1</span>]], split.data[[<span class="dv">2</span>]],
+                           <span class="dt">perm =</span> <span class="ot">TRUE</span>, <span class="dt">B =</span> <span class="dv">1000</span>, <span class="dt">progBar =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Test stat:  6.6015 
+## Numerator df:  9 
+## Denominator df:  153 
+## Permutation P-value:  0 
+## Number of permutations : 1000</code></pre>
+<p>В выполненном перестановочном тесте ни одна из 1000 статистик Хотеллинга, полученных при случайном перемешивании данных, не превысила тестируемое значение, что свидетельствует о высокой статистической значимости разделяющего фактора.</p>
+
+</div>
+<div id="sec_2_6" class="section level2">
+<h2><span class="header-section-number">2.6</span> Методы кластеризации</h2>
+<p>В разделах 2.4-2.5 мы рассмотрели две процедуры: <em>необъясненная</em> (непрямая) ординация наблюдений, при которой конфигурация точек определяется случайной вариацией данных и не связывается с какими-либо внешними причинами, и <em>прямая</em> ординация с использованием объясняющих переменных (в рассмотренном примере – способ изготовления стекла <code>F</code>). Ранжирование, непрямая ординация и кластеризация представляют собой совокупность методов обучения без учителя, основанных, как правило, на анализе расстояний между всеми возможными парами объектов в пространстве наблюдаемых независимых признаков. Такой подход, основанный на минимально возможном искажении исходной взаимной упорядоченности точек, обеспечивает наглядное графическое представление геометрической метафоры исследуемых объектов.</p>
+<p>Под <em>кластеризацией</em> (от англ. cluster - гроздь, скопление) понимается задача разбиения всей исходной совокупности элементов на отдельные группы однородных объектов, сходных между собой, но имеющих отчетливые отличия этих групп друг от друга. Пусть <span class="math inline">\(d(х_i, х_j)\)</span> - некоторая мера близости между каждой парой классифицируемых объектов <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>. В качестве таковой может использоваться любая полезная функция: евклидово или манхэттенское расстояние, коэффициент корреляции Пирсона, расстояние <span class="math inline">\(\chi^2\)</span>, коэффициенты сходства Жаккара, Съеренсена, Ренконена и многие другие.</p>
+<p>Наиболее часто применяется агломеративный иерархический алгоритм “дендрограмма”, отдельные версии которого отличаются правилами вычисления расстояния между кластерами. Дендрограммы просты в интерпретации и предоставляют полную информацию о соподчиненности всех классифицируемых объектов. Иногда они просто встраиваются в другие, более общие графики (например, “тепловые карты”), расширяя их понимание и возможность интерпретации.</p>
+<p>Рассмотрим в качестве примера набор данных <code>USArrests</code> о криминогенной обстановке по штатам США (из пакета <code>cluster</code>). С помощью тепловой карты, представленной на рис. рис. <a href="ch-2.html#fig:fig-2-12">2.12</a>, можно: а) разбить 50 штатов США на группы по криминальной напряженности, б) установить характер взаимосвязи между числом арестованных за убийство (<code>Murder</code>), изнасилование (<code>Rape</code>), разбой (<code>Assault</code>), а также долей городских жителей (<code>UrbanPop</code>) и, наконец, в) убедиться в том, что число изнасилований в Аляске много меньше, чем в Род-Айленде.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cluster)
+<span class="kw">data</span>(<span class="st">&quot;USArrests&quot;</span>)
+x =<span class="st"> </span><span class="kw">as.matrix</span>(USArrests)
+rc &lt;-<span class="st"> </span><span class="kw">rainbow</span>(<span class="kw">nrow</span>(x), <span class="dt">start =</span> <span class="dv">0</span>, <span class="dt">end =</span> .<span class="dv">3</span>)
+cc &lt;-<span class="st"> </span><span class="kw">rainbow</span>(<span class="kw">ncol</span>(x), <span class="dt">start =</span> <span class="dv">0</span>, <span class="dt">end =</span> .<span class="dv">3</span>)
+hv &lt;-<span class="st"> </span><span class="kw">heatmap</span>(x,  <span class="dt">scale =</span> <span class="st">&quot;col&quot;</span>,  <span class="dt">RowSideColors =</span> rc,
+           <span class="dt">ColSideColors =</span> cc, <span class="dt">margins =</span> <span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">10</span>),
+           <span class="dt">cexCol =</span> <span class="fl">1.5</span>, <span class="dt">cexRow =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-12"></span>
+<img src="_main_files/figure-html/fig-2-12-1.png" alt="Пример тепловой карты с дендрограммами" width="768" />
+<p class="caption">
+Рисунок 2.12: Пример тепловой карты с дендрограммами
+</p>
+</div>
+<p>Однако существенным недостатком иерархических методов является их детерминированность: объединение классов на более высоком уровне полностью определяется результатами агломерации на нижних уровнях. Для оценки того, какой из вариантов кластеризации в наибольшей степени отражает близость объектов в исходном признаковом пространстве, могут быть использованы кофенетическая корреляция (cophenetic correlation) или различные ранговые индексы.</p>
+<p>Кроме иерархических методов классификации большое распространение также получили различные итерационные процедуры, которые пытаются найти наилучшее разбиение, ориентируясь на заданный критерий оптимизации, не строя при этом полного дерева. Наиболее популярный неиерархический алгоритм - метод <em>k</em> средних Мак-Кина, в котором сам пользователь должен задать искомое число конечных кластеров, обозначаемое как “<em>k</em>”. Его главным преимуществом является возможность обрабатывать очень большие массивы данных, поскольку нет необходимости хранить в памяти компьютера всю матрицу расстояний целиком.</p>
+<p>Выполним разбиение 50 штатов на 5 классов по степени их криминализации:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df.stand &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">scale</span>(USArrests))
+(clus &lt;-<span class="st"> </span><span class="kw">kmeans</span>(df.stand, <span class="dt">centers =</span> <span class="dv">5</span>))</code></pre></div>
+<pre><code>## K-means clustering with 5 clusters of sizes 11, 10, 10, 7, 12
+## 
+## Cluster means:
+##       Murder    Assault   UrbanPop        Rape
+## 1 -0.1642225 -0.3658283 -0.2822467 -0.11697538
+## 2 -1.1727674 -1.2078573 -1.0045069 -1.10202608
+## 3 -0.6286291 -0.4086988  0.9506200 -0.38883734
+## 4  1.5803956  0.9662584 -0.7775109  0.04844071
+## 5  0.7298036  1.1188219  0.7571799  1.32135653
+## 
+## Clustering vector:
+##        Alabama         Alaska        Arizona       Arkansas     California 
+##              4              5              5              1              5 
+##       Colorado    Connecticut       Delaware        Florida        Georgia 
+##              5              3              3              5              4 
+##         Hawaii          Idaho       Illinois        Indiana           Iowa 
+##              3              2              5              1              2 
+##         Kansas       Kentucky      Louisiana          Maine       Maryland 
+##              1              1              4              2              5 
+##  Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
+##              3              5              2              4              1 
+##        Montana       Nebraska         Nevada  New Hampshire     New Jersey 
+##              1              1              5              2              3 
+##     New Mexico       New York North Carolina   North Dakota           Ohio 
+##              5              5              4              2              3 
+##       Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
+##              1              1              3              3              4 
+##   South Dakota      Tennessee          Texas           Utah        Vermont 
+##              2              4              5              3              2 
+##       Virginia     Washington  West Virginia      Wisconsin        Wyoming 
+##              1              3              2              2              1 
+## 
+## Within cluster sum of squares by cluster:
+## [1]  7.788275  7.443899  9.326266  6.128432 18.257332
+##  (between_SS / total_SS =  75.0 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;    
+## [5] &quot;tot.withinss&quot; &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;        
+## [9] &quot;ifault&quot;</code></pre>
+<p>Мы видим, что к каждому из пяти кластеров относится от 7 до 13 штатов, причем наибольший криминальный риск имеет место в 3 и 4 группах.</p>
+<p>Любой алгоритм кластеризации может считаться результативным, если выполняется <em>гипотеза компактности</em>, т.е. можно найти такое разбиение объектов на группы, что расстояния между объектами из одной группы (intra-cluster distances) будут меньше некоторого значения <span class="math inline">\(\epsilon &gt; 0\)</span>, а между объектами из разных групп (cross-cluster distance) - больше <span class="math inline">\(\epsilon\)</span>. Можно сформировать таблицу всех этих расстояний как показано ниже:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&#39;reshape2&#39;</span>)
+n &lt;-<span class="st"> </span><span class="kw">dim</span>(df.stand)[[<span class="dv">1</span>]] 
+euc.dist &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">dist</span>(df.stand))
+dist =<span class="st"> </span><span class="kw">melt</span>(euc.dist)
+df.stand$cluster &lt;-<span class="st"> </span>clus$cluster
+pairs &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">dist =</span> dist, 
+                    <span class="dt">ca =</span> <span class="kw">as.vector</span>(<span class="kw">outer</span>(<span class="dv">1</span>:n, <span class="dv">1</span>:n, function(a, b) df.stand[a, <span class="st">&#39;cluster&#39;</span>])),
+                    <span class="dt">cb =</span> <span class="kw">as.vector</span>(<span class="kw">outer</span>(<span class="dv">1</span>:n, <span class="dv">1</span>:n, function(a, b) df.stand[b, <span class="st">&#39;cluster&#39;</span>])))
+<span class="kw">dcast</span>(pairs, ca ~<span class="st"> </span>cb, <span class="dt">value.var =</span> <span class="st">&#39;dist.value&#39;</span>, mean)</code></pre></div>
+<pre><code>##   ca        1        2        3        4        5
+## 1  1 1.068714 2.055797 1.769730 2.514988 2.803957
+## 2  2 2.055797 1.070955 2.532678 3.884335 4.449661
+## 3  3 1.769730 2.532678 1.249779 3.367508 2.998342
+## 4  4 2.514988 3.884335 3.367508 1.159667 2.564101
+## 5  5 2.803957 4.449661 2.998342 2.564101 1.566414</code></pre>
+<p>В полученной таблице по главной диагонали приведены средние внутрикластерные расстояния, которые очевидно меньше, чем межкластерные расстояния (недиагональные элементы таблицы).</p>
+<p>Поскольку объекты таблицы <code>USArrests</code> многомерны, то для вывода ординационной диаграммы выполним свертку информации по 4 имеющимся показателям к двум главным компонентам. После этого можно осуществить визуализацию групп (см. рис. <a href="ch-2.html#fig:fig-2-13">2.13</a>) и “на глаз” оценить качество кластеризации.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c.pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(USArrests, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>) 
+d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span>c.pca$x[, <span class="dv">1</span>], <span class="dt">y=</span>c.pca$x[, <span class="dv">2</span>])
+d$cluster &lt;-<span class="st"> </span>clus$cluster
+<span class="kw">library</span>(<span class="st">&#39;ggplot2&#39;</span>)
+<span class="kw">library</span>(<span class="st">&#39;grDevices&#39;</span>)
+h &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, <span class="kw">lapply</span>(<span class="kw">unique</span>(clus$cluster),
+                           function(c) { f &lt;-<span class="st"> </span><span class="kw">subset</span>(d,cluster==c); f[<span class="kw">chull</span>(f),]}))
+<span class="kw">ggplot</span>() +<span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">data =</span> d, 
+                     <span class="kw">aes</span>(<span class="dt">label =</span> cluster, <span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">color =</span> cluster), 
+                     <span class="dt">size =</span> <span class="dv">3</span>) +
+<span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> h, 
+                 <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">group =</span> cluster, <span class="dt">fill =</span> <span class="kw">as.factor</span>(cluster)),
+                 <span class="dt">alpha =</span> <span class="fl">0.4</span>, <span class="dt">linetype =</span> <span class="dv">0</span>) +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-13"></span>
+<img src="_main_files/figure-html/fig-2-13-1.png" alt="Пример кластеризации методом k средних" width="576" />
+<p class="caption">
+Рисунок 2.13: Пример кластеризации методом k средних
+</p>
+</div>
+<p>Другим современным подходом к кластеризации объектов являются алгоритмы типа нечетких <em>C</em>-средних и Гюстафсона-Кесселя (Барсегян и др., 2004), которые ищут кластеры в пространстве нечетких множеств в форме эллипсоидов, что делает эти методы более гибкими при решении различных практических задач. В литературе также описывается множество других методов кластеризации, не использующих матрицы сходств и основанных на оценивании функций плотности статистического распределения, эвристических алгоритмах перебора, идеях математического программирования. Каждый из них имеет специфическую идеологическую основу и подходы к построению критериев качества моделей, которые мы рассмотрим далее в главе <a href="#ch_10">10</a>.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p>Этот термин в русскоязычной литературе пока не устоялся: используются также <em>девиация</em> (Ллойд, Ледерман, 1990) и <em>аномалия</em> (<a href="http://isi.cbs.nl/glossary/term933.htm">International Statistical Institute</a>)<a href="ch-2.html#fnref2">↩</a></p></li>
+<li id="fn3"><p>Этот файл можно найти в <a href="https://github.com/ranalytics/data-mining">репозитории</a> с приложениями к книге.<a href="ch-2.html#fnref3">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch-3.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

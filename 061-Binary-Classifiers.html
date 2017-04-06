@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="055-Traminer.html">
+<link rel="next" href="062-SVM.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,139 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="ch_6" class="section level1">
+<h1><span class="header-section-number">ГЛАВА 6</span> Бинарные классификаторы с различными разделяющими поверхностями</h1>
+<div id="sec_6_1" class="section level2">
+<h2><span class="header-section-number">6.1</span> Дискриминантный анализ</h2>
+<p>Линейный дискриминантный анализ (Linear Discriminant Analysis, LDA) является разделом многомерного анализа, который позволяет оценивать различия между двумя и более группами объектов по нескольким переменным одновременно (Афифи, Эйзенс, 1982; Айвазян и др., 1989). Он реализует две тесно связанные между собой статистические процедуры:</p>
+<ul>
+<li><em>интерпретацию межгрупповых различий</em>, когда нужно ответить на вопрос: насколько хорошо используемый набор переменных в состоянии сформировать разделяющую поверхность для объектов обучающей выборки и какие из этих переменных наиболее информативны?</li>
+<li><em>классификацию</em>, т.е предсказание значения группировочного фактора для экзаменуемой группы наблюдений.</li>
+</ul>
+<p>В основе дискриминантного анализа лежит предположение о том, что описания объектов каждого <span class="math inline">\(k\)</span>-го класса представляют собой реализации многомерной случайной величины, распределенной по нормальному закону <span class="math inline">\(N_m(\mu_k; \Sigma_k)\)</span> со средними <span class="math inline">\(\mu_k\)</span> и ковариационной матрицей <span class="math display">\[\mathbf{C}_k = \frac{1}{n_k - 1} \sum_{i=1}^{n_k} (\mathbf{x}_{ik} - \mathbf{\mu}_k)^T (\mathbf{x}_{ik} - \mathbf{\mu}_k)\]</span></p>
+<p>(индекс <span class="math inline">\(m\)</span> указывает на размерность признакового пространства).</p>
+<p>Рассмотрим несколько упрощенную геометрическую интерпретацию алгоритма LDA для случая двух классов. Пусть дискриминантные переменные <span class="math inline">\(\boldsymbol{x}\)</span> - оси <span class="math inline">\(m\)</span>-мерного евклидова пространства. Каждый объект (наблюдение) является точкой этого пространства с координатами, представляющими собой фиксируемые значения каждой переменной. Если оба класса отличаются друг от друга по наблюдаемым переменным, их можно представить как скопления точек в разных областях рассматриваемого пространства, которые могут частично перекрываться. Для определения положения каждого класса можно вычислить его “центроид”, который является воображаемой точкой, координатами которой являются средние значения переменных в данном классе.</p>
+<p>Задача дискриминантного анализа заключается в проведении дополнительной оси <span class="math inline">\(z\)</span>, которая проходит через облако точек таким образом, что проекции на нее обеспечивают наилучшую разделяемость на два класса. Ее положение задается линейной дискриминантной функцией (linear discriminant, LD) с весовыми коэффициентами <span class="math inline">\(\beta_j\)</span>, определяющими вклад каждой исходной переменной <span class="math inline">\(x_j\)</span>: <span class="math display">\[z(\boldsymbol{x}) = \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_m x_m.\]</span></p>
+<p>Если сделать предположение, что ковариационные матрицы объектов классов 1 и 2 равны, т.е. <span class="math inline">\(\mathbf{C = C_1 = C_2}\)</span>, то вектор коэффициентов <span class="math inline">\({\beta_1, \dots, \beta_m}\)</span> линейного дискриминанта <span class="math inline">\(z(\boldsymbol{x})\)</span> может быть вычислен по формуле <span class="math inline">\(\boldsymbol{\beta} \mathbf{= C^{-1}(\mu_1 - \mu_2)}\)</span>, где <span class="math inline">\(\mathbf{C^{-1}}\)</span> - матрица, обратная к ковариационной, <span class="math inline">\(\mathbf{\mu_k}\)</span> вектор средних <span class="math inline">\(k\)</span>-го класса. Полученная ось совпадает с уравнением прямой, проходящей через центроиды двух групп объектов классов, а обобщенное расстояние Махаланобиса, равное дистанции между ними в многомерном пространстве признаков, оценивается как <span class="math display">\[D^2 = \mathbf{\beta (\mu_1 - \mu_2)}.\]</span></p>
+<p>Таким образом, в LDA кроме предположения о нормальности распределения данных в каждом классе, которое на практике выполняется довольно редко, выдвигается еще и более серьезное предположение о статистическом равенстве внутригрупповых матриц дисперсий и корреляций. Если между ними нет серьезных отличий, их объединяют в расчетную ковариационную матрицу <span class="math display">\[\mathbf{C = \left( C_1(n_1 - 1) + C_2(n_2 -1) \right) / (n_1 + n_2 -2)}.\]</span></p>
+<p>По поводу искусственного объявления ковариационных матриц статистически неразличимыми существуют два различных мнения: одни исследователи считают, что могут оказаться отброшенными наиболее важные индивидуальные черты, характерные для каждого из классов и имеющие большое значение для хорошего разделения, тогда как другие - что это условие не является критическим для эффективного применения дискриминантного анализа. Тем не менее, проверка исходных предположений всегда остается правилом хорошего тона в статистике.</p>
+<p>Для проверки гипотезы о многомерном нормальном распределении данных используется многомерная версия критерия согласия Шапиро-Уилка, которая реализована в функции <code>mshapiro.test()</code> из пакета <code>mvnormtest</code>. На вход этой функции подается матрица, строки которой соответствуют переменным, а столбцы - наблюдениям.</p>
+<p>В разделах <a href="024-Projecting-Data-onto-a-Plane.html#sec_2_4">2.4</a>-<a href="025-MV-analysis.html#sec_2_5">2.5</a> мы подробно рассматривали пример анализа зависимости между двумя различными способами производства листового стекла (флэш-стекло и по принципу вертикального вытягивания) и составом его химических ингредиентов. С использованием статистики Пиллая и критерия Хотеллинга была показана статистическая значимость такой связи. Применим многомерный критерий Шапиро-Уилка к оценке характера распределения этой выборки:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;Glass.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>,
+                     <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass$FAC &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(DGlass$Class ==<span class="st"> </span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>))
+<span class="kw">library</span>(mvnormtest) 
+<span class="kw">mshapiro.test</span>(<span class="kw">t</span>(DGlass[DGlass$FAC ==<span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>:<span class="dv">9</span>])) </code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  Z
+## W = 0.19652, p-value &lt; 2.2e-16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mshapiro.test</span>(<span class="kw">t</span>(DGlass[DGlass$FAC ==<span class="st"> </span><span class="dv">2</span>, <span class="dv">1</span>:<span class="dv">9</span>]))</code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  Z
+## W = 0.13679, p-value &lt; 2.2e-16</code></pre>
+<p>Для обеих групп выявлены значимые отклонения от многомерного нормального распределения.</p>
+<p>Для проверки гипотезы о гомогенности матриц ковариаций используется так называемый M-критерий Бокса, который реализован в функции <code>boxM()</code> из пакета <code>biotools</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(biotools) </code></pre></div>
+<pre><code>## ---
+## biotools version 3.0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">boxM</span>(<span class="kw">as.matrix</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>]), DGlass$FAC) </code></pre></div>
+<pre><code>## 
+##  Box&#39;s M-test for Homogeneity of Covariance Matrices
+## 
+## data:  as.matrix(DGlass[, 1:9])
+## Chi-Sq (approx.) = 443.18, df = 45, p-value &lt; 2.2e-16</code></pre>
+<p>Гетерогенность матриц ковариаций также статистически значима.</p>
+<p>Дискриминантный анализ реализован в нескольких пакетах для R, но мы рассмотрим применение функции <code>lda()</code> из базового пакета <code>MASS</code>. Поскольку важной характеристикой прогнозирующей эффективности модели является ее ошибка при перекрестной проверке, то в функции <code>lda()</code> пакета <code>MASS</code> заложена реализация скользящего контроля (leave-one-out CV). Напомним, что при этом из исходной выборки поочередно отбрасывается по одному объекту, строится <span class="math inline">\(n\)</span> моделей дискриминации по <code>(n – 1)</code> выборочным значениям, а исключенное наблюдение каждый раз используется для учета ошибки классификации.</p>
+<p>Составим предварительно функцию, которая по построенной модели выводит нам важные показатели для оценки ее качества: матрицы неточностей на обучающей выборке и при перекрестной проверке, ошибку распознавания и расстояние Махалонобиса между центроидами двух классов. С использованием этой функции оценим эффективность дискриминационной модели прогнозирования способа производства стекла по его химическому составу (см. разделы <a href="024-Projecting-Data-onto-a-Plane.html#sec_2_4">2.4</a>-<a href="025-MV-analysis.html#sec_2_5">2.5</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Функция вывода результатов классификации</span>
+Out_CTab &lt;-<span class="st"> </span>function(model, group, <span class="dt">type =</span> <span class="st">&quot;lda&quot;</span>) {
+    <span class="co"># Таблица неточностей &quot;Факт/Прогноз&quot; по обучающей выборке</span>
+    classified &lt;-<span class="st"> </span><span class="kw">predict</span>(model)$class  
+    t1 &lt;-<span class="st"> </span><span class="kw">table</span>(group, classified)  
+    <span class="co"># Точность классификации и расстояние Махалонобиса</span>
+    Err_S &lt;-<span class="st"> </span><span class="kw">mean</span>(group !=<span class="st"> </span>classified)
+    mahDist &lt;-<span class="st"> </span><span class="ot">NA</span>
+    if (type ==<span class="st"> &quot;lda&quot;</span>) 
+    { mahDist &lt;-<span class="st"> </span><span class="kw">dist</span>(model$means %*%<span class="st"> </span>model$scaling) }
+    <span class="co"># Таблица &quot;Факт/Прогноз&quot; и ошибка при скользящем контроле</span>
+    t2 &lt;-<span class="st">  </span><span class="kw">table</span>(group, <span class="kw">update</span>(model, <span class="dt">CV =</span> T)$class -&gt;<span class="st"> </span>LDA.cv) 
+    Err_CV &lt;-<span class="st"> </span><span class="kw">mean</span>(group !=<span class="st"> </span>LDA.cv) 
+    Err_S.MahD &lt;-<span class="st"> </span><span class="kw">c</span>(Err_S, mahDist) 
+    Err_CV.N &lt;-<span class="st"> </span><span class="kw">c</span>(Err_CV, <span class="kw">length</span>(group)) 
+    <span class="kw">cbind</span>(t1, Err_S.MahD, t2, Err_CV.N)
+}
+<span class="co"># --- Выполнение расчетов</span>
+<span class="kw">library</span>(MASS)
+lda.all &lt;-<span class="st"> </span><span class="kw">lda</span>(FAC ~<span class="st"> </span>., <span class="dt">data =</span> DGlass[, -<span class="dv">10</span>])
+<span class="kw">Out_CTab</span>(lda.all, DGlass$FAC) </code></pre></div>
+<pre><code>##    1  2 Err_S.MahD  1  2    Err_CV.N
+## 1 69 18  0.2515337 66 21   0.3067485
+## 2 23 53  1.2414682 29 47 163.0000000</code></pre>
+<p>Отметим существенный рост ошибки распознавания до 31% при выполнении скользящего контроля. Естественно задаться вопросом, какие из имеющихся 9 признаков являются информативными при разделении, а какие - сопутствующим балластом. Шаговая процедура выбора переменных при классификации, реализованная функцией <code>stepclass()</code> из пакета <code>klaR</code>, основана на вычислении сразу четырех параметров качества моделей-претендентов: а) индекса ошибок (correctness rate), б) точности (accuracy), основанной на евклидовых расстояниях между векторами “факта” и “прогноза”, в) способности к разделимости (ability to seperate), также основанной на расстояниях, и г) доверительных интервалах центроидов классов. Все эти параметры оцениваются в режиме многократной перекрестной проверки.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(klaR)
+<span class="kw">stepclass</span>(FAC ~<span class="st"> </span>., <span class="dt">data =</span> DGlass[, -<span class="dv">10</span>], <span class="dt">method =</span> <span class="st">&quot;lda&quot;</span>)</code></pre></div>
+<pre><code>## correctness rate: 0.70515;  in: &quot;Al&quot;;  variables (1): Al 
+## correctness rate: 0.77978;  in: &quot;Ca&quot;;  variables (2): Al, Ca 
+## 
+##  hr.elapsed min.elapsed sec.elapsed 
+##        0.00        0.00        0.72</code></pre>
+<pre><code>## method      : lda 
+## final model : FAC ~ Al + Ca
+## &lt;environment: 0x000000001761a930&gt;
+## 
+## correctness rate = 0.7798</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lda.step &lt;-<span class="st"> </span><span class="kw">lda</span>(FAC ~<span class="st"> </span>Mg +<span class="st"> </span>Al, <span class="dt">data =</span> DGlass[, -<span class="dv">10</span>])</code></pre></div>
+<p>В результате получили компактную дискриминантную функцию <span class="math display">\[z(x) = 2.69Al - 0.83Mg,\]</span></p>
+<p>зависящую только от двух переменных. Найдем ошибку предсказания как на обучающей выборке, так и при скользящем контроле:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">partimat</span>(FAC ~<span class="st"> </span>Mg +<span class="st"> </span>Al, <span class="dt">data =</span> DGlass[, -<span class="dv">10</span>], <span class="dt">main =</span> <span class="st">&#39;&#39;</span>, <span class="dt">method =</span> <span class="st">&quot;lda&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-6-1"></span>
+<img src="061-Binary-Classifiers_files/figure-html/fig-6-1-1.png" alt="Диаграмма дискриминации двух классов 1 и 2 (ошибочное распознавание выделено шрифтом красного цвета); показаны линейная дискриминантная функция *z* и жирными точками - положение центроидов" width="576" />
+<p class="caption">
+Рисунок 6.1: Диаграмма дискриминации двух классов 1 и 2 (ошибочное распознавание выделено шрифтом красного цвета); показаны линейная дискриминантная функция <em>z</em> и жирными точками - положение центроидов
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Out_CTab</span>(lda.step, DGlass$FAC)</code></pre></div>
+<pre><code>##    1  2 Err_S.MahD  1  2    Err_CV.N
+## 1 72 15  0.2331288 72 15   0.2392638
+## 2 23 53  1.0924355 24 52 163.0000000</code></pre>
+<p>По обоим критериям ошибка предсказания сокращенной модели существенно ниже аналогичных показателей при использовании полного набора переменных. Это отражает общие методические закономерности, важные при выборе алгоритмов классификации и анализе результатов их работы:</p>
+<ul>
+<li>ошибка перекрестной проверки <span class="math inline">\(E_{CV}\)</span> всегда превышает внутреннюю ошибку модели <span class="math inline">\(E_S\)</span> на самой обучающей выборке и является объективной характеристикой качества распознавания на внешнем дополнении;</li>
+<li>сокращение размерности модели за счет выбора комплекса информативных переменных может увеличить ошибку <span class="math inline">\(E_S\)</span>, но, как правило, снижает ошибку скользящего контроля <span class="math inline">\(E_{CV}\)</span>.</li>
+</ul>
+<p>Сокращение числа переменных до двух позволяет построить частный двумерный график, интерпретирующий процесс классификации (рис. <a href="061-Binary-Classifiers.html#fig:fig-6-1">6.1</a>).</p>
+<p>Вместо функции <code>stepclass()</code> из пакета <code>klaR</code> для выбора оптимального набора предикторов можно воспользоваться функцией <code>rfe()</code> из пакета <code>caret</code> (процедура рекурсивного исключения - см. раздел <a href="041-Regression-Models.html#sec_4_1">4.1</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ldaProfile &lt;-<span class="st"> </span><span class="kw">rfe</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>], DGlass$FAC, <span class="dt">sizes =</span> <span class="dv">2</span>:<span class="dv">9</span>,
+                  <span class="dt">rfeControl =</span> <span class="kw">rfeControl</span>(<span class="dt">functions =</span> ldaFuncs, 
+                                          <span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">repeats =</span> <span class="dv">6</span>))</code></pre></div>
+<p>Для того чтобы уточнить, какую из трех построенных моделей следует предпочесть, выполним их тестирование на основе 10-кратной перекрестной проверки с 5 повторностями:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass$FAC &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(DGlass$Class ==<span class="st"> </span><span class="dv">2</span>, <span class="st">&quot;C2&quot;</span>, <span class="st">&quot;C1&quot;</span>))
+<span class="co"># Модель на основе всех 9 предикторов</span>
+lda.full.pro &lt;-<span class="st"> </span><span class="kw">train</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>], DGlass$FAC,
+                      <span class="dt">data =</span> DGlass, <span class="dt">method =</span> <span class="st">&quot;lda&quot;</span>,
+                      <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">repeats =</span> <span class="dv">5</span>, 
+                                               <span class="dt">classProbs =</span> <span class="ot">TRUE</span>), <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>)
+<span class="co"># Модель на основе 2 предикторов stepclass</span>
+lda.step.pro &lt;-<span class="st"> </span><span class="kw">train</span>(FAC ~<span class="st"> </span>Mg +<span class="st"> </span>Al, <span class="dt">data =</span> DGlass, <span class="dt">method =</span> <span class="st">&quot;lda&quot;</span>,
+                      <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">repeats =</span> <span class="dv">5</span>, 
+                                               <span class="dt">classProbs =</span> <span class="ot">TRUE</span>), <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>)
+<span class="co"># Модель на основе 3 предикторов rfe</span>
+lda.rfe.pro &lt;-<span class="st"> </span><span class="kw">train</span>(FAC ~<span class="st"> </span>Al +<span class="st"> </span>K +<span class="st"> </span>Fe, 
+                     <span class="dt">data =</span> DGlass, <span class="dt">method =</span> <span class="st">&quot;lda&quot;</span>,
+                     <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">repeats =</span> <span class="dv">5</span>, 
+                                              <span class="dt">classProbs =</span> <span class="ot">TRUE</span>), <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">varImp</span>(lda.full.pro))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-6-2"></span>
+<img src="061-Binary-Classifiers_files/figure-html/fig-6-2-1.png" alt="Значения важности отдельных переменных на основе абсолютных значений *t*-статистики при построении модели дискриминантного анализа" width="576" />
+<p class="caption">
+Рисунок 6.2: Значения важности отдельных переменных на основе абсолютных значений <em>t</em>-статистики при построении модели дискриминантного анализа
+</p>
 </div>
+<p>Функция <code>rfe()</code> провела отбор переменных в полном соответствии с рейтингом их важности на рис. <a href="061-Binary-Classifiers.html#fig:fig-6-2">6.2</a>, но это решение оказалось неоптимальным. Модель <code>lda.step</code>, полученная с использованием функции <code>stepclass()</code>, оказалась существенно эффективней.</p>
 
 </div>
             </section>
@@ -267,8 +368,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="055-Traminer.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="062-SVM.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

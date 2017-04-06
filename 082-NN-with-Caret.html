@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="081-Logit-for-Count.html">
+<link rel="next" href="083-Model-Complexes.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,150 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="------caret" class="section level2">
+<h2><span class="header-section-number">8.2</span> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></h2>
+<p>В разделе <a href="075-Multinomial-Logit.html#sec_7_5">7.5</a> мы рассмотрели основные принципы построения искусственных нейронных сетей на примере многослойного персептрона. Основная проблема обучения ИНС заключается в необходимости предварительно исследовать поверхность ошибок и задать архитектуру сети и параметры оптимизации, по возможности, приводящие в окрестность глобального минимума. С использованием функции <code>train()</code> из пакета <code>caret</code> путем перекрестной проверки можно оценить оптимальные значения числа скрытых нейронов <code>size</code> и параметр “ослабления весов” <code>decay</code>, который осуществляет регуляризацию точности подстройки коэффициентов (при decay = 0 стремление к точности может перерасти в эффект переусложнения модели). Покажем, как это можно сделать, на примере оценки возрастной категории морских ушек:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nnet)
+<span class="kw">library</span>(caret)
+<span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;data/abalone.RData&quot;</span>)
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+train.aba &lt;-<span class="st"> </span><span class="kw">train</span>(Возраст ~<span class="st"> </span>., <span class="dt">data =</span> abalone[, <span class="kw">c</span>(<span class="dv">3</span>:<span class="dv">8</span>, <span class="dv">10</span>)],
+                          <span class="dt">method =</span> <span class="st">&quot;nnet&quot;</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span>, <span class="dt">linout =</span> <span class="dv">1</span>,
+                          <span class="dt">tuneGrid =</span> <span class="kw">expand.grid</span>(<span class="dt">.decay =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.05</span>, <span class="fl">0.2</span>), <span class="dt">.size =</span> <span class="dv">4</span>:<span class="dv">9</span>),
+                          <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>))
+train.aba</code></pre></div>
+<pre><code>## Neural Network 
+## 
+## 4177 samples
+##    6 predictor
+##    4 classes: &#39;Q1&#39;, &#39;Q2&#39;, &#39;Q3&#39;, &#39;Q4&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 3760, 3759, 3758, 3759, 3761, 3759, ... 
+## Resampling results across tuning parameters:
+## 
+##   decay  size  Accuracy   Kappa    
+##   0.00   4     0.5904016  0.4479233
+##   0.00   5     0.5932764  0.4519404
+##   0.00   6     0.5913671  0.4492714
+##   0.00   7     0.5947176  0.4538315
+##   0.00   8     0.5942397  0.4535296
+##   0.00   9     0.5973469  0.4577817
+##   0.05   4     0.5872990  0.4434182
+##   0.05   5     0.5923240  0.4504110
+##   0.05   6     0.5904085  0.4479034
+##   0.05   7     0.5911262  0.4487974
+##   0.05   8     0.5904090  0.4480305
+##   0.05   9     0.5908841  0.4485251
+##   0.20   4     0.5892094  0.4460456
+##   0.20   5     0.5889650  0.4457956
+##   0.20   6     0.5889702  0.4456556
+##   0.20   7     0.5911233  0.4487412
+##   0.20   8     0.5887310  0.4452668
+##   0.20   9     0.5887229  0.4454816
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final values used for the model were size = 9 and decay = 0.</code></pre>
+<p>Мы выполнили 10-кратную перекрестную проверку 18 нейросетевых моделей с числом нейронов в скрытом слое от 4 до 9 и разных значениях “ослабления”. При найденных значениях <code>size = 7</code> и <code>decay = 0</code>, приводящих к максимальной точности <code>Accuracy</code>, построим далее модель с помощью функции <code>nnet()</code>. Для визуализации сети (рис. <a href="082-NN-with-Caret.html#fig:fig-8-6">8.6</a>) применим функцию из скрипта <code>nnet_plot_update.r</code>, которая имеет ряд полезных опций (можно скачать с <a href="https://www.r-bloggers.com/visualizing-neural-networks-in-r-update">https://www.r-bloggers.com</a>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;scripts/nnet_plot_update.r&quot;</span>)
+nn.aba &lt;-<span class="st"> </span><span class="kw">nnet</span>(Возраст ~<span class="st"> </span>.,  <span class="dt">data =</span> abalone[, <span class="kw">c</span>(<span class="dv">3</span>:<span class="dv">8</span>, <span class="dv">10</span>)],
+                      <span class="dt">decay =</span> <span class="dv">0</span>, <span class="dt">size =</span> <span class="dv">7</span>, <span class="dt">niter =</span> <span class="dv">200</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span>)
+<span class="kw">plot.nnet</span>(nn.aba)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-8-6"></span>
+<img src="082-NN-with-Caret_files/figure-html/fig-8-6-1.png" alt="Персептрон для оценки возрастной категории морских ушек" width="576" />
+<p class="caption">
+Рисунок 8.6: Персептрон для оценки возрастной категории морских ушек
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<p>Мы получили сеть из 17 нейронов (<span class="math inline">\(6 \Rightarrow 7 \Rightarrow 4\)</span>), для которых рассчитано 81 нижеприведенных весовых коэффициентов и порогов <code>b</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(nn.aba)</code></pre></div>
+<pre><code>## a 6-7-4 network with 81 weights
+## options were - softmax modelling 
+##  b-&gt;h1 i1-&gt;h1 i2-&gt;h1 i3-&gt;h1 i4-&gt;h1 i5-&gt;h1 i6-&gt;h1 
+##  -0.34   2.99   0.43  -2.90   5.83  -4.60  19.04 
+##  b-&gt;h2 i1-&gt;h2 i2-&gt;h2 i3-&gt;h2 i4-&gt;h2 i5-&gt;h2 i6-&gt;h2 
+##   4.63 -12.33   2.68  19.62 -40.48 -14.39  -0.02 
+##  b-&gt;h3 i1-&gt;h3 i2-&gt;h3 i3-&gt;h3 i4-&gt;h3 i5-&gt;h3 i6-&gt;h3 
+##   1.52  -2.21  -3.20  -0.96   1.75   0.13  -3.35 
+##  b-&gt;h4 i1-&gt;h4 i2-&gt;h4 i3-&gt;h4 i4-&gt;h4 i5-&gt;h4 i6-&gt;h4 
+##   1.88  -1.28 -12.34  -2.01  40.15 -14.49   7.50 
+##  b-&gt;h5 i1-&gt;h5 i2-&gt;h5 i3-&gt;h5 i4-&gt;h5 i5-&gt;h5 i6-&gt;h5 
+##  19.41   9.95   3.98  16.32   4.67   4.44   5.46 
+##  b-&gt;h6 i1-&gt;h6 i2-&gt;h6 i3-&gt;h6 i4-&gt;h6 i5-&gt;h6 i6-&gt;h6 
+##   5.65   1.83   0.96   1.18   1.31   0.13   0.41 
+##  b-&gt;h7 i1-&gt;h7 i2-&gt;h7 i3-&gt;h7 i4-&gt;h7 i5-&gt;h7 i6-&gt;h7 
+##   5.72 -18.70  -4.43 -25.45  -0.72  -7.09 -11.77 
+##  b-&gt;o1 h1-&gt;o1 h2-&gt;o1 h3-&gt;o1 h4-&gt;o1 h5-&gt;o1 h6-&gt;o1 h7-&gt;o1 
+##  -3.54  -6.53  -2.53  16.48  20.87 -14.94  -2.48  16.14 
+##  b-&gt;o2 h1-&gt;o2 h2-&gt;o2 h3-&gt;o2 h4-&gt;o2 h5-&gt;o2 h6-&gt;o2 h7-&gt;o2 
+##   0.48  10.76  -1.07   5.57 -16.73   6.81  -1.98   8.53 
+##  b-&gt;o3 h1-&gt;o3 h2-&gt;o3 h3-&gt;o3 h4-&gt;o3 h5-&gt;o3 h6-&gt;o3 h7-&gt;o3 
+##   5.41  -2.51   0.93  -7.86 -11.87   7.88   3.52 -10.63 
+##  b-&gt;o4 h1-&gt;o4 h2-&gt;o4 h3-&gt;o4 h4-&gt;o4 h5-&gt;o4 h6-&gt;o4 h7-&gt;o4 
+##  -1.25  -3.73   4.25 -13.67   7.56  -0.76   0.63 -14.86</code></pre>
+<p>Рассмотрим теперь, насколько хороша полученная нейросетевая модель при выполнении предсказаний:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">predict</span>(nn.aba, abalone[, <span class="dv">3</span>:<span class="dv">8</span>], <span class="dt">type =</span> <span class="st">&quot;class&quot;</span>)
+nn.table &lt;-<span class="st"> </span><span class="kw">table</span>(abalone[, <span class="dv">10</span>], pred)
+<span class="kw">confusionMatrix</span>(nn.table)</code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##     pred
+##       Q1  Q2  Q3  Q4
+##   Q1 638 191   5   5
+##   Q2 160 777 246  74
+##   Q3  45 369 530 177
+##   Q4  11 156 262 531
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.5928          
+##                  95% CI : (0.5777, 0.6077)
+##     No Information Rate : 0.3574          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.4505          
+##  Mcnemar&#39;s Test P-Value : &lt; 2.2e-16       
+## 
+## Statistics by Class:
+## 
+##                      Class: Q1 Class: Q2 Class: Q3 Class: Q4
+## Sensitivity             0.7471    0.5204    0.5081    0.6747
+## Specificity             0.9395    0.8212    0.8114    0.8735
+## Pos Pred Value          0.7604    0.6181    0.4728    0.5531
+## Neg Pred Value          0.9353    0.7548    0.8321    0.9204
+## Prevalence              0.2045    0.3574    0.2497    0.1884
+## Detection Rate          0.1527    0.1860    0.1269    0.1271
+## Detection Prevalence    0.2009    0.3009    0.2684    0.2298
+## Balanced Accuracy       0.8433    0.6708    0.6598    0.7741</code></pre>
+<p>Точность предсказания возрастных категорий несколько возросла по сравнению с кумулятивным логитом (0.598 против 0.557), даже несмотря на то, что ковариату пол мы не использовали.</p>
+<p>Рассмотрим кратко еще две функции из пакета <code>caret</code>, предназначенные для работы с искусственными нейронными сетями. Серьезной проблемой при обучении ИНС может стать высокая мультиколлинеарность предикторов. Одним из вариантов ее решения является проецирование исходной выборки в пространство главных компонент (см. метод PCR в разделе 4.2). Если задаться некоторым порогом (аргумент <code>thresh</code>), то значения <span class="math inline">\(p\)</span> главных компонент, для которых накопленная доля объясненной дисперсии превышает этот порог, можно использовать как входы в нейронную сеть и настроить ее обычным способом как для регрессии, так и для классификации.</p>
+<p>Функция <code>pcaNNet()</code> является своеобразной оберткой для совместного выполнения предобработки данных, анализа главных компонент, и запуска функции <code>nnet()</code> для обучения сети на полученных главных компонентах.</p>
+<p>Выполним обучение сети для предсказания возрастной категории морских ушек с использованием параметра <code>thresh = 0.975</code> и числа нейронов в скрытом слое <code>size = 7</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pcaNNet.Fit &lt;-<span class="st"> </span><span class="kw">pcaNNet</span>(abalone[, <span class="dv">3</span>:<span class="dv">8</span>], abalone[,<span class="dv">10</span>], 
+                       <span class="dt">size =</span> <span class="dv">7</span>, <span class="dt">thresh =</span> <span class="fl">0.975</span>, 
+                       <span class="dt">linout =</span> <span class="ot">TRUE</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p>При значении <code>thresh = 0.975</code> на вход сети подается 4 главных компоненты, отвечающих этому условию. Для тестируемых данных такое же преобразование (основанное на факторных нагрузках для обучающего множества) применяется к новым значениям предикторов.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">predict</span>(pcaNNet.Fit, abalone[, <span class="dv">3</span>:<span class="dv">8</span>], <span class="dt">type =</span> <span class="st">&quot;class&quot;</span>)
+(<span class="kw">table</span>(Факт =<span class="st"> </span>abalone$Возраст, Прогноз =<span class="st"> </span>pred))</code></pre></div>
+<pre><code>##     Прогноз
+## Факт  Q1  Q2  Q3  Q4
+##   Q1 639 186   6   8
+##   Q2 172 730 259  96
+##   Q3  51 324 521 225
+##   Q4  12 146 272 530</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Acc &lt;-<span class="st"> </span><span class="kw">mean</span>(pred ==<span class="st"> </span>abalone$Возраст)
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=57.94%&quot;</code></pre>
+<p>В разделе <a href="044-Ensembles.html#sec_4_4">4.4</a> была описана процедура бэггинга, как общего метода агрегирования моделей произвольной структуры, построенных на бутстреп-выборках из исходного набора данных. Функция <code>avNNet()</code> осуществляет обучение заданного множества моделей нейронной сети на одном и том же наборе данных. Модели могут различаться как из-за случайного дрейфа стартовых параметров калибровки сети (Ripley, 1996), так и вследствие использования бутстреп-выборок, извлеченных из исходного обучающего множества. Для моделей классификации функция <code>avNNet()</code> оценивает среднее значение вероятностей классов на основе частных прогнозов каждой из моделей созданного ансамбля и далее производит заключительное предсказание класса.</p>
+<p>Для рассматриваемого примера сформируем 10 экземпляров моделей ИНС с использованием бэггинга:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">avNNet.Fit &lt;-<span class="st"> </span><span class="kw">avNNet</span>(Возраст ~<span class="st"> </span>., <span class="dt">data =</span> abalone[, <span class="kw">c</span>(<span class="dv">3</span>:<span class="dv">8</span>, <span class="dv">10</span>)],
+                            <span class="dt">size =</span> <span class="dv">7</span>, <span class="dt">repeats =</span> <span class="dv">10</span>, <span class="dt">linout =</span> <span class="ot">TRUE</span>, 
+                            <span class="dt">trace =</span> <span class="ot">FALSE</span>, <span class="dt">bag =</span> <span class="ot">TRUE</span>)
+pred &lt;-<span class="st"> </span><span class="kw">predict</span>(avNNet.Fit, abalone[, <span class="dv">3</span>:<span class="dv">8</span>], <span class="dt">type =</span> <span class="st">&quot;class&quot;</span>)
+Acc &lt;-<span class="st"> </span><span class="kw">mean</span>(pred ==<span class="st"> </span>abalone$Возраст)
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=59.11%&quot;</code></pre>
 
 </div>
             </section>
@@ -267,8 +379,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="081-Logit-for-Count.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="083-Model-Complexes.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

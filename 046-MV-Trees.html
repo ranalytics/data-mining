@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="045-Comparing-Trees.html">
+<link rel="next" href="051-Association-Rules.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,47 +228,101 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_4_6" class="section level2">
+<h2><span class="header-section-number">4.6</span> Деревья регрессии с многомерным откликом</h2>
+<p>В разделе <a href="043-Decision-Trees.html#sec_4_3">4.3</a> мы рассмотрели деревья CART, прогнозирующие конкретное значение одной зависимой переменной Y. Развитием этих идей являются деревья многомерной классификации и регрессии (MRT, Multivariate Regression Trees - De’Ath, 2002). Если в случае обычной регрессии строится модель, прогнозирующая значения одномерного вектора, то многомерный отклик задается в виде двумерной таблицы, содержащей несколько столбцов наблюдаемых признаков. Ставится задача оценить, какие предикторы и в какой степени влияют на совокупную изменчивость количественных соотношений между отдельными компонентами отклика.</p>
+<p>Как и в одномерном случае, деревья MRT формируются в результате рекурсивной процедуры разделения строк таблицы данных на гомогенные подмножества, которая реализуется с использованием набора внешних количественных или категориальных независимых переменных <span class="math inline">\(\mathbf{X}\)</span>. “Листьями” полученного дерева являются кластеры объектов, скомпонованные таким образом, чтобы минимизировать различия между точками в многомерном пространстве в пределах каждой совокупности.</p>
+<p>Искомым критерием, минимизирующим внутригрупповые различия, может быть, например, сумма квадратов отклонений <span class="math inline">\(SS_D = \sum_{ij} (y_{ij} - \bar{y}_j)^2\)</span>, где где <span class="math inline">\(y_{ij}\)</span> - значение показателя отклика <span class="math inline">\(j\)</span> для наблюдения <span class="math inline">\(i\)</span>; <span class="math inline">\(\bar{y}_j\)</span> средние значения этого показателя для формируемого кластера, куда включается <span class="math inline">\(i\)</span>-е наблюдение. Геометрически <span class="math inline">\(SS_D\)</span> можно представить как сумму евклидовых расстояний от объединяемых объектов до центра их группировки.</p>
+<p>Процедура многомерной классификации состоит из последовательности шагов, на каждом из которых синхронно выполняются следующие действия: (а) бинарное разбиение объектов на группы, обусловленное значением одной из независимых переменных, и (б) перекрестная проверка полученных результатов.</p>
+<p>Рассмотрим построение дерева MRT на знакомом нам по предыдущим разделам примере анализа обилия водорослей в зависимости от гидрохимических показателей воды и условий отбора проб в водотоках. Для переменных <code>a1</code>-<code>a7</code>, описывающих численности 7 групп водорослей, выполним преобразование Бокса-Кокса и шкалирование, что даст нам возможность соизмерить между собой значения различных показателей и корректно вычислить статистики <span class="math inline">\(SS_D\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;algae.RData&quot;</span>) <span class="co"># Загрузка таблицы algae - раздел 4.1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+Transal &lt;-<span class="st"> </span><span class="kw">preProcess</span>(algae[, <span class="dv">12</span>:<span class="dv">18</span>], <span class="dt">method =</span> <span class="kw">c</span>(<span class="st">&quot;BoxCox&quot;</span>, <span class="st">&quot;scale&quot;</span>))
+Species &lt;-<span class="st"> </span><span class="kw">predict</span>(Transal, algae[, <span class="dv">12</span>:<span class="dv">18</span>])</code></pre></div>
+<p>Построение дерева MRT будем осуществлять с использованием функции <code>mvpart()</code> из пакета <code>mvpart</code>. В левой части формулы, задающей структуру модели, представим матрицу из трансформированных численностей семи групп водорослей <code>Species</code>, а в правой части - независимые гидрохимические показатели рек <code>algae[, 1:11]</code>:<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mvpart) 
+spe.mvpart &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">data.matrix</span>(Species) ~<span class="st"> </span>., algae[, <span class="dv">1</span>:<span class="dv">11</span>], 
+                     <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(Species),
+                     <span class="dt">xvmult =</span> <span class="dv">1</span>, <span class="dt">margin =</span> <span class="fl">0.08</span>, <span class="dt">which =</span> <span class="dv">4</span>, <span class="dt">bars =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Здесь параметры <code>xval</code> и <code>xvmult</code> соответствуют числу блоков и повторностей перекрестной проверки, т.е. при <code>xval = nrow(Species)</code> осуществляется скользящий контроль. Аргументы <code>margin</code> (ширина полей), <code>which</code> (расположение текста) и <code>bars</code> (вывод столбиковых диаграмм) задают атрибуты визуализации дерева. Важный параметр <code>xv</code> определяет условие выбора числа листьев дерева: при значении <code>&quot;best&quot;</code> оно определяется автоматически по результатам перекрестной проверки, а при <code>&quot;pick&quot;</code> размеры дерева можно выбрать интерактивно, выполнив щелчок мышью по следующему графику (рис. <a href="046-MV-Trees.html#fig:fig-4-20">4.20</a>):</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-20"></span>
+<img src="figures/mvpart.png" alt="Зависимость относительной ошибки перекрестной проверки от числа узлов дерева"  />
+<p class="caption">
+Рисунок 4.20: Зависимость относительной ошибки перекрестной проверки от числа узлов дерева
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>Из представленного графика видно, что при увеличении размеров дерева ошибка на обучающей выборке (зеленые точки) постоянно уменьшается, а ошибка перекрестной проверки - монотонно возрастает (синие точки). Рекомендуемое число листьев в точке их пересечения - 2. Однако, если в предыдущих сообщениях нам было важно получить максимальную точность моделей при прогнозировании, то в случае моделей МRТ более важна их объясняющая составляющая. Поэтому, чтобы выполнить содержательный анализ зависимости свойств найденных групп водорослей от внешних факторов, разделим все множество наблюдений на 4 кластера и изобразим полученное дерево графически (рис. <a href="046-MV-Trees.html#fig:fig-4-21">4.21</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(spe.mvpart)
+<span class="kw">text</span>(spe.mvpart)  </code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-21"></span>
+<img src="figures/mvpart_res.png" alt="Построенное дерево с многомерным откликом"  />
+<p class="caption">
+Рисунок 4.21: Построенное дерево с многомерным откликом
+</p>
 </div>
+<p>Рассмотрим более внимательно некоторые нюансы итеративной процедуры построения модели MRT:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(spe.mvpart) <span class="co"># Протокол приведен с сокращениями</span></code></pre></div>
+<p><img src="figures/mvpart_output.png" style="display: block; margin: auto;" /></p>
+<p>На первом шаге <code>Node number 1</code> рассматриваются все варианты разбиения исходной выборки на две части при разных опорных значениях независимых факторов и выбирается такой из них (в нашем случае хлориды <code>Cl &lt; 9.0275</code>), который в наибольшей мере обеспечивает статистическую гомогенность формируемых кластеров (<code>complexity param = 0.0956423</code>). Кластер 2 из 47 наблюдений на последующих шагах не разбивается, а 153 наблюдения слева вновь делятся на два подмножества по условию <code>mnO2 &lt; 7.85</code> в соотношении 51 + 102. Последнее подмножество по условию <code>NO3 &lt; 6.194</code> в свою очередь делится на два кластера, на чем итерации завершаются.</p>
+<p>Анализ многомерного отклика сообщества водорослей с помощью деревьев MRT предоставляет исследователю много дополнительных возможностей интерпретации результатов. В первую очередь, это связано с оценкой того, какие компоненты отклика и их ассоциации инициируют разбиение исходной совокупности на узлах дерева и предопределяют состав сформированных подмножеств объектов:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Относительная доля групп водорослей в кластерах</span>
+groups.mrt &lt;-<span class="st"> </span><span class="kw">levels</span>(<span class="kw">as.factor</span>(spe.mvpart$where))
+leaf.sum &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="kw">length</span>(groups.mrt), <span class="kw">ncol</span>(Species))  
+<span class="kw">colnames</span>(leaf.sum) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Species)
+<span class="kw">rownames</span>(leaf.sum) &lt;-<span class="st"> </span>groups.mrt
+for (i in <span class="dv">1</span>:<span class="kw">length</span>(groups.mrt)){
+    leaf.sum[i,] &lt;-<span class="st"> </span><span class="kw">apply</span>(Species[which
+                                  (spe.mvpart$where ==<span class="st"> </span>groups.mrt[i]), ], <span class="dv">2</span>, sum)
+} 
 
+<span class="kw">head</span>(<span class="kw">round</span>(leaf.sum, <span class="dv">3</span>))</code></pre></div>
+<pre><code>##        a1     a2     a3     a4     a5     a6    a7
+## 4  68.759  9.458 16.205  5.093  3.631  2.624 5.816
+## 5   3.082  0.000  6.404  0.815  0.000  0.000 0.000
+## 6  16.437  0.417  0.561 12.609  0.000  0.437 0.330
+## 12 11.931 18.843  4.591  5.592 22.853 10.094 5.719
+## 14 18.254  5.296  8.980  3.871  8.183  5.334 2.210
+## 15 10.521  0.091  0.245  0.226  0.387  0.120 0.194</code></pre>
+<p>Разумеется, эти суммы не соответствуют значениям абсолютных численностей водорослей, поскольку набор исходных данных подвергался преобразованию Бокса-Кокса и шкалированию.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  Вывод диаграммы типа &quot;разрезанный пирог&quot;</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)) ; for (i in <span class="dv">1</span>:<span class="kw">length</span>(groups.mrt)){
+    <span class="kw">pie</span>(leaf.sum[i, <span class="kw">which</span>(leaf.sum[i,] &gt;<span class="st"> </span><span class="dv">0</span>)], <span class="dt">radius =</span> <span class="dv">1</span>, 
+        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Кл. №&quot;</span>, groups.mrt[i])) }</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-22"></span>
+<img src="figures/mvpart_pies.png" alt="Диаграммы долей средних численностей групп водорослей"  />
+<p class="caption">
+Рисунок 4.22: Диаграммы долей средних численностей групп водорослей
+</p>
+</div>
+<p>Мы получили диаграммы долей усредненных численностей групп водорослей для четырех кластеров, составивших “листья” МRТ (рис. <a href="046-MV-Trees.html#fig:fig-4-22">4.22</a>). Их визуальный анализ показывает, что подмножество 2 составлено с явным доминированием группы <code>a1</code>, подмножество 6 - с доминированием групп <code>a5</code> и <code>a6</code>, а два остальных кластера не имеют столь характерных признаков. Видимо, перекрестная проверка все же имела все основания рекомендовать нам разбиение только на два кластера.</p>
+<p>Можно также оценить, насколько велика неоднородность между кластерами, выполнив редукцию многомерного отклика <code>Species</code> и проецирование данных из многомерного пространства на плоскость с осями из двух первых главных компонент (СА). На сформированной диаграмме конкретные наблюдения, отнесенные МRТ к разным кластерам, выделены отдельные цветами и обозначены контуром, проведенным через крайние точки. В центрах тяжести областей каждого из четырех блоков данных помещен крупный кружок, обозначающий их центроид.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  Вывод диаграммы РСА</span>
+<span class="kw">rpart.pca</span>(spe.mvpart)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-23"></span>
+<img src="figures/mvpart_pca.png" alt="Диаграмма четырех групп водорослей в пространстве двух главных компонент"  />
+<p class="caption">
+Рисунок 4.23: Диаграмма четырех групп водорослей в пространстве двух главных компонент
+</p>
+</div>
+<p>Из центра координат диаграммы проводятся дополнительные оси ординации, косинусы углов между которыми соответствуют коэффициентам корреляции между каждой парой из 7 групп водорослей. Проекции точек на каждую ось ординации определяют характер распределения показателя по кластерам с разными внешними факторами. Например, на ось а1 проецируются в основном красные точки кластера 2, объединяющего наблюдения с низким содержанием хлоридов <code>Cl &lt; 9.0275</code>.</p>
+<p>Настоящий раздел можно рассматривать в качестве “реквиема” по этому весьма оригинальному и практически полезному пакету: <code>mvpart</code> был удален из репозитория CRAN и для версий R выше 3.1 отсутствует. Это уже не первый случай, когда авторы перестают поддерживать важные и популярные функциональные компоненты: например, та же участь постигла удачный пакет <code>lmRepm</code>, в котором функции построения линейных моделей <code>lm()</code> и <code>anova()</code> при оценке статистических критериев используют перестановочные алгоритмы и не столь жестко связаны с предположениями о характере распределения данных.</p>
+<p>Выхода из подобной ситуации может быть два. Во-первых, ничто не мешает установить на компьютер несколько версий R (так, один авторов этой книги при любой возможности отдает предпочтение старенькой, но симпатичной версии 2.12). Другая возможность - осуществить компиляцию последней версии пакета <code>mvpart_1.6-2</code> из архива CRAN в вашей текущей версии R (см. рекомендации в сообщении на <a href="http://stackoverflow.com/questions/29656320/r-mvpart-package-any-option-to-use-in-r-3-1-x">http://stackoverflow.com</a>).</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="8">
+<li id="fn8"><p>Пакет <code>mvpart</code> был удален из хранилища CRAN, однако его можно скачать из архива CRAN и установить с помощью команды вроде следующей: <code>install.packages(&quot;C:/Desktop/mvpart_1.6-2.tar.gz&quot;, repos = NULL, type = &quot;source&quot;)</code><a href="046-MV-Trees.html#fnref8">↩</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="045-Comparing-Trees.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="051-Association-Rules.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

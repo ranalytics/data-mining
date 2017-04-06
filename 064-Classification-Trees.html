@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="063-Nonlinear-Borders.html">
+<link rel="next" href="065-Comparing-Classifiers.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,118 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_6_4" class="section level2">
+<h2><span class="header-section-number">6.4</span> Деревья классификации, случайный лес и логистическая регрессия</h2>
+<p>Выполним построение еще трех бинарных классификаторов для предсказания марки стекла на основе методов, использованных нами в главе <a href="041-Regression-Models.html#ch_4">4</a> при выполнении регрессионного анализа.</p>
+<p>Как упоминалось ранее, деревья решений CART могут эффективно применяться и для прогнозирования бинарного отклика. При построении дерева важно установить оптимальный уровень ветвления и выбрать значение относительного параметра стоимости сложности <code>cp</code>. Визуализацию дерева выполним с помощью пакета <code>rpart.plot</code> (рис. <a href="064-Classification-Trees.html#fig:fig-6-7">6.7</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;data/Glass.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>,
+                     <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)
+DGlass$FAC &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(DGlass$Class ==<span class="st"> </span><span class="dv">2</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Flash&quot;</span>))
+control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>,<span class="dt">repeats =</span> <span class="dv">3</span>)
+<span class="kw">set.seed</span>(<span class="dv">7</span>)
+fit.cart &lt;-<span class="st"> </span><span class="kw">train</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>], DGlass$FAC, 
+                  <span class="dt">method =</span> <span class="st">&quot;rpart&quot;</span>, <span class="dt">trControl =</span> control)
+<span class="kw">library</span>(rpart.plot)
+<span class="kw">rpart.plot</span>(fit.cart$finalModel)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-6-7"></span>
+<img src="064-Classification-Trees_files/figure-html/fig-6-7-1.png" alt="Дерево `rpart` для прогнозирования типа стекла" width="576" />
+<p class="caption">
+Рисунок 6.7: Дерево <code>rpart</code> для прогнозирования типа стекла
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<p>В узлах и листьях дерева на рис. <a href="064-Classification-Trees.html#fig:fig-6-7">6.7</a> указаны доля примеров в этой группе от объема всей обучающей выборки (%) и вероятность прогноза “не флэш-стекло”. Оценим адекватность модели по точности прогноза на обучающей выборке:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">predict</span>( fit.cart, DGlass[, <span class="dv">1</span>:<span class="dv">9</span>])
+(<span class="kw">table</span>(Факт =<span class="st"> </span>DGlass$FAC, Прогноз =<span class="st"> </span>pred))</code></pre></div>
+<pre><code>##        Прогноз
+## Факт    Flash No
+##   Flash    77 10
+##   No       21 55</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Acc &lt;-<span class="st"> </span><span class="kw">mean</span>(pred ==<span class="st"> </span>DGlass$FAC)
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=80.98%&quot;</code></pre>
+<p>Метод <em>случайного леса</em> (random forest) осуществляет бутстреп-агрегирование некоторого множества деревьев решений. Для создания оптимального ансамбля необходимо выбрать значение <code>mtry</code>, определяющее число исходных переменных, которые участвуют в выращивании деревьев:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">7</span>)
+fit.rf &lt;-<span class="st"> </span><span class="kw">train</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>], DGlass$FAC, 
+                <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>, <span class="dt">trControl =</span> control)
+fit.rf$finalModel</code></pre></div>
+<pre><code>## 
+## Call:
+##  randomForest(x = x, y = y, mtry = param$mtry) 
+##                Type of random forest: classification
+##                      Number of trees: 500
+## No. of variables tried at each split: 2
+## 
+##         OOB estimate of  error rate: 12.88%
+## Confusion matrix:
+##       Flash No class.error
+## Flash    81  6  0.06896552
+## No       15 61  0.19736842</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">predict</span>(fit.rf, DGlass[, <span class="dv">1</span>:<span class="dv">9</span>])
+(<span class="kw">table</span>(Факт =<span class="st"> </span>DGlass$FAC, Прогноз =<span class="st"> </span>pred))</code></pre></div>
+<pre><code>##        Прогноз
+## Факт    Flash No
+##   Flash    87  0
+##   No        0 76</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Acc &lt;-<span class="st"> </span><span class="kw">mean</span>(pred ==<span class="st"> </span>DGlass$FAC)
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=100%&quot;</code></pre>
+<p>Из протокола расчетов видно, что: а) на каждом шаге ветвления выбор идет только из двух случайных переменных, б) в итоге был составлен ансамбль из 500 деревьев, в) средняя ошибка по наблюдениям, не попавшим в “сумку” (OOB error), равна 12.27%, г) модель правильно предсказывает класс всех объектов обучающей выборки.</p>
+<p>Приступим теперь к построению логистической регрессии LR, как это было сделано в разделе <a href="051-Association-Rules.html#sec_5_1">5.1</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass$FAC &lt;-<span class="st"> </span><span class="kw">ifelse</span>(DGlass$Class ==<span class="st"> </span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+logit.all &lt;-<span class="st"> </span><span class="kw">glm</span>(FAC ~<span class="st"> </span>., <span class="dt">data =</span> DGlass[, -<span class="dv">10</span>], <span class="dt">family =</span> binomial)
+mp.all &lt;-<span class="st"> </span><span class="kw">predict</span>(logit.all, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
+Acc &lt;-<span class="st"> </span><span class="kw">mean</span>(DGlass$FAC ==<span class="st"> </span><span class="kw">ifelse</span>(mp.all &gt;<span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>))
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=73.62%&quot;</code></pre>
+<p>Получим теперь ошибку перекрестной проверки по методу скользящего контроля с использованием функции <code>cv.glm()</code> из пакета <code>boot</code>. Обратим внимание на необходимость функции <code>cost</code>, которая пересчитывает значение <code>delta</code> из ошибки оценки вероятностей в ошибку предсказания класса:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(boot)
+cost &lt;-<span class="st"> </span>function(r, <span class="dt">pi =</span> <span class="dv">0</span>) <span class="kw">mean</span>(<span class="kw">abs</span>(r -<span class="st"> </span>pi) &gt;<span class="st"> </span><span class="fl">0.5</span>)
+Acc &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span><span class="kw">cv.glm</span>(DGlass[,-<span class="dv">10</span>], logit.all, cost)$delta[<span class="dv">1</span>]
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=68.71%&quot;</code></pre>
+<p>Выполним пошаговую процедуру селекции независимых переменных и оценим ошибки предсказания:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Регрессия на информативные переменные</span>
+logit.step &lt;-<span class="st"> </span><span class="kw">step</span>(logit.all, <span class="dt">trace =</span> <span class="dv">0</span>)
+<span class="kw">summary</span>(logit.step)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = FAC ~ RI + Na + Mg + Si + K + Ca + Ba, family = binomial, 
+##     data = DGlass[, -10])
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.0742  -0.8878  -0.2400   0.8731   2.0119  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -328.3768   352.0813  -0.933 0.350989    
+## RI           472.1567   235.8428   2.002 0.045285 *  
+## Na            -3.6626     1.1071  -3.308 0.000939 ***
+## Mg            -5.9264     1.1531  -5.140 2.75e-07 ***
+## Si            -3.7897     0.9963  -3.804 0.000143 ***
+## K             -3.1497     2.1582  -1.459 0.144455    
+## Ca            -4.9433     1.1783  -4.195 2.73e-05 ***
+## Ba            -5.6440     3.0682  -1.840 0.065838 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 225.22  on 162  degrees of freedom
+## Residual deviance: 166.92  on 155  degrees of freedom
+## AIC: 182.92
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ошибка на обучающей выборке</span>
+mp.step &lt;-<span class="st"> </span><span class="kw">predict</span>(logit.step, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
+Acc &lt;-<span class="st"> </span><span class="kw">mean</span>(DGlass$FAC ==<span class="st"> </span><span class="kw">ifelse</span>(mp.step &gt;<span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>))
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=71.78%&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ошибка при скользящем контроле</span>
+Acc &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span><span class="kw">cv.glm</span>(DGlass[, -<span class="dv">10</span>], logit.step, cost)$delta[<span class="dv">1</span>]
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=69.33%&quot;</code></pre>
+<p>Исключение нескольких переменных не привело к улучшению характеристик модели логистической регрессии. Если использовать метод RFE, то можно прийти к тому же подмножеству предикторов, а тестирование моделей с применением функции <code>train()</code> приведет примерно к такому же соотношению эффективности обоих моделей (читатели могут проверить это самостоятельно).</p>
 
 </div>
             </section>
@@ -267,8 +347,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="063-Nonlinear-Borders.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="065-Comparing-Classifiers.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

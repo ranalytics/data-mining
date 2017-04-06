@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="102-H-Clustering.html">
+<link rel="next" href="104-Other-Clustering-Methods.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,47 +228,141 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_10_3" class="section level2">
+<h2><span class="header-section-number">10.3</span> Оценка качества кластеризации</h2>
+<p>После создания кластерного решения обычно возникает вопрос, насколько оно устойчиво и статистически значимо. Здесь существует эмпирическое правило - устойчивая группировка должна сохраняться при изменении методов кластеризации: например, если результаты иерархического кластерного анализа имеют долю совпадений более 70% с группировкой по методу <span class="math inline">\(k\)</span> средних, то предположение об устойчивости принимается.</p>
+<p>В теоретическом плане проблема проверки адекватности кластеризации не решена, по крайней мере, без использования другого вида анализа или априорного знания принадлежности объектов к соответствующим классам. Авторы сборника Ким и др. (1989, с. 192 и далее) подробно рассматривают и в итоге отвергают пять методов проверки адекватности кластеризации (<a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7">ru.wikipedia.org</a>):</p>
+<ol style="list-style-type: decimal">
+<li>Кофенетическая корреляция – не рекомендуется и ограниченна в использовании;</li>
+<li>Тесты на значимость разбиения данных на кластеры (многомерный дисперсионный анализ) – всегда дают значимый результат;</li>
+<li>Методика повторных (случайных) выборок – не доказывает обоснованность решения;</li>
+<li>Тесты значимости для признаков, не использованных при кластеризации, – пригодны только при наличии повторных измерений;</li>
+<li>Методы Монте-Карло очень сложны и доступны только опытным математикам.</li>
+</ol>
+<p>С тех пор в литературе предложено множество методов и критериев оценки качества результатов кластеризации (clustering validation). Можно выделить несколько подходов к валидации<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a> кластеров (Kassambara, 2017):</p>
+<ul>
+<li><em>внешняя валидация</em>, которая заключается в сравнении итогов кластерного анализа с заранее известным результатом (т.е. метки кластеров известны априори);</li>
+<li><em>относительная валидация</em>, которая оценивает структуру кластеров, изменяя различные параметры одного и того же алгоритма (например, число групп <span class="math inline">\(k\)</span>);</li>
+<li><em>внутренняя валидация</em>, которая использует внутреннюю информацию процесса объединения в кластеры (если внешняя информация отсутствует);</li>
+<li><em>оценка стабильности</em> объединения в кластеры (или специальная версия внутренней валидации), использующая методы ресэмплинга.</li>
+</ul>
+<p>Одна из проблем машинного обучения без учителя состоит в том, что методы кластеризации будут формировать группы, даже если анализируемый набор данных представляет собой полностью случайную структуру. Поэтому первой задачей валидации, которую рекомендуется выполнить перед началом кластерного анализа, является оценка общей предрасположенности имеющихся данных к объединению в кластеры (clustering tendency).</p>
+<p><em>Статистика Хопкинса</em> (Hopkins) является одним из индикаторов тенденции к группированию. Для ее расчета создается B псевдо-наборов данных, сгенерированных случайным образом на основе распределения с тем же стандартным отклонением, что и оригинальный набор данных. Для каждого наблюдения <span class="math inline">\(i\)</span> из <span class="math inline">\(n\)</span> рассчитывается среднее расстояние до <span class="math inline">\(k\)</span> ближайших соседей: <span class="math inline">\(w_i\)</span> между реальными объектами и <span class="math inline">\(q_i\)</span> между искусственными объектами и их самыми близкими реальными соседями. Тогда статистика Хопкинса</p>
+<p><span class="math display">\[H_{ind} = \frac{\sum_n w_i}{\sum_n q_i + \sum_n w_i},\]</span></p>
+<p>превышающая 0.5, будет соответствовать нулевой гипотезе о том, что <span class="math inline">\(q_i\)</span> и <span class="math inline">\(w_i\)</span> подобны, а группируемые объекты распределены случайно и однородно. Величина <span class="math inline">\(H_{ind} &lt; 0.25\)</span> на 90%-нном уровне уверенности указывает на имеющуюся тенденцию к группированию данных.</p>
+<p>Весьма полезна также визуальная оценка тенденции (VAT, Visual Assessment of cluster Tendency): потенциальные группы представлены темными квадратами вдоль главной диагонали “VAT-диаграммы”. Функция <code>get_clust_tendency()</code> из пакета <code>factoextra</code> попутно с графиком рассчитывает также и статистику Хопкинса:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cluster)
+<span class="kw">data</span>(<span class="st">&quot;USArrests&quot;</span>)
+df.stand &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">scale</span>(USArrests))
+<span class="kw">library</span>(<span class="st">&quot;factoextra&quot;</span>)
+<span class="kw">get_clust_tendency</span>(df.stand, <span class="dt">n =</span> <span class="dv">30</span>,
+                   <span class="dt">gradient =</span> <span class="kw">list</span>(<span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;white&quot;</span>))</code></pre></div>
+<pre><code>## $hopkins_stat
+## [1] 0.386467
+## 
+## $plot</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-10"></span>
+<img src="103-Clustering-Quality_files/figure-html/fig-10-10-1.png" alt="Корреляция между кластеризациями на основе разных методов" width="480" />
+<p class="caption">
+Рисунок 10.10: Корреляция между кластеризациями на основе разных методов
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>В случае криминогенности штатов США мы имеем весьма умеренную склонность к образованию групп. В разделе <a href="101-Partitioning-Algos.html#sec_10_1">10.1</a> мы рассмотрели три метода выбора оптимального числа кластеров, которые не всегда давали однозначные оценки. “Но это еще не все…”. С помощью пакета <code>NbClust</code> можно найти оптимальную схему объединения в кластеры, используя ни много ни мало целых 30 индексов качества! При этом происходит перебор различных комбинаций числа групп, метрик дистанции и методов кластеризации:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(NbClust)
+nb &lt;-<span class="st"> </span><span class="kw">NbClust</span>(df.stand, <span class="dt">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="dt">min.nc =</span> <span class="dv">2</span>,
+              <span class="dt">max.nc =</span> <span class="dv">8</span>, <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>, <span class="dt">index =</span> <span class="st">&quot;all&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nb$Best.nc</code></pre></div>
+<pre><code>##                      KL     CH Hartigan    CCC   Scott  Marriot   TrCovW
+## Number_clusters  8.0000  2.000   5.0000  2.000  5.0000      5.0   4.0000
+## Value_Index     24.0818 43.462  12.3077 -0.141 43.9763 180497.5 383.4582
+##                  TraceW Friedman   Rubin Cindex     DB Silhouette   Duda
+## Number_clusters  5.0000   6.0000  5.0000 4.0000 4.0000     2.0000 2.0000
+## Value_Index     15.3518   2.8394 -0.5185 0.3713 0.7784     0.4085 1.0397
+##                 PseudoT2   Beale Ratkowsky    Ball PtBiserial Frey McClain
+## Number_clusters   2.0000  2.0000    2.0000  3.0000     3.0000    1   2.000
+## Value_Index      -0.6878 -0.0874    0.4466 18.8709     0.6361   NA   0.547
+##                   Dunn Hubert SDindex Dindex   SDbw
+## Number_clusters 8.0000      0  4.0000      0 8.0000
+## Value_Index     0.2509      0  1.2638      0 0.1636</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(nb) +<span class="st"> </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<pre><code>## Among all indices: 
+## ===================
+## * 2 proposed  0 as the best number of clusters
+## * 1 proposed  1 as the best number of clusters
+## * 8 proposed  2 as the best number of clusters
+## * 2 proposed  3 as the best number of clusters
+## * 4 proposed  4 as the best number of clusters
+## * 5 proposed  5 as the best number of clusters
+## * 1 proposed  6 as the best number of clusters
+## * 3 proposed  8 as the best number of clusters
+## 
+## Conclusion
+## =========================
+## * According to the majority rule, the best number of clusters is  2 .</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-11"></span>
+<img src="103-Clustering-Quality_files/figure-html/fig-10-11-1.png" alt="Оптимальное число кластеров по оценкам различных индексов" width="480" />
+<p class="caption">
+Рисунок 10.11: Оптимальное число кластеров по оценкам различных индексов
+</p>
 </div>
+<p>Разброс оценок числа классов наилучшего разбиения весьма велик: от 2 по индексу МакКлайна до 8 по индексу Данна, поэтому приходится прибегать к тривиальному голосованию.</p>
+<p><em>Кофенетическую корреляцию</em> можно также рассчитать между исходной матрицей дистанции и матрицей кофенетических расстояний, и тогда она может служить мерой адекватности кластерного решения исходным данным. Оценим по этому показателю пять иерархических кластеризаций, сравниваемых между собой в предыдущем разделе (Borcard et al., 2011):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">dist</span>(df.stand, <span class="dt">method =</span> <span class="st">&quot;euclidean&quot;</span>)
+<span class="kw">library</span>(vegan)
+hc_list &lt;-<span class="st"> </span><span class="kw">list</span>(hc1 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d,<span class="st">&quot;com&quot;</span>),
+                hc2 &lt;-<span class="st">  </span><span class="kw">hclust</span>(d,<span class="st">&quot;single&quot;</span>), hc3 &lt;-<span class="st">  </span><span class="kw">hclust</span>(d,<span class="st">&quot;ave&quot;</span>),
+                hc4 &lt;-<span class="st">  </span><span class="kw">hclust</span>(d, <span class="st">&quot;centroid&quot;</span>), hc5 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="st">&quot;ward.D2&quot;</span>))
+Coph &lt;-<span class="st"> </span><span class="kw">rbind</span>(
+    MantelStat &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(hc_list, 
+                                function(hc) <span class="kw">mantel</span>(d, <span class="kw">cophenetic</span>(hc))$statistic)),
+    MantelP &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(hc_list, 
+                             function(hc) <span class="kw">mantel</span>(d, <span class="kw">cophenetic</span>(hc))$signif)))
+<span class="kw">colnames</span>(Coph) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Complete&quot;</span>, <span class="st">&quot;Single&quot;</span>, <span class="st">&quot;Average&quot;</span>, <span class="st">&quot;Centroid&quot;</span>, <span class="st">&quot;Ward.D2&quot;</span>) 
+<span class="kw">rownames</span>(Coph) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;W Мантеля&quot;</span>, <span class="st">&quot;Р-значение&quot;</span>)
+<span class="kw">round</span>(Coph, <span class="dv">3</span>)</code></pre></div>
+<pre><code>##            Complete Single Average Centroid Ward.D2
+## W Мантеля     0.698  0.541   0.718    0.607   0.698
+## Р-значение    0.001  0.001   0.001    0.001   0.001</code></pre>
+<p>Таким образом, максимальное значение коэффициента W матричной корреляции Мантеля (а, следовательно, и наибольшая адекватность матрице расстояний, построенной по исходным данным) принадлежит кластеризации по методу средней связи. Нелишне заметить, что все рассмотренные кластеризации статистически значимы, т.е. не могут быть объяснены случайными причинами (впрочем, такое будет почти всегда). Наконец, Ким и др. (1989) не рекомендуют использовать кофенетическую корреляцию в основном по причине несоответствия кофенетических расстояний нормальному распределению. Можно, однако, привести массу аргументов, показывающих откровенную слабость этих утверждений.</p>
+<p>После того, как мы попытались оценить, насколько хорошо топология дендрограммы отображает предрасположенность объектов к группированию, остаются некоторые вопросы, вызывающие несомненный интерес. Можно ли вычислить <span class="math inline">\(p\)</span>-значения в целом для полученной иерархической кластеризации? Какие фрагменты древовидной структуры являются “слабым звеном” в полученной конструкции?</p>
+<p>Однако правомерен и контрвопрос: “Нужно ли вычислять эти <span class="math inline">\(р\)</span>-значения?” Как убедительно сказано в книге Джеймс и др. (2016), не существует правильных или неправильных результатов кластеризации, поскольку, по определению, это метод обучения без учителя. Все определяется соответствием полученного решения поставленной задаче, которая на практике в большинстве случаев сводится просто к тому, чтобы приблизительно оценить, на сколько групп целесообразно разделить данные. При этом степень этого соответствия всегда будет субъективной.</p>
+<p>Ответ на второй вопрос об устойчивости фрагментов кластерной структуры состоит в том, чтобы взять из исходной таблицы множество повторных выборок, построить для каждой из них свою дендрограмму и вычислить частоту встречаемости каждого фрагмента в сформированной последовательности разбиений. Разумеется, здесь невозможно обойтись без бутстрепа, позволяющего подсчитать вероятность BP (Bootstrap Probability) встречаемости произвольного узла в бутстреп-копиях. Обычно фрагменты древовидной структуры считаются статистически значимыми, если с ветвями дерева связывается бутстреп-вероятность, превышающая 70-80%.</p>
+<p>Х. Шимодейра (Shimodaira, 2002), сравнивая центры распределения исходной и бутстреп-выборок, показал, что величина BP является приближенной оценкой вероятности появления узла в дереве. Несмещенную оценку вероятности AU (Approximately Unbiased) можно получить, выполнив повторную серию бутстрепа в различных масштабах (multiscale bootstrap resampling). Для этого отдельно вычисляют BP-значения, формируя бутстреп-выборки разного объема: например, <span class="math inline">\(0.5n, 0.6n, \dots, 1.4n, 1.5n\)</span>, где <span class="math inline">\(n\)</span> - объем исходной выборки. Несмещенная бутстреп-вероятность AU находится аппроксимацией ряда полученных значений BP. Оптимальные оценки AU для каждого кластера дендрограммы, найденные путем подбора параметрических моделей с использованием метода максимального правдоподобия, могут быть получены с использованием пакетов <code>pvclust</code> и <code>scaleboot</code> для R.</p>
+<p>Некоторая проблема заключается в том, что функция <code>pvclust()</code>, ориентированная на генетические исследования, выполняет кластеризацию признаков (т.е. столбцов таблицы данных), а для 4 показателей нашей демонстрационной таблицы <code>USArrests</code> это особого интереса не представляет. Если попробовать выполнить анализ с транспонированной матрицей <span class="math inline">\(4 \times 60\)</span>, выполнив команду <code>pvclust(t(USArrests))</code>, то решение найти нельзя из-за проблем с сингулярными преобразованиями:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Error in <span class="kw">solve.default</span>(<span class="kw">crossprod</span>(X, X/vv)), 
+system is exactly singular:<span class="st"> </span>U[<span class="dv">2</span>, <span class="dv">2</span>] =<span class="st"> </span><span class="dv">0</span></code></pre></div>
+<p>Воспользуемся тогда в качестве примера набором <code>Boston</code> из пакета <code>MASS</code>, включающим 14 признаков привлекательности 506 участков города для проживания (рис. <a href="103-Clustering-Quality.html#fig:fig-10-12">10.12</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Boston, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>)
+<span class="kw">library</span>(pvclust)
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+<span class="co">#  Бутстреп деревьев и расчет BP- и AU- вероятностей для узлов</span>
+boston.pv &lt;-<span class="st"> </span><span class="kw">pvclust</span>(Boston, <span class="dt">nboot =</span> <span class="dv">100</span>, <span class="dt">method.dist =</span> <span class="st">&quot;cor&quot;</span>, 
+                     <span class="dt">method.hclust =</span> <span class="st">&quot;average&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(boston.pv)  <span class="co"># дендрограмма с p-значениями</span>
+<span class="kw">pvrect</span>(boston.pv) <span class="co"># выделение боксами достоверных фрагментов</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-12"></span>
+<img src="103-Clustering-Quality_files/figure-html/fig-10-12-1.png" alt="Дендрограмма с нанесенными значениями AU/BP для каждого узла" width="576" />
+<p class="caption">
+Рисунок 10.12: Дендрограмма с нанесенными значениями AU/BP для каждого узла
+</p>
+</div>
+<p>Этот пример показывает, что с практической точки зрения кластеризация признаков (переменных) может быть столь же важна, как и группировка объектов. Использование коэффициентов корреляции для расчета матрицы дистанций <code>method.dist = &quot;cor&quot;</code> избавляет нас от необходимости стандартизовать данные.</p>
+<p>При анализе дендрограммы на рис. <a href="103-Clustering-Quality.html#fig:fig-10-12">10.12</a> можно увидеть, что признаки иногда образуют кластеры с ясно интерпретируемой зависимостью (“среднее число комнат в жилье <code>rm</code>” и “медианная стоимость дома <code>medv</code>”), но часто их тесная связь нуждается в дополнительном осмыслении (“индекс доступности к кольцевым дорогам <code>rad</code>” и “сумма налога на недвижимость <code>tax</code>”, или “доля участков, продаваемых в розницу <code>indus</code>” и “концентрация окислов азота <code>nox</code>”). В целом была получена весьма стабильная кластеризация: наименее низкую бутстреп-вероятность имеют такие важнейшие признаки, как “криминальный индекс <code>crim</code>” и “процент жителей с низким социальным статусом <code>lstat</code>”, которые вполне могут объединиться в группу с любым другим из имеющихся показателей (например, “долей афроамериканцев <code>black</code>”).</p>
 
+</div>
+<div class="footnotes">
+<hr />
+<ol start="11">
+<li id="fn11"><p>Мы используем термин “валидность”, чтобы избегнуть некоторой двусмысленности таких понятий как “адекватность”, “эффективность”, “значимость”.<a href="103-Clustering-Quality.html#fnref11">↩</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="102-H-Clustering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="104-Other-Clustering-Methods.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

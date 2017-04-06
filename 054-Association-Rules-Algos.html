@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия и другие алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://ranalytics.github.io/data-mining/" />
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  <meta name="github-repo" content="ranalytics/data-mining" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-04-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="053-Logic-Rules.html">
+<link rel="next" href="055-Traminer.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R (вместо предисловия)</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_1"><i class="fa fa-check"></i><b>1.1.1</b> От статистического анализа разового эксперимента к Data Mining</a></li>
+<li class="chapter" data-level="1.1.2" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_2"><i class="fa fa-check"></i><b>1.1.2</b> Принципиальная множественность моделей окружающего мира</a></li>
+<li class="chapter" data-level="1.1.3" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_3"><i class="fa fa-check"></i><b>1.1.3</b> Нарастающая множественность алгоритмов построения моделей</a></li>
+<li class="chapter" data-level="1.1.4" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_4"><i class="fa fa-check"></i><b>1.1.4</b> Типы и характеристики групп моделей Data Mining</a></li>
+<li class="chapter" data-level="1.1.5" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_5"><i class="fa fa-check"></i><b>1.1.5</b> Природа многомерного отклика и его моделирование</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="012-R-Intro.html"><a href="012-R-Intro.html"><i class="fa fa-check"></i><b>1.2</b> Статистическая среда R и ее использование в Data Mining</a></li>
+<li class="chapter" data-level="1.3" data-path="013-What-This-Book-Is-About.html"><a href="013-What-This-Book-Is-About.html"><i class="fa fa-check"></i><b>1.3</b> О чем эта книга и чего в ней нет</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_1"><i class="fa fa-check"></i><b>4.1.1</b> Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="4.1.2" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_2"><i class="fa fa-check"></i><b>4.1.2</b> Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="4.1.3" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_3"><i class="fa fa-check"></i><b>4.1.3</b> Генетический алгоритм</a></li>
+<li class="chapter" data-level="4.1.4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_4"><i class="fa fa-check"></i><b>4.1.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_1"><i class="fa fa-check"></i><b>4.2.1</b> Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="4.2.2" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_2"><i class="fa fa-check"></i><b>4.2.2</b> Метод частных наименьших квадратов (PLS)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_3"><i class="fa fa-check"></i><b>4.2.3</b> Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="4.2.4" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_4"><i class="fa fa-check"></i><b>4.2.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_1"><i class="fa fa-check"></i><b>4.3.1</b> Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="4.3.2" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_2"><i class="fa fa-check"></i><b>4.3.2</b> Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="4.3.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_3"><i class="fa fa-check"></i><b>4.3.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_1"><i class="fa fa-check"></i><b>4.4.1</b> Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="4.4.2" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_2"><i class="fa fa-check"></i><b>4.4.2</b> Бустинг</a></li>
+<li class="chapter" data-level="4.4.3" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_3"><i class="fa fa-check"></i><b>4.4.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="053-Logic-Rules.html"><a href="053-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="054-Association-Rules-Algos.html"><a href="054-Association-Rules-Algos.html"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+<li class="chapter" data-level="5.5" data-path="055-Traminer.html"><a href="055-Traminer.html"><i class="fa fa-check"></i><b>5.5</b> Анализ последовательностей знаков или событий</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классификаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Ядерные функции машины опорных векторов</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html"><i class="fa fa-check"></i><b>7</b> Модели классификации для нескольких классов</a><ul>
+<li class="chapter" data-level="7.1" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html#sec_7_1"><i class="fa fa-check"></i><b>7.1</b> Ирисы Фишера и метод <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="7.2" data-path="072-NBC.html"><a href="072-NBC.html"><i class="fa fa-check"></i><b>7.2</b> Наивный байесовский классификатор</a></li>
+<li class="chapter" data-level="7.3" data-path="073-In-Discriminant-Space.html"><a href="073-In-Discriminant-Space.html"><i class="fa fa-check"></i><b>7.3</b> Классификация в линейном дискриминантном пространстве</a></li>
+<li class="chapter" data-level="7.4" data-path="074-Nonlinear-Classifiers.html"><a href="074-Nonlinear-Classifiers.html"><i class="fa fa-check"></i><b>7.4</b> Нелинейные классификаторы в R</a></li>
+<li class="chapter" data-level="7.5" data-path="075-Multinomial-Logit.html"><a href="075-Multinomial-Logit.html"><i class="fa fa-check"></i><b>7.5</b> Модель мультиномиального логита</a></li>
+<li class="chapter" data-level="7.6" data-path="076-NN.html"><a href="076-NN.html"><i class="fa fa-check"></i><b>7.6</b> Классификаторы на основе искусственных нейронных сетей</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html"><i class="fa fa-check"></i><b>8</b> Моделирование порядковых и счетных переменных</a><ul>
+<li class="chapter" data-level="8.1" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html#sec_8_1"><i class="fa fa-check"></i><b>8.1</b> Модель логита для порядковой переменной</a></li>
+<li class="chapter" data-level="8.2" data-path="082-NN-with-Caret.html"><a href="082-NN-with-Caret.html"><i class="fa fa-check"></i><b>8.2</b> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></a></li>
+<li class="chapter" data-level="8.3" data-path="083-Model-Complexes.html"><a href="083-Model-Complexes.html"><i class="fa fa-check"></i><b>8.3</b> Методы комплексации модельных прогнозов</a></li>
+<li class="chapter" data-level="8.4" data-path="084-GLM-for-Counts.html"><a href="084-GLM-for-Counts.html"><i class="fa fa-check"></i><b>8.4</b> Обобщенные линейные модели для счетных данных</a></li>
+<li class="chapter" data-level="8.5" data-path="085-ZIP-for-Counts.html"><a href="085-ZIP-for-Counts.html"><i class="fa fa-check"></i><b>8.5</b> ZIP- и барьерные модели счетных данных</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html"><i class="fa fa-check"></i><b>9</b> Методы многомерной ординации</a><ul>
+<li class="chapter" data-level="9.1" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html#sec_9_1"><i class="fa fa-check"></i><b>9.1</b> Преобразование данных и вычисление матрицы расстояний</a></li>
+<li class="chapter" data-level="9.2" data-path="092-Distance-ANOVA.html"><a href="092-Distance-ANOVA.html"><i class="fa fa-check"></i><b>9.2</b> Непараметрический дисперсионный анализ матриц дистанций</a></li>
+<li class="chapter" data-level="9.3" data-path="093-Comparing-Diagrams.html"><a href="093-Comparing-Diagrams.html"><i class="fa fa-check"></i><b>9.3</b> Методы ординации объектов и переменных: построение и сравнение диаграмм</a></li>
+<li class="chapter" data-level="9.4" data-path="094-Ordination-Factors.html"><a href="094-Ordination-Factors.html"><i class="fa fa-check"></i><b>9.4</b> Оценка связи ординации с внешними факторами</a></li>
+<li class="chapter" data-level="9.5" data-path="095-NMDS.html"><a href="095-NMDS.html"><i class="fa fa-check"></i><b>9.5</b> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html"><i class="fa fa-check"></i><b>10</b> Кластерный анализ</a><ul>
+<li class="chapter" data-level="10.1" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html#sec_10_1"><i class="fa fa-check"></i><b>10.1</b> Алгоритмы кластеризации, основанные на разделении</a></li>
+<li class="chapter" data-level="10.2" data-path="102-H-Clustering.html"><a href="102-H-Clustering.html"><i class="fa fa-check"></i><b>10.2</b> Иерархическая кластеризация</a></li>
+<li class="chapter" data-level="10.3" data-path="103-Clustering-Quality.html"><a href="103-Clustering-Quality.html"><i class="fa fa-check"></i><b>10.3</b> Оценка качества кластеризации</a></li>
+<li class="chapter" data-level="10.4" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html"><i class="fa fa-check"></i><b>10.4</b> Другие алгоритмы кластеризации</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_1"><i class="fa fa-check"></i><b>10.4.1</b> Иерархическая кластеризация на главные компоненты</a></li>
+<li class="chapter" data-level="10.4.2" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_2"><i class="fa fa-check"></i><b>10.4.2</b> Метод нечетких <em>k</em> средних (fuzzy analysis clustering)</a></li>
+<li class="chapter" data-level="10.4.3" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_3"><i class="fa fa-check"></i><b>10.4.3</b> Статистическая модель кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="105-Cohonen-Maps.html"><a href="105-Cohonen-Maps.html"><i class="fa fa-check"></i><b>10.5</b> Самоорганизующиеся карты Кохонена</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html"><i class="fa fa-check"></i><b>11</b> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</a><ul>
+<li class="chapter" data-level="11.1" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html#----rattle"><i class="fa fa-check"></i><b>11.1</b> Начало работы с пакетом <code id="sec_11_1">rattle</code></a></li>
+<li class="chapter" data-level="11.2" data-path="112-Descriptive-Stats.html"><a href="112-Descriptive-Stats.html"><i class="fa fa-check"></i><b>11.2</b> Описательная статистика и визуализация данных</a></li>
+<li class="chapter" data-level="11.3" data-path="113-Model-Building.html"><a href="113-Model-Building.html"><i class="fa fa-check"></i><b>11.3</b> Построение и тестирование моделей классификации</a></li>
+<li class="chapter" data-level="11.4" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html"><i class="fa fa-check"></i><b>11.4</b> Дескриптивные модели (обучение без учителя)</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_1"><i class="fa fa-check"></i><b>11.4.1</b> Кластерный анализ</a></li>
+<li class="chapter" data-level="11.4.2" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_2"><i class="fa fa-check"></i><b>11.4.2</b> Ассоциативные правила</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="120-References.html"><a href="120-References.html"><i class="fa fa-check"></i><b>12</b> Список рекомендуемой литературы</a></li>
+<li class="chapter" data-level="" data-path="130-Appendix.html"><a href="130-Appendix.html"><i class="fa fa-check"></i>Приложение: cправочная карта по Data Mining с использованием R</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec_5_4" class="section level2">
+<h2><span class="header-section-number">5.4</span> Алгоритмы выделения ассоциативных правил</h2>
+<p>Ассоциативные правила представляют собой механизм нахождения логических закономерностей между связанными элементами (событиями или объектами). Пусть имеется <span class="math inline">\(\mathbf{A} = \{a_1, a_2, a_3, \dots, a_n\}\)</span> - конечное множество уникальных элементов (list of items). Из этих компонентов может быть составлено множество наборов <span class="math inline">\(\mathbf{T}\)</span> (sets of items), т.е. <span class="math inline">\(\mathbf{T} \subseteq \mathbf{A}\)</span>.</p>
+<p>Ассоциативные правила <span class="math inline">\(\mathcal{A} \rightarrow \mathcal{T}\)</span> имеют следующий вид: <code>если &lt;условие&gt; то &lt;результат&gt;</code>, где в отличие от деревьев классификации, <code>&lt;условие&gt;</code> - не логическое выражение, а набор объектов из множества <span class="math inline">\(\mathbf{A}\)</span>, с которыми связаны (ассоциированы) объекты того же множества, включенные в <code>&lt;результат&gt;</code> данного правила. Например, ассоциативное правило <code>если (смородина, тля) то (муравьи)</code> означает, что если на кусте смородины встретилась тля, то ищи поблизости и муравьев.</p>
+<p>Понятие “вид элемента <span class="math inline">\(a_k\)</span>” легко может быть обобщено на ту или иную его категорию или вещественное значение, т.е. концепция ассоциативного анализа может быть применена для комбинаций любых переменных. Например, при прогнозировании погоды одно из ассоциативных правил может выглядеть так: <code>'направление ветра' = NNW -&gt; 'завтра будет дождь' = TRUE</code></p>
+<p>Выделяют три вида правил:</p>
+<ul>
+<li><em>полезные правила</em>, содержащие действительную информацию, которая ранее была неизвестна, но имеет логическое объяснение;</li>
+<li><em>тривиальные правила</em>, содержащие действительную и легко объяснимую информацию, отражающую известные законы в исследуемой области, и поэтому не приносящие какой-либо пользы;</li>
+<li><em>непонятные правила</em>, содержащие информацию, которая не может быть объяснена (такие правила или получают на основе аномальных исходных данных, или они содержат глубоко скрытые закономерности, и поэтому для интерпретации непонятных правил нужен дополнительный анализ).</li>
+</ul>
+<p>Поиск ассоциативных правил обычно выполняют в два этапа:</p>
+<ul>
+<li>в пуле имеющихся признаков <span class="math inline">\(\mathbf{A}\)</span> находят наиболее часто встречающиеся комбинации элементов <span class="math inline">\(\mathbf{T}\)</span>;</li>
+<li>из этих найденных наиболее часто встречающихся наборов формируют ассоциативные правила.</li>
+</ul>
+<p>Для оценки полезности и продуктивности перебираемых правил используются различные частотные критерии, анализирующие встречаемость кандидата в массиве экспериментальных данных. Важнейшими из них являются поддержка (support) и достоверность (confidence). Правило <span class="math inline">\(\mathcal{A} \rightarrow \mathcal{T}\)</span> имеет поддержку <span class="math inline">\(s\)</span>, если оно справедливо для <span class="math inline">\(s\%\)</span> взятых в анализ случаев:</p>
+<p><span class="math display">\[\text{support}(\mathcal{A} \rightarrow \mathcal{T}) = P(\mathcal{A} \cup \mathcal{T})\]</span></p>
+<p>Достоверность правила показывает, какова вероятность того, что из наличия в рассматриваемом случае условной части правила следует наличие заключительной его части (т.е. из <span class="math inline">\(\mathcal{A}\)</span> следует <span class="math inline">\(\mathcal{T}\)</span>):</p>
+<p><span class="math display">\[\text{confidence}(\mathcal{A} \rightarrow \mathcal{T}) = P(\mathcal{A} \cup \mathcal{T})/P(\mathcal{A}) = \text{support}(\mathcal{A} \rightarrow \mathcal{T})/\text{support}(\mathcal{A}).\]</span></p>
+<p>Алгоритмы поиска ассоциативных правил отбирают тех кандидатов, у которых поддержка и достоверность выше некоторых наперед заданных порогов: <code>minsupport</code> и <code>minconfidence</code>. Если поддержка имеет большое значение, то алгоритмы будут находить правила, хорошо известные аналитику или настолько очевидные, что нет никакого смысла проводить такой анализ. Большинство интересных правил находят именно при низком значении порога поддержки. С другой стороны, низкое значение <code>minsupport</code> ведет к генерации огромного количества вариантов, что требует существенных вычислительных ресурсов или ведет к генерации статистически необоснованных правил.</p>
+<p>В пакете <code>arules</code> для R используются и другие показатели - подъемная сила, или лифт (lift), которая показывает, насколько повышается вероятность нахождения <span class="math inline">\(\mathcal{T}\)</span> в анализируемом случае, если в нем уже имеется <span class="math inline">\(\mathcal{A}\)</span>:</p>
+<p><span class="math display">\[\text{lift}(\mathcal{A} \rightarrow \mathcal{T}) = \text{confidence}(\mathcal{A} \rightarrow \mathcal{T}) / \text{support}(\mathcal{T})\]</span></p>
+<p>и усиление (leverage), которое отражает, насколько интересной может быть более высокая частота <span class="math inline">\(\mathcal{A}\)</span> и <span class="math inline">\(\mathcal{T}\)</span> в сочетании с более низким подъемом:</p>
+<p><span class="math display">\[\text{leverage}(\mathcal{A} \rightarrow \mathcal{T}) = \text{support}(\mathcal{A} \rightarrow \mathcal{T}) - \text{support}(\mathcal{A})\times\text{support}(\mathcal{T})\]</span></p>
+<p>Первый алгоритм поиска ассоциативных правил был разработан в 1993 г. сотрудниками исследовательского центра IBM, что сразу возбудило интерес к этому направлению. Каждый год появлялось несколько новых алгоритмов (DHP, Partition, DIC и др.), из которых наиболее известным остался алгоритм “Apriori” (Agrawal, Srikant, 1994).</p>
+<p>Пакет arules позволяет находить часто встречающиеся сочетания элементов в данных (frequent itemsets) и отбирать ассоциативные правила, обеспечивая интерфейс к модулям на языке C, которые реализуют алгоритмы “Apriori” и “Eclat”. Так как обычно обрабатываются большие множества наборов и правил, то для уменьшения объёмов требуемой памяти пакет содержит развитый инструментарий преобразования разреженных входных матриц в компактные наборы транзакций (Hahsler et al., 2016; Огнева, 2012).</p>
+<p>Для реализации работы с алгоритмами выделения ассоциаций в <code>arules</code> реализованы специальные типы данных, относящиеся к объектам трех классов: входной массив транзакций (transactions) и на выходе - часто встречающиеся фрагменты данных (itemsets) и правила (rules).</p>
+<p>Объекты класса <code>transactions</code> представляют собой специально организованные бинарные матрицы со строками-наборами и столбцами-признаками, содержащие значения элемента 1, если соответствующий признак есть в транзакции, и 0, если он отсутствует. В зависимости от типа данных и способа их загрузки, эти объекты могут иметь разные способы организации и состав дополнительных слотов. В частности, подкласс <code>itemMatrix</code> является одновременно средством представления разреженных матриц с использованием функционала пакета <code>Matrix</code>. Другим способом формирования экземпляров класса transactions является загрузка данных из файла функцией <code>read.transactions()</code>.</p>
+<p>Для выделения ассоциативных правил вновь обратимся к нашему примеру по классификации лиц избирателей (см. рис. <a href="051-Association-Rules.html#fig:fig-5-1">5.1</a>). Метод <code>&quot;basket&quot;</code> функции <code>read.transactions()</code> предполагает, что каждая строка в файле представляет собой одну транзакцию, в которой признаки (т.е. их метки) разделены символами <code>sep</code> (по умолчанию - запятая). Переформируем исходную таблицу данных в файл необходимого формата:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DFace &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="dt">file =</span> <span class="st">&quot;data/Faces.txt&quot;</span>, 
+                    <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)
+Class &lt;-<span class="st"> </span>DFace$Class
+DFaceN &lt;-<span class="st"> </span>DFace[, -<span class="dv">17</span>]
+<span class="kw">colnames</span>(DFaceN) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;голова_круглая&quot;</span>, <span class="st">&quot;уши_оттопырен&quot;</span>,
+                      <span class="st">&quot;нос_круглый&quot;</span>, <span class="st">&quot;глаза_круглые&quot;</span>, <span class="st">&quot;лоб_морщины&quot;</span>,
+                      <span class="st">&quot;носогубн_складка&quot;</span>, <span class="st">&quot;губы_толстые&quot;</span>, <span class="st">&quot;волосы&quot;</span>, 
+                      <span class="st">&quot;усы&quot;</span>, <span class="st">&quot;борода&quot;</span>, <span class="st">&quot;очки&quot;</span>, <span class="st">&quot;родинка_щеке&quot;</span>, <span class="st">&quot;бабочка&quot;</span>,
+                      <span class="st">&quot;брови_подняты&quot;</span>, <span class="st">&quot;серьга&quot;</span>, <span class="st">&quot;курит_трубка&quot;</span>)
+Class[Class ==<span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> &quot;Патриот&quot;</span>
+Class[Class ==<span class="st"> </span><span class="dv">2</span>] &lt;-<span class="st"> &quot;Демократ&quot;</span>
+items_list &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(DFaceN), function(i) 
+    <span class="kw">paste</span>(<span class="kw">c</span>(Class[i], <span class="kw">colnames</span>(DFaceN[i, DFaceN[i, ] ==<span class="st"> </span><span class="dv">1</span>])),
+          <span class="dt">collapse =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+<span class="kw">head</span>(items_list)</code></pre></div>
+<pre><code>## [1] &quot;Патриот,уши_оттопырен,лоб_морщины,носогубн_складка,усы,борода,очки,бабочка,брови_подняты,курит_трубка&quot;              
+## [2] &quot;Патриот,голова_круглая,нос_круглый,глаза_круглые,губы_толстые,волосы,борода,очки,родинка_щеке,серьга&quot;               
+## [3] &quot;Патриот,глаза_круглые,лоб_морщины,носогубн_складка,волосы,усы,очки,родинка_щеке,бабочка,курит_трубка&quot;               
+## [4] &quot;Патриот,уши_оттопырен,нос_круглый,носогубн_складка,губы_толстые,борода,очки,брови_подняты,серьга,курит_трубка&quot;      
+## [5] &quot;Патриот,голова_круглая,уши_оттопырен,глаза_круглые,носогубн_складка,волосы,борода,родинка_щеке,брови_подняты,серьга&quot;
+## [6] &quot;Патриот,нос_круглый,лоб_морщины,носогубн_складка,губы_толстые,усы,очки,бабочка,серьга,курит_трубка&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write</span>(items_list, <span class="dt">file =</span> <span class="st">&quot;data/face_basket.txt&quot;</span>)</code></pre></div>
+<p>Загрузим данные из файла и создадим объект <code>itemMatrix</code>. Информацию о сформированном массиве транзакций можно получить, выполнив команды <code>inspect()</code> и <code>summary()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(arules)
+trans &lt;-<span class="st"> </span><span class="kw">read.transactions</span>(<span class="st">&quot;data/face_basket.txt&quot;</span>, 
+                          <span class="dt">format =</span> <span class="st">&quot;basket&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">inspect</span>(trans)   <span class="co">#  Выводимые данные не показаны</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(trans)</code></pre></div>
+<pre><code>## transactions as itemMatrix in sparse format with
+##  16 rows (elements/itemsets/transactions) and
+##  18 columns (items) and a density of 0.5555556 
+## 
+## most frequent items:
+##       бабочка брови_подняты глаза_круглые        борода  губы_толстые 
+##            10            10            10            10            10 
+##       (Other) 
+##           110 
+## 
+## element (itemset/transaction) length distribution:
+## sizes
+## 10 
+## 16 
+## 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##      10      10      10      10      10      10 
+## 
+## includes extended item information - examples:
+##          labels
+## 1       бабочка
+## 2      Демократ
+## 3 брови_подняты</code></pre>
+<p>Для объектов класса <code>itemMatrix</code> можно осуществить быструю визуализацию данных или построить график распределения частот встречаемости признаков (рис. <a href="054-Association-Rules-Algos.html#fig:fig-5-4">5.4</a>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">image</span>(trans)</code></pre></div>
+<p><img src="054-Association-Rules-Algos_files/figure-html/fig-5-4A-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">itemFrequencyPlot</span>(trans, <span class="dt">support =</span> <span class="fl">0.1</span>, <span class="dt">cex.names =</span> <span class="fl">0.8</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-5-4"></span>
+<img src="054-Association-Rules-Algos_files/figure-html/fig-5-4-1.png" alt="Матрица признаки/транзакции и частотное распределение встречаемости признаков в транзакциях" width="576" />
+<p class="caption">
+Рисунок 5.4: Матрица признаки/транзакции и частотное распределение встречаемости признаков в транзакциях
+</p>
+</div>
+<p>Поиск ассоциативных правил является не вполне тривиальной задачей, т.к. с ростом числа элементов в <span class="math inline">\(\mathbf{A}\)</span> экспоненциально растет число их потенциальных комбинаций. Алгоритм “Apriori” является итерационным, при этом сначала выполняются действия для одноэлементных наборов, затем для 2-х, 3-х элементных и т.д. (т.е. он во многом напоминает алгоритм “Кора”).</p>
+<p>На первом шаге первой итерации алгоритма подсчитываются одноэлементные часто встречающиеся наборы. Для этого необходимо пройтись по всему массиву данных и подсчитать для них поддержку, т.е. сколько раз набор встречается в имеющемся наборе данных. При последующем поиске <span class="math inline">\(k\)</span>-элементных наборов генерация претендентов состоит из двух фаз - формирование кандидатов нового уровня на основе <span class="math inline">\((k - 1)\)</span>-элементных наборов, которые были определены на предыдущей итерации алгоритма, и удаление избыточных кандидатов. После того как найдены все часто встречающиеся наборы элементов, выполняют процедуру непосредственного извлечения правил из построенного хеш-дерева (Зайцев, 2009).</p>
+<p>Результатом анализа транзакций с помощью пакета arules являются объекты класса associations, включающие описания множества отношений между признаками (в виде часто встречающихся фрагментов, или правил), которые отбираются в соответствии с различными перечисленными выше мерами качества. Подкласс <code>rules</code> состоит из двух объектов <code>itemMatrix</code>, представляющих левую <code>lhs</code> (left-hand-side) и правую <code>rhs</code> (right-hand-side) сторону правила <span class="math inline">\(\mathcal{A} \rightarrow \mathcal{T}\)</span>, т.е. <span class="math inline">\(\mathcal{A}\)</span> - <code>lhs</code>, <span class="math inline">\(\mathcal{T}\)</span> - <code>rhs</code>.</p>
+<p>Формирование правил осуществляется функцией <code>apriori()</code> с указанием пороговых значений поддержки и достоверности. Функция <code>summary()</code> обеспечивает частотный анализ правил по их длине и достигнутым мерам качества:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rules &lt;-<span class="st"> </span><span class="kw">apriori</span>(trans,
+                 <span class="dt">parameter =</span> <span class="kw">list</span>(<span class="dt">support =</span> <span class="fl">0.01</span>, <span class="dt">confidence =</span> <span class="fl">0.6</span>))</code></pre></div>
+<pre><code>## Apriori
+## 
+## Parameter specification:
+##  confidence minval smax arem  aval originalSupport maxtime support minlen
+##         0.6    0.1    1 none FALSE            TRUE       5    0.01      1
+##  maxlen target   ext
+##      10  rules FALSE
+## 
+## Algorithmic control:
+##  filter tree heap memopt load sort verbose
+##     0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+## 
+## Absolute minimum support count: 0 
+## 
+## set item appearances ...[0 item(s)] done [0.00s].
+## set transactions ...[18 item(s), 16 transaction(s)] done [0.00s].
+## sorting and recoding items ... [18 item(s)] done [0.00s].
+## creating transaction tree ... done [0.00s].
+## checking subsets of size 1 2 3 4 5 6 7 8 9 10 done [0.00s].
+## writing ... [48306 rule(s)] done [0.01s].
+## creating S4 object  ... done [0.02s].</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(rules)  <span class="co">#  Результаты показаны частично</span></code></pre></div>
+<pre><code>## set of 48306 rules
+## 
+## rule length distribution (lhs + rhs):sizes
+##     1     2     3     4     5     6     7     8     9    10 
+##    12   138   916  3892  9860 14560 11814  5526  1428   160 
+## 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00    5.00    6.00    6.14    7.00   10.00 
+## 
+## summary of quality measures:
+##     support          confidence          lift      
+##  Min.   :0.06250   Min.   :0.6000   Min.   :0.960  
+##  1st Qu.:0.06250   1st Qu.:1.0000   1st Qu.:1.600  
+##  Median :0.06250   Median :1.0000   Median :1.600  
+##  Mean   :0.07788   Mean   :0.9781   Mean   :1.750  
+##  3rd Qu.:0.06250   3rd Qu.:1.0000   3rd Qu.:1.600  
+##  Max.   :0.62500   Max.   :1.0000   Max.   :2.667  
+## 
+## mining info:
+##   data ntransactions support confidence
+##  trans            16    0.01        0.6</code></pre>
+<p>Всего было отобрано 48306 правил, длина которых большей частью составляла от 5 до 7 элементов. Функция <code>plot()</code> из пакета <code>arulesViz</code> позволяет получать различные формы визуализации синтезированных правил, в том числе, анализ изменчивости их мер качества (рис. <a href="054-Association-Rules-Algos.html#fig:fig-5-5">5.5</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(arulesViz)
+<span class="kw">plot</span>(rules, <span class="dt">measure =</span> <span class="kw">c</span>(<span class="st">&quot;support&quot;</span>, <span class="st">&quot;lift&quot;</span>), <span class="dt">shading =</span> <span class="st">&quot;confidence&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-5-5"></span>
+<img src="054-Association-Rules-Algos_files/figure-html/fig-5-5-1.png" alt="Поддержка, лифт и достоверность сгенерированных правил" width="576" />
+<p class="caption">
+Рисунок 5.5: Поддержка, лифт и достоверность сгенерированных правил
+</p>
+</div>
+<p>Для решения задачи выявления характерных особенностей групп электората нас интересуют, в первую очередь, высококачественные правила, имеющие соответствующий признак группы в правой части. Тогда патриотов можно будет легко узнать по их облику (рис. <a href="054-Association-Rules-Algos.html#fig:fig-5-6">5.6</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rulesPat &lt;-<span class="st"> </span><span class="kw">subset</span>(rules, 
+                   <span class="dt">subset =</span> rhs %in%<span class="st"> &quot;Патриот&quot;</span> &amp;<span class="st"> </span>lift &gt;<span class="st"> </span><span class="fl">1.8</span>)
+<span class="kw">inspect</span>(<span class="kw">head</span>(rulesPat, <span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="st">&quot;support&quot;</span>))</code></pre></div>
+<pre><code>##      lhs                   rhs       support confidence lift
+## [1]  {глаза_круглые,                                        
+##       борода,                                               
+##       серьга}           =&gt; {Патриот}  0.2500          1    2
+## [2]  {очки,                                                 
+##       носогубн_складка,                                     
+##       усы}              =&gt; {Патриот}  0.2500          1    2
+## [3]  {бабочка,                                              
+##       очки,                                                 
+##       усы}              =&gt; {Патриот}  0.2500          1    2
+## [4]  {курит_трубка,                                         
+##       очки,                                                 
+##       носогубн_складка} =&gt; {Патриот}  0.2500          1    2
+## [5]  {бабочка,                                              
+##       очки,                                                 
+##       носогубн_складка,                                     
+##       усы}              =&gt; {Патриот}  0.2500          1    2
+## [6]  {волосы,                                               
+##       родинка_щеке}     =&gt; {Патриот}  0.1875          1    2
+## [7]  {лоб_морщины,                                          
+##       очки,                                                 
+##       носогубн_складка} =&gt; {Патриот}  0.1875          1    2
+## [8]  {лоб_морщины,                                          
+##       курит_трубка,                                         
+##       носогубн_складка} =&gt; {Патриот}  0.1875          1    2
+## [9]  {бабочка,                                              
+##       лоб_морщины,                                          
+##       носогубн_складка} =&gt; {Патриот}  0.1875          1    2
+## [10] {лоб_морщины,                                          
+##       курит_трубка,                                         
+##       очки}             =&gt; {Патриот}  0.1875          1    2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">head</span>(<span class="kw">sort</span>(rulesPat, <span class="dt">by =</span> <span class="st">&quot;support&quot;</span>), <span class="dv">10</span>),
+     <span class="dt">method =</span> <span class="st">&quot;paracoord&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-5-6"></span>
+<img src="054-Association-Rules-Algos_files/figure-html/fig-5-6-1.png" alt="График 10 лучших правил для патриотов в параллельных координатах" width="576" />
+<p class="caption">
+Рисунок 5.6: График 10 лучших правил для патриотов в параллельных координатах
+</p>
+</div>
+<p>График в параллельных координатах (<code>method=&quot;paracoord&quot;</code>) на рис. <a href="054-Association-Rules-Algos.html#fig:fig-5-6">5.6</a> показывает, как формируются комбинации признаков правой части при увеличении ее размера, а толщина линий соответствует уровню поддержки.</p>
+<p>Аналогичные правила могут быть отобраны для группы демократично настроенных избирателей (рис. <a href="054-Association-Rules-Algos.html#fig:fig-5-7">5.7</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rulesDem &lt;-<span class="st"> </span><span class="kw">subset</span>(rules, <span class="dt">subset =</span> rhs %in%<span class="st"> &quot;Демократ&quot;</span> &amp;<span class="st"> </span>lift &gt;<span class="st"> </span><span class="fl">1.8</span>)
+<span class="kw">inspect</span>(<span class="kw">head</span>(rulesDem, <span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">by =</span> <span class="st">&quot;support&quot;</span>))</code></pre></div>
+<pre><code>##      lhs                 rhs        support confidence lift
+## [1]  {брови_подняты,                                       
+##       нос_круглый,                                         
+##       усы}            =&gt; {Демократ}  0.2500          1    2
+## [2]  {глаза_круглые,                                       
+##       губы_толстые,                                        
+##       уши_оттопырен}  =&gt; {Демократ}  0.2500          1    2
+## [3]  {глаза_круглые,                                       
+##       губы_толстые,                                        
+##       курит_трубка}   =&gt; {Демократ}  0.2500          1    2
+## [4]  {бабочка,                                             
+##       губы_толстые,                                        
+##       уши_оттопырен}  =&gt; {Демократ}  0.2500          1    2
+## [5]  {глаза_круглые,                                       
+##       губы_толстые,                                        
+##       курит_трубка,                                        
+##       уши_оттопырен}  =&gt; {Демократ}  0.2500          1    2
+## [6]  {голова_круглая,                                      
+##       лоб_морщины}    =&gt; {Демократ}  0.1875          1    2
+## [7]  {голова_круглая,                                      
+##       лоб_морщины,                                         
+##       усы}            =&gt; {Демократ}  0.1875          1    2
+## [8]  {родинка_щеке,                                        
+##       нос_круглый,                                         
+##       усы}            =&gt; {Демократ}  0.1875          1    2
+## [9]  {брови_подняты,                                       
+##       родинка_щеке,                                        
+##       нос_круглый}    =&gt; {Демократ}  0.1875          1    2
+## [10] {брови_подняты,                                       
+##       родинка_щеке,                                        
+##       усы}            =&gt; {Демократ}  0.1875          1    2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">head</span>(<span class="kw">sort</span>(rulesDem, <span class="dt">by =</span> <span class="st">&quot;support&quot;</span>), <span class="dv">10</span>), <span class="dt">method =</span> <span class="st">&quot;graph&quot;</span>,
+     <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">nodeCol =</span> <span class="kw">grey.colors</span>(<span class="dv">10</span>), 
+                    <span class="dt">edgeCol =</span> <span class="kw">grey</span>(.<span class="dv">7</span>), <span class="dt">alpha =</span> <span class="dv">1</span>))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-5-7"></span>
+<img src="054-Association-Rules-Algos_files/figure-html/fig-5-7-1.png" alt="Визуализация в форме графа 10 лучших правил для демократов" width="576" />
+<p class="caption">
+Рисунок 5.7: Визуализация в форме графа 10 лучших правил для демократов
+</p>
+</div>
+<p>Метод <code>&quot;graph&quot;</code> функции <code>plot()</code> показывает правила и составляющие их признаки в виде графа, размер узлов которого пропорционален уровню поддержки каждого представленного правила (рис. <a href="054-Association-Rules-Algos.html#fig:fig-5-7">5.7</a>).</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="053-Logic-Rules.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="055-Traminer.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

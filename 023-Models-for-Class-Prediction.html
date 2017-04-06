@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия и другие алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://ranalytics.github.io/data-mining/" />
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  <meta name="github-repo" content="ranalytics/data-mining" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-04-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="022-Resampling-Techniques.html">
+<link rel="next" href="024-Projecting-Data-onto-a-Plane.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R (вместо предисловия)</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_1"><i class="fa fa-check"></i><b>1.1.1</b> От статистического анализа разового эксперимента к Data Mining</a></li>
+<li class="chapter" data-level="1.1.2" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_2"><i class="fa fa-check"></i><b>1.1.2</b> Принципиальная множественность моделей окружающего мира</a></li>
+<li class="chapter" data-level="1.1.3" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_3"><i class="fa fa-check"></i><b>1.1.3</b> Нарастающая множественность алгоритмов построения моделей</a></li>
+<li class="chapter" data-level="1.1.4" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_4"><i class="fa fa-check"></i><b>1.1.4</b> Типы и характеристики групп моделей Data Mining</a></li>
+<li class="chapter" data-level="1.1.5" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_5"><i class="fa fa-check"></i><b>1.1.5</b> Природа многомерного отклика и его моделирование</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="012-R-Intro.html"><a href="012-R-Intro.html"><i class="fa fa-check"></i><b>1.2</b> Статистическая среда R и ее использование в Data Mining</a></li>
+<li class="chapter" data-level="1.3" data-path="013-What-This-Book-Is-About.html"><a href="013-What-This-Book-Is-About.html"><i class="fa fa-check"></i><b>1.3</b> О чем эта книга и чего в ней нет</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_1"><i class="fa fa-check"></i><b>4.1.1</b> Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="4.1.2" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_2"><i class="fa fa-check"></i><b>4.1.2</b> Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="4.1.3" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_3"><i class="fa fa-check"></i><b>4.1.3</b> Генетический алгоритм</a></li>
+<li class="chapter" data-level="4.1.4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_4"><i class="fa fa-check"></i><b>4.1.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_1"><i class="fa fa-check"></i><b>4.2.1</b> Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="4.2.2" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_2"><i class="fa fa-check"></i><b>4.2.2</b> Метод частных наименьших квадратов (PLS)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_3"><i class="fa fa-check"></i><b>4.2.3</b> Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="4.2.4" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_4"><i class="fa fa-check"></i><b>4.2.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_1"><i class="fa fa-check"></i><b>4.3.1</b> Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="4.3.2" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_2"><i class="fa fa-check"></i><b>4.3.2</b> Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="4.3.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_3"><i class="fa fa-check"></i><b>4.3.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_1"><i class="fa fa-check"></i><b>4.4.1</b> Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="4.4.2" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_2"><i class="fa fa-check"></i><b>4.4.2</b> Бустинг</a></li>
+<li class="chapter" data-level="4.4.3" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_3"><i class="fa fa-check"></i><b>4.4.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="053-Logic-Rules.html"><a href="053-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="054-Association-Rules-Algos.html"><a href="054-Association-Rules-Algos.html"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+<li class="chapter" data-level="5.5" data-path="055-Traminer.html"><a href="055-Traminer.html"><i class="fa fa-check"></i><b>5.5</b> Анализ последовательностей знаков или событий</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классификаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Ядерные функции машины опорных векторов</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html"><i class="fa fa-check"></i><b>7</b> Модели классификации для нескольких классов</a><ul>
+<li class="chapter" data-level="7.1" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html#sec_7_1"><i class="fa fa-check"></i><b>7.1</b> Ирисы Фишера и метод <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="7.2" data-path="072-NBC.html"><a href="072-NBC.html"><i class="fa fa-check"></i><b>7.2</b> Наивный байесовский классификатор</a></li>
+<li class="chapter" data-level="7.3" data-path="073-In-Discriminant-Space.html"><a href="073-In-Discriminant-Space.html"><i class="fa fa-check"></i><b>7.3</b> Классификация в линейном дискриминантном пространстве</a></li>
+<li class="chapter" data-level="7.4" data-path="074-Nonlinear-Classifiers.html"><a href="074-Nonlinear-Classifiers.html"><i class="fa fa-check"></i><b>7.4</b> Нелинейные классификаторы в R</a></li>
+<li class="chapter" data-level="7.5" data-path="075-Multinomial-Logit.html"><a href="075-Multinomial-Logit.html"><i class="fa fa-check"></i><b>7.5</b> Модель мультиномиального логита</a></li>
+<li class="chapter" data-level="7.6" data-path="076-NN.html"><a href="076-NN.html"><i class="fa fa-check"></i><b>7.6</b> Классификаторы на основе искусственных нейронных сетей</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html"><i class="fa fa-check"></i><b>8</b> Моделирование порядковых и счетных переменных</a><ul>
+<li class="chapter" data-level="8.1" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html#sec_8_1"><i class="fa fa-check"></i><b>8.1</b> Модель логита для порядковой переменной</a></li>
+<li class="chapter" data-level="8.2" data-path="082-NN-with-Caret.html"><a href="082-NN-with-Caret.html"><i class="fa fa-check"></i><b>8.2</b> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></a></li>
+<li class="chapter" data-level="8.3" data-path="083-Model-Complexes.html"><a href="083-Model-Complexes.html"><i class="fa fa-check"></i><b>8.3</b> Методы комплексации модельных прогнозов</a></li>
+<li class="chapter" data-level="8.4" data-path="084-GLM-for-Counts.html"><a href="084-GLM-for-Counts.html"><i class="fa fa-check"></i><b>8.4</b> Обобщенные линейные модели для счетных данных</a></li>
+<li class="chapter" data-level="8.5" data-path="085-ZIP-for-Counts.html"><a href="085-ZIP-for-Counts.html"><i class="fa fa-check"></i><b>8.5</b> ZIP- и барьерные модели счетных данных</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html"><i class="fa fa-check"></i><b>9</b> Методы многомерной ординации</a><ul>
+<li class="chapter" data-level="9.1" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html#sec_9_1"><i class="fa fa-check"></i><b>9.1</b> Преобразование данных и вычисление матрицы расстояний</a></li>
+<li class="chapter" data-level="9.2" data-path="092-Distance-ANOVA.html"><a href="092-Distance-ANOVA.html"><i class="fa fa-check"></i><b>9.2</b> Непараметрический дисперсионный анализ матриц дистанций</a></li>
+<li class="chapter" data-level="9.3" data-path="093-Comparing-Diagrams.html"><a href="093-Comparing-Diagrams.html"><i class="fa fa-check"></i><b>9.3</b> Методы ординации объектов и переменных: построение и сравнение диаграмм</a></li>
+<li class="chapter" data-level="9.4" data-path="094-Ordination-Factors.html"><a href="094-Ordination-Factors.html"><i class="fa fa-check"></i><b>9.4</b> Оценка связи ординации с внешними факторами</a></li>
+<li class="chapter" data-level="9.5" data-path="095-NMDS.html"><a href="095-NMDS.html"><i class="fa fa-check"></i><b>9.5</b> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html"><i class="fa fa-check"></i><b>10</b> Кластерный анализ</a><ul>
+<li class="chapter" data-level="10.1" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html#sec_10_1"><i class="fa fa-check"></i><b>10.1</b> Алгоритмы кластеризации, основанные на разделении</a></li>
+<li class="chapter" data-level="10.2" data-path="102-H-Clustering.html"><a href="102-H-Clustering.html"><i class="fa fa-check"></i><b>10.2</b> Иерархическая кластеризация</a></li>
+<li class="chapter" data-level="10.3" data-path="103-Clustering-Quality.html"><a href="103-Clustering-Quality.html"><i class="fa fa-check"></i><b>10.3</b> Оценка качества кластеризации</a></li>
+<li class="chapter" data-level="10.4" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html"><i class="fa fa-check"></i><b>10.4</b> Другие алгоритмы кластеризации</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_1"><i class="fa fa-check"></i><b>10.4.1</b> Иерархическая кластеризация на главные компоненты</a></li>
+<li class="chapter" data-level="10.4.2" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_2"><i class="fa fa-check"></i><b>10.4.2</b> Метод нечетких <em>k</em> средних (fuzzy analysis clustering)</a></li>
+<li class="chapter" data-level="10.4.3" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_3"><i class="fa fa-check"></i><b>10.4.3</b> Статистическая модель кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="105-Cohonen-Maps.html"><a href="105-Cohonen-Maps.html"><i class="fa fa-check"></i><b>10.5</b> Самоорганизующиеся карты Кохонена</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html"><i class="fa fa-check"></i><b>11</b> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</a><ul>
+<li class="chapter" data-level="11.1" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html#----rattle"><i class="fa fa-check"></i><b>11.1</b> Начало работы с пакетом <code id="sec_11_1">rattle</code></a></li>
+<li class="chapter" data-level="11.2" data-path="112-Descriptive-Stats.html"><a href="112-Descriptive-Stats.html"><i class="fa fa-check"></i><b>11.2</b> Описательная статистика и визуализация данных</a></li>
+<li class="chapter" data-level="11.3" data-path="113-Model-Building.html"><a href="113-Model-Building.html"><i class="fa fa-check"></i><b>11.3</b> Построение и тестирование моделей классификации</a></li>
+<li class="chapter" data-level="11.4" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html"><i class="fa fa-check"></i><b>11.4</b> Дескриптивные модели (обучение без учителя)</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_1"><i class="fa fa-check"></i><b>11.4.1</b> Кластерный анализ</a></li>
+<li class="chapter" data-level="11.4.2" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_2"><i class="fa fa-check"></i><b>11.4.2</b> Ассоциативные правила</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="120-References.html"><a href="120-References.html"><i class="fa fa-check"></i><b>12</b> Список рекомендуемой литературы</a></li>
+<li class="chapter" data-level="" data-path="130-Appendix.html"><a href="130-Appendix.html"><i class="fa fa-check"></i>Приложение: cправочная карта по Data Mining с использованием R</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec_2_3" class="section level2">
+<h2><span class="header-section-number">2.3</span> Модели для предсказания класса объектов</h2>
+<p>Классификация – наиболее часто встречающаяся задача машинного обучения, и заключается в построении моделей, выполняющих отнесение интересующего нас объекта к одному из нескольких известных классов. Существуют сотни методов классификации (см. Fernandez-Delgado et al., 2014), которые можно использовать для предсказания значения отклика с двумя и более классами. Возникает вопрос: отвечает ли такое множество потребностям реально решаемых задач?</p>
+<p>Попробуем выделить основные характерные черты, отличающие эти методы. Во-первых, многое зависит от того, что является поставленной целью исследования: <em>объяснение</em> внутренних механизмов изучаемых процессов или только <em>прогнозирование</em> отклика. Если ставится задача “вскрытия” структуры взаимосвязей между независимыми переменными и откликом, то создаваемая модель должна в <em>явном</em> виде отображать их в виде наглядной схемы, либо осуществлять сравнительную оценку силы влияния отдельных переменных. Примерами хорошо интерпретируемых моделей классификации являются деревья решений, логистическая регрессия и модели дискриминации.</p>
+<p>Если же основной задачей является достижение высокой общей точности предсказаний (overall accuracy) значения целевого признака <span class="math inline">\(y\)</span> для объекта <span class="math inline">\(a\)</span>, то представление модели в явном виде не требуется. Изучаемый процесс, который часто имеет объективно сложный характер, представляется в виде “черного ящика”, а решающие процедуры могут иметь большое (до десятков тысяч) или неопределенное число трудно интерпретируемых параметров. Эффективными методами прогнозирования классов являются случайные леса, бустинг, бэггинг, искусственные нейронные сети, машины опорных векторов, групповой учет аргументов МГУА и др.</p>
+<p>Во-вторых, некоторую систематичность в типизацию моделей классификации может внести их связь с тремя основными парадигмами машинного обучения: геометрической, вероятностной и логической. Обычно множество объектов имеет некую <em>геометрическую</em> структуру: каждый из них, описанный числовыми признаками, можно рассматриваться как точка в многомерной системе координат. Геометрическая модель разделения на классы строится в пространстве признаков с применением таких геометрических понятий, как прямые, плоскости и криволинейные поверхности (в общем виде “гиперплоскости”). Примеры моделей, реализующих геометрическую парадигму: логистическая регрессия, метод опорных векторов и дискриминантный анализ. Другим важным геометрическим понятием является функция расстояния между объектами, которая приводит к классификатору по ближайшим соседям.</p>
+<p>Вероятностный подход заключается в предположении о существовании некоего случайного процесса, который порождает значения целевых переменных, подчиняющиеся вполне определенному, но неизвестному нам распределению вероятностей. Примером модели вероятностного характера является байесовский классификатор, формирующий решающее правило по принципу апостериорного максимума. Модели <em>логического</em> типа по своей природе наиболее алгоритмичны, поскольку легко выражаются на языке правил, понятных человеку, таких как: <em>if <условие> = 1 then Y = <категория класса></em>. Примером таких моделей являются ассоциативные правила и деревья классификации. Некоторые авторы (Mount, Zumel, 2014, р. 91) подчеркивают различие терминов “предсказание” (prediction) и “прогнозирование” (forecasting). Предсказание лишь озвучивает результат (например, «Завтра будет дождь»), а при прогнозировании итог связывается с вероятностью события («Завтра с шансом 80% будет дождь»). Мы считаем, что на практике трудно провести между этими терминами четкую границу. К тому же, часто эта разница в совершенно не принципиальна – главное понимать контекст задачи.</p>
+<p>Наконец, третьим основанием для группировки методов является природа наблюдаемых признаков, которые можно разделить на четыре типа: бинарные (0/1), категориальные, счетные и метрические. Имеются определенные нюансы при использовании перечисленных типов признаков в качестве предикторов, которые оговариваются нами ниже в рекомендациях по применению каждого метода моделирования. Например, бинарное пространство переменных некорректно использовать для линейного дискриминантного анализа. Однако принципиально важное значение имеет, к какому типу признаков относится отклик: задача классификации предполагает, что он измерен в бинарных, категориальных или, отчасти, порядковых шкалах.</p>
+<p><em>Бинарный классификатор</em> формирует некоторое диагностическое правило и оценивает, к какому из двух возможных классов следует отнести изучаемый объект (согласно медицинской терминологии условно назовем эти классы “норма” или “патология”). Группы точек “патология/норма” в заданном пространстве предикторов, как правило, статистически неразделимы: например, повышение температуры тела до 37.5C часто свидетельствует о заболевании, хотя не всегда болезнь может сопровождаться высокой температурой. Поэтому при тестировании модели вероятны ошибочные ситуации, такие как пропуск положительного (патологического) заключения <code>FN</code> или его “гипердиагностика” <code>FP</code>, т.е. отнесение нормального состояния к патологическому.</p>
+<p>Результаты теста на некоторой контрольной выборке можно представить обычной таблицей сопряженности, которую часто называют <em>матрицей неточностей</em> (confusion matrix):</p>
+<table>
+<colgroup>
+<col width="40%" />
+<col width="31%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right"></th>
+<th align="right">Результаты теста:</th>
+<th align="right"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><strong>Истинное состояние тест-объектов:</strong></td>
+<td align="right"><em>Предсказана патология (1)</em></td>
+<td align="right"><em>Предсказана норма (0)</em></td>
+</tr>
+<tr class="even">
+<td align="right"><em>Патология (1)</em></td>
+<td align="right">Истинно-положительные <code>TP</code> (True positives)</td>
+<td align="right">Ложно-отрицательные <code>FN</code> (False negatives)</td>
+</tr>
+<tr class="odd">
+<td align="right"><em>Норма (1)</em></td>
+<td align="right">Ложно-положительные <code>FP</code> (False positives)</td>
+<td align="right">Истинно-отрицательные <code>TN</code> (True negatives)</td>
+</tr>
+</tbody>
+</table>
+<p>В этих обозначениях объективная ценность рассматриваемого бинарного классификатора определяется следующими показателями:</p>
+<ul>
+<li><em>Чувствительность</em> (sensitivity) <span class="math inline">\(SE = Err_{II} = TP / (TP + FN)\)</span>, определяющая насколько хорош тест для выявления патологических экземпляров;</li>
+<li><em>Специфичность</em> (specificity) <span class="math inline">\(SP = Err_{I} = FP / (FP + TN)\)</span>, показывающая эффективность теста для правильной диагностики отклонений от нормального состояния;</li>
+<li><em>Точность</em> (accuracy) <span class="math inline">\(AC = (TP + TN) / (TP + FP + FN + TN)\)</span>, определяющая общую вероятность теста давать правильные результаты.</li>
+</ul>
+<p>По аналогии с классической проверкой статистических гипотез специфичность <span class="math inline">\(Err_I\)</span> определяет ошибку I рода и, соответственно, вероятность нулевой гипотезы, тогда как чувствительность <span class="math inline">\(Err_{II}\)</span> - мощность теста. Точность является, безусловно, наиболее широко известной мерой производительности классификатора, которая становится катастрофически некорректной в случае несбалансированных частот классов. Если, например, число пациентов, заболевших лихорадкой, составляет менее 1% от числа обследованных, то полный пропуск патологии даст вполне приличный результат тестирования 99%.</p>
+<p>Рассмотрим популярный пример выделения спама (“spam” от слияния двух слов - “spiced” и “ham”, или “пряная ветчина”, как образец некачественного пищевого продукта) в электронных письмах в зависимости от встречаемости тех или иных слов (всего 58 частотных показателей). Выборка по спаму представлена в обширной коллекции наборов данных Центра машинного обучения и интеллектуальных систем Калифорнийского университета (<a href="http://archive.ics.uci.edu/ml/">UCI Machine Learning Repository</a>) и после некоторой предварительной обработки используется для иллюстрации в книге Mount, Zumel (2014). Скачаем этот файл с сайта ее авторов и разделим исходные данные в соотношении 10:1 на обучающую и проверочную выборки:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spamD &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&#39;https://raw.github.com/WinVector/zmPDSwR/master/Spambase/spamD.tsv&#39;</span>, 
+                    <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)
+<span class="kw">dim</span>(spamD)</code></pre></div>
+<pre><code>## [1] 4601   59</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spamTrain &lt;-<span class="st"> </span><span class="kw">subset</span>(spamD, spamD$rgroup &gt;=<span class="st"> </span><span class="dv">10</span>)
+spamTest &lt;-<span class="st"> </span><span class="kw">subset</span>(spamD, spamD$rgroup &lt;<span class="st"> </span><span class="dv">10</span>)
+<span class="kw">c</span>(<span class="kw">nrow</span>(spamTrain), <span class="kw">nrow</span>(spamTest))</code></pre></div>
+<pre><code>## [1] 4143  458</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Составляем список переменных и объект типа &quot;формула&quot;</span>
+spamVars &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">colnames</span>(spamD), <span class="kw">list</span>(<span class="st">&#39;rgroup&#39;</span>, <span class="st">&#39;spam&#39;</span>))
+spamFormula &lt;-<span class="st"> </span><span class="kw">as.formula</span>(<span class="kw">paste</span>(<span class="st">&#39;spam==&quot;spam&quot;&#39;</span>, 
+                                <span class="kw">paste</span>(spamVars, <span class="dt">collapse =</span> <span class="st">&#39; + &#39;</span>), <span class="dt">sep =</span> <span class="st">&#39; ~ &#39;</span>))
+spamModel &lt;-<span class="st"> </span><span class="kw">glm</span>(spamFormula, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&#39;logit&#39;</span>), <span class="dt">data =</span> spamTrain)
+
+<span class="co"># Добавляем столбец со значениями вероятности спама:</span>
+spamTrain$pred &lt;-<span class="st"> </span><span class="kw">predict</span>(spamModel, <span class="dt">newdata =</span> spamTrain, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
+spamTest$pred  &lt;-<span class="st"> </span><span class="kw">predict</span>(spamModel,<span class="dt">newdata =</span> spamTest, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</code></pre></div>
+<p>Компоненты матрицы неточностей и перечисленные показатели легко получить с использованием обычной функции <code>table()</code> - например, так:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  На обучающей выборке:</span>
+(cM.train &lt;-<span class="st"> </span><span class="kw">table</span>(Факт =<span class="st"> </span>spamTrain$spam, Прогноз =<span class="st"> </span>spamTrain$pred &gt;<span class="st"> </span><span class="fl">0.5</span>))</code></pre></div>
+<pre><code>##           Прогноз
+## Факт       FALSE TRUE
+##   non-spam  2396  114
+##   spam       178 1455</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  На проверочной выборке:</span>
+(cM &lt;-<span class="st"> </span><span class="kw">table</span>(Факт =<span class="st"> </span>spamTest$spam, Прогноз =<span class="st"> </span>spamTest$pred &gt;<span class="st"> </span><span class="fl">0.5</span>))</code></pre></div>
+<pre><code>##           Прогноз
+## Факт       FALSE TRUE
+##   non-spam   264   14
+##   spam        22  158</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(Точность &lt;-<span class="st"> </span>(cM[<span class="dv">1</span>, <span class="dv">1</span>] +<span class="st"> </span>cM[<span class="dv">2</span>, <span class="dv">2</span>])/<span class="kw">sum</span>(cM), 
+          Чувствительность &lt;-<span class="st"> </span>cM[<span class="dv">1</span>, <span class="dv">1</span>]/(cM[<span class="dv">1</span>, <span class="dv">1</span>] +<span class="st"> </span>cM[<span class="dv">2</span>, <span class="dv">1</span>]),
+          Специфичность &lt;-<span class="st"> </span>cM[<span class="dv">2</span>, <span class="dv">2</span>]/(cM[<span class="dv">2</span>, <span class="dv">2</span>] +<span class="st"> </span>cM[<span class="dv">1</span>, <span class="dv">2</span>]))</code></pre></div>
+<pre><code>## [1] 0.9213974 0.9230769 0.9186047</code></pre>
+<p>Иногда предпочтительнее использовать функцию <code>confusionMatrix(y, pred)</code> из пакета <code>caret</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+<span class="kw">library</span>(e1071)
+pred &lt;-<span class="st"> </span><span class="kw">ifelse</span>(spamTest$pred &gt;<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;spam&quot;</span>, <span class="st">&quot;non-spam&quot;</span>) 
+<span class="kw">confusionMatrix</span>(spamTest$spam, pred)</code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction non-spam spam
+##   non-spam      264   14
+##   spam           22  158
+##                                           
+##                Accuracy : 0.9214          
+##                  95% CI : (0.8928, 0.9443)
+##     No Information Rate : 0.6245          
+##     P-Value [Acc &gt; NIR] : &lt;2e-16          
+##                                           
+##                   Kappa : 0.834           
+##  Mcnemar&#39;s Test P-Value : 0.2433          
+##                                           
+##             Sensitivity : 0.9231          
+##             Specificity : 0.9186          
+##          Pos Pred Value : 0.9496          
+##          Neg Pred Value : 0.8778          
+##              Prevalence : 0.6245          
+##          Detection Rate : 0.5764          
+##    Detection Prevalence : 0.6070          
+##       Balanced Accuracy : 0.9208          
+##                                           
+##        &#39;Positive&#39; Class : non-spam        
+## </code></pre>
+<p>Выбрать другой класс в качестве положительного исхода можно, задав аргумент <code>positive = &quot;spam&quot;</code>. Функция предоставляет пользователю такие статистики, как доверительные интервалы и р-значение для точности, результаты теста <span class="math inline">\(\chi^2\)</span> по Мак-Немару, вероятностный индекс <span class="math inline">\(\kappa\)</span> (каппа) Дж. Коэна, а также еще шесть других критериев оценки эффективности классификатора, интересных, по всей вероятности, ограниченному кругу специалистов:</p>
+<ul>
+<li>прогностическая ценность (prevalence) <code>PV = (TP + FN)/(TP + FP + FN + TN)</code>;</li>
+<li>положительная прогностическая ценность (вероятность фактической патологии при положительном диагнозе) <code>PPV = SE*PV/(SE*PV + (1- SP)*(1 - PV))</code>;</li>
+<li>отрицательная прогностическая ценность (вероятность отсутствия патологии при негативном результате теста) <code>NPV = SP*(1 - PV)/(PV*(1 - SE) + SP*(1 - PV))</code>;</li>
+<li>частота выявления (detection rate) <code>DR = TP/( TP + FP + FN + TN)</code>;</li>
+<li>частота распространения (detection drevalence) <code>DP = (TP + FP)/(TP + FP + FN + TN)</code>; сбалансированная точность (balanced accuracy) <code>BAC = (SE + SP)^2</code>.</li>
+</ul>
+<p>Эффективность классификатора может также оцениваться с использованием информационных критериев - энтропии <span class="math inline">\(E = \sum -p_i\log_2 p_i\)</span>, где <span class="math inline">\(p_i\)</span> - вероятности каждого возможного исхода, и условной энтропии (conditional entropy). Эти меры могут быть рассчитаны с использованием функций:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">entropy &lt;-<span class="st"> </span>function(x) { 
+    xpos &lt;-<span class="st"> </span>x[x &gt;<span class="st"> </span><span class="dv">0</span>]
+    scaled &lt;-<span class="st"> </span>xpos/<span class="kw">sum</span>(xpos) ; <span class="kw">sum</span>(-scaled*<span class="kw">log</span>(scaled, <span class="dv">2</span>))
+   }
+<span class="kw">print</span>(<span class="kw">entropy</span>(<span class="kw">table</span>(spamTest$spam))) </code></pre></div>
+<pre><code>## [1] 0.9667165</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conditionalEntropy &lt;-<span class="st"> </span>function(t) {
+    (<span class="kw">sum</span>(t[, <span class="dv">1</span>])*<span class="kw">entropy</span>(t[, <span class="dv">1</span>]) +<span class="st"> </span><span class="kw">sum</span>(t[, <span class="dv">2</span>])*<span class="kw">entropy</span>(t[, <span class="dv">2</span>]))/<span class="kw">sum</span>(t)
+    }
+<span class="kw">print</span>(<span class="kw">conditionalEntropy</span>(cM))</code></pre></div>
+<pre><code>## [1] 0.3971897</code></pre>
+<p>Исходная энтропия <code>Е = entropy(table(y))</code> определяет среднее количество информации, измеряемой в битах, которую мы приобретаем, если извлечь из выборки очередной экземпляр того или иного класса. Условная энтропия <code>conditionalEntropy(table(y, pred))</code> показывает, насколько эта мера информации уменьшается из-за ошибок предсказания для различных категорий.</p>
+<p>Общепринятым графоаналитическим методом оценки качества теста и интерпретации перечисленных показателей является <em>ROC-анализ</em> (от “Receiver Operator Characteristic” - функциональная характеристика приемника), название которого взято из методологии оценки качества сигнала при радиолокации.</p>
+<p>ROC-кривая получается следующим образом (Goddard, Hinberg, 1989). Пусть мы имеем выборку значений независимого количественного показателя, который варьирует от xmin до xmax, и сопряженного с ним бинарного отклика (1 – патология, 0 – норма). Любое произвольное значение <span class="math inline">\(х\)</span> на этом диапазоне может считаться классификационным <em>порогом</em>, или <em>точкой отсечения</em> (cutt-off value), делящим вектор <span class="math inline">\(y\)</span> на два подмножества, и для этого разбиения можно рассчитать значения чувствительности <span class="math inline">\(SE\)</span> и специфичности <span class="math inline">\(SP\)</span>. Если выполнить сканирование всех возможных значений <span class="math inline">\(x_{\max} \geq x \geq x_{\min}\)</span>, то можно построить график зависимости, где по оси Y откладывается <span class="math inline">\(SE\)</span>, а по оси X - <span class="math inline">\((1 - SP)\)</span>. Реализация этой процедуры в R может привести к ступенчатой или сглаженной кривой следующего вида (рис. <a href="023-Models-for-Class-Prediction.html#fig:fig-2-8">2.8</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ROC кривая:</span>
+<span class="kw">library</span>(pROC)
+m_ROC.roc &lt;-<span class="st"> </span><span class="kw">roc</span>(spamTest$spam, spamTest$pred)
+<span class="kw">plot</span>(m_ROC.roc, <span class="dt">grid.col =</span> <span class="kw">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">grid =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.2</span>),
+     <span class="dt">print.auc =</span> <span class="ot">TRUE</span>, <span class="dt">print.thres =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(<span class="kw">smooth</span>(m_ROC.roc), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">print.auc =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-8"></span>
+<img src="023-Models-for-Class-Prediction_files/figure-html/fig-2-8-1.png" alt="ROC-кривая для оценки вероятности спама" width="672" />
+<p class="caption">
+Рисунок 2.8: ROC-кривая для оценки вероятности спама
+</p>
+</div>
+<p>В случае идеального классификатора ROC-кривая проходит вблизи верхнего левого угла, где доля истинно-положительных случаев равна 1, а доля ложно-положительных примеров равна нулю. Поэтому чем ближе кривая к верхнему левому углу, тем выше предсказательная способность модели. Наоборот, главная диагональная линия соответствует “бесполезному” классификатору, который “угадывает” классовую принадлежность случайным образом. Следовательно, близость ROC-кривой к диагонали говорит о низкой эффективности построенной модели.</p>
+<p>Для нахождения оптимального порога, соответствующего наиболее безошибочному классификатору, через крайнюю точку ROC-кривой проводят линию максимальной точности, параллельную главной диагонали. На приведенном графике такая точка, соответствующая значению <code>х = 0.382</code>, имеет наилучшую комбинацию значений чувствительности <code>SE = 0.932</code> и специфичности <code>SP = 0.922</code>. Обратите внимание, что в качестве значений <span class="math inline">\(х\)</span> фигурирует оценка вероятности отнесения к спаму и, видимо, мы совершенно напрасно принимали ранее в качестве порога величину 0.5.</p>
+<p>Полезным показателем является численная оценка площади под ROC-кривыми AUC (Area Under Curve). Практически она изменяется от 0.5 (“бесполезный” классификатор) до 1.0 (“идеальная” модель). Показатель AUC предназначен исключительно для сравнительного анализа нескольких моделей, поэтому связывать его величину с прогностической силой можно только с большими допущениями.</p>
+<p>В нашем примере в качестве классификатора писем со спамом мы использовали модель логистической регрессии, полагая, что бинарный отклик имеет биномиальное распределение. Напомним, что в случае обобщенных линейных моделей GLM вместо минимизации суммы квадратов отклонений ищется экстремум логарифма функции максимального правдоподобия (log maximum likelihood), вид которой зависит от характера распределения данных. В нашем случае логарифм функции правдоподобия <code>LL</code> численно равен сумме логарифмов вероятностей классов, которые модель правильно предсказывает для каждого наблюдения:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(LL &lt;-<span class="st"> </span><span class="kw">logLik</span>(spamModel))</code></pre></div>
+<pre><code>## &#39;log Lik.&#39; -807.0323 (df=58)</code></pre>
+<p>Как и в случае гауссова распределения (см. раздел <a href="#section_2_1">2.1</a>), оценка адекватности биномиальной модели осуществляется с использованием девианса <code>D = -2(LL - S)</code>, где <code>S = 0</code> - правдоподобие “насыщенной модели” с минимальным уровнем байесовской ошибки. Исходя из априорной вероятности одного из классов, можно рассчитать логарифм правдоподобия и девианс для нулевой модели <code>D.null</code>. Эффективность классификатора определяется соотношением девианса остатков <code>D</code> и нуль-девианса <code>D.null</code>, что соответствует псевдо-коэффициенту детерминации <code>Rsquared</code> модели. Статистическую значимость разности девиансов (<code>D.null - D</code>) можно оценить по критерию <span class="math inline">\(\chi^2\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">with</span>(spamModel, df.null -<span class="st"> </span>df.residual)
+<span class="kw">c</span>(D.null &lt;-<span class="st"> </span>spamModel$null.deviance,
+  D &lt;-<span class="st"> </span>spamModel$deviance,
+  <span class="dt">Rsquared =</span> <span class="dv">1</span> -<span class="st"> </span>D/D.null,
+  <span class="kw">pchisq</span>(D.null -<span class="st"> </span>D, df, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>##                               Rsquared              
+## 5556.3602041 1614.0646078    0.7095104    0.0000000</code></pre>
+<p>Мы получили модель, вполне адекватную по отношению к имеющимся данным. Разумеется, все эти вычисления могут быть выполнены с использованием базовых функций <code>summary()</code> и <code>anova()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(spamModel)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Null_Model &lt;-<span class="st"> </span><span class="kw">glm</span>(spam ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&#39;logit&#39;</span>), <span class="dt">data =</span> spamTrain)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(spamModel, Null_Model , <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<p>Мы не станем приводить здесь длинные протоколы с результатами этих процедур, включающие статистический анализ 58 коэффициентов модели. Отложим также для специального раздела обсуждение возможных путей решения проблемы поиска оптимального состава предикторов.</p>
+<p>Вероятностные модели логита, как и иные детерминированные классификаторы, выполняют предсказание класса каждого тестируемого объекта, но при этом возвращают также оцененную вероятность такой принадлежности. При этом весьма полезно проанализировать график плотности распределения вероятностей обоих классов, особенно при подборе оптимальных пороговых значений классификатора. Следующая команда R обеспечивает построение такого графика:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> spamTest) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x =</span> pred, <span class="dt">color =</span> spam, <span class="dt">linetype =</span> spam))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-9"></span>
+<img src="023-Models-for-Class-Prediction_files/figure-html/fig-2-9-1.png" alt="Кривые плотности апостериорной вероятности принадлежности объектов к двум классам: электронным письмам с наличием спама и без него" width="672" />
+<p class="caption">
+Рисунок 2.9: Кривые плотности апостериорной вероятности принадлежности объектов к двум классам: электронным письмам с наличием спама и без него
+</p>
+</div>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="022-Resampling-Techniques.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="024-Projecting-Data-onto-a-Plane.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

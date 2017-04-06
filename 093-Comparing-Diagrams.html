@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия и другие алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://ranalytics.github.io/data-mining/" />
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  <meta name="github-repo" content="ranalytics/data-mining" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-04-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="092-Distance-ANOVA.html">
+<link rel="next" href="094-Ordination-Factors.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R (вместо предисловия)</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_1"><i class="fa fa-check"></i><b>1.1.1</b> От статистического анализа разового эксперимента к Data Mining</a></li>
+<li class="chapter" data-level="1.1.2" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_2"><i class="fa fa-check"></i><b>1.1.2</b> Принципиальная множественность моделей окружающего мира</a></li>
+<li class="chapter" data-level="1.1.3" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_3"><i class="fa fa-check"></i><b>1.1.3</b> Нарастающая множественность алгоритмов построения моделей</a></li>
+<li class="chapter" data-level="1.1.4" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_4"><i class="fa fa-check"></i><b>1.1.4</b> Типы и характеристики групп моделей Data Mining</a></li>
+<li class="chapter" data-level="1.1.5" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_5"><i class="fa fa-check"></i><b>1.1.5</b> Природа многомерного отклика и его моделирование</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="012-R-Intro.html"><a href="012-R-Intro.html"><i class="fa fa-check"></i><b>1.2</b> Статистическая среда R и ее использование в Data Mining</a></li>
+<li class="chapter" data-level="1.3" data-path="013-What-This-Book-Is-About.html"><a href="013-What-This-Book-Is-About.html"><i class="fa fa-check"></i><b>1.3</b> О чем эта книга и чего в ней нет</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_1"><i class="fa fa-check"></i><b>4.1.1</b> Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="4.1.2" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_2"><i class="fa fa-check"></i><b>4.1.2</b> Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="4.1.3" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_3"><i class="fa fa-check"></i><b>4.1.3</b> Генетический алгоритм</a></li>
+<li class="chapter" data-level="4.1.4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_4"><i class="fa fa-check"></i><b>4.1.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_1"><i class="fa fa-check"></i><b>4.2.1</b> Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="4.2.2" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_2"><i class="fa fa-check"></i><b>4.2.2</b> Метод частных наименьших квадратов (PLS)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_3"><i class="fa fa-check"></i><b>4.2.3</b> Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="4.2.4" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_4"><i class="fa fa-check"></i><b>4.2.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_1"><i class="fa fa-check"></i><b>4.3.1</b> Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="4.3.2" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_2"><i class="fa fa-check"></i><b>4.3.2</b> Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="4.3.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_3"><i class="fa fa-check"></i><b>4.3.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_1"><i class="fa fa-check"></i><b>4.4.1</b> Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="4.4.2" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_2"><i class="fa fa-check"></i><b>4.4.2</b> Бустинг</a></li>
+<li class="chapter" data-level="4.4.3" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_3"><i class="fa fa-check"></i><b>4.4.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="053-Logic-Rules.html"><a href="053-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="054-Association-Rules-Algos.html"><a href="054-Association-Rules-Algos.html"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+<li class="chapter" data-level="5.5" data-path="055-Traminer.html"><a href="055-Traminer.html"><i class="fa fa-check"></i><b>5.5</b> Анализ последовательностей знаков или событий</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классификаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Ядерные функции машины опорных векторов</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html"><i class="fa fa-check"></i><b>7</b> Модели классификации для нескольких классов</a><ul>
+<li class="chapter" data-level="7.1" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html#sec_7_1"><i class="fa fa-check"></i><b>7.1</b> Ирисы Фишера и метод <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="7.2" data-path="072-NBC.html"><a href="072-NBC.html"><i class="fa fa-check"></i><b>7.2</b> Наивный байесовский классификатор</a></li>
+<li class="chapter" data-level="7.3" data-path="073-In-Discriminant-Space.html"><a href="073-In-Discriminant-Space.html"><i class="fa fa-check"></i><b>7.3</b> Классификация в линейном дискриминантном пространстве</a></li>
+<li class="chapter" data-level="7.4" data-path="074-Nonlinear-Classifiers.html"><a href="074-Nonlinear-Classifiers.html"><i class="fa fa-check"></i><b>7.4</b> Нелинейные классификаторы в R</a></li>
+<li class="chapter" data-level="7.5" data-path="075-Multinomial-Logit.html"><a href="075-Multinomial-Logit.html"><i class="fa fa-check"></i><b>7.5</b> Модель мультиномиального логита</a></li>
+<li class="chapter" data-level="7.6" data-path="076-NN.html"><a href="076-NN.html"><i class="fa fa-check"></i><b>7.6</b> Классификаторы на основе искусственных нейронных сетей</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html"><i class="fa fa-check"></i><b>8</b> Моделирование порядковых и счетных переменных</a><ul>
+<li class="chapter" data-level="8.1" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html#sec_8_1"><i class="fa fa-check"></i><b>8.1</b> Модель логита для порядковой переменной</a></li>
+<li class="chapter" data-level="8.2" data-path="082-NN-with-Caret.html"><a href="082-NN-with-Caret.html"><i class="fa fa-check"></i><b>8.2</b> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></a></li>
+<li class="chapter" data-level="8.3" data-path="083-Model-Complexes.html"><a href="083-Model-Complexes.html"><i class="fa fa-check"></i><b>8.3</b> Методы комплексации модельных прогнозов</a></li>
+<li class="chapter" data-level="8.4" data-path="084-GLM-for-Counts.html"><a href="084-GLM-for-Counts.html"><i class="fa fa-check"></i><b>8.4</b> Обобщенные линейные модели для счетных данных</a></li>
+<li class="chapter" data-level="8.5" data-path="085-ZIP-for-Counts.html"><a href="085-ZIP-for-Counts.html"><i class="fa fa-check"></i><b>8.5</b> ZIP- и барьерные модели счетных данных</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html"><i class="fa fa-check"></i><b>9</b> Методы многомерной ординации</a><ul>
+<li class="chapter" data-level="9.1" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html#sec_9_1"><i class="fa fa-check"></i><b>9.1</b> Преобразование данных и вычисление матрицы расстояний</a></li>
+<li class="chapter" data-level="9.2" data-path="092-Distance-ANOVA.html"><a href="092-Distance-ANOVA.html"><i class="fa fa-check"></i><b>9.2</b> Непараметрический дисперсионный анализ матриц дистанций</a></li>
+<li class="chapter" data-level="9.3" data-path="093-Comparing-Diagrams.html"><a href="093-Comparing-Diagrams.html"><i class="fa fa-check"></i><b>9.3</b> Методы ординации объектов и переменных: построение и сравнение диаграмм</a></li>
+<li class="chapter" data-level="9.4" data-path="094-Ordination-Factors.html"><a href="094-Ordination-Factors.html"><i class="fa fa-check"></i><b>9.4</b> Оценка связи ординации с внешними факторами</a></li>
+<li class="chapter" data-level="9.5" data-path="095-NMDS.html"><a href="095-NMDS.html"><i class="fa fa-check"></i><b>9.5</b> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html"><i class="fa fa-check"></i><b>10</b> Кластерный анализ</a><ul>
+<li class="chapter" data-level="10.1" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html#sec_10_1"><i class="fa fa-check"></i><b>10.1</b> Алгоритмы кластеризации, основанные на разделении</a></li>
+<li class="chapter" data-level="10.2" data-path="102-H-Clustering.html"><a href="102-H-Clustering.html"><i class="fa fa-check"></i><b>10.2</b> Иерархическая кластеризация</a></li>
+<li class="chapter" data-level="10.3" data-path="103-Clustering-Quality.html"><a href="103-Clustering-Quality.html"><i class="fa fa-check"></i><b>10.3</b> Оценка качества кластеризации</a></li>
+<li class="chapter" data-level="10.4" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html"><i class="fa fa-check"></i><b>10.4</b> Другие алгоритмы кластеризации</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_1"><i class="fa fa-check"></i><b>10.4.1</b> Иерархическая кластеризация на главные компоненты</a></li>
+<li class="chapter" data-level="10.4.2" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_2"><i class="fa fa-check"></i><b>10.4.2</b> Метод нечетких <em>k</em> средних (fuzzy analysis clustering)</a></li>
+<li class="chapter" data-level="10.4.3" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_3"><i class="fa fa-check"></i><b>10.4.3</b> Статистическая модель кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="105-Cohonen-Maps.html"><a href="105-Cohonen-Maps.html"><i class="fa fa-check"></i><b>10.5</b> Самоорганизующиеся карты Кохонена</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html"><i class="fa fa-check"></i><b>11</b> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</a><ul>
+<li class="chapter" data-level="11.1" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html#----rattle"><i class="fa fa-check"></i><b>11.1</b> Начало работы с пакетом <code id="sec_11_1">rattle</code></a></li>
+<li class="chapter" data-level="11.2" data-path="112-Descriptive-Stats.html"><a href="112-Descriptive-Stats.html"><i class="fa fa-check"></i><b>11.2</b> Описательная статистика и визуализация данных</a></li>
+<li class="chapter" data-level="11.3" data-path="113-Model-Building.html"><a href="113-Model-Building.html"><i class="fa fa-check"></i><b>11.3</b> Построение и тестирование моделей классификации</a></li>
+<li class="chapter" data-level="11.4" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html"><i class="fa fa-check"></i><b>11.4</b> Дескриптивные модели (обучение без учителя)</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_1"><i class="fa fa-check"></i><b>11.4.1</b> Кластерный анализ</a></li>
+<li class="chapter" data-level="11.4.2" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_2"><i class="fa fa-check"></i><b>11.4.2</b> Ассоциативные правила</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="120-References.html"><a href="120-References.html"><i class="fa fa-check"></i><b>12</b> Список рекомендуемой литературы</a></li>
+<li class="chapter" data-level="" data-path="130-Appendix.html"><a href="130-Appendix.html"><i class="fa fa-check"></i>Приложение: cправочная карта по Data Mining с использованием R</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec_9_3" class="section level2">
+<h2><span class="header-section-number">9.3</span> Методы ординации объектов и переменных: построение и сравнение диаграмм</h2>
+<p>Ординация в узком смысле представляет собой нахождение таких координатных осей на плоскости, относительно которых можно выполнить оптимальное проецирование многомерных анализируемых объектов. Ординация связана с поиском наиболее “естественных” системных закономерностей и особенно эффективна при наличии комплекса взаимно скоррелированных влияющих факторов, “которые являются кошмаром, например, для множественной регрессии”. К настоящему времени в среде R разработано и реализовано значительное количество алгоритмов сжатия информационного пространства, в частности:</p>
+<ul>
+<li>метод главных компонент PCA (см. раздел <a href="024-Projecting-Data-onto-a-Plane.html#sec_2_4">2.4</a>), оперирующий с ковариационной (корреляционной) матрицей;</li>
+<li>метод главных координат PCoA и неметрическое многомерное шкалирование (NMDS, nonmetric multidimensional scaling), выполняющие последовательную процедуру преобразования любой матрицы дистанций;</li>
+<li>анализ соответствий или корреспондентный анализ (CA, correspondence analysis), основанный на итерационной процедуре встречного усреднения взвешивающих коэффициентов для объектов и переменных (Джогман и др., 1999);</li>
+<li>функции многомерного факторного анализа, включая версии для иерархических и смешанных данных, представленные в пакете <code>FactoMineR</code>.</li>
+</ul>
+<p>Метод главных координат PCoA, или многомерное шкалирование (MDS, multidimensional scaling), во многом похож на РСА, но вместо корреляционной матрицы выполняет вычисление собственных значений и собственных векторов произвольной квадратной симметричной матрицы расстояний <span class="math inline">\(\mathbf{D}\)</span>. Так можно компенсировать некоторые отклонения от предпосылок в отношении статистического распределения данных, принятых для корреляционного анализа, но одновременно возникает проблема выбора подходящей метрики дистанции. На странице <a href="http://gastonsanchez.com/visually-enforced/how-to/2013/01/23/MDS-in-R/">gastonsanchez.com</a> описана работа с 7 функциями различных пакетов R, в которых реализован метод PCoA, но обычно используют базовую функцию <code>cmdscale()</code>.</p>
+<p>В качестве примера рассмотрим достаточно представительный набор геоботанических данных <code>bryceveg</code> из пакета <code>labdsv</code>, в котором 165 видов травянистой растительности было обнаружено на 160 пробных площадках, заложенных на территории Брайс-Каньон (Bryce Canyon, штат Юта, США):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(labdsv)
+<span class="kw">data</span>(bryceveg)
+<span class="kw">data</span>(brycesite)
+
+<span class="co">#  Рассчитываем три матрицы расстояний по разным формулам</span>
+dis.mht &lt;-<span class="st"> </span><span class="kw">dist</span>(bryceveg, <span class="st">&quot;manhattan&quot;</span>)
+dis.euc &lt;-<span class="st"> </span><span class="kw">dist</span>(bryceveg, <span class="st">&#39;euclidean&#39;</span>)
+dis.bin &lt;-<span class="st"> </span><span class="kw">dist</span>(bryceveg, <span class="st">&quot;binary&quot;</span>)
+
+<span class="co">#  Создаем объекты cmdscale</span>
+mht.pco &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(dis.mht, <span class="dt">k =</span> <span class="dv">10</span>, <span class="dt">eig =</span> <span class="ot">TRUE</span>)
+euc.pco &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(dis.euc, <span class="dt">k =</span> <span class="dv">10</span>, <span class="dt">eig =</span> <span class="ot">TRUE</span>)
+bin.pco &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(dis.bin, <span class="dt">k =</span> <span class="dv">10</span>, <span class="dt">eig =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># График изменения относительных собственных чисел</span>
+<span class="kw">plot</span>(<span class="dv">1</span>:<span class="dv">10</span>, (mht.pco$eig/<span class="kw">sum</span>(mht.pco$eig))[<span class="dv">1</span>:<span class="dv">10</span>],
+     <span class="dt">type =</span> <span class="st">&quot;b&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Число координат&quot;</span>,
+     <span class="dt">ylab =</span> <span class="st">&quot;Относительные собственные значения&quot;</span>)
+<span class="kw">lines</span>((euc.pco$eig/<span class="kw">sum</span>(euc.pco$eig))[<span class="dv">1</span>:<span class="dv">10</span>], <span class="dt">type =</span> <span class="st">&quot;b&quot;</span>, <span class="dt">col =</span> <span class="dv">2</span>)
+<span class="kw">lines</span>((bin.pco$eig/<span class="kw">sum</span>(bin.pco$eig))[<span class="dv">1</span>:<span class="dv">10</span>], <span class="dt">type =</span> <span class="st">&quot;b&quot;</span>, <span class="dt">col =</span> <span class="dv">3</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Манхэттен&quot;</span>, <span class="st">&quot;Евклид&quot;</span>, <span class="st">&quot;Хемминг&quot;</span>), <span class="dt">lwd =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="dv">1</span>:<span class="dv">3</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-4"></span>
+<img src="093-Comparing-Diagrams_files/figure-html/fig-9-4-1.png" alt="Уменьшение собственных значений матриц с увеличением числа координат" width="576" />
+<p class="caption">
+Рисунок 9.4: Уменьшение собственных значений матриц с увеличением числа координат
+</p>
+</div>
+<p>Возникает естественный вопрос, какая из трех наиболее характерных метрик расстояния приводит к наилучшей ординации? Если ориентироваться на величину первых двух собственных значений матрицы <span class="math inline">\(\mathbf{D}\)</span> (рис. <a href="093-Comparing-Diagrams.html#fig:fig-9-4">9.4</a>), которые соответствуют доле объясненной дисперсии видовой структуры участков, то наименее адекватной оказывается ординация, полученная при использовании расстояния Хемминга, т.е. когда учитывалось только наличие или отсутствие видов растений. Второй способ - оценить коэффициент корреляции двух матриц расстояния: исходной и рассчитанной на основе первых двух главных координат, что соответствует доле информации, сохраненной после сжатия 165-мерного пространства до двумерного. Наконец, всегда полезно просто посмотреть на характер распределения точек на выполненной проекции и прислушаться к голосу собственной интуиции (рис. <a href="093-Comparing-Diagrams.html#fig:fig-9-5">9.5</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">plot</span>(euc.pco$points[, <span class="dv">1</span>:<span class="dv">2</span>], <span class="dt">col =</span> <span class="dv">4</span>, <span class="dt">pch =</span> <span class="dv">17</span>, <span class="dt">xlab =</span> <span class="st">&quot;PCO1&quot;</span>,
+     <span class="dt">ylab =</span> <span class="st">&quot;PCO2&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Расстояние Евклида&quot;</span>)
+<span class="kw">plot</span>(<span class="dv">0</span> -<span class="st"> </span>bin.pco$points[, <span class="dv">1</span>:<span class="dv">2</span>], <span class="dt">col =</span> <span class="dv">3</span>, <span class="dt">pch =</span> <span class="dv">17</span>, <span class="dt">xlab =</span> <span class="st">&quot;PCO1&quot;</span>,
+     <span class="dt">ylab =</span> <span class="st">&quot;PCO2&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Расстояние Хемминга&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-5"></span>
+<img src="093-Comparing-Diagrams_files/figure-html/fig-9-5-1.png" alt="Распределение точек ординации PCoA для разных метрик дистанции" width="768" />
+<p class="caption">
+Рисунок 9.5: Распределение точек ординации PCoA для разных метрик дистанции
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CCor &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">cor</span>(dis.euc, <span class="kw">dist</span>(euc.pco$points[, <span class="dv">1</span>:<span class="dv">2</span>], <span class="st">&#39;euclidean&#39;</span>)),
+          <span class="kw">cor</span>(dis.mht, <span class="kw">dist</span>(mht.pco$points[, <span class="dv">1</span>:<span class="dv">2</span>], <span class="st">&#39;manhattan&#39;</span>)))
+<span class="kw">names</span>(CCor) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Евклидово&quot;</span>, <span class="st">&quot;Манхэттенское&quot;</span>) 
+<span class="kw">print</span>(CCor)</code></pre></div>
+<pre><code>##     Евклидово Манхэттенское 
+##     0.8171305     0.8256334</code></pre>
+<p>Важной косвенной оценкой, насколько полученная ординация адекватна задаче исследования, является ее тесная взаимосвязь с ведущими внешними факторами. Функция <code>ordtest()</code> из пакета <code>labdsv</code> выполняет оценку <span class="math inline">\(p\)</span> значимости такой связи с использованием рандомизационного теста, рассчитывая сумму квадратов разностей двух матриц расстояния (исходной и построенной на основе фактора). Другой подход основан на аппроксимации двумерной сглаживающей поверхностью значений предиктора в точках, определенных главными координатами. Подробности изложены в курсе лекций проф. Д. Робертса студентам университета штата Монтана (<a href="http://ecology.msu.montana.edu/labdsv/R/labs/">http://ecology.msu.montana.edu</a>). Ниже используется функция <code>surf()</code>, которая выполняет сглаживание сплайнами и визуализацию на диаграмме линий изоном фактора. Ее скрипт приведен в <a href="http://ecology.msu.montana.edu/labdsv/R/labs/lab8/lab8.html">лекции №8</a> и скопирован нами в файл <code>surf_pso.r</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(brycesite)
+H &lt;-<span class="st"> </span>brycesite$elev  
+mht.pco &lt;-<span class="st"> </span><span class="kw">pco</span>(dis.mht, <span class="dt">k =</span> <span class="dv">2</span>) <span class="co"># аналог функции cmdscale()</span>
+<span class="kw">source</span>(<span class="st">&quot;scripts/surf_pco.R&quot;</span>)
+<span class="kw">plot</span>(mht.pco, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
+<span class="kw">surf.pco</span>(mht.pco, H, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-6"></span>
+<img src="093-Comparing-Diagrams_files/figure-html/fig-9-6-1.png" alt="Ординация геоботанических данных с использованием манхэттенского расстояния и ее связь с высотой пробных площадок" width="576" />
+<p class="caption">
+Рисунок 9.6: Ординация геоботанических данных с использованием манхэттенского расстояния и ее связь с высотой пробных площадок
+</p>
+</div>
+<pre><code>## 
+## Family: gaussian 
+## Link function: identity 
+## 
+## Formula:
+## var ~ s(x, y)
+## 
+## Estimated degrees of freedom:
+## 16.1  total = 17.08 
+## 
+## GCV score: 189195.3     
+## D^2 =  0.5999</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ordtest</span>(mht.pco, H)$p</code></pre></div>
+<pre><code>## [1] &quot;H &lt; 0.001&quot;</code></pre>
+<pre><code>## [1] 0.001</code></pre>
+<p>Для построения сглаживающей поверхности высоты участков над уровнем моря по осям двух главных координат использовалась функция <code>gam()</code> из пакета <code>mgcv</code>, выполняющая аппроксимацию сплайном <code>s(x, y)</code>. Качество подгонки может быть оценено с помощью псевдо-коэффициента детерминации, который для произвольной GAM-модели <code>m</code> рассчитывается как <code>D2 = (m$null.deviance - m$deviance)/m$null.deviance</code>.</p>
+<p>Если построить различные варианты ординации с использованием разных методов или метрик, то наилучшей будет считаться та, которая доставляет максимум <code>D2</code>. При этом, разумеется, необходимо выбрать для тестирования ведущий внешний фактор. Например, если вместо высоты над уровнем моря использовать угол наклона площадки к горизонту <code>brycesite$av</code>, то его статистическая связь с изменчивостью видового состава растительности будет незначимой <code>р=0.544</code>, а величина <code>D2</code> будет мала <code>D^2 = 0.06873</code>.</p>
+<p>Для детального сравнения двух диаграмм их необходимо привести к единой форме, т.е. к стандартной конфигурации, которая будет независима от положения, масштаба и поворота координатных осей. Один из способов сравнения графиков заключается в “прокрустовом” преобразовании геометрии точек. Для этого проводится ряд последовательных итераций подгонки масштаба осей:</p>
+<ul>
+<li>cравниваемые точки помещаются внутри единичного круга <span class="math inline">\(|\delta| = 1\)</span>;</li>
+<li>вся структура вращается относительно центра координат;</li>
+<li>находится минимум суммы квадратов расстояний между двумя ординациями <span class="math inline">\(m^2 = [\mathbf{x}_1 - T(\mathbf{x}_2)]^2 \rightarrow \min\)</span> или максимум прокрустовой корреляции <span class="math inline">\(r = \sqrt{1 - m^2}\)</span>.</li>
+</ul>
+<p>Используя функции из пакета <code>vegan</code>, выполним сравнение расположения площадок на двух диаграммах, построенных методами главных координат (<code>mht.pco</code> на рис. <a href="093-Comparing-Diagrams.html#fig:fig-9-6">9.6</a>) и анализом соответствий CA:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vegan)
+ca &lt;-<span class="st"> </span><span class="kw">cca</span>(bryceveg)
+pro.comp &lt;-<span class="st"> </span><span class="kw">procrustes</span>(mht.pco, ca)
+<span class="kw">plot</span>(pro.comp)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-7"></span>
+<img src="093-Comparing-Diagrams_files/figure-html/fig-9-7-1.png" alt="Сравнение двух диаграмм после прокрустового преобразования" width="576" />
+<p class="caption">
+Рисунок 9.7: Сравнение двух диаграмм после прокрустового преобразования
+</p>
+</div>
+<p>Использование линейных преобразований в ходе проецирования на плоскость дает возможность не только построить упорядоченную диаграмму <em>объектов</em>, но и выполнить ординацию <em>переменных</em>, использованных в анализе. В случае главных компонент взаимный пересчет координат легко сделать по формулам:</p>
+<p><span class="math display">\[F_s(i) = 1/\sqrt{\lambda_s}\sum_{k} x_{ik}G_s(k); \quad G_s(k) = 1/\sqrt{\lambda_s}\sum_i x_{ik}F_s(i),\]</span></p>
+<p>где <span class="math inline">\(F_s(i)\)</span> и <span class="math inline">\(G_s(k)\)</span> - координаты <span class="math inline">\(i\)</span>-го объекта и <span class="math inline">\(k\)</span>-й переменной на <span class="math inline">\(s\)</span>-й оси компоненты, а <span class="math inline">\(\lambda_s\)</span> – собственное значение, связанное с <span class="math inline">\(s\)</span>-й осью.</p>
+<p>В случае анализа соответствий такая диаграмма для 165 видов на территории Брайс-Каньо́н выглядит как на рис. <a href="093-Comparing-Diagrams.html#fig:fig-9-8">9.8</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ca, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>)   <span class="co"># Отрисовка «пустой» диаграммы</span>
+<span class="kw">ordilabel</span>(ca, <span class="dt">dis =</span> <span class="st">&quot;sp&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-8"></span>
+<img src="093-Comparing-Diagrams_files/figure-html/fig-9-8-1.png" alt="Ординационная диаграмма видов растительности, полученная методом анализа соответствий" width="672" />
+<p class="caption">
+Рисунок 9.8: Ординационная диаграмма видов растительности, полученная методом анализа соответствий
+</p>
+</div>
+<p>Если вид встречается только в одном месте, то его положение на диаграмме совпадает с точкой, обозначающей соответствующую пробную площадку. В противном случае местоположение вида в системе осей <code>СА1</code>-<code>СА2</code> определяется средневзвешенными координатами нескольких его возможных местообитаний. По-видимому, эта точка определяет экологический оптимум вида, где его появление наиболее вероятно, либо обилие максимально.</p>
+<p>Функции <code>ordipointlabel()</code> и <code>ordilabel()</code> из пакета <code>vegan</code> дают возможность расположить на графике метки данных наилучшим образом и задать последовательность их визуализации: в верхнем слое диаграммы на рис. <a href="093-Comparing-Diagrams.html#fig:fig-9-8">9.8</a> показаны экологически важные виды с наибольшей суммой обилия по столбцам.</p>
+<p>Важное место в современном статистическом анализе занимает построение внешне элегантных и информационно насыщенных графиков. Ведущая роль при этом отводится системе визуализации <code>ggplot2</code> (Мастицкий, 2016). В предыдущих главах мы приводили ординационные диаграммы, полученные с использованием функций <code>ggplot</code> (см. рис. <a href="024-Projecting-Data-onto-a-Plane.html#fig:fig-2-10">2.10</a>, <a href="025-MV-analysis.html#fig:fig-2-11">2.11</a>, <a href="026-Clustering-Methods.html#fig:fig-2-13">2.13</a>, <a href="071-Multiclass-Classification.html#fig:fig-7-3">7.3</a>, <a href="073-In-Discriminant-Space.html#fig:fig-7-7">7.7</a>), когда обсуждали метод главных компонент и дискриминантный анализ. Но читатель, вероятно, смог заметить, что построение графиков <code>ggplot2</code> - непростой, хотя и увлекательный процесс.</p>
+<p>Возможность построения элегантных графиков “одной строкой” предоставляется специализированными пакетами, использующими “в темную” инструментарий графической системы <code>ggplot2</code>. К таким относится пакет <code>factoextra</code>, предназначенный для визуализации результатов многомерного и кластерного анализа (см. также главу 10). Подробный рассказ об этом пакете см. на сайте <a href="http://www.sthda.com/english/wiki/factoextra-r-package-easy-multivariate-data-analyses-and-elegant-visualization">http://www.sthda.com</a> (STHDA, Statistical tools for high-throughput data analysis).</p>
+<p>Функция <code>viz_pca()</code> из пакета <code>factoextra</code> осуществляет построение ординационных диаграмм для объектов и/или переменных (отдельно или совмещенно) на основе PCA-объектов, полученных функциями <code>prcomp()</code>, <code>princomp()</code>, <code>PCA()</code> из пакета <code>FactoMineR</code> и некоторых других.</p>
+<p>Набор данных <code>decathlon</code> из пакета <code>FactoMineR</code> (Le et al., 2008) содержит результаты 41 ведущего десятиборца, показанные в 2004 г. на олимпийских играх и турнире “ДекаСтар”. Выполним его PCA-ординацию:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(FactoMineR)
+<span class="kw">library</span>(factoextra)
+<span class="kw">data</span>(<span class="st">&quot;decathlon&quot;</span>)
+<span class="kw">colnames</span>(decathlon) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;100м&quot;</span>, <span class="st">&quot;Длина.прыжок&quot;</span>, <span class="st">&quot;Ядро&quot;</span>, <span class="st">&quot;Высота.прыжок&quot;</span>, 
+                         <span class="st">&quot;400м&quot;</span>, <span class="st">&quot;110м.барьер&quot;</span>, <span class="st">&quot;Диск&quot;</span>, <span class="st">&quot;Шест.прыжок&quot;</span>,
+                         <span class="st">&quot;Копье&quot;</span>, <span class="st">&quot;1500м&quot;</span>, <span class="st">&quot;Место&quot;</span>, <span class="st">&quot;Очки&quot;</span>, <span class="st">&quot;Соревнование&quot;</span>)
+res.pca &lt;-<span class="st"> </span><span class="kw">PCA</span>(decathlon[, <span class="dv">1</span>:<span class="dv">10</span>], <span class="dt">scale.unit =</span> <span class="ot">TRUE</span>, <span class="dt">ncp =</span> <span class="dv">3</span>, <span class="dt">graph =</span> <span class="ot">FALSE</span>)
+<span class="kw">head</span>(res.pca$eig)</code></pre></div>
+<pre><code>##        eigenvalue percentage of variance cumulative percentage of variance
+## comp 1  3.2719055              32.719055                          32.71906
+## comp 2  1.7371310              17.371310                          50.09037
+## comp 3  1.4049167              14.049167                          64.13953
+## comp 4  1.0568504              10.568504                          74.70804
+## comp 5  0.6847735               6.847735                          81.55577
+## comp 6  0.5992687               5.992687                          87.54846</code></pre>
+<p>Первые две компоненты объясняют только 50% статистического разброса результатов. Вклад (<code>contribution</code>) каждой переменной при формировании каждой главной компоненты может быть оценен как отношение квадрата факторной нагрузки (<code>score</code>) к соответствующему собственному значению (Abdi, Williams, 2010). Построим ординационную диаграмму признаков (т.е. видов спорта в десятиборье), но их координаты обозначим не точкой, а стрелкой из начала координат, причем цвет стрелки определим в зависимости от важности каждой переменной:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res.pca$var$contrib</code></pre></div>
+<pre><code>##                     Dim.1     Dim.2       Dim.3
+## 100м          18.34376957  2.016090  2.42049891
+## Длина.прыжок  16.82246707  6.868559  2.36319121
+## Ядро          11.84353954 20.606785  0.03890276
+## Высота.прыжок  9.99788710  7.063694  4.79362526
+## 400м          14.11622887 18.666374  1.23027094
+## 110м.барьер   17.02011495  3.013382  0.61083225
+## Диск           9.32848615 21.162245  0.13131711
+## Шест.прыжок    0.07745541  1.872547 34.06090024
+## Копье          2.34696326  5.784369 10.80714169
+## 1500м          0.10308808 12.945954 43.54331962</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_pca_var</span>(res.pca, <span class="dt">col.var =</span> <span class="st">&quot;contrib&quot;</span>, 
+             <span class="dt">gradient.cols =</span> <span class="kw">c</span>(<span class="st">&quot;#00AFBB&quot;</span>, <span class="st">&quot;#E7B800&quot;</span>, <span class="st">&quot;#FC4E07&quot;</span>),
+             <span class="dt">repel =</span> <span class="ot">TRUE</span>) <span class="co"># Раскрасим также текст</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-9"></span>
+<img src="093-Comparing-Diagrams_files/figure-html/fig-9-9-1.png" alt="Ординационная диаграмма видов соревнований в десятиборье" width="672" />
+<p class="caption">
+Рисунок 9.9: Ординационная диаграмма видов соревнований в десятиборье
+</p>
+</div>
+<p>По сути примера видно, что первая компонента связана с темповыми видами спорта (бег на короткие дистанции), а вторая - с силовыми (метание диска и ядра).</p>
+<p>Оценим теперь, имеются ли различия между результатами, показанными на Олимпиаде и на турнире “ДекаСтар”. Для этого в структуру объекта PCA включим в качестве вспомогательных переменных признаки, не участвующие в построении ординации (рис. <a href="093-Comparing-Diagrams.html#fig:fig-9-10">9.10</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res.pca &lt;-<span class="st"> </span><span class="kw">PCA</span>(decathlon, <span class="dt">quanti.sup =</span> <span class="dv">11</span>:<span class="dv">12</span>, <span class="dt">quali.sup =</span> <span class="dv">13</span>, <span class="dt">graph =</span> <span class="ot">FALSE</span>)
+<span class="kw">fviz_pca_ind</span>(res.pca, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">habillage =</span> <span class="dv">13</span>,
+             <span class="dt">addEllipses =</span> <span class="ot">TRUE</span>, <span class="dt">ellipse.level =</span> <span class="fl">0.68</span>) +
+<span class="st">    </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Dark2&quot;</span>) +<span class="st">  </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-10"></span>
+<img src="093-Comparing-Diagrams_files/figure-html/fig-9-10-1.png" alt="Ординационная диаграмма участников соревнований в десятиборье" width="672" />
+<p class="caption">
+Рисунок 9.10: Ординационная диаграмма участников соревнований в десятиборье
+</p>
+</div>
+<p>Нетрудно убедиться в том, что по оси первой главной компоненты обозначился “зазор” между групповыми центроидами и результаты, показанные на Олимпиаде, можно считать существенно более высокими. В то же время, разброс показателей на турнире “ДекаСтар” оказался меньше, т.е. состав участников был более однородным.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="092-Distance-ANOVA.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="094-Ordination-Factors.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

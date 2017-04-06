@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="093-Comparing-Diagrams.html">
+<link rel="next" href="095-NMDS.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,144 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_9_4" class="section level2">
+<h2><span class="header-section-number">9.4</span> Оценка связи ординации с внешними факторами</h2>
+<p>Ранее мы рассматривали ординационный анализ только одной матрицы <span class="math inline">\(\mathbf{Y}\)</span>, чтобы получить отображение в ортогональной системе координат частных структурных особенностей изучаемой системы в форме графических проекций объектов и их признаков. Однако это - пассивный путь, поскольку он ограничивается фиксацией некоторого распределения точек на плоскости и не дает никаких объяснений этому феномену. Такую ординацию называют также непрямой, или неограниченной (unconstrained), в отличие от прямой, или ограниченной (constrained) ординации, которая ставит задачу связать внутреннюю изменчивость матрицы <span class="math inline">\(\mathbf{Y}\)</span> с теми или иными внешними воздействиями <span class="math inline">\(\mathbf{X}\)</span>. Нам кажется, что непосредственный перевод приведенных терминов не вполне отражает суть дела и было бы точнее назвать эти методы ординации “необъясняющим” и “объясняющим” соответственно.</p>
+<p>Концептуально <em>канонический анализ</em> позиционируется как расширение регрессионного анализа при моделировании многомерного отклика данных:</p>
+<p><span class="math display">\[\mathbf{Y} = f(\mathbf{X}),\]</span></p>
+<p>где  матрица размером <span class="math inline">\(m \times n\)</span> содержит значения отклика <span class="math inline">\(y_{ij}\)</span>, измеренные по <span class="math inline">\(m\)</span> признакам (столбцы) для <span class="math inline">\(n\)</span> объектов (строки);  матрица размером <span class="math inline">\(n \times q\)</span>, в которой <span class="math inline">\(i\)</span>-я строка содержит значения объясняющих переменных <span class="math inline">\(x_{ik}\)</span>.</p>
+<p>Наиболее часто используются две математические процедуры канонической ординации, известные под аббревиатурами RDA и CCA. В обоих случаях формой канонизации является вычисление собственных чисел и собственных векторов.</p>
+<p><em>Анализ избыточности</em> (RDA, redundancy analysis; Rao, 1964; Legendre, Legendre, 2012), общий формализм и алгебра которого были описаны в разделе <a href="025-MV-analysis.html#sec_2_5">2.5</a>, является расширенной канонической формой, объединяющей линейную модель множественной регрессии и метод главных компонент РСА. <em>Канонический анализ соответствий</em> (CCA, canonical correspondence analysis; ter Braak, 1986) является модификацией RDA, выполняющей “взвешивание” ординационных компонент пропорционально их вкладу в статистику <span class="math inline">\(\chi^2\)</span> , которая оценивает расстояния между объектами в многомерном пространстве. В связи с этим ССА в экологических приложениях придает существенно большее значение редко встречающимся видам, чем это делает RDA, основанный на евклидовых дистанциях.</p>
+<p>В целом, оба метода - RDA и CCA - осуществляют аппроксимацию данных многомерной гауссовой регрессией и выполняют подгонку таких коэффициентов <span class="math inline">\(\mathbf{a} = (a_i)\)</span> для переменных матрицы <span class="math inline">\(\mathbf{Y}\)</span>, <span class="math inline">\(i = 1, \dots, m\)</span>, и <span class="math inline">\(\mathbf{c} = (c_k)\)</span> для факторов среды <span class="math inline">\(\mathbf{X}\)</span>, <span class="math inline">\(k = 1, \dots, q\)</span>, которые делают максимальной корреляцию между <span class="math inline">\(\mathbf{z^* = Y&#39;a}\)</span> и <span class="math inline">\(\mathbf{z = X&#39;c}\)</span>. Расчеты в среде R обычно проводят с помощью функций <code>rda()</code> или <code>cca()</code> из пакета <code>vegan</code>. С этими функциями связано еще не менее двух десятков сервисных функций, выполняющих вычисление различных статистик, проверку гипотез о значимости как внутренних взаимодействий, так и о влиянии внешних факторов, и т.д.</p>
+<p>Рассмотрим еще один геоботанический пример – набор ёvarespecё, описывающий относительное обилие 44 видов травянистых растений на 24 пробных площадках. Параллельный набор varechem содержит данные о 14 показателях химического состава почвы на тех же площадках.</p>
+<p>Оценим предварительно характер распределения частот встречаемости объектов по рангам <span class="math inline">\(r\)</span> списка видов <span class="math inline">\(S\)</span>. Осуществим аппроксимацию данных моделью Ципфа <span class="math inline">\(N_r = N p_1 r^{\gamma}\)</span> с двумя оцениваемыми параметрами: <span class="math inline">\(p_1\)</span> - долей самого многочисленного класса в общей численности <span class="math inline">\(N\)</span> и <span class="math inline">\(\gamma\)</span> - коэффициентом затухания гиперболической зависимости. Правда, мы имеем дело не с числом экземпляров растений, а с проективным покрытием в %, но не нет никакой сложности превратить формально непрерывные значения обилия в ряд положительных целочисленных величин:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vegan)
+<span class="kw">data</span>(varechem)
+<span class="kw">data</span>(varespec)
+B &lt;-<span class="st"> </span><span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">colSums</span>(varespec)))
+BF &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">t</span>(<span class="kw">round</span>(B/<span class="kw">min</span>(B))))
+rad &lt;-<span class="st"> </span><span class="kw">rad.zipf</span>(BF)
+<span class="kw">barplot</span>(BF)
+<span class="kw">lines</span>(<span class="dv">1</span>:<span class="kw">ncol</span>(BF), rad$fitted, <span class="dt">col =</span> <span class="st">&quot;green&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-11"></span>
+<img src="094-Ordination-Factors_files/figure-html/fig-9-11-1.png" alt="Аппроксимация рангового распределения видов моделью Ципфа" width="672" />
+<p class="caption">
+Рисунок 9.11: Аппроксимация рангового распределения видов моделью Ципфа
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>Поскольку полученное распределение имеет очевидную склонность к доминированию, подвергнем анализируемые данные <span class="math inline">\(\chi^2\)</span>-преобразованию. Оценим влияние отдельных химических элементов в почве на встречаемость видов с использованием канонического анализа соответствий CCA (рис. <a href="094-Ordination-Factors.html#fig:fig-9-12">9.12</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">varespec.chi &lt;-<span class="st"> </span><span class="kw">decostand</span>(varespec, <span class="dt">method =</span> <span class="st">&quot;chi.square&quot;</span>)
+mod1.cca &lt;-<span class="st"> </span><span class="kw">cca</span>(varespec.chi ~<span class="st"> </span>., varechem)
+spec &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(mod1.cca$CCA$v[, <span class="dv">1</span>:<span class="dv">2</span>])  <span class="co"># Виды</span>
+sites &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(mod1.cca$CCA$u[, <span class="dv">1</span>:<span class="dv">2</span>])  <span class="co"># Площадки</span>
+fact &lt;-<span class="st">  </span><span class="kw">as.data.frame</span>(mod1.cca$CCA$biplot[, <span class="dv">1</span>:<span class="dv">2</span>])  <span class="co"># Факторы</span>
+
+<span class="kw">library</span>(ggplot2)
+<span class="kw">ggplot</span>() +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> sites, <span class="kw">aes</span>(<span class="dt">x =</span> CCA1, <span class="dt">y =</span> CCA2), <span class="dt">size =</span> <span class="dv">3</span>, 
+               <span class="dt">shape =</span> <span class="dv">17</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) +<span class="st"> </span><span class="co"># добавляем точки площадок</span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> spec, <span class="kw">aes</span>(<span class="dt">x =</span> CCA1, <span class="dt">y =</span> CCA2,
+                            <span class="dt">label =</span> <span class="kw">abbreviate</span>(<span class="kw">rownames</span>(spec), <span class="dv">4</span>)),
+              <span class="dt">colour =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="dt">fontface =</span> <span class="dv">3</span>) +<span class="st">  </span><span class="co"># добавляем метки видов</span>
+<span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">data =</span> fact, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">xend =</span> CCA1, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">yend =</span> CCA2),
+                 <span class="dt">arrow =</span> <span class="kw">arrow</span>(<span class="dt">length =</span> <span class="kw">unit</span>(<span class="fl">0.3</span>, <span class="st">&quot;cm&quot;</span>)),
+                 <span class="dt">colour =</span> <span class="st">&quot;darkblue&quot;</span>) +<span class="st">  </span><span class="co"># добавляем стрелки факторов</span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> fact, <span class="kw">aes</span>(<span class="dt">x =</span> CCA1, <span class="dt">y =</span> CCA2, 
+                               <span class="dt">label =</span> <span class="kw">rownames</span>(fact), <span class="dt">size =</span> <span class="dv">6</span>), 
+              <span class="dt">hjust =</span> <span class="fl">1.2</span>, <span class="dt">fontface =</span> <span class="dv">2</span>) +<span class="st"> </span><span class="kw">theme_bw</span>() +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;NA&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-12"></span>
+<img src="094-Ordination-Factors_files/figure-html/fig-9-12-1.png" alt="Ординационный триплот, полученный методом CCA" width="576" />
+<p class="caption">
+Рисунок 9.12: Ординационный триплот, полученный методом CCA
+</p>
 </div>
+<p>Из результатов следует, что всего было сформировано 23 (т.е. <span class="math inline">\(n-1\)</span>) линейно независимых оси ординации, в том числе 14 осей объясняющих переменных (Constrained). 69% совокупной многомерной дисперсии (Inertia) матрицы связаны с химическим составом почвы, а 31% - со случайными или неучтенными факторами . Результирующая диаграмма (“триплот”, см. рис. <a href="094-Ordination-Factors.html#fig:fig-9-12">9.12</a>) отражает не только изменчивость видового состава относительно двух осей проецирования <code>CCA1</code>-<code>CCA2</code>, но и статистические связи между видами и каждой независимой переменной <span class="math inline">\(x_{ji}\)</span>. Для этого из центра координат стрелками синего цвета проведены дополнительные оси (<code>constrained axes</code>), ориентация которых зависит от значений канонических собственных векторов. Относительная длина стрелки пропорциональна силе связи внешнего фактора с осями ординации <code>CCA1</code>-<code>CCA2</code>, а косинус угла между каждой парой стрелок приблизительно равен коэффициенту их корреляции (положительной или отрицательной).</p>
+<p>Как и в случае биплота, координаты каждого вида находятся вблизи точек тех площадок, где его обилие наиболее высоко. Если виды представить стрелками, исходящими из начала координат, то косинус угла между стрелкой соответствующего вида и стрелкой фактора среды приблизительно равен коэффициенту корреляции между ними. Например, обилие вида <em>Callvulg</em> (<code>Cllv</code>) в значительной степени коррелирует с содержанием в почве молибдена, в отличие от <em>Cladphyl</em> (<code>Cldp</code>). Проекция точки вида на каждую стрелку показывает его экологический оптимум (точнее, центр тяжести распределения обилия) относительно этого химического компонента.</p>
+<p>Нетрудно убедиться, что показатели состава почвы очень высоко коррелирут друг с другом, о чем свидетельствует фактор инфляции дисперсии VIF.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(car)
+<span class="kw">sort</span>(<span class="kw">vif</span>(mod1.cca))</code></pre></div>
+<pre><code>##         N  Baresoil        Mn  Humdepth        Mo         P        pH 
+##  1.637648  1.966942  5.163652  5.258233  5.760964  6.398181  6.593768 
+##        Zn        Fe        Ca        Mg         K         S        Al 
+##  8.446984  9.100191  9.295130 10.531890 11.705305 20.424393 21.546563</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">paste</span>(<span class="st">&quot;AIC=&quot;</span>, <span class="kw">extractAIC</span>(mod1.cca)[<span class="dv">2</span>])</code></pre></div>
+<pre><code>## [1] &quot;AIC= 65.5835241860133&quot;</code></pre>
+<p>Дисперсионный анализ <code>anova()</code> в отношении объектов ССА или RDA имеет важный параметр <code>by</code>: при <code>by = &quot;axis&quot;</code> оценивается значимость объясняющих осей, значение <code>by = &quot;term&quot;</code> дает возможность последовательно проверить по <span class="math inline">\(F\)</span>- и <span class="math inline">\(\chi^2\)</span>-критериям значимость отдельных коэффициентов регрессионной модели, а в случае <code>by = &quot;margin&quot;</code> проверяется наличие маргинального эффекта. Если параметр <code>by</code> не задан, то оценивается значимость ординационной модели в целом. Естественно, что все проверки осуществляются с использованием перестановочного теста, т.е. проводится многократное случайное перемешивание строк исходных таблиц и оценивается независимость результатов проверки нулевой гипотезы от процесса хаотического обмена (exchangeability) анализируемых единиц.</p>
+<p>Высокая мультиколлинеарность таблицы <span class="math inline">\(\mathbf{X}\)</span> обусловливает низкую статистическую значимость включения в линейную модель почти каждой из объясняющих переменных:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(mod1.cca)</code></pre></div>
+<pre><code>## Permutation test for cca under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: cca(formula = varespec.chi ~ N + P + K + Ca + Mg + S + Al + Fe + Mn + Zn + Mo + Baresoil + Humdepth + pH, data = varechem)
+##          Df ChiSquare      F Pr(&gt;F)  
+## Model    14    2.2603 1.4304  0.064 .
+## Residual  9    1.0158                
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(mod1.cca, <span class="dt">by =</span> <span class="st">&quot;term&quot;</span>, <span class="dt">step =</span> <span class="dv">200</span>)</code></pre></div>
+<pre><code>## Permutation test for cca under reduced model
+## Terms added sequentially (first to last)
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: cca(formula = varespec.chi ~ N + P + K + Ca + Mg + S + Al + Fe + Mn + Zn + Mo + Baresoil + Humdepth + pH, data = varechem)
+##          Df ChiSquare      F Pr(&gt;F)  
+## N         1   0.16487 1.4607  0.216  
+## P         1   0.23009 2.0385  0.023 *
+## K         1   0.22026 1.9514  0.121  
+## Ca        1   0.17213 1.5250  0.216  
+## Mg        1   0.11727 1.0390  0.544  
+## S         1   0.23605 2.0913  0.017 *
+## Al        1   0.17953 1.5906  0.126  
+## Fe        1   0.11987 1.0620  0.499  
+## Mn        1   0.13858 1.2278  0.355  
+## Zn        1   0.14076 1.2470  0.304  
+## Mo        1   0.13971 1.2377  0.318  
+## Baresoil  1   0.14812 1.3123  0.268  
+## Humdepth  1   0.12972 1.1493  0.380  
+## pH        1   0.12330 1.0924  0.423  
+## Residual  9   1.01585                
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Для построения оптимальной модели выполним алгоритм пошагового включения переменных, стартуя от нуль-модели <code>mod0.cca</code>. На каждом шаге будем проводить перестановочный тест значимости включаемого члена:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod0.cca &lt;-<span class="st"> </span><span class="kw">cca</span>(varespec.chi ~<span class="st"> </span><span class="dv">1</span>, varechem)
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+mod.cca &lt;-<span class="st"> </span><span class="kw">step</span>(mod0.cca, <span class="dt">scope =</span> <span class="kw">formula</span>(mod1.cca), 
+               <span class="dt">test =</span> <span class="st">&quot;perm&quot;</span>, <span class="dt">trace =</span> <span class="dv">0</span>)
+mod.cca$anova</code></pre></div>
+<pre><code>##   Step Df Deviance Resid. Df Resid. Dev      AIC
+## 1      NA       NA        23   340.9154 65.68593
+## 2 + Al -1 37.46399        22   303.4514 64.89202
+## 3  + P -1 25.64418        21   277.8072 64.77296
+## 4  + K -1 24.38595        20   253.4212 64.56798</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(mod.cca)</code></pre></div>
+<pre><code>## Permutation test for cca under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: cca(formula = varespec.chi ~ Al + P + K, data = varechem)
+##          Df ChiSquare      F Pr(&gt;F)    
+## Model     3    0.8408 2.3017  0.001 ***
+## Residual 20    2.4353                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(mod.cca, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</code></pre></div>
+<pre><code>## Permutation test for cca under reduced model
+## Marginal tests for axes
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: cca(formula = varespec.chi ~ Al + P + K, data = varechem)
+##          Df ChiSquare      F Pr(&gt;F)    
+## CCA1      1   0.38691 3.1775  0.001 ***
+## CCA2      1   0.24503 2.0123  0.014 *  
+## CCA3      1   0.20886 1.7153  0.093 .  
+## Residual 20   2.43532                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>При выполнении пошаговой процедуры уже после 4-го шага началось увеличение AIC-критерия при полном составе переменных. В итоге была получена модель с высокой степенью статистической значимости в целом, однако использование уже третьей факторной оси, возможно, оказалось излишним. Судя по всему, алгоритм не смог разумно распорядиться высокой корреляционной зависимостью между содержанием фосфора и калия (см. рис. <a href="094-Ordination-Factors.html#fig:fig-9-11">9.11</a>).</p>
 
 </div>
             </section>
@@ -267,8 +373,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="093-Comparing-Diagrams.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="095-NMDS.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

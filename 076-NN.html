@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="075-Multinomial-Logit.html">
+<link rel="next" href="081-Logit-for-Count.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,47 +228,112 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_7_6" class="section level2">
+<h2><span class="header-section-number">7.6</span> Классификаторы на основе искусственных нейронных сетей</h2>
+<p>Нейросетевые модели, родившиеся в процессе развития концепции искусственного интеллекта, имеют две вполне прозрачные аналогии - биологическая нейронная система мозга и компьютерная сеть. Их основная парадигма состоит в том, что решение в сети формируется множеством простых нейроноподобных элементов, образующих граф с взвешенными синаптическими (информационными) связями, которые совместно и целенаправленно работают на получение общего результата. Таким образом, искусственная нейронная сеть (ИНС) является (Дук, Самойленко, 2001):</p>
+<ul>
+<li><em>параллельной системой</em>, поскольку в любой момент времени в активном состоянии могут находиться несколько процессов;</li>
+<li><em>распределенной системой</em>, поскольку каждый из процессов может независимо обрабатывать локальные данные;</li>
+<li><em>адаптивной системой</em>, наделенной свойствами самообучения и подстройки своих параметров при изменении профиля данных.</li>
+</ul>
+<p>Главным строительным блоком ИНС является формальный нейрон, структура которого имеет вид, представленный на рис. <a href="076-NN.html#fig:fig-7-10">7.10</a>:</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-7-10"></span>
+<img src="figures/neuron.PNG" alt="Структура искусственного нейрона (слева) и вид некоторых функций активации (справа); обозначения по тексту" width="580px" />
+<p class="caption">
+Рисунок 7.10: Структура искусственного нейрона (слева) и вид некоторых функций активации (справа); обозначения по тексту
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>Основная функция искусственного нейрона - cформировать выходной сигнал <span class="math inline">\(y\)</span> в зависимости от сигналов <span class="math inline">\(x_1, \dots, x_n\)</span>, поступающих на его входы. Эти значения могут усиливаться или “тормозиться” в зависимости от знака весов синапсов <span class="math inline">\(w_1, \dots, w_n\)</span>. Входные сигналы обрабатываются адаптивным сумматором <span class="math inline">\(\sum_{i=1}^n w_i x_i -T\)</span>, где <span class="math inline">\(T\)</span> - порог нейрона, а затем выходной сигнал сумматора поступает в нелинейный преобразователь <span class="math inline">\(\mathbf{F}\)</span> с некоторой функцией активации, после чего результат подается на выход (в точку ветвления).</p>
+<p>Вид функции активации может иметь различное математическое выражение, выбор которого определяется характером решаемых задач. Например, преобразование может осуществляться функцией, определенной как единичный скачок (<em>а</em> на рис. <a href="076-NN.html#fig:fig-7-10">7.10</a>, линейный порог (<em>гистерезис</em>, <em>б</em>), <em>гиперболический тангенс</em> (<em>в</em>) или <em>сигмоид</em> (<em>г</em>). Наиболее распространена нелинейная функция с насыщением - так называемая <em>логистическая функция</em>, или сигмоид - <span class="math inline">\(y = \frac{1}{1 + e^{-cS}}\)</span>, которая имеет много ценных свойств (монотонность и дифференцируемость, устойчивость к выбросам, простое выражение для ее производной и т.д.). Выходное значение сигмоидального нейрона лежит в диапазоне [0, 1]. При уменьшении коэффициента с сигмоид становится более пологим, вырождаясь в пределе при <span class="math inline">\(c = 0\)</span> в горизонтальную линию на уровне 0.5. При увеличении с сигмоид приближается по внешнему виду к функции единичного скачка с порогом T в точке <span class="math inline">\(x = 0\)</span>.</p>
+<p>По способу соединения нейронов выделяют сети с разной архитектурой: персептроны, сети адаптивного резонанса, рециркуляционные, рекуррентные, встречного распространения, ИНС с обратными связями Хэмминга и Хопфилда, с двунаправленной ассоциативной памятью, с радиально-базисной функцией активации, самоорганизующиеся ИНС Кохонена и т.п. Мы будем рассматривать возможности обучения ИНС на примере многослойного персептрона с прямым распространением информации, структура которого представлена на рис. <a href="076-NN.html#fig:fig-7-11">7.11</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-7-11"></span>
+<img src="figures/perceptron.png" alt="Структура многослойного персептрона" width="620px" />
+<p class="caption">
+Рисунок 7.11: Структура многослойного персептрона
+</p>
 </div>
+<p>Нейроны персептрона регулярным образом организованы в слои, причем информация направленно распространяется от предыдущих слоев к последующим. Входной слой состоит из n нейронов, на которые подаются значения исходных переменных <span class="math inline">\(X_i\)</span>, никакой обработки информации не совершает и выполняет лишь распределительные функции. Если сеть настроена на классификацию, то взвешенные комбинации <span class="math inline">\(y\)</span> выходного слоя представляют собой прогноз, указывающий на принадлежность распознаваемого объекта к определенной группе. Если распознаются только два класса, то в выходном слое персептрона находится только один элемент, который обладает двумя реакциями - положительной и отрицательной. Если классов больше двух, то для каждой группы устанавливается свой нейрон, и тогда выход <span class="math inline">\(y_k\)</span> каждого такого элемента представляет нелинейную комбинацию его входов, аккумулировавших результаты работы всех предыдущих слоев.</p>
+<p>Двухслойный персептрон Розенблата, в принципе, аналогичен логистической регрессии, но добавление произвольного числа промежуточных (скрытых) слоев позволяет существенно усложнить структуру модели и реализовать различные множественные связи нейронов друг с другом с помощью последовательного взятия их линейных комбинаций и применения нелинейных функций активации <span class="math inline">\(f\)</span> (Ripley, 1995):</p>
+<p><span class="math display">\[ y_k = f_0 \left( \sum_{i \rightarrow k} w_{ik} x_i + \sum_{j \rightarrow k} w_{jk} f_h \left( \sum_{i \rightarrow k} w_{ik} x_i \right)  \right).\]</span></p>
+<p>В многослойной сети такие функции отклика дают возможность практически точно аппроксимировать любые выпуклые многомерные функциональные зависимости. Настройка сети представляет достаточно сложную задачу: необходимо подобрать количество промежуточных слоев и число нейронов в каждом из них, установить типы активационной функции и оценить коэффициенты <span class="math inline">\(w_i\)</span>, <span class="math inline">\(c_i\)</span> каждого нейрона, которые бы минимизировали ошибку прогноза, выдаваемого сетью. Нахождение глобального оптимума аналитическими методами тут невозможно, но разработаны вполне эффективные методы исследования поверхностей ошибок и движения по градиенту. Выбор нейросети “правильной” сложности, как и в рассмотренных ранее случаях, сводится к двум рецептам: использование контрольных выборок и экспериментирование.</p>
+<p>Для обучения ИНС в среде R используются два пакета - <code>neuralnet</code> и <code>nnet</code>, - обеспечивающие гибкие функциональные возможности построения моделей классификации и регрессии на основе многослойного персептрона. Вернемся снова к данным по ирисам Фишера и разделим ее на обучающую и тестовую выборки в соотношении 7:3, а также добавим в исходную таблицу три столбца, содержащих значения <code>TRUE</code>/<code>FALSE</code> для каждого вида растений:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(iris)
+<span class="kw">set.seed</span>(<span class="dv">101</span>)
+ind &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span>, <span class="kw">nrow</span>(iris), <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))
+trainset &lt;-<span class="st"> </span>iris[ind ==<span class="st"> </span><span class="dv">1</span>, ]
+testset &lt;-<span class="st"> </span>iris[ind ==<span class="st"> </span><span class="dv">2</span>, ]
+trainset$setosa &lt;-<span class="st"> </span>trainset$Species ==<span class="st"> &quot;setosa&quot;</span>
+trainset$virginica &lt;-<span class="st"> </span>trainset$Species ==<span class="st"> &quot;virginica&quot;</span>
+trainset$versicolor &lt;-<span class="st"> </span>trainset$Species ==<span class="st"> &quot;versicolor&quot;</span></code></pre></div>
+<p>Построим сеть с тремя слоями, содержащими три нейрона в скрытом слое:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(neuralnet)
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+net.iris &lt;-<span class="st"> </span><span class="kw">neuralnet</span>(versicolor +<span class="st"> </span>virginica +<span class="st"> </span>setosa ~
+<span class="st">                          </span>Sepal.Length +<span class="st"> </span>Sepal.Width +<span class="st"> </span>Petal.Length +<span class="st"> </span>Petal.Width,
+                      trainset, <span class="dt">hidden =</span> <span class="dv">3</span>)
+net.iris$result.matrix</code></pre></div>
+<pre><code>##                                           1
+## error                        0.474288699703
+## reached.threshold            0.009999089349
+## steps                    41578.000000000000
+## Intercept.to.1layhid1        3.341946189258
+## Sepal.Length.to.1layhid1     4.152043324222
+## Sepal.Width.to.1layhid1      3.132771387590
+## Petal.Length.to.1layhid1     5.232080802138
+## Petal.Width.to.1layhid1      3.966307771815
+## Intercept.to.1layhid2       80.876034918730
+## Sepal.Length.to.1layhid2     6.982633187582
+## Sepal.Width.to.1layhid2     10.324852382161
+## Petal.Length.to.1layhid2   -23.484913875392
+## Petal.Width.to.1layhid2    -23.219033469824
+## Intercept.to.1layhid3       -7.519141407549
+## Sepal.Length.to.1layhid3     2.576521564536
+## Sepal.Width.to.1layhid3      2.901439191047
+## Petal.Length.to.1layhid3    -2.900196758676
+## Petal.Width.to.1layhid3     -7.332671088032
+## Intercept.to.versicolor     -0.020880768370
+## 1layhid.1.to.versicolor      0.007862577547
+## 1layhid.2.to.versicolor      1.029881445988
+## 1layhid.3.to.versicolor     -1.017411740038
+## Intercept.to.virginica       0.343895963982
+## 1layhid.1.to.virginica       0.668972014373
+## 1layhid.2.to.virginica      -1.025238210107
+## 1layhid.3.to.virginica       0.012422611868
+## Intercept.to.setosa         -1.304517670769
+## 1layhid.1.to.setosa          1.304659772989
+## 1layhid.2.to.setosa         -0.004636444971
+## 1layhid.3.to.setosa          1.004990455015</code></pre>
+<p>Из сводки итоговых результатов видно, что процесс обучения нуждался в нескольких тысячах шагов (<code>steps</code>), пока максимумы всех частных производных функции ошибок <code>reached.threshold</code> по абсолютной величине не оказались ниже чем 0.01 (порог по умолчанию). Ошибка <code>error</code> оценивается как уровень правдоподобия по критерию AIC. Остальные величины, представленные в <code>net.iris$result.matrix</code> и <code>net.iris$generalized.weights</code>, содержат весовые коэффициенты <span class="math inline">\(w\)</span> и значения сигмоид <span class="math inline">\(c\)</span> для каждого нейрона, которые можно должным образом проанализировать и интерпретировать. Это легко сделать, получив изображение ИНС (рис. <a href="076-NN.html#fig:fig-7-12">7.12</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(net.iris)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-7-12"></span>
+<img src="figures/iris_net.png" alt="График обученной нейронной сети" width="580px" />
+<p class="caption">
+Рисунок 7.12: График обученной нейронной сети
+</p>
+</div>
+<p>На рис. <a href="076-NN.html#fig:fig-7-12">7.12</a> видно, что на выходной слой поступает 12 сигналов, которые представляют собой скомбинированные и трансформированные значения четырех исходных переменных. С их использованием и на основе обобщенных весов и функций активации последнего слоя оцениваются вероятности отнесения растения к каждому из трех видов. Для проверочной выборки процесс распознавания выглядит так:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">net.prob &lt;-<span class="st"> </span><span class="kw">compute</span>(net.iris, testset[-<span class="dv">5</span>])$net.result</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;versicolor&quot;</span>,   <span class="st">&quot;virginica&quot;</span>,   <span class="st">&quot;setosa&quot;</span>)[<span class="kw">apply</span>(net.prob, <span class="dv">1</span>, which.max)]
+(<span class="kw">table</span>(Факт =<span class="st"> </span>testset$Species, Прогноз =<span class="st"> </span>pred))</code></pre></div>
+<pre><code>##             Прогноз
+## Факт         setosa versicolor virginica
+##   setosa         16          0         0
+##   versicolor      0         19         1
+##   virginica       0          0        13</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Acc =<span class="st"> </span><span class="kw">mean</span>(pred ==<span class="st"> </span>testset$Species)
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=97.96%&quot;</code></pre>
+<p>Дальнейшее рассмотрение особенностей нейросетевых моделей мы продолжим в следующей главе на более представительном примере.</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="075-Multinomial-Logit.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="081-Logit-for-Count.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

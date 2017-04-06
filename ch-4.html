@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия, алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия, алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия, алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-03-24">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="ch-3.html">
+<link rel="next" href="ch-5.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="ch-1.html"><a href="ch-1.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R</a><ul>
+<li class="chapter" data-level="1.1" data-path="ch-1.html"><a href="ch-1.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных </a><ul>
+<li><a href="ch-1.html#------data-mining"><em>От статистического анализа разового эксперимента к Data Mining</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch-2.html"><a href="ch-2.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="ch-2.html"><a href="ch-2.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="ch-2.html"><a href="ch-2.html#sec_2_2"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="ch-2.html"><a href="ch-2.html#sec_2_3"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="ch-2.html"><a href="ch-2.html#sec_2_4"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="ch-2.html"><a href="ch-2.html#sec_2_5"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="ch-2.html"><a href="ch-2.html#sec_2_6"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch-3.html"><a href="ch-3.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="ch-3.html"><a href="ch-3.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="ch-3.html"><a href="ch-3.html#sec_3_2"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="ch-3.html"><a href="ch-3.html#sec_3_3"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="ch-3.html"><a href="ch-3.html#sec_3_4"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="ch-3.html"><a href="ch-3.html#-train---caret"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch-4.html"><a href="ch-4.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="ch-4.html"><a href="ch-4.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-----"><i class="fa fa-check"></i>Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#--"><i class="fa fa-check"></i>Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-"><i class="fa fa-check"></i>Генетический алгоритм</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#------"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="ch-4.html"><a href="ch-4.html#sec_4_2"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#---"><i class="fa fa-check"></i>Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#----pls"><i class="fa fa-check"></i>Метод частных наименьших квадратов (PLS)</a></li>
+<li><a href="ch-4.html#---k--">Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-------1"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="ch-4.html"><a href="ch-4.html#sec_4_3"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-----"><i class="fa fa-check"></i>Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#------"><i class="fa fa-check"></i>Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-------2"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="ch-4.html"><a href="ch-4.html#sec_4_4"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#---"><i class="fa fa-check"></i>Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#d091d183d181d182d0b8d0bdd0b3"><i class="fa fa-check"></i>Бустинг</a></li>
+<li class="chapter" data-level="" data-path="ch-4.html"><a href="ch-4.html#-------3"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="ch-4.html"><a href="ch-4.html#sec_4_5"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="ch-4.html"><a href="ch-4.html#sec_4_6"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch-5.html"><a href="ch-5.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="ch-5.html"><a href="ch-5.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="ch-5.html"><a href="ch-5.html#sec_5_2"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="ch-5.html"><a href="ch-5.html#sec_5_3"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="ch-5.html"><a href="ch-5.html#sec_5_4"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch-6.html"><a href="ch-6.html"><i class="fa fa-check"></i><b>6</b> Бинарные классфикаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="ch-6.html"><a href="ch-6.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="ch-6.html"><a href="ch-6.html#sec_6_2"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="ch-6.html"><a href="ch-6.html#sec_6_3"><i class="fa fa-check"></i><b>6.3</b> Классификаторы с использованием нелинейных разделяющих поверхностей</a></li>
+<li class="chapter" data-level="6.4" data-path="ch-6.html"><a href="ch-6.html#sec_6_4"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="ch-6.html"><a href="ch-6.html#sec_6_5"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия, алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch_4" class="section level1">
+<h1><span class="header-section-number">ГЛАВА 4</span> Построение регрессионных моделей различного типа</h1>
+<div id="sec_4_1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Селекция оптимального набора предикторов линейной модели</h2>
+<p>Модель множественной линейной регрессии является, безусловно, весьма полезной и широко применяемой для прогнозирования количественного отклика. Считается, что наиболее эффективный путь улучшения качества регрессии - исключение незначимых коэффициентов, или, выражаясь точнее, отбор информативного комплекса <span class="math inline">\(S_q\)</span> из <span class="math inline">\(q\)</span> переменных <span class="math inline">\((q &lt; m)\)</span>. Причины, по которым стоит проводить селекцию “оптимального подмножества” предикторов, Дж. Фаравэй (Faraway, 2006) видит в следующем:</p>
+<ol style="list-style-type: decimal">
+<li>Принцип бритвы Оккама утверждает, что из нескольких вероятных объяснений явления лучшим является самое простое. Компактная модель, из которой удалены избыточные предикторы, лучше объясняет имеющиеся данные.</li>
+<li>Ненужные предикторы добавляют шум к оценке влияния других интересующих нас факторов. Иначе степени свободы (часто ограниченные) будут тратиться впустую.</li>
+<li>При наличии коллинеарности некоторые переменные будут “пытаться сделать одну и ту же работу” (т.е., повторно объяснять вариацию значений зависимой переменной).</li>
+<li>Если модель используется для прогнозирования, то можно сэкономить время и/или деньги, не измеряя избыточные переменные.</li>
+</ol>
+<p>Алгоритмы выбора оптимального подмножества <span class="math inline">\(S_q\)</span> обычно основаны на последовательном “переборном” процессе, при котором многократно создаются модели с различными наборами предикторов, лучшая из которых определяется по некоторому критерию эффективности (ошибка или точность модели, <span class="math inline">\(R^2\)</span>, АIC и проч.). Рассмотрим технику применения и оценим полученные результаты с использованием трех таких методов: пошаговый (forward/backward) метод селекции, рекурсивное исключение и генетический алгоритм, представленные в пакете caret.</p>
+<p>В качестве примера рассмотрим построение регрессионных моделей, прогнозирующих обилие водорослей группы <code>a1</code> в зависимости от гидрохимических показателей воды и условий отбора проб в различных водотоках (см. подробное описание таблицы переменных в разделе <a href="ch-3.html#sec_3_4">3.4</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DMwR)
+<span class="kw">data</span>(algae)
+<span class="kw">library</span>(caret)
+
+<span class="co"># Заполним пропуски в данных на основе алгоритма бэггинга</span>
+pPbI &lt;-<span class="st"> </span><span class="kw">preProcess</span>(algae[, <span class="dv">4</span>:<span class="dv">11</span>], <span class="dt">method =</span> <span class="st">&#39;bagImpute&#39;</span>)
+algae[, <span class="dv">4</span>:<span class="dv">11</span>] &lt;-<span class="st"> </span><span class="kw">predict</span>(pPbI, algae[, <span class="dv">4</span>:<span class="dv">11</span>])
+
+<span class="co"># Сохраним таблицу для использования в дальнейшем</span>
+<span class="co"># save(algae, file=&quot;algae.RData&quot;)</span></code></pre></div>
+<p>Важные предварительные выводы можно сделать, сформировав корреляционную матрицу предикторов (рис. <a href="ch-4.html#fig:fig-4-1">4.1</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Mcor &lt;-<span class="st"> </span><span class="kw">cor</span>(algae[, <span class="dv">4</span>:<span class="dv">11</span>])
+<span class="kw">library</span>(corrplot)
+<span class="kw">corrplot</span>(Mcor, <span class="dt">method =</span> <span class="st">&quot;color&quot;</span>, <span class="dt">addCoef.col =</span> <span class="st">&quot; darkgreen&quot;</span>, 
+         <span class="dt">addgrid.col =</span> <span class="st">&quot;gray33&quot;</span>, <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-1"></span>
+<img src="_main_files/figure-html/fig-4-1-1.png" alt="Корреляционная матрица показателей качества воды в реках" width="768" />
+<p class="caption">
+Рисунок 4.1: Корреляционная матрица показателей качества воды в реках
+</p>
+</div>
+<p>Очевидно, что между предикторами существуют корреляционные связи умеренной силы, а коллинеарность, в целом, выражена слабо.</p>
+<div id="-----" class="section level3 unnumbered">
+<h3>Полная регрессионная модель и пошаговая процедура</h3>
+<p>Построим сначала линейную модель на основе полного набора переменных:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm.a1 &lt;-<span class="st"> </span><span class="kw">lm</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])
+<span class="kw">summary</span>(lm.a1)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = a1 ~ ., data = algae[, 1:12])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -37.220 -12.053  -2.713   7.235  63.058 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  41.1645182 23.9744190   1.717  0.08766 . 
+## seasonspring  3.5819936  4.1433270   0.865  0.38843   
+## seasonsummer  0.3287479  3.9991260   0.082  0.93457   
+## seasonwinter  3.3640471  3.8535616   0.873  0.38382   
+## sizemedium    3.8121702  3.7576438   1.015  0.31167   
+## sizesmall    10.1272892  4.1345213   2.449  0.01524 * 
+## speedlow      3.2789213  4.6957689   0.698  0.48589   
+## speedmedium  -0.3077130  3.2172175  -0.096  0.92391   
+## mxPH         -3.4109832  2.6955778  -1.265  0.20733   
+## mnO2          1.0622601  0.7048227   1.507  0.13349   
+## Cl           -0.0359835  0.0337474  -1.066  0.28770   
+## NO3          -1.5464677  0.5514931  -2.804  0.00559 **
+## NH4           0.0016512  0.0010047   1.643  0.10200   
+## oPO4         -0.0004133  0.0395644  -0.010  0.99168   
+## PO4          -0.0560346  0.0303924  -1.844  0.06683 . 
+## Chla         -0.0580368  0.0783621  -0.741  0.45987   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 17.67 on 184 degrees of freedom
+## Multiple R-squared:  0.3669, Adjusted R-squared:  0.3153 
+## F-statistic: 7.109 on 15 and 184 DF,  p-value: 3.661e-12</code></pre>
+<p>Отметим, что при всей внушительной адекватности модели в целом (по <span class="math inline">\(F\)</span>-критерию), почти все коэффициенты оцениваются как статистически незначимые. Выполним стандартную пошаговую процедуру включений с исключениями “слабых” предикторов, используя функцию <code>step()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_step.a1 &lt;-<span class="st"> </span><span class="kw">step</span>(lm.a1, <span class="dt">trace =</span> <span class="dv">0</span>)
+<span class="kw">summary</span>(lm_step.a1)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = a1 ~ size + mxPH + mnO2 + NO3 + NH4 + PO4, data = algae[, 
+##     1:12])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -37.979 -11.705  -3.756   7.748  64.939 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 47.0053772 21.3605131   2.201 0.028959 *  
+## sizemedium   3.5451015  3.3716529   1.051 0.294377    
+## sizesmall   10.5924078  3.7849285   2.799 0.005656 ** 
+## mxPH        -3.7759257  2.4270817  -1.556 0.121415    
+## mnO2         0.8943326  0.6291757   1.421 0.156812    
+## NO3         -1.7549081  0.5160452  -3.401 0.000818 ***
+## NH4          0.0017853  0.0009545   1.870 0.062939 .  
+## PO4         -0.0611335  0.0116625  -5.242 4.17e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 17.46 on 192 degrees of freedom
+## Multiple R-squared:  0.355,  Adjusted R-squared:  0.3315 
+## F-statistic: 15.09 on 7 and 192 DF,  p-value: 1.173e-15</code></pre>
+<p>Доля значимых предикторов стала существенно выше. Проверим также, можно ли считать статистически значимой некоторое увеличение ошибки модели:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(lm.a1, lm_step.a1)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: a1 ~ season + size + speed + mxPH + mnO2 + Cl + NO3 + NH4 + oPO4 + 
+##     PO4 + Chla
+## Model 2: a1 ~ size + mxPH + mnO2 + NO3 + NH4 + PO4
+##   Res.Df   RSS Df Sum of Sq      F Pr(&gt;F)
+## 1    184 57418                           
+## 2    192 58501 -8   -1083.2 0.4339 0.8996</code></pre>
+<p>Выполним тестирование обоих моделей функцией <code>train()</code> из пакета caret (см. раздел <a href="ch-3.html#sec_3_5">3.5</a>) с использованием 10-кратной перекрестной проверки:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm.a1.cv &lt;-<span class="st"> </span><span class="kw">train</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>], <span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>,
+            <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>))
+
+lm_step.a1.cv &lt;-<span class="st"> </span><span class="kw">train</span>(a1 ~<span class="st"> </span>size +<span class="st"> </span>mxPH +<span class="st"> </span>mnO2 +<span class="st"> </span>NO3 +<span class="st"> </span>NH4 +
+<span class="st"> </span>PO4, <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>], <span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>,
+            <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>))</code></pre></div>
+<p>Преимущества модели, полученной с использованием пошаговой процедуры отбора предикторов, вполне очевидны.</p>
+</div>
+<div id="--" class="section level3 unnumbered">
+<h3>Рекурсивное исключение переменных</h3>
+<p>Алгоритм рекурсивного исключения (RFE - Recursive Feature Elimination) выполняется следующим образом. Вначале строится модель по всем предикторам, которые ранжируются по их важности. Далее рассматривается последовательность подмножеств <span class="math inline">\(\mathbf{S}\)</span> (<span class="math inline">\(\mathbf{S_1} &gt; \mathbf{S_2}\)</span>, и т.д.) из переменных наивысшего ранга. На каждой итерации подмножества Si ранги предикторов пересматриваются, а модели пересчитываются. Итоговая модель основывается на подмножестве <span class="math inline">\(\mathbf{S_i}\)</span>, обеспечивающем оптимум заданному критерию качества.</p>
+<p>Функция <code>rfe()</code> из пакета <code>caret</code> включает алгоритм RFE в процедуру ресэмплинга, и тогда цикл рекурсивного исключения приобретает следующий вид:</p>
+<p><img src="figures/resampling_workflow.png" width="720px" style="display: block; margin: auto;" /></p>
+<p>Синтаксис параметров функций <code>rfe()</code> и <code>rfeControl()</code> в целом похож на таковой у функций <code>train()</code> и <code>trainControl()</code> (см. раздел <a href="ch-3.html#sec_3_5">3.5</a>). Отметим, что функция <code>rfe()</code> не осуществляет оптимизацию модели, включающей номинальные предикторы, поэтому их необходимо преобразовать в индикаторные переменные с использованием функции <code>model.matrix()</code>. После этого в новой таблице х вместо каждого из факторов образуется несколько бинарных (0/1) столбцов с наименованиями, соответствующими уровням этого фактора (рис. <a href="ch-4.html#fig:fig-4-2">4.2</a>):<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])[, -<span class="dv">1</span>]
+<span class="kw">set.seed</span>(<span class="dv">10</span>)
+ctrl &lt;-<span class="st"> </span><span class="kw">rfeControl</span>(<span class="dt">functions =</span> lmFuncs, <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,
+                   <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">returnResamp =</span> <span class="st">&quot;final&quot;</span>)
+lmProfileF &lt;-<span class="st"> </span><span class="kw">rfe</span>(<span class="kw">as.data.frame</span>(x), algae$a1, 
+                  <span class="dt">sizes =</span> <span class="dv">1</span>:<span class="dv">10</span>, <span class="dt">rfeControl =</span> ctrl)
+
+<span class="kw">predictors</span>(lmProfileF)</code></pre></div>
+<pre><code>## [1] &quot;NO3&quot;       &quot;sizesmall&quot; &quot;PO4&quot;       &quot;NH4&quot;       &quot;mnO2&quot;      &quot;mxPH&quot;     
+## [7] &quot;Cl&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(lmProfileF$fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ ., data = tmp)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -34.954 -12.092  -2.939   7.854  64.202 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 53.0360409 20.5736460   2.578  0.01069 *  
+## NO3         -1.5204453  0.5321300  -2.857  0.00474 ** 
+## sizesmall    7.7915975  2.9994896   2.598  0.01011 *  
+## PO4         -0.0550258  0.0123084  -4.471 1.33e-05 ***
+## NH4          0.0014826  0.0009745   1.521  0.12980    
+## mnO2         0.7937364  0.6357007   1.249  0.21333    
+## mxPH        -4.0948432  2.3838733  -1.718  0.08746 .  
+## Cl          -0.0358915  0.0324345  -1.107  0.26986    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 17.45 on 192 degrees of freedom
+## Multiple R-squared:  0.3554, Adjusted R-squared:  0.3319 
+## F-statistic: 15.12 on 7 and 192 DF,  p-value: 1.109e-15</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(gridExtra)
+<span class="kw">grid.arrange</span>(<span class="kw">ggplot</span>(lmProfileF, <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>),
+             <span class="kw">ggplot</span>(lmProfileF, <span class="dt">metric =</span> <span class="st">&quot;Rsquared&quot;</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-2"></span>
+<img src="_main_files/figure-html/fig-4-2-1.png" alt="Изменение корня из среднеквадратичной ошибки и коэффициента детерминации в зависимости от числа предикторов (по результатам перекрестной проверки)" width="768" />
+<p class="caption">
+Рисунок 4.2: Изменение корня из среднеквадратичной ошибки и коэффициента детерминации в зависимости от числа предикторов (по результатам перекрестной проверки)
+</p>
+</div>
+<p>Нельзя утверждать, что нам удалось достигнуть серьезных успехов, применив метод RFE: пошаговая модель <code>lm_step.a1</code> была компактнее и чуть лучше (по результатам перекрестной проверки), хотя и уступала модели RFE по величине ошибки на обучающей выборке.</p>
+</div>
+<div id="-" class="section level3 unnumbered">
+<h3>Генетический алгоритм</h3>
+<p>Генетический алгоритм, позаимствованный у природных аналогов и разработанный Дж. Холландом (Holland, 1975), отличается от большинства иных процедур селекции тем, что поиск оптимального решения развивается не сам по себе, а с учетом предыдущего опыта. Смысл его заключается в следующем:</p>
+<ul>
+<li>формируемое решение кодируется как вектор <span class="math inline">\(x^0\)</span>, который называется хромосомой и соответствует битовой маске, т.е. двоичному представлению набора исходных переменных;</li>
+<li>инициализируется исходная “популяция” <span class="math inline">\(\Pi^0 (x_1^0, \dots, x_{\lambda})\)</span> потенциальных решений, состоящая из некоторого количества хромосом <span class="math inline">\(\lambda\)</span>;</li>
+<li>каждой хромосоме в популяции присваиваются две оценки: значение эффективности <span class="math inline">\(\mu(x_i^0)\)</span> в соответствии с заданной функцией оптимальности и вероятность воспроизведения <span class="math inline">\(P(x_i^0)\)</span>, которая зависит от “перспективности” этой хромосомы;</li>
+<li>в соответствии с вероятностями воспроизведения хромосомы производят потомков, используя операции кроссинговера (обмена фрагментами между хромосомами) и мутации (замена значения бита 0/1 на противоположный) - см. рис. <a href="ch-4.html#fig:fig-4-3">4.3</a>;</li>
+<li>в ходе репродуцирования создается новая популяция хромосом, причем с большей вероятностью воспроизводятся наиболее перспективные фрагменты “генетического кода”;</li>
+<li>формирование новой популяции многократно повторяется и осуществляется поиск субоптимальных моделей;</li>
+<li>процесс останавливается, если получено удовлетворительное решение, либо исчерпано все отведенное на эволюцию время.</li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-3"></span>
+<img src="figures/chromosomes.png" alt="Схема кроссинговера и мутации во время применения генетического алгоритма" width="680px" />
+<p class="caption">
+Рисунок 4.3: Схема кроссинговера и мутации во время применения генетического алгоритма
+</p>
+</div>
+<p>Синтаксис пары функций <code>gafs()</code> и <code>gafsControl()</code>, реализующих генетический алгоритм в пакете <code>caret</code>, в целом аналогичен таковому у функций <code>rfe()</code> и <code>rfeControl()</code>, но требует задания дополнительных аргументов, регулирующих скорость эволюции. Похоже, что здесь преобразовывать факторы в индикаторные переменные не требуется (эта проблема нами не исследовалась):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Выполнение этого кода потребует более 30 мин.</span>
+<span class="co"># Результаты вычислений здесь не приводятся</span>
+<span class="kw">set.seed</span>(<span class="dv">10</span>)
+ctrl &lt;-<span class="st"> </span><span class="kw">gafsControl</span>(<span class="dt">functions =</span> rfGA, <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, 
+                    <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">returnResamp =</span> <span class="st">&quot;final&quot;</span>)
+lmProfGafs &lt;-<span class="st"> </span><span class="kw">gafs</span>(algae[, <span class="dv">1</span>:<span class="dv">11</span>], algae$a1, 
+                   <span class="dt">iters =</span> <span class="dv">10</span>, <span class="co"># 10 генераций</span>
+                   <span class="dt">gafsControl =</span> ctrl)
+lmProfGafs</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_gafs.a1 &lt;-<span class="st"> </span><span class="kw">lm</span>(a1 ~<span class="st"> </span>size +<span class="st"> </span>mxPH +<span class="st"> </span>Cl +<span class="st"> </span>NO3 +<span class="st"> </span>PO4,
+                 <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])
+<span class="kw">train</span>(a1 ~<span class="st"> </span>size +<span class="st"> </span>mxPH +<span class="st"> </span>Cl +<span class="st"> </span>NO3 +<span class="st"> </span>PO4,
+      <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>], <span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>,
+      <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>))</code></pre></div>
+<pre><code>## Linear Regression 
+## 
+## 200 samples
+##   5 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 180, 179, 180, 180, 180, 180, ... 
+## Resampling results:
+## 
+##   RMSE      Rsquared 
+##   17.73948  0.3412509
+## 
+## Tuning parameter &#39;intercept&#39; was held constant at a value of TRUE
+## </code></pre>
+<p>Несмотря на большие затраты вычислительных ресурсов (поиск решения продолжался более 30 мин.), была получена комбинация предикторов, превосходящая по критериям RMSE и Rsquared все три предыдущие модели.</p>
+</div>
+<div id="------" class="section level3 unnumbered">
+<h3>Тестирование моделей с использованием дополнительного набора данных</h3>
+<p>Возникает естественный вопрос: а какой из четырех полученных моделей следует все же отдать предпочтение при прогнозировании? Хорошую возможность ответить на него предоставляет нам Л. Торго (Torgo, 2011), подготовивший на сайте своей книги (<a href="http://www.dcc.fc.up.pt" class="uri">http://www.dcc.fc.up.pt</a>) специально предназначенный для этого набор данных из 140 наблюдений (см. файл <code>Eval.txt</code> с предикторами и <code>Sols.txt</code> со значениями отклика). Пропущенные значения заполним с использованием алгоритма бэггинга:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Eval &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&#39;Eval.txt&#39;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">dec =</span> <span class="st">&#39;.&#39;</span>,
+                   <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&#39;season&#39;</span>, <span class="st">&#39;size&#39;</span>, <span class="st">&#39;speed&#39;</span>, <span class="st">&#39;mxPH&#39;</span>, <span class="st">&#39;mnO2&#39;</span>, <span class="st">&#39;Cl&#39;</span>,
+                               <span class="st">&#39;NO3&#39;</span>,<span class="st">&#39;NH4&#39;</span>,<span class="st">&#39;oPO4&#39;</span>,<span class="st">&#39;PO4&#39;</span>,<span class="st">&#39;Chla&#39;</span>),
+                   <span class="dt">na.strings =</span> <span class="kw">c</span>(<span class="st">&#39;XXXXXXX&#39;</span>))
+Sols &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&#39;Sols.txt&#39;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">dec =</span> <span class="st">&#39;.&#39;</span>,          
+                   <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&#39;a1&#39;</span>, <span class="st">&#39;a2&#39;</span>, <span class="st">&#39;a3&#39;</span>, <span class="st">&#39;a4&#39;</span>, <span class="st">&#39;a5&#39;</span>, <span class="st">&#39;a6&#39;</span>, <span class="st">&#39;a7&#39;</span>),
+                   <span class="dt">na.strings =</span> <span class="kw">c</span>(<span class="st">&#39;XXXXXXX&#39;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ImpEval &lt;-<span class="st"> </span><span class="kw">preProcess</span>(Eval[, <span class="dv">4</span>:<span class="dv">11</span>], <span class="dt">method =</span> <span class="st">&#39;bagImpute&#39;</span>)
+Eval[, <span class="dv">4</span>:<span class="dv">11</span>] &lt;-<span class="st"> </span><span class="kw">predict</span>(ImpEval, Eval[, <span class="dv">4</span>:<span class="dv">11</span>])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Cохраним данные для дальнейшего использования</span>
+<span class="kw">save</span>(Eval, Sols, <span class="dt">file =</span> <span class="st">&quot;algae_test.RData&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span>Sols$a1
+EvalF &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">model.matrix</span>(y ~<span class="st"> </span>., Eval)[, -<span class="dv">1</span>])</code></pre></div>
+<p>Выполним прогноз для набора предикторов тестовой выборки и оценим точность каждой модели по трем показателям: среднему абсолютному отклонению (<code>MAE</code>), корню из среднеквадратичного отклонения (<code>RSME</code>) и квадрату коэффициента детерминации <code>Rsq = 1 - NSME</code>, где <code>NSME</code> - относительная ошибка, равная отношению средних квадратов отклонений от регрессии и от общего среднего:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Функция, выводящая вектор критериев</span>
+ModCrit &lt;-<span class="st"> </span>function(pred, fact) {
+    mae &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(pred -<span class="st"> </span>fact))
+    rmse &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">mean</span>((pred -<span class="st"> </span>fact)^<span class="dv">2</span>))
+    Rsq &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span><span class="kw">sum</span>((fact -<span class="st"> </span>pred)^<span class="dv">2</span>)/<span class="kw">sum</span>((<span class="kw">mean</span>(fact) -<span class="st"> </span>fact)^<span class="dv">2</span>)
+    <span class="kw">c</span>(<span class="dt">MAE =</span> mae, <span class="dt">RSME =</span> rmse,  <span class="dt">Rsq =</span> Rsq )
+}
+y &lt;-<span class="st"> </span>Sols$a1
+EvalF &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">model.matrix</span>(y ~<span class="st"> </span>., Eval)[, -<span class="dv">1</span>])
+Result &lt;-<span class="st"> </span><span class="kw">rbind</span>(
+    <span class="dt">lm_full =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(lm.a1,Eval), Sols[, <span class="dv">1</span>]),
+    <span class="dt">lm_step =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(lm_step.a1, Eval), Sols[, <span class="dv">1</span>]),
+    <span class="dt">lm_rfe =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(lmProfileF$fit, EvalF), Sols[, <span class="dv">1</span>]),
+    <span class="dt">lm_gafs =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(lm_gafs.a1, Eval), Sols[, <span class="dv">1</span>]))
+Result</code></pre></div>
+<pre><code>##              MAE     RSME       Rsq
+## lm_full 12.63768 16.80600 0.3270830
+## lm_step 12.46865 16.62469 0.3415243
+## lm_rfe  12.30578 16.47235 0.3535371
+## lm_gafs 12.72219 17.19335 0.2957067</code></pre>
+<p>Вероятно, нет смысла делать серьезные выводы из того, что рейтинг лучших моделей при перекрестной проверке и при независимом тестировании на объектах, не участвовавших в построении моделей, оказался столь несовпадающим. Во-первых, разброс критериев точности моделей находится в пределах доверительных интервалов, поэтому их ранжирование, строго говоря, можно трактовать как обусловленное случайными причинами. Во-вторых, многое зависит от того, например, насколько неоднородны были между собой обе выборки. И, наконец, напомним, что одним из основных принципов моделирования сложных систем является <em>принцип множественности моделей</em>, сформулированный В. В. Налимовым и заключающийся в возможности представления одной и той же системы множеством различных моделей в зависимости от целей исследования.</p>
+
+</div>
+</div>
+<div id="sec_4_2" class="section level2">
+<h2><span class="header-section-number">4.2</span> Регуляризация, частные наименьшие квадраты и kNN-регрессия</h2>
+<div id="---" class="section level3 unnumbered">
+<h3>Регрессия по методу “лассо”</h3>
+<p>Регрессия по методу наименьших квадратов (МНК) часто может стать неустойчивой, то есть сильно зависящей от обучающих данных, что обычно является проявлением тенденции к переобучению. Избежать такого переобучения помогает <em>регуляризация</em> - общий метод, заключающийся в наложении дополнительных ограничений на искомые параметры, которые могут предотвратить излишнюю сложность модели. Смысл процедуры заключается в “стягивании” в ходе настройки вектора коэффициентов <span class="math inline">\(\boldsymbol{\beta}\)</span> таким образом, чтобы они в среднем оказались несколько меньше по абсолютной величине, чем это было бы при оптимизации по МНК.</p>
+<p>Метод регрессии <em>“лассо”</em> (LASSO, Least Absolute Shrinkage and Selection Operator) заключается во введении дополнительного слагаемого регуляризации в функционал оптимизации модели, что часто позволяет получать более устойчивое решение. Условие минимизации квадратов ошибки при оценке параметров <span class="math inline">\(\hat{\beta}\)</span> выражается следующей формулой: <span class="math display">\[\hat{\beta} = \arg \min \left(\sum_{i=1}^n (y_i - \sum_{j=1}^m \beta_j x_{ij})^2 + \lambda |\boldsymbol{\beta}|\right),\]</span></p>
+<p>где <span class="math inline">\(\lambda\)</span> - параметр регуляризации, имеющий смысл штрафа за сложность.</p>
+<p>При этом достигается некоторый компромисс между ошибкой регрессии и размерностью используемого признакового пространства, выраженного суммой абсолютных значений коэффициентов <span class="math inline">\(|\boldsymbol{\beta}|\)</span>. В ходе минимизации некоторые коэффициенты становятся равными нулю, что, собственно, и определяет отбор информативных признаков.</p>
+<p>При значении параметра регуляризации <span class="math inline">\(\lambda = 0\)</span>, лассо-регрессия сводится к обычному методу наименьших квадратов, а при увеличении <span class="math inline">\(\lambda\)</span> формируемая модель становится все более “лаконичной”, пока не превратится в нуль-модель. Оптимальная величина <span class="math inline">\(\lambda\)</span> находится с использованием перекрестной проверки, т.е. ей соответствует минимальная ошибка прогноза <span class="math inline">\(\hat{y}_i\)</span> на наблюдениях, не участвовавших в построении самой модели.</p>
+<p>Обобщением регрессии с регуляризацией можно считать модель <em>“эластичных сетей”</em> (elastic net - Zou, Hastie, 2005). Эта модель устанавливает сразу два типа штрафных параметров - <span class="math inline">\(\lambda_1\)</span> и <span class="math inline">\(\lambda_2\)</span>, объединяет гребневую регрессию (при <span class="math inline">\(\lambda_2 = 0\)</span>) и регрессию “лассо” (при <span class="math inline">\(\lambda_1 = 0\)</span>): <span class="math display">\[ \hat{\beta} = \arg \min \left(\sum_{i=1}^n (y_i - \sum_{j=1}^m \beta_j x_{ij})^2 + \lambda_1 (\boldsymbol{\beta})^2 + \lambda_2 |\boldsymbol{\beta}|\right) \]</span></p>
+<p>Продолжим рассмотрение примеров построения регрессионных моделей, прогнозирующих обилие водорослей группы <code>a1</code> в зависимости от гидрохимических показателей воды и условий отбора проб в различных водотоках (см. подробное описание таблицы переменных в разделе <a href="ch-3.html#sec_3_4">3.4</a>):</p>
+<p>Поскольку даже ориентировочная величина параметра регуляризации нам неизвестна, то на первом этапе с использованием функции <code>glmnet()</code> из одноименного пакета проведем анализ изменения значений коэффициентов в зависимости от <span class="math inline">\(\lambda\)</span> в ее широком диапазоне от 0.1 до 1000 (рис. <a href="ch-4.html#fig:fig-4-4">4.4</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;algae.RData&quot;</span>) <span class="co"># Загрузка таблицы algae - раздел 4.1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">grid =<span class="st"> </span><span class="dv">10</span>^<span class="kw">seq</span>(<span class="dv">10</span>, -<span class="dv">2</span>, <span class="dt">length =</span> <span class="dv">100</span>)
+<span class="kw">library</span>( glmnet)
+lasso.a1 &lt;-<span class="st"> </span><span class="kw">glmnet</span>(x,algae$a1, <span class="dt">alpha =</span> <span class="dv">1</span>, <span class="dt">lambda =</span> grid)  
+<span class="kw">plot</span>(lasso.a1, <span class="dt">xvar =</span>  <span class="st">&quot;lambda&quot;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-4"></span>
+<img src="_main_files/figure-html/fig-4-4-1.png" alt="Зависимость коэффициентов регрессионной модели от значения параметра регуляризации" width="672" />
+<p class="caption">
+Рисунок 4.4: Зависимость коэффициентов регрессионной модели от значения параметра регуляризации
+</p>
+</div>
+<p>Функция <code>train()</code> для метода <code>glmnet</code> выполняет оптимизацию для двух моделей регуляризации: при <code>alpha = 1</code> подгоняется модель по методу лассо, а при <code>alpha = 0</code> - гребневая регрессия. Примем лассо-модель, и выполним тонкую настройку значения lambda в интервале от 0.5 до 4.5:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])[, -<span class="dv">1</span>]
+grid.train =<span class="st"> </span><span class="kw">seq</span>(<span class="fl">0.5</span>, <span class="fl">4.5</span>, <span class="dt">length =</span> <span class="dv">15</span>)
+lasso.a1.train &lt;-<span class="st"> </span><span class="kw">train</span>(<span class="kw">as.data.frame</span>(x), algae$a1,
+                        <span class="dt">method =</span> <span class="st">&#39;glmnet&#39;</span>,
+                        <span class="dt">tuneGrid =</span> <span class="kw">expand.grid</span>(<span class="dt">.lambda =</span> grid.train, <span class="dt">.alpha =</span> <span class="dv">1</span>),
+                        <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>))</code></pre></div>
+<p>Выведем протокол со значениями коэффициентов модели:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(lasso.a1.train$finalModel, lasso.a1.train$bestTune$lambda)</code></pre></div>
+<pre><code>## 16 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                        1
+## (Intercept)  33.98563202
+## seasonspring  .         
+## seasonsummer  .         
+## seasonwinter  .         
+## sizemedium    .         
+## sizesmall     7.09517628
+## speedlow      .         
+## speedmedium   .         
+## mxPH         -1.21026917
+## mnO2          .         
+## Cl           -0.03569147
+## NO3          -0.37180129
+## NH4           .         
+## oPO4          .         
+## PO4          -0.05104027
+## Chla         -0.01040261</code></pre>
+<p>Коэффициенты регрессии, отличные от 0, составляют информативный набор предикторов.</p>
+</div>
+<div id="----pls" class="section level3 unnumbered">
+<h3>Метод частных наименьших квадратов (PLS)</h3>
+<p>В разделе <a href="ch-3.html#sec_3_3">3.3</a> мы показали, как c помощью функции <code>preProcess()</code> можно на основе исходных переменных сформировать новое пространство главных компонент и построить модель классификации, прогнозирующую уровень доверия банка к клиенту. Напомним основные шаги построения модели регрессии на главные компоненты (PCR):</p>
+<ul>
+<li>стандартизация матрицы исходных предикторов <span class="math inline">\(\mathbf{X}\)</span> и отклика <span class="math inline">\(\mathbf{Y}\)</span>;</li>
+<li>выбор числа собственных значений <span class="math inline">\(p\)</span> и формирование матрицы главных компонент (часто называемой таблицей счетов - scores): <span class="math inline">\(\mathbf{T}_{n \times r} = \mathbf{X}_{n \times m} \mathbf{P}^T_{m \times p}\)</span>, где <span class="math inline">\(\mathbf{P}\)</span> - матрица нагрузок (loadings);</li>
+<li>оценка вектора коэффициентов <span class="math inline">\(\mathbf{A}\)</span> множественной регрессии на главные компоненты: <span class="math inline">\(\mathbf{Y = TA}\)</span>, <span class="math inline">\(\mathbf{A_r = (T^TT)^{-1}T^TY}\)</span>;</li>
+<li>пересчет коэффициентов регрессии на главные компоненты обратно в коэффициенты регрессии для исходных предикторов: <span class="math inline">\(\mathbf{B_m = PA}\)</span>.</li>
+</ul>
+<p>Однако такой двухступенчатый подход (сжатие информативного пространства и последующая регрессия) - не самый обоснованный способ построения предсказательных моделей, поскольку PCA-преобразование данных далеко не всегда приводит к новым предикторам, наилучшим образом объясняющим отклик.</p>
+<p>Метод <em>частных наименьших квадратов</em> PLS (Partial Least Squares, или Projection into Latent Structure) также использует разложение исходных предикторов по осям главных компонент, но дополнительно выделяет подмножество латентных переменных, в пространстве которых связь между зависимой переменной и предикторами достигает максимального значения.</p>
+<p>В случае одномерного отклика сначала оценивается корреляционная связь между предикторами <span class="math inline">\(\mathbf{X}\)</span> и <span class="math inline">\(\mathbf{Y}\)</span>, осуществляется сингулярное разложение матрицы <span class="math inline">\(\mathbfX^TY}\)</span>, и формируется вектор <span class="math inline">\(\mathbf{W}\)</span> первого направления PLS (direction), при вычислении которого особое внимание уделяется переменным, которые наиболее тесно связаны с откликом. Исходные переменные <span class="math inline">\(\mathbf{X}\)</span> ортогонально проецируются на ось, задаваемую вектором <span class="math inline">\(\mathbf{W}\)</span>, а затем последовательно рассчитываются значения <span class="math inline">\(\mathbf{T}\)</span> счетов и нагрузок <span class="math inline">\(\mathbf{P}\)</span>.</p>
+<p>Для нахождения второго направления PLS вычисляются остатки, которые остались необъясненными первым PLS-направлением. Оценивается направление новой оси наибольшей корреляции и оцениваются значения счетов с использованием ортогонализированных остатков. Такой итеративный подход можно применить p раз пока модель не достигнет оптимальной сложности.</p>
+<p>Реализация PLS-регрессии в среде R представлена в пакете <code>pls</code>, который включает в себя большое количество функций для построения регрессионных моделей, создания диагностических графиков и извлечения информации из результатов вычислений:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pls)
+M.pls &lt;-<span class="st"> </span><span class="kw">plsr</span>(algae$a1 ~<span class="st"> </span>x, <span class="dt">scale =</span> <span class="ot">TRUE</span>, 
+              <span class="dt">validation =</span> <span class="st">&quot;CV&quot;</span>, <span class="dt">method =</span> <span class="st">&quot;oscorespls&quot;</span>)
+<span class="kw">summary</span>(M.pls)</code></pre></div>
+<pre><code>## Data:    X dimension: 200 15 
+##  Y dimension: 200 1
+## Fit method: oscorespls
+## Number of components considered: 15
+## 
+## VALIDATION: RMSEP
+## Cross-validated using 10 random segments.
+##        (Intercept)  1 comps  2 comps  3 comps  4 comps  5 comps  6 comps
+## CV            21.4    18.12    18.60    19.03    18.96    19.02    18.99
+## adjCV         21.4    18.08    18.51    18.89    18.83    18.89    18.86
+##        7 comps  8 comps  9 comps  10 comps  11 comps  12 comps  13 comps
+## CV       18.98    18.98    18.97     18.98     18.97     18.98     18.97
+## adjCV    18.85    18.85    18.84     18.85     18.84     18.85     18.84
+##        14 comps  15 comps
+## CV        18.98     18.98
+## adjCV     18.84     18.84
+## 
+## TRAINING: % variance explained
+##           1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps
+## X           22.09    30.37    36.13    43.14    50.32    59.12    65.95
+## algae$a1    33.13    34.73    35.95    36.44    36.55    36.59    36.62
+##           8 comps  9 comps  10 comps  11 comps  12 comps  13 comps
+## X           71.79    76.83     81.05     87.36     90.82     94.63
+## algae$a1    36.66    36.68     36.69     36.69     36.69     36.69
+##           14 comps  15 comps
+## X            98.30    100.00
+## algae$a1     36.69     36.69</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-5"></span>
+<img src="figures/rls.png" alt="Зависимость ошибки перекрестной проверки от числа направлений PLS" width="560px" />
+<p class="caption">
+Рисунок 4.5: Зависимость ошибки перекрестной проверки от числа направлений PLS
+</p>
+</div>
+<p>Оптимальная модель основывается только на 1-м направлении PLS, поскольку при включении новых осей проецирования ошибка перекрестной проверки монотонно возрастает – см. рис. <a href="ch-4.html#fig:fig-4-5">4.5</a>. Заметим, что накопленная доля объясненной дисперсии для матрицы предикторов X равномерно возрастает при увеличении числа компонент, тогда как почти вся вариация отклика <code>algae$a1</code> сконцентрирована вдоль главного направления. Выполним подбор размерности пространства латентных переменных с использованием функции <code>train()</code>. По умолчанию диапазон значений оптимизируемого параметра ncomp принимает значения от 1 до <code>tuneLength</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">100</span>)
+ctrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+(plsTune.a1 &lt;-<span class="st"> </span><span class="kw">train</span>(x, algae$a1, <span class="dt">method =</span> <span class="st">&quot;pls&quot;</span>,
+                    <span class="dt">tuneLength =</span> <span class="dv">14</span>, <span class="dt">trControl =</span> ctrl,
+                    <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>)))</code></pre></div>
+<pre><code>## Partial Least Squares 
+## 
+## 200 samples
+##  15 predictor
+## 
+## Pre-processing: centered (15), scaled (15) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 180, 180, 181, 180, 180, 180, ... 
+## Resampling results across tuning parameters:
+## 
+##   ncomp  RMSE      Rsquared 
+##    1     17.67237  0.3436298
+##    2     18.20018  0.3051248
+##    3     18.53110  0.2970790
+##    4     18.56459  0.2992946
+##    5     18.61296  0.3067686
+##    6     18.60634  0.3089458
+##    7     18.56457  0.3095421
+##    8     18.54375  0.3084002
+##    9     18.58124  0.3049051
+##   10     18.57781  0.3047550
+##   11     18.58072  0.3049955
+##   12     18.58487  0.3047230
+##   13     18.58665  0.3045593
+##   14     18.58656  0.3045761
+## 
+## RMSE was used to select the optimal model using  the smallest value.
+## The final value used for the model was ncomp = 1.</code></pre>
+<p>Выполним для сравнения подбор числа компонент для модели регрессии на главные компоненты PCR:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">100</span>)
+ctrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+(pcrTune.a1 &lt;-<span class="st"> </span><span class="kw">train</span>(x, algae$a1, <span class="dt">method =</span> <span class="st">&quot;pcr&quot;</span>,
+                    <span class="dt">tuneLength =</span> <span class="dv">14</span>, <span class="dt">trControl =</span> ctrl,
+                    <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>)))</code></pre></div>
+<pre><code>## Principal Component Analysis 
+## 
+## 200 samples
+##  15 predictor
+## 
+## Pre-processing: centered (15), scaled (15) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 180, 180, 181, 180, 180, 180, ... 
+## Resampling results across tuning parameters:
+## 
+##   ncomp  RMSE      Rsquared 
+##    1     17.57910  0.3506163
+##    2     17.58672  0.3478174
+##    3     17.71246  0.3451498
+##    4     17.72601  0.3438194
+##    5     17.75847  0.3409392
+##    6     17.79829  0.3360691
+##    7     17.75683  0.3323780
+##    8     17.75579  0.3314832
+##    9     17.89951  0.3199569
+##   10     17.91759  0.3147450
+##   11     17.94640  0.3120058
+##   12     18.42424  0.2948562
+##   13     18.51396  0.2940086
+##   14     18.51505  0.3139059
+## 
+## RMSE was used to select the optimal model using  the smallest value.
+## The final value used for the model was ncomp = 1.</code></pre>
+<p>Никаких преимуществ метода PLS по сравнению с PCR на нашем примере обнаружено не было; более того, в целом ошибка модели на главные компоненты оказалась несколько ниже.</p>
+</div>
+<div id="---k--" class="section level3 unnumbered">
+<h3>Регрессия по методу <em>k</em> ближайших соседей</h3>
+<p>Ключевая идея, лежащая в основе метода <span class="math inline">\(k\)</span> ближайших соседей, как уже обсуждалось в разделе <a href="ch-3.html#sec_3_4">3.4</a>, состоит в формулировке модели в терминах евклидовых расстояний в исходном многомерном пространстве признаков. Задача заключается в том, чтобы для каждой тестируемой точки <span class="math inline">\(\boldsymbol{x}_0\)</span> найти такую <span class="math inline">\(\delta\)</span>-окрестность (многомерный эллипсоид), чтобы в ней поместилось <span class="math inline">\(k\)</span> точек с известными значениями <span class="math inline">\(y\)</span>. Тогда прогноз <span class="math inline">\(f(\boldsymbol{x}_0)\)</span> можно получить, усредняя значения отклика всех обучающих наблюдений из <span class="math inline">\(\delta\)</span>.</p>
+<p>Функция <code>train()</code> оптимизирует число соседей <span class="math inline">\(k\)</span>, используя другую функцию - <code>knnreg()</code> из пакета <code>caret</code> (рис. <a href="ch-4.html#fig:fig-4-6">4.6</a>):<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knnTune.a1 &lt;-<span class="st"> </span><span class="kw">train</span>(x, algae$a1, <span class="dt">method =</span> <span class="st">&quot;knn&quot;</span>,
+                    <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),
+                    <span class="dt">trControl =</span> ctrl, <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">.k =</span> <span class="dv">4</span>:<span class="dv">25</span>))
+<span class="kw">plot</span>( knnTune.a1)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-6"></span>
+<img src="_main_files/figure-html/fig-4-6-1.png" alt="Зависимость ошибки перекрестной проверки от числа ближайших соседей" width="672" />
+<p class="caption">
+Рисунок 4.6: Зависимость ошибки перекрестной проверки от числа ближайших соседей
+</p>
+</div>
+</div>
+<div id="-------1" class="section level3 unnumbered">
+<h3>Тестирование моделей с использованием дополнительного набора данных</h3>
+<p>Используем для прогноза набор данных (Torgo, 2011) из 140 наблюдений, который мы уже применяли в предыдущем разделе. Данные, подготовленные для тестирования с восстановленными пропущенными значениями - таблицы Eval с предикторами и Sols со значениями отклика – мы сохранили в файле <code>algae_test.RData</code> (см раздел [4.1]).</p>
+<p>Выполним прогноз для набора предикторов проверочной выборки и оценим точность каждой модели по трем показателям: среднему абсолютному отклонению (<code>MAE</code>), корню из среднеквадратичного отклонения (<code>RSME</code>) и квадрату коэффициента детерминации <code>Rsq = 1 - NSME</code>, где <code>NSME</code> - относительная ошибка, равная отношению среднего квадрата отклонений от модельных значений и от общего среднего:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file=</span><span class="st">&quot;algae_test.RData&quot;</span>) <span class="co"># Загрузка таблиц Eval, Sols</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span>Sols$a1
+EvalF &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">model.matrix</span>(y ~<span class="st"> </span>.,Eval)[,-<span class="dv">1</span>])
+<span class="co"># Функция, выводящая вектор критериев</span>
+ModCrit &lt;-<span class="st"> </span>function(pred, fact) {
+    mae &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(pred -<span class="st"> </span>fact))
+    rmse &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">mean</span>((pred -<span class="st"> </span>fact)^<span class="dv">2</span>))
+    Rsq &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span><span class="kw">sum</span>((fact -<span class="st"> </span>pred)^<span class="dv">2</span>)/<span class="kw">sum</span>((<span class="kw">mean</span>(fact) -<span class="st"> </span>fact)^<span class="dv">2</span>)
+    <span class="kw">c</span>(<span class="dt">MAE =</span> mae, <span class="dt">RSME =</span> rmse,  <span class="dt">Rsq =</span> Rsq ) }
+Result &lt;-<span class="st"> </span><span class="kw">rbind</span>(
+    <span class="dt">lasso =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(lasso.a1.train, EvalF), Sols[, <span class="dv">1</span>]),
+    <span class="dt">pls_1c =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(plsTune.a1, EvalF), Sols[, <span class="dv">1</span>]),
+    <span class="dt">pcr_1c =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(pcrTune.a1, EvalF), Sols[, <span class="dv">1</span>]),
+    <span class="dt">kNN_21 =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(knnTune.a1, EvalF), Sols[, <span class="dv">1</span>]))
+Result</code></pre></div>
+<pre><code>##             MAE     RSME       Rsq
+## lasso  12.87987 17.30891 0.2862073
+## pls_1c 12.76861 17.28422 0.2882423
+## pcr_1c 12.85662 17.30063 0.2868898
+## kNN_21 12.19520 16.67196 0.3377744</code></pre>
+<p>Отметим, что регрессия на главные компоненты и PLS в условиях слабой мультиколлинеарности данных не приносит никаких ощутимых преимуществ по сравнению с классическими линейными моделями раздела <a href="ch-4.html#sec_4_1">4.1</a>. Модель по методу лассо, отлично зарекомендовавшая себя при перекрестной проверке, сработала хуже на свежих данных, что связано, видимо, с дрейфом параметра регуляризации <span class="math inline">\(\lambda\)</span> от своего оптимального значения. И, наконец, пока лучшей из всех исследованных оказалась методически простейшая модель регрессии по 21 ближайшему соседу. В то же время эта непараметрическая модель имеет важнейший недостаток - она не предоставляет никакой информации для графической или содержательной интерпретации.</p>
+
+</div>
+</div>
+<div id="sec_4_3" class="section level2">
+<h2><span class="header-section-number">4.3</span> Построение деревьев регрессии</h2>
+<p>Деревья решений (Breiman at al., 1984; Quinlan, 1986) осуществляют разбиение пространства объектов в соответствии с некоторым набором <em>правил разбиения</em> (splitting rule). Эти правила являются логическими утверждениями в отношении той или иной переменной и могут быть истинными или ложными. Ключевыми здесь являются три обстоятельства: а) правила являются позволяют реализовать последовательную дихотомическую сегментацию данных, б) два объекта считаются похожими, если они оказываются в одном и том же сегменте разбиения, в) на каждом шаге разбиения увеличивается количество информации относительно исследуемой переменной (отклика).</p>
+<p>Деревья классификации и регрессии являются одним из наиболее популярных методов решения многих практических задач, что обусловлено следующими причинами:</p>
+<ol style="list-style-type: decimal">
+<li>Деревья решений позволяют получать очень <em>легко интерпретируемые</em> модели, представляющие собой набор правил вида “если…, то…”. Интерпретация облегчается, в том числе, за счет возможности представить эти правила в виде наглядной <em>древовидной структуры</em>.</li>
+<li>В силу своего устройства деревья решений позволяют работать с <em>переменными любого типа</em> без необходимости какой-либо предварительной подготовки этих переменных для ввода в модель (например, логарифмирование, преобразование категориальных переменных в индикаторные, и т.п.).</li>
+<li>Исследователю <em>нет необходимости в явном виде задавать форму взаимосвязи</em> между откликом и предикторами, как это, например, происходит в случае с обычными регрессионными моделями. Это оказывается особенно полезным при работе с данными большого объема, о свойствах которых мало что известно.</li>
+<li>Деревья решений, по сути, <em>автоматически выполняют отбор информативных предикторов</em> и учитывают возможные взаимодействия между ними. Это, в частности, делает деревья решений полезным инструментом разведочного анализа данных.</li>
+<li>Деревья решений <em>можно эффективно применять к данным с пропущенными значениями</em>, что очень полезно при решении практических задач, где наличие пропущенных значений – это, скорее, правило, чем исключение.</li>
+<li>Деревья решений одинаково <em>хорошо применимы как к количественным, так и к качественным зависимым переменным</em>.</li>
+</ol>
+<p>К недостаткам этого класса моделей иногда относят <em>нестабильность</em> и <em>невысокую точность предсказаний</em>, что, как будет показано ниже, не всегда подтверждается. По своей сути, деревья используют “наивный подход” (naive approach) в том смысле, что они исходят из предположения о взаимной независимости признаков. Поэтому модели регрессионных деревьев статистически наиболее работоспособны, когда комплекс анализируемых переменных является не слишком мультиколлинеарным или имеется регулярная внутренняя множественная альтернатива в исходной комбинации признаков.</p>
+<p>Алгоритм CART (Classification and Regression Tree) рекурсивно делит исходный набор данных на подмножества, которые становятся все более и более гомогенными относительно определенных признаков, в результате чего формируется древовидная иерархическая структура. Деление осуществляется на основе традиционных логических правил в виде <code>ЕСЛИ (А) ТО (В)</code>, где <code>А</code> - некоторое логическое условие, а <code>В</code> - процедура деления подмножества на две части, для одной из которых условие <code>А</code> истинно, а для другой - ложно. Примеры условий: <code>Xi==F, Хi &lt;= V; Хi &gt;= V</code> и др., где <code>Хi</code> – один из предикторов исходной таблицы, <code>F</code> - выбранное значение категориальной переменной, <code>V</code> - специально подобранное опорное значение (порог).</p>
+<p>На первой итерации корневой узел дерева связывается с наиболее оптимальным условным суждением, и все множество объектов делится на две группы. От каждого последующего узла-родителя к узлам-потомкам также может отходить по две ветви, в свою очередь связанные c граничными значениями других наиболее подходящих переменных и определяющие правила дальнейшего разделения (splitting criterion). Конечными узлами дерева являются “листья”, соответствующие найденным решениям и объединяющие все разделенные на группы объекты обучающей выборки. Общее правило выбора опорного значения для каждого узла построенного дерева можно сформулировать следующим образом: “выбранный признак должен разбить множество <span class="math inline">\(\mathbf{X}^*\)</span> так, чтобы получаемые в итоге подмножества <span class="math inline">\(\mathbf{X}_k^*, k = 1, 2, \dots, p\)</span>, состояли из объектов, принадлежащих к одному классу, или были максимально приближены к этому”.</p>
+<p>Описанный процесс относится к так называемым “жадным” алгоритмам, стремящимся, не считаясь ни с чем, построить максимально “кустистое” дерево (также “глубокое дерево”, deep tree). Естественно, чем обширнее и кустистее дерево, тем лучше будут результаты его тестирования на обучающей выборке, но не столь успешными – на проверочной выборке. Поэтому построенная модель должна быть еще и оптимальной по размерам, т.е. содержать информацию, улучшающую качество распознавания, и игнорировать ту информацию, которая его не улучшает. Для этого обычно проводят “обрезание” дерева (tree pruning) – отсечение ветвей там, где эта процедура не приводит к серьезному возрастанию ошибки.</p>
+<p>Невозможно подобрать объективный внутренний критерий, приводящий к хорошему компромиссу между безошибочностью и компактностью, поэтому стандартный механизм оптимизации деревьев основан на перекрестной проверке (Loh, Shih, 1997). Для этого обучающая выборка разделяется, например, на 10 равных частей: 9 частей используется для построения дерева, а оставшаяся часть играет роль проверочной совокупности. После многократного повторения этой процедуры из некоторого набора деревьев-претендентов, у которых имеется практически допустимый разброс критериев качества модели, выбирается дерево, показавшее наилучший результат при перекрестной проверке.</p>
+<div id="-----" class="section level3 unnumbered">
+<h3>Построение деревьев на основе рекурсивного разбиения</h3>
+<p>В общем случае может быть использовано несколько алгоритмов построения деревьев на основе различных схем и критериев оптимизации. Функция <code>rpart()</code> из одноименного пакета выполняет рекурсивный выбор для каждого следующего узла таких разделяющих значений, которые приводят к минимальной сумме квадратов внутригрупповых отклонений Dt для всех t узлов дерева. Для оценки качества построенного дерева <span class="math inline">\(\mathbf{T}\)</span> в ходе его оптимизации используется следующая совокупность критериев:</p>
+<ul>
+<li>штраф за сложность модели (cost complexity), включающий штрафной множитель за каждую неотсечённую ветвь <span class="math inline">\(СС(\mathbf{T} = \sum_t D_t + \lambda t)\)</span>;</li>
+<li>девианс <span class="math inline">\(D_0\)</span> для нулевого дерева (т.е. оценка изменчивости в исходных данных);</li>
+<li>относительный параметр стоимости сложности <span class="math inline">\(Cp = \lambda / D_0\)</span>;</li>
+<li>относительная ошибка обучения для дерева из <span class="math inline">\(t\)</span> узлов <span class="math inline">\(REL_{er} = \sum_t D_t /D_0\)</span>;</li>
+<li>ошибка перекрестной проверки (<span class="math inline">\(CV_{er}\)</span>) с разбиением на 10 блоков, также отнесенная к девиансу нуль-дерева <span class="math inline">\(D_0\)</span>; <span class="math inline">\(CV_{er}\)</span>, как правило, больше, чем <span class="math inline">\(REL_{er}\)</span>;</li>
+<li>стандартное отклонение (<span class="math inline">\(SE\)</span>) ошибки перекрестной проверки.</li>
+</ul>
+<p>Лучшим считается дерево, состоящее из такого количества ветвей <span class="math inline">\(t\)</span>, для которого сумма (<span class="math inline">\(CV_{er} + SE\)</span>) является минимальной.</p>
+<p>В качестве примера рассмотрим построение дерева CART, прогнозирующего обилие водорослей группы <code>a1</code> в зависимости от гидрохимических показателей воды и условий отбора проб в различных водотоках (см. разделы <a href="ch-3.html#sec_3_4">3.4</a> и <a href="ch-4.html#sec_4_1">4.1</a>-<a href="ch-4.html#sec_4_2">4.2</a>). Используем сначала пакет <code>rpart</code>, для работы с которым обычно применяется двухшаговая процедура: функция <code>rpart()</code> устанавливает связи между зависимой и независимыми переменными и формирует бинарное дерево, а функция <code>prun()</code> выполняет обрезание лишних ветвей.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;algae.RData&quot;</span>) <span class="co"># Загрузка таблицы algae - раздел 4.1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rpart)
+(rt.a1 &lt;-<span class="st"> </span><span class="kw">rpart</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>]))</code></pre></div>
+<pre><code>## n= 200 
+## 
+## node), split, n, deviance, yval
+##       * denotes terminal node
+## 
+##  1) root 200 90694.880 16.923500  
+##    2) PO4&gt;=43.818 148 31359.210  8.918919  
+##      4) Cl&gt;=7.8065 141 21678.580  7.439716  
+##        8) oPO4&gt;=51.118 85  3455.770  3.801176 *
+##        9) oPO4&lt; 51.118 56 15389.430 12.962500  
+##         18) mnO2&gt;=10.05 24  1248.673  6.716667 *
+##         19) mnO2&lt; 10.05 32 12502.320 17.646870  
+##           38) NO3&gt;=3.1875 9   257.080  7.866667 *
+##           39) NO3&lt; 3.1875 23 11047.500 21.473910  
+##             78) mnO2&lt; 8 13  2919.549 13.807690 *
+##             79) mnO2&gt;=8 10  6370.704 31.440000 *
+##      5) Cl&lt; 7.8065 7  3157.769 38.714290 *
+##    3) PO4&lt; 43.818 52 22863.170 39.705770  
+##      6) mxPH&lt; 7.87 28 11636.710 32.875000  
+##       12) oPO4&gt;=3.1665 14  1408.304 23.978570 *
+##       13) oPO4&lt; 3.1665 14  8012.309 41.771430 *
+##      7) mxPH&gt;=7.87 24  8395.785 47.675000  
+##       14) PO4&gt;=15.177 12  3047.517 38.183330 *
+##       15) PO4&lt; 15.177 12  3186.067 57.166670 *</code></pre>
+<p>Приведенной командой мы построили полное дерево без обрезания ветвей, состоящее из 9 узлов и 10 листьев, обозначенных в приведенном протоколе разбиения символом <code>*</code>. В каждой строке представлены по порядку: условие разделения, число наблюдений, соответствующих этому условию, девианс (в данном случае - это эквивалент суммы квадратов отклонений от группового среднего) и среднее значение отклика для выделенной ветви. Например, перед первой итерацией общее множество из 200 наблюдений имеет среднее значение <code>m = 16.92</code> при девиансе <code>D = 90694</code>. При <code>PO4&gt;=43.8</code> это множество делится на две части: <code>2)</code> 148 наблюдений (<code>m =8.92</code>, <code>D = 31359</code>) и <code>3)</code> 52 наблюдения с высоким уровнем обилия водорослей (<code>m =39.7</code>, <code>D = 22863</code>). Дальнейшие разбиения каждой из этих двух частей аналогичны.</p>
+<p>Разумеется, лучший вариант – представить дерево графически. Популярны три варианта визуализации с использованием различных функций: <code>plot()</code>, <code>prettyTree()</code> из пакета <code>DMwR</code> и <code>prp()</code> из чрезвычайно продвинутого пакета <code>rpart.plot</code> (рис. <a href="ch-4.html#fig:fig-4-7">4.7</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DMwR::<span class="kw">prettyTree</span>(rt.a1)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-7"></span>
+<img src="_main_files/figure-html/fig-4-7-1.png" alt="Дерево `rpart` без обрезания ветвей" width="768" />
+<p class="caption">
+Рисунок 4.7: Дерево <code>rpart</code> без обрезания ветвей
+</p>
+</div>
+<p>Полезно также проследить изменение перечисленных выше статистических критериев по мере выращивания дерева:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">printcp</span>(rt.a1)</code></pre></div>
+<pre><code>## 
+## Regression tree:
+## rpart(formula = a1 ~ ., data = algae[, 1:12])
+## 
+## Variables actually used in tree construction:
+## [1] Cl   mnO2 mxPH NO3  oPO4 PO4 
+## 
+## Root node error: 90695/200 = 453.47
+## 
+## n= 200 
+## 
+##         CP nsplit rel error  xerror    xstd
+## 1 0.402145      0   1.00000 1.00507 0.13039
+## 2 0.071921      1   0.59785 0.63980 0.10982
+## 3 0.031241      2   0.52593 0.60365 0.10743
+## 4 0.031211      3   0.49469 0.63511 0.10940
+## 5 0.024435      4   0.46348 0.63139 0.10924
+## 6 0.023840      5   0.43905 0.62844 0.10919
+## 7 0.018065      6   0.41521 0.63301 0.10500
+## 8 0.016291      7   0.39714 0.62817 0.10776
+## 9 0.010000      9   0.36456 0.61632 0.10724</code></pre>
+<p>Функция <code>rpart()</code> и другие функции из пакета <code>rpart</code> имеют собственные возможности выполнить перекрестную проверку и оценить ее ошибку при различных значениях штрафа за сложность модели <code>cp</code> (рис. <a href="ch-4.html#fig:fig-4-8">4.8</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">505</span>) <span class="co"># для воспроизводимости примера</span>
+<span class="co">#   Снижаем порог штрафа за сложность с шагом .005</span>
+rtp.a1 &lt;-<span class="st"> </span><span class="kw">rpart</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>], 
+                <span class="dt">control =</span> <span class="kw">rpart.control</span>(<span class="dt">cp =</span> .<span class="dv">005</span>)) 
+<span class="co">#  График зависимости относительных ошибок от числа узлов</span>
+<span class="kw">plotcp</span>(rtp.a1) 
+<span class="kw">with</span>(rtp.a1, {<span class="kw">lines</span>(cptable[, <span class="dv">2</span>] +<span class="st"> </span><span class="dv">1</span>, cptable[, <span class="dv">3</span>], <span class="dt">type =</span> <span class="st">&quot;b&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
+    <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Ошибка обучения&quot;</span>,
+                        <span class="st">&quot;Ошибка крос-проверки (CV)&quot;</span>, <span class="st">&quot;min(CV ошибка)+SE&quot;</span>),
+           <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>) })</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-8"></span>
+<img src="_main_files/figure-html/fig-4-8-1.png" alt="Зависимость относительной ошибки перекрестной проверки от штрафа за сложность модели `cp`" width="768" />
+<p class="caption">
+Рисунок 4.8: Зависимость относительной ошибки перекрестной проверки от штрафа за сложность модели <code>cp</code>
+</p>
+</div>
+<p>На рис. <a href="ch-4.html#fig:fig-4-8">4.8</a> видно, что минимум относительной ошибки при перекрестной проверке приходится на значение <code>cp = 0.024</code>.<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> Выполним обрезку дерева при этом значении (рис. <a href="ch-4.html#fig:fig-4-9">4.9</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rtp.a1 &lt;-<span class="st"> </span><span class="kw">prune</span>(rtp.a1, <span class="dt">cp =</span> <span class="fl">0.024</span>)
+<span class="kw">prettyTree</span>(rtp.a1) </code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-9"></span>
+<img src="_main_files/figure-html/fig-4-9-1.png" alt="Дерево `rpart` c обрезанием ветвей при `cp = 0.024`" width="768" />
+<p class="caption">
+Рисунок 4.9: Дерево <code>rpart</code> c обрезанием ветвей при <code>cp = 0.024</code>
+</p>
+</div>
+<p>Выполним теперь дополнительную оптимизацию параметра <code>ср</code> с использованием функции <code>train()</code> из пакета <code>caret</code> (см раздел <a href="ch-3.html#sec_3_5">3.5</a>). Будем тестировать деревья регрессии при 30 значениях критерия <code>ср</code>, для каждого из которых выполним 10-кратную перекрестную проверку с 3 повторностями (рис. <a href="ch-4.html#fig:fig-4-10">4.10</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+cvCtrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">repeats =</span> <span class="dv">3</span>)
+<span class="kw">set.seed</span>(<span class="dv">202</span>) <span class="co"># для воспроизводимости примера</span>
+rt.a1.train &lt;-<span class="st"> </span><span class="kw">train</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>], 
+                     <span class="dt">method =</span> <span class="st">&quot;rpart&quot;</span>, <span class="dt">tuneLength =</span> <span class="dv">30</span>, <span class="dt">trControl =</span> cvCtrl)
+<span class="kw">plot</span>(rt.a1.train)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-10"></span>
+<img src="_main_files/figure-html/fig-4-10-1.png" alt="Оценка параметра `cp` с использованием функции `train()`" width="768" />
+<p class="caption">
+Рисунок 4.10: Оценка параметра <code>cp</code> с использованием функции <code>train()</code>
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rtt.a1 &lt;-<span class="st"> </span>rt.a1.train$finalModel
+<span class="kw">prettyTree</span>(rtt.a1)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-11"></span>
+<img src="_main_files/figure-html/fig-4-11-1.png" alt="Дерево `rpart` c обрезанием ветвей при `cp = 0.0277`" width="768" />
+<p class="caption">
+Рисунок 4.11: Дерево <code>rpart</code> c обрезанием ветвей при <code>cp = 0.0277</code>
+</p>
+</div>
+<p>При <code>cp = 0.0277</code> было получено существенно урезанное дерево, которое, правда, значительно потеряло в своей объясняющей ценности.</p>
+</div>
+<div id="------" class="section level3 unnumbered">
+<h3>Построение деревьев с использованием алгортма условного вывода</h3>
+<p>Обратимся теперь к принципиально другим методам рекурсивного разделения при построении деревьев, представленным в пакете <code>party</code>. Стандартный механизм проверки статистического гипотез, который предотвращает переусложнение модели, реализован в функции <code>ctree()</code>, использующей метод построения деревьев на основе “условного вывода” (conditional inference). Алгоритм принимает во внимание характер распределения отдельных переменных и осуществляет на каждом шаге рекурсивного разделения данных несмещенный выбор влияющих ковариат, используя формальный тест на основе статистического критерия <span class="math inline">\(c(\boldsymbol{t}_j, \mu_j, \Sigma_j), j = 1, \dots, m\)</span>, где <span class="math inline">\(\mu, \Sigma\)</span> - соответственно среднее и ковариация (Hothorn et al., 2006). Оценка статистической значимости <span class="math inline">\(с\)</span>-критерия выполняется на основе перестановочного теста, в результате чего формируются компактные деревья, не требующие процедуры обрезания.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(party)  <span class="co"># Построение дерева методом &quot;условного вывода&quot;</span>
+(ctree.a1 &lt;-<span class="st"> </span><span class="kw">ctree</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>]))</code></pre></div>
+<pre><code>## 
+##   Conditional inference tree with 4 terminal nodes
+## 
+## Response:  a1 
+## Inputs:  season, size, speed, mxPH, mnO2, Cl, NO3, NH4, oPO4, PO4, Chla 
+## Number of observations:  200 
+## 
+## 1) PO4 &lt;= 43.5; criterion = 1, statistic = 47.053
+##   2)*  weights = 52 
+## 1) PO4 &gt; 43.5
+##   3) oPO4 &lt;= 51.111; criterion = 0.984, statistic = 10.14
+##     4) size == {small}; criterion = 0.993, statistic = 14.65
+##       5)*  weights = 14 
+##     4) size == {large, medium}
+##       6)*  weights = 49 
+##   3) oPO4 &gt; 51.111
+##     7)*  weights = 85</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ctree.a1)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-12"></span>
+<img src="_main_files/figure-html/fig-4-12-1.png" alt="Дерево `cpart` без оптимизации параметра `mincriterion`" width="768" />
+<p class="caption">
+Рисунок 4.12: Дерево <code>cpart</code> без оптимизации параметра <code>mincriterion</code>
+</p>
+</div>
+<p>Оптимизацию параметра <code>mincriterion</code> выполним с использованием функции <code>train()</code> при тех же условиях перекрестной проверки:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ctree.a1.train &lt;-<span class="st"> </span><span class="kw">train</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>], 
+                        <span class="dt">method =</span> <span class="st">&quot;ctree&quot;</span>, <span class="dt">tuneLength =</span> <span class="dv">10</span>, <span class="dt">trControl =</span> cvCtrl)
+ctreet.a1 &lt;-<span class="st"> </span>ctree.a1.train$finalModel
+<span class="kw">plot</span>(ctreet.a1)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-13"></span>
+<img src="_main_files/figure-html/fig-4-13-1.png" alt="Дерево `cpart` после оптимизации параметра `mincriterion`" width="768" />
+<p class="caption">
+Рисунок 4.13: Дерево <code>cpart</code> после оптимизации параметра <code>mincriterion</code>
+</p>
+</div>
+<p>Здесь имел место обратный процесс: число узлов дерева было предложено увеличить с 7 до 11. Обратим также внимание на то, что в дереве появились категориальные переменные (размер и скорость течения реки), которые были проигнорированы <code>rpart</code>-деревьями.</p>
+</div>
+<div id="-------2" class="section level3 unnumbered">
+<h3>Тестирование моделей с использованием дополнительного набора данных</h3>
+<p>Используем для прогноза набор данных (Torgo, 2011) из 140 наблюдений, который мы уже применяли в предыдущем разделе. Данные с восстановленными пропущенными значениями мы сохранили ранее в файле <code>algae_test.RData</code> (см раздел <a href="ch-4.html#sec_4_1">4.1</a>).</p>
+<p>Оценим точность каждой модели на этом наборе данных по трем показателям: среднему абсолютному отклонению (<code>MAE</code>), корню из среднеквадратичного отклонения (<code>RSME</code>) и квадрату коэффициента детерминации <code>Rsq = 1 - NSME</code>, где <code>NSME</code> - относительная ошибка, равная отношению средних квадратов отклонений от модельных значений и от общего среднего:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;algae_test.RData&quot;</span>) <span class="co"># Загрузка таблиц Eval, Sols</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Функция, выводящая вектор критериев</span>
+ModCrit &lt;-<span class="st"> </span>function (pred, fact) {
+    mae &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(pred -<span class="st"> </span>fact))
+    rmse &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">mean</span>((pred -<span class="st"> </span>fact)^<span class="dv">2</span>))
+    Rsq &lt;-<span class="st"> </span><span class="dv">1</span>-<span class="kw">sum</span>((fact -<span class="st"> </span>pred)^<span class="dv">2</span>)/<span class="kw">sum</span>((<span class="kw">mean</span>(fact) -<span class="st"> </span>fact)^<span class="dv">2</span>)
+    <span class="kw">c</span>(<span class="dt">MAE =</span> mae, <span class="dt">RSME =</span> rmse, <span class="dt">Rsq =</span> Rsq) 
+} 
+Result &lt;-<span class="st"> </span><span class="kw">rbind</span>(
+    <span class="dt">rpart_prune =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(rtp.a1, Eval), Sols[, <span class="dv">1</span>]),
+    <span class="dt">rpart_train =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(rt.a1.train, Eval), Sols[, <span class="dv">1</span>]),
+    <span class="dt">ctree_party =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(ctree.a1, Eval), Sols[, <span class="dv">1</span>]),
+    <span class="dt">ctree_train =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(ctree.a1.train, Eval), Sols[, <span class="dv">1</span>])
+)
+Result</code></pre></div>
+<pre><code>##                  MAE     RSME       Rsq
+## rpart_prune 10.99017 15.72931 0.4105428
+## rpart_train 11.13198 16.04396 0.3867241
+## ctree_party 11.31029 16.52534 0.3493711
+## ctree_train 11.47503 16.63481 0.3407221</code></pre>
+<p>Можно с разумной осторожностью сделать вывод о том, что деревья, построенные <code>rpart()</code>, немного точнее, чем деревья условного вывода <code>ctree()</code>. При этом все деревья решений оказались существенно эффективней для прогнозирования свежих данных, чем все ранее построенные модели.</p>
+
+</div>
+</div>
+<div id="sec_4_4" class="section level2">
+<h2><span class="header-section-number">4.4</span> Ансамбли моделей: бэггинг, случайные леса, бустинг</h2>
+<p>В статистике хорошо известно интуитивное соображение, согласно которому усреднение результатов наблюдений может дать более устойчивую и надежную оценку, поскольку ослабляется влияние случайных флуктуаций в отдельном измерении. На аналогичной идее было основано развитие алгоритмов комбинирования моделей, в результате чего построение их ансамблей оказалось одним из самых мощных методов машинного обучения, нередко превосходящим по качеству предсказаний другие методы.</p>
+<p>Одним из решений, обеспечивающих необходимое разнообразие моделей, является их повторное обучение на выборках, случайно выбранных из генеральной совокупности, либо иных подмножествах данных, сконструированных из имеющихся (рис. <a href="ch-4.html#fig:fig-4-14">4.14</a>). Для получения устойчивого прогноза частные предсказания этих моделей тем или иным образом комбинируют, например, с помощью простого усреднения или голосования (возможно, взвешенного).</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-14"></span>
+<img src="figures/flax.PNG" alt="Ансамбль из пяти линейных классификаторов: каждый сегмент пространства объектов отличается средними вероятностями предсказания классов (подробности см. Флах, 2015, с. 344)" width="540px" />
+<p class="caption">
+Рисунок 4.14: Ансамбль из пяти линейных классификаторов: каждый сегмент пространства объектов отличается средними вероятностями предсказания классов (подробности см. Флах, 2015, с. 344)
+</p>
+</div>
+<p>В разделе 2.2 был описан бутстреп - процедура генерации повторных случайных выборок из исходного набора данных. Бутстреп-выборки производятся равномерно и с возвращением, поэтому некоторые исходные примеры будут отсутствовать, а другие - дублироваться: в среднем одна такая выборка содержит около 2/3 уникальных исходных наблюдений.</p>
+<div id="---" class="section level3 unnumbered">
+<h3>Бэггинг и случайные леса</h3>
+<p>Бутстреп при формировании ансамбля моделей оказался особенно полезен в сочетании с древовидными структурами, которые очень чувствительны к небольшому изменению обучающих данных. Описанные в предыдущем разделе деревья решений обычно имеют низкое смещение, но страдают от высокой дисперсии. Это означает, что если мы случайным образом разобьем обучающие данные на две части и построим дерево решений на основе каждой из них, то полученные результаты могут оказаться довольно разными.</p>
+<p>Подобно тому, как усреднение нескольких наблюдений снижает оценку дисперсии данных, так и разумным способом снижения дисперсии прогноза является извлечение большого количества порций данных из генеральной совокупности, построение предсказательной модели по каждой обучающей выборке и усреднение полученных предсказаний. Если вместо отдельных обучающих выборок (которых нам, как правило, всегда не хватает) выполнить бутстреп и на основе сгенерированных псевдо-выборок построить В деревьев регрессии, то средний коллективный прогноз</p>
+<p><span class="math display">\[\hat{f}_{bag} = \left( f^1(x) + f^2(x) + \dots + f^B(x)\right) / B\]</span></p>
+<p>будет обладать более низкой дисперсией. Эта процедура и называется бэггингом (сокр. от <strong>b</strong>ootstrap <strong>agg</strong>regat<strong>ing</strong>). Как нами будет показано в последующих главах, бэггинг можно проводить не только в отношении деревьев регрессии, но и иных моделей: опорных векторов, линейных дискриминантов, байесовских вероятностей и др.</p>
+<p>Метод случайного леса (Random Forest) представляет собой дальнейшее улучшение бэггинга деревьев решений, которое заключается в устранении корреляции между деревьями. Как и в случае с бэггингом, мы строим несколько сотен деревьев решений по обучающим бутстреп-выборкам. Однако на каждой итерации построения дерева случайным образом выбирается m из р подлежащих рассмотрению предикторов и разбиение разрешается выполнять только по одному из этих т переменных.</p>
+<p>Смысл этой процедуры, оказавшейся весьма эффективной для повышения качества получаемых решений, заключается в том, что с вероятностью <span class="math inline">\((p - m)/p\)</span> блокируется какой-нибудь потенциально доминирующий предиктор, стремящийся войти в каждое дерево. Если доминирование таких предикторов разрешить, то все деревья в итоге будут очень похожи друг на друга, а получаемые на их основе предсказания будут сильно коррелировать и снижение дисперсии будет не столь очевидным. Благодаря блокированию доминантов, другие предикторы получат свой шанс, и вариация деревьев возрастает.</p>
+<p>Выбор малого значения m при построении случайного леса обычно будет полезным при наличии большого числа коррелирующих предикторов. Естественно, если случайный лес строится с использованием <span class="math inline">\(m = p\)</span>, то вся процедура сводится к простому бэггингу.</p>
+<p>Применим методы бэггинга и случайного леса к прогнозированию данных по обилию водорослей в реках разного типа (см. три предыдущих раздела). Поскольку бэггинг - это просто частный случай метода случайного леса, то мы можем использовать одну и ту же функцию <code>randomForest()</code> пакета randomForest для R. Бэггинг выполняется, если задать параметр <code>mtry = ncol(x)</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file=</span><span class="st">&quot;algae.RData&quot;</span>) <span class="co"># Загрузка таблицы algae - раздел 4.1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">model.matrix</span>(a1~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])[, -<span class="dv">1</span>])
+<span class="kw">library</span>(randomForest)
+<span class="kw">set.seed</span>(<span class="dv">101</span>)
+<span class="kw">randomForest</span>(x, algae$a1, <span class="dt">mtry =</span> <span class="kw">ncol</span>(x))</code></pre></div>
+<pre><code>## 
+## Call:
+##  randomForest(x = x, y = algae$a1, mtry = ncol(x)) 
+##                Type of random forest: regression
+##                      Number of trees: 500
+## No. of variables tried at each split: 15
+## 
+##           Mean of squared residuals: 275.6901
+##                     % Var explained: 39.2</code></pre>
+<p>Как видно из полученных результатов, прогнозирование выполнялось по 500 деревьям, в которых было использовано только 40% исходных переменных. Оценить эффективность этой модели при перекрестной проверке можно с использованием функции <code>train()</code> из пакета <code>caret</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">101</span>)
+(bag.a1 &lt;-<span class="st"> </span><span class="kw">train</span>(x, algae$a1,
+                <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&#39;center&#39;</span>, <span class="st">&#39;scale&#39;</span>),
+                <span class="dt">method =</span> <span class="st">&#39;rf&#39;</span>, <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>), 
+                <span class="dt">tuneGrid =</span> <span class="kw">expand.grid</span>(<span class="dt">.mtry =</span> <span class="kw">ncol</span>(x))))</code></pre></div>
+<pre><code>## Random Forest 
+## 
+## 200 samples
+##  15 predictor
+## 
+## Pre-processing: centered (15), scaled (15) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 179, 181, 180, 180, 180, 180, ... 
+## Resampling results:
+## 
+##   RMSE      Rsquared 
+##   16.62507  0.4246797
+## 
+## Tuning parameter &#39;mtry&#39; was held constant at a value of 15
+## </code></pre>
+<p>Модель случайного леса можно построить этой же процедурой, задав последовательность значений <code>mtry</code> для оптимизации:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">101</span>)
+(ranfor.a1 &lt;-<span class="st"> </span><span class="kw">train</span>(x, algae$a1,
+                   <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&#39;center&#39;</span>, <span class="st">&#39;scale&#39;</span>),
+                   <span class="dt">method =</span> <span class="st">&#39;rf&#39;</span>, <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>), 
+                   <span class="dt">tuneGrid =</span> <span class="kw">expand.grid</span>(<span class="dt">.mtry =</span> <span class="dv">2</span>:<span class="dv">10</span>),
+                   <span class="dt">importance =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<pre><code>## Random Forest 
+## 
+## 200 samples
+##  15 predictor
+## 
+## Pre-processing: centered (15), scaled (15) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 179, 181, 180, 180, 180, 180, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  RMSE      Rsquared 
+##    2    15.50856  0.4917229
+##    3    15.62939  0.4840625
+##    4    15.72080  0.4777565
+##    5    15.84769  0.4699758
+##    6    15.96863  0.4635042
+##    7    16.17144  0.4505899
+##    8    16.13709  0.4534360
+##    9    16.29551  0.4437467
+##   10    16.24488  0.4468543
+## 
+## RMSE was used to select the optimal model using  the smallest value.
+## The final value used for the model was mtry = 2.</code></pre>
+<p>Заметим, что бутстреп дает хорошую возможность провести специальную процедуру перекрестной проверки, называемую тестом по “наблюдениям, не попавшим в сумку” (out-of-bag observations). Поскольку ключевая идея бэггинга состоит в многократном построении моделей по наблюдениям из бутстреп-выборок, то каждое конкретное дерево строится на основе примерно двух третей всех наблюдений. Остальная треть наблюдений не используется в обучении, но вполне может быть использована для независимого тестирования: ошибка на таких оставшихся данных (out–of–bag error) является состоятельной оценкой ошибки на контрольной выборке (Джеймс и др., 2016).</p>
+<p>Основным преимуществом деревьев решений является привлекательная и легко интерпретируемая итоговая диаграмма вроде той, которая показана на рис. 4.15. Хотя набор полученных в результате бэггинга деревьев гораздо сложнее интерпретировать, чем отдельно стоящее дерево, можно получить целых два обобщенных показателя важности каждого предиктора. Их графики легко построить при помощи функции <code>varImpPlot()</code> (рис. <a href="ch-4.html#fig:fig-4-15">4.15</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">varImpPlot</span>(ranfor.a1$finalModel)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-15"></span>
+<img src="_main_files/figure-html/fig-4-15-1.png" alt="Показатели важности отдельных переменных для модели случайного леса" width="768" />
+<p class="caption">
+Рисунок 4.15: Показатели важности отдельных переменных для модели случайного леса
+</p>
+</div>
+<p>На рис. <a href="ch-4.html#fig:fig-4-15">4.15</a> приведены два показателя важности: <code>%IncMSE</code> основан на среднем снижении точности предсказания на оставшихся данных, а <code>IncNodePurity</code> - мера среднего увеличения “чистоты узла” дерева (node purity) в результате разбиения данных по соответствующей переменной. В случае деревьев регрессии чистота узла выражается через ошибку <code>RSS</code>.</p>
+<p>Количество деревьев <span class="math inline">\(B\)</span> не является критическим параметром при использовании бэггинга: очень большое значение <span class="math inline">\(B\)</span> не приведет к переобучению. На практике обычно используется значение <span class="math inline">\(B\)</span>, достаточно большое для стабилизации ошибки: в частности, как следует из графика на рис. <a href="ch-4.html#fig:fig-4-16">4.16</a>, величина <span class="math inline">\(B = 100\)</span> уже обеспечивает хорошее качество предсказаний в нашем примере (по умолчанию, <span class="math inline">\(B = 500\)</span>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ranfor.a1$finalModel, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+<span class="kw">plot</span>(bag.a1$finalModel, <span class="dt">col =</span> <span class="st">&quot;green&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Bagging&quot;</span>, <span class="st">&quot;RandomForrest&quot;</span>),
+       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>), <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-16"></span>
+<img src="_main_files/figure-html/fig-4-16-1.png" alt="Зависимость ошибки на обучающей выборке от числа агрегируемых деревьев при бэггинге и использовании алгоритма &quot;случайный лес&quot;" width="672" />
+<p class="caption">
+Рисунок 4.16: Зависимость ошибки на обучающей выборке от числа агрегируемых деревьев при бэггинге и использовании алгоритма “случайный лес”
+</p>
+</div>
+</div>
+<div id="d091d183d181d182d0b8d0bdd0b3" class="section level3 unnumbered">
+<h3>Бустинг</h3>
+<p>Другим методом улучшения предсказаний является <em>бустинг</em> (boosting), идея которого заключается в итеративном процессе последовательного построения частных моделей. Каждая новая модель обучается с использованием информации об ошибках, сделанных на предыдущем этапе, а результирующая функция представляет собой линейную комбинацию всего ансамбля моделей с учетом минимизации любой штрафной функции. Подобно бэггингу, бустинг является общим подходом, который можно применять ко многим статистическим методам регрессии и классификации. Здесь мы ограничимся обсуждением градиентного бустинга в контексте деревьев регрессии.</p>
+<p>Бутстреп-выборки в ходе реализации бустинга не создаются, но вместо этого каждое дерево строится по набору данных <span class="math inline">\({X, r}\)</span>, который на каждом шаге модифицируется определенным образом. На первой итерации по значениям исходных предикторов строится дерево <span class="math inline">\(f^1(x)\)</span> и находится вектор остатков <span class="math inline">\(r_1\)</span>. На последующем этапе новое регрессионное дерево <span class="math inline">\(f^2(x)\)</span> строится уже не по обучающим данным <span class="math inline">\(X\)</span>, а по остаткам <span class="math inline">\(r_1\)</span> предыдущей модели. Линейная комбинация прогноза по построенным деревьям дает нам новые остатки <span class="math inline">\(r_2 \leftarrow r_1 + \lambda f^2(x)\)</span>, и этот итерационный процесс повторяется <span class="math inline">\(B\)</span> раз. Благодаря построению неглубоких деревьев по остаткам, прогноз отклика медленно улучшается в областях, где одиночное дерево работает не очень хорошо. Такие деревья могут быть довольно небольшими, лишь с несколькими конечными узлами. Параметр сжатия <span class="math inline">\(\lambda\)</span> регулирует скорость этого процесса, позволяя создавать комбинации деревьев более сложной формы для “атаки” остатков. Итоговая модель бустинга представляет собой ансамбль <span class="math inline">\(\hat{f}(x) = \sum_{b_1}^B \lambda f^b(x)\)</span>.</p>
+<p>В среде R для построения бустинг-моделей на основе деревьев решений можно использовать функцию <code>gbm()</code> из пакета <code>gbm</code> (Generalized Boosted Models). Процесс моделирования проходит под управлением трех гиперпараметров:</p>
+<ol style="list-style-type: decimal">
+<li>Число деревьев <span class="math inline">\(В\)</span> (формальный параметр <code>n.tree</code>). В отличие от бэггинга, бустинг может, хотя и медленно, приводить к переобучению при чрезмерно большом В.</li>
+<li>Параметр сжатия <span class="math inline">\(\lambda\)</span> (shrinkage), который корректирует величину вклада каждого дополнительного дерева и контролирует скорость, с которой происходит обучение модели при реализации бустинга. Типичные значения  варьируют от 0.01 до 0.001, и их оптимальный выбор зависит от решаемой проблемы. Для достижения хорошего качества предсказаний очень низкие значения <span class="math inline">\(\lambda\)</span> требуют очень большого значения <span class="math inline">\(B\)</span>.</li>
+<li>Число внутренних узлов <span class="math inline">\(d\)</span> (<code>interaction.depth</code>) в каждом дереве, которое контролирует сложность получаемого в результате бустинга ансамбля моделей. По своей сути, параметр <span class="math inline">\(d\)</span> отражает глубину взаимодействий между предикторами в итоговой модели. Если эти взаимодействия не слишком выражены, то хорошо работает <span class="math inline">\(d = 1\)</span>, и тогда дополнительные деревья представляют собой просто “пни” (stump), т.е. содержат только один внутренний узел. В таком случае получаемый в результате бустинга ансамбль становится аддитивной моделью, поскольку каждый ее член представлен только одной переменной.</li>
+</ol>
+<p>Тип решаемой задачи регулируется параметром <code>distribution</code>, который определяет оптимизируемую функцию:</p>
+<ul>
+<li>для решения задач регрессии задается значение <code>&quot;gaussian&quot;</code> - квадратичный штраф, или <code>&quot;laplace&quot;</code> - штраф по абсолютной величине отклонения;</li>
+<li>для задач бинарной классификации используют значение <code>&quot;bernoulli&quot;</code> - функция кросс-энтропии, или <code>&quot;adaboost&quot;</code> - экспоненциальный штраф.</li>
+</ul>
+<p>Используем значение <code>shrinkage = 0.001</code>, установленное функцией <code>gbm()</code> по умолчанию. Функция <code>summary()</code> в отношение этого метода выводит список предикторов и соответствующие им значения показателя важности:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gbm)
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+xd &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">a1 =</span> algae$a1, x)
+boost.a1 =<span class="st"> </span><span class="kw">gbm</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> xd, <span class="dt">distribution =</span> <span class="st">&quot;gaussian&quot;</span>,
+<span class="dt">n.trees =</span> <span class="dv">1000</span>, <span class="dt">interaction.depth =</span> <span class="dv">3</span>)
+<span class="kw">summary</span>(boost.a1, <span class="dt">plotit =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>##                       var     rel.inf
+## oPO4                 oPO4 28.78213428
+## NH4                   NH4 24.65367297
+## PO4                   PO4 20.27923322
+## Cl                     Cl 14.39813600
+## Chla                 Chla  4.34005789
+## mxPH                 mxPH  2.65676137
+## NO3                   NO3  2.02019947
+## mnO2                 mnO2  1.59565530
+## sizesmall       sizesmall  0.72211331
+## speedmedium   speedmedium  0.21566891
+## seasonwinter seasonwinter  0.14015890
+## speedlow         speedlow  0.07318679
+## sizemedium     sizemedium  0.05159332
+## seasonspring seasonspring  0.03671360
+## seasonsummer seasonsummer  0.03471468</code></pre>
+<p>Можно рассчитать среднюю ошибку модели на обучающей выборке, которая существенно меньше, чем при бэггинге:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred =<span class="st"> </span><span class="kw">predict</span>(boost.a1, x, <span class="dt">n.trees =</span> <span class="dv">1000</span>)
+<span class="kw">mean</span>((pred -<span class="st"> </span>algae$a1)^<span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] 233.738</code></pre>
+<p>Выполним оптимизацию параметров построения градиентного бустинга с использованием функции <code>train()</code>. Как скаано выше, таких параметров три:</p>
+<p>Принимая во внимание, что параметры <code>shrinkag</code> и <code>n.trees</code> связаны обратно пропорциональной зависимостью, уменьшим число деревьев до 50, одновременно увеличив значение <code>shrinkage</code> по сравнению с применяемыми выше:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(gbmFit.a1 &lt;-<span class="st"> </span><span class="kw">train</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> xd, 
+                   <span class="dt">method =</span> <span class="st">&quot;gbm&quot;</span>, <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>), 
+                   <span class="dt">tuneGrid =</span> <span class="kw">expand.grid</span>(<span class="dt">shrinkage =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.05</span>,<span class="fl">0.02</span>),
+                                          <span class="dt">interaction.depth =</span> <span class="dv">2</span>:<span class="dv">5</span>, <span class="dt">n.trees =</span> <span class="dv">50</span>,
+                                          <span class="dt">n.minobsinnode =</span> <span class="dv">10</span>),
+                   <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Stochastic Gradient Boosting 
+## 
+## 200 samples
+##  15 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 179, 180, 180, 179, 180, 180, ... 
+## Resampling results across tuning parameters:
+## 
+##   shrinkage  interaction.depth  RMSE      Rsquared 
+##   0.02       2                  16.18107  0.5041628
+##   0.02       3                  16.11543  0.5097867
+##   0.02       4                  16.15516  0.5079076
+##   0.02       5                  16.06650  0.5114990
+##   0.05       2                  15.56642  0.4899462
+##   0.05       3                  15.35317  0.5009309
+##   0.05       4                  15.35956  0.5021365
+##   0.05       5                  15.35207  0.5028845
+##   0.10       2                  15.48372  0.4978669
+##   0.10       3                  15.62442  0.4888717
+##   0.10       4                  15.74015  0.4807891
+##   0.10       5                  15.74537  0.4820078
+## 
+## Tuning parameter &#39;n.trees&#39; was held constant at a value of 50
+## 
+## Tuning parameter &#39;n.minobsinnode&#39; was held constant at a value of 10
+## RMSE was used to select the optimal model using  the smallest value.
+## The final values used for the model were n.trees = 50, interaction.depth
+##  = 5, shrinkage = 0.05 and n.minobsinnode = 10.</code></pre>
+<p>Бустинг деревьев регрессии может быть реализован также с использованием другого метода: с помощью функции <code>bstTree()</code> из пакета <code>bst</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">modelLookup</span>(<span class="st">&quot;bstTree&quot;</span>)</code></pre></div>
+<pre><code>##     model parameter                 label forReg forClass probModel
+## 1 bstTree     mstop # Boosting Iterations   TRUE     TRUE     FALSE
+## 2 bstTree  maxdepth        Max Tree Depth   TRUE     TRUE     FALSE
+## 3 bstTree        nu             Shrinkage   TRUE     TRUE     FALSE</code></pre>
+<p>Параметры, оптимизируемые методом <code>bstTree</code>, имеют несколько отличающиеся названия, но фактически эквивалентный содержательный смысл. Выполним их настройку с использованием параметров, заданных по умолчанию (рис. <a href="ch-4.html#fig:fig-4-17">4.17</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bst)                           
+(boostFit.a1 &lt;-<span class="st"> </span><span class="kw">train</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> xd, 
+                     <span class="dt">method =</span> <span class="st">&#39;bstTree&#39;</span>, <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>), 
+                     <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&#39;center&#39;</span>, <span class="st">&#39;scale&#39;</span>)))</code></pre></div>
+<pre><code>## Boosted Tree 
+## 
+## 200 samples
+##  15 predictor
+## 
+## Pre-processing: centered (15), scaled (15) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 180, 179, 180, 181, 180, 180, ... 
+## Resampling results across tuning parameters:
+## 
+##   maxdepth  mstop  RMSE      Rsquared 
+##   1          50    15.78448  0.4739550
+##   1         100    15.79358  0.4738929
+##   1         150    15.81359  0.4709253
+##   2          50    15.57789  0.4854358
+##   2         100    16.17373  0.4560014
+##   2         150    16.79439  0.4225685
+##   3          50    15.82479  0.4838267
+##   3         100    16.72970  0.4363131
+##   3         150    17.18904  0.4126638
+## 
+## Tuning parameter &#39;nu&#39; was held constant at a value of 0.1
+## RMSE was used to select the optimal model using  the smallest value.
+## The final values used for the model were mstop = 50, maxdepth = 2 and nu
+##  = 0.1.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(boostFit.a1)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-17"></span>
+<img src="_main_files/figure-html/fig-4-17-1.png" alt="Зависимость ошибки от числа агрегируемых деревьев при бустинге (по результатам перекрестной проверки)" width="672" />
+<p class="caption">
+Рисунок 4.17: Зависимость ошибки от числа агрегируемых деревьев при бустинге (по результатам перекрестной проверки)
+</p>
+</div>
+</div>
+<div id="-------3" class="section level3 unnumbered">
+<h3>Тестирование моделей с использованием дополнительного набора данных</h3>
+<p>Используем для прогноза набор данных (Torgo, 2011) из 140 наблюдений, который мы уже применяли в предыдущем разделе. Данные, с восстановленными пропущенными значениями мы сохранили ранее в файле <code>algae_test.RData</code> (см раздел 4.1).</p>
+<p>Выполним прогноз для набора предикторов тестовой выборки и оценим точность каждой модели по трем показателям: среднему абсолютному отклонению (MAE), корню из среднеквадратичного отклонения (<code>RSME</code>) и квадрату коэффициента детерминации <code>Rsq = 1 - NSME</code>, где <code>NSME</code> - относительная ошибка, равная отношению среднему квадрату отклонений от модельных значений и от общего среднего:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;algae_test.RData&quot;</span>) <span class="co"># Загрузка таблиц Eval, Sols</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span>Sols$a1
+EvalF &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">model.matrix</span>(y ~<span class="st"> </span>., Eval)[, -<span class="dv">1</span>])
+<span class="co"># Функция, выводящая вектор критериев</span>
+ModCrit &lt;-<span class="st"> </span>function(pred, fact) {
+    mae &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(pred -<span class="st"> </span>fact))
+    rmse &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">mean</span>((pred -<span class="st"> </span>fact)^<span class="dv">2</span>))
+    Rsq &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span><span class="kw">sum</span>((fact -<span class="st"> </span>pred)^<span class="dv">2</span>)/<span class="kw">sum</span>((<span class="kw">mean</span>(fact) -<span class="st"> </span>fact)^<span class="dv">2</span>)
+    <span class="kw">c</span>(<span class="dt">MAE =</span> mae, <span class="dt">RSME =</span> rmse, <span class="dt">Rsq =</span> Rsq) 
+} 
+Result &lt;-<span class="st"> </span><span class="kw">rbind</span>(
+    <span class="dt">bagging =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(bag.a1, EvalF), Sols[, <span class="dv">1</span>]),
+    <span class="dt">ranfor =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(ranfor.a1, EvalF), Sols[, <span class="dv">1</span>]),
+    <span class="dt">bst.gbm =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(gbmFit.a1, EvalF), Sols[, <span class="dv">1</span>]),
+    <span class="dt">bst.bst =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(boostFit.a1, EvalF), Sols[, <span class="dv">1</span>]))
+Result</code></pre></div>
+<pre><code>##               MAE     RSME       Rsq
+## bagging  9.989587 14.51570 0.4979945
+## ranfor   9.929345 14.14498 0.5233087
+## bst.gbm 10.512494 14.90563 0.4706615
+## bst.bst 10.079354 14.59285 0.4926438</code></pre>
+
+</div>
+</div>
+<div id="sec_4_5" class="section level2">
+<h2><span class="header-section-number">4.5</span> Сравнение построенных моделей и оценка информативности предикторов</h2>
+<p>Разделы <a href="ch-4.html#sec_4_1">4.1</a>-<a href="ch-4.html#sec_4_4">4.4</a> содержат подробную информацию о результатах тестирования различных типов моделей регрессии в идентичных условиях и на одном и том же примере, обобщенную в файле <code>Models.txt</code>. Сравнительная точность прогноза, оцениваемая по квадрату коэффициента детерминации Rsquared при 10-кратной перекрестной проверке (ось Y) и на контрольной выборке из 140 наблюдений (ось X), представлена на рис. <a href="ch-4.html#fig:fig-4-18">4.18</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Models &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&#39;Models.txt&#39;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Models$Rsq,Models$Rsquared, <span class="dt">pch =</span> CIRCLE &lt;-<span class="st"> </span><span class="dv">16</span>, 
+     <span class="dt">col =</span> <span class="dv">8</span> -<span class="st"> </span>Models$col, <span class="dt">cex =</span> <span class="fl">2.5</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Rsquared на дополнительной выборке&quot;</span>, 
+     <span class="dt">ylab =</span> <span class="st">&quot;Rsquared при кросс-проверке&quot;</span>)
+<span class="kw">text</span>(Models$Rsq, Models$Rsquared, <span class="kw">rownames</span>(Models), 
+     <span class="dt">pos =</span> <span class="dv">4</span>, <span class="dt">font =</span> <span class="dv">4</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)
+<span class="kw">legend</span>(<span class="st">&#39;bottomright&#39;</span>, <span class="kw">c</span>(<span class="st">&#39;Бэггинг/бустинг&#39;</span>, <span class="st">&#39;Деревья&#39;</span>,
+                        <span class="st">&#39;Регрессия kNN&#39;</span>, <span class="st">&#39;PLS/PCR&#39;</span>, <span class="st">&#39;Лассо&#39;</span>, <span class="st">&#39;Линейные модели&#39;</span>),
+       <span class="dt">col =</span> <span class="dv">2</span>:<span class="dv">7</span>, <span class="dt">pch =</span> CIRCLE &lt;-<span class="st"> </span><span class="dv">16</span>, <span class="dt">cex =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-18"></span>
+<img src="_main_files/figure-html/fig-4-18-1.png" alt="Результаты тестирования точности моделей регрессии различного класса при кросс-проверке и на внешнем дополнении" width="768" />
+<p class="caption">
+Рисунок 4.18: Результаты тестирования точности моделей регрессии различного класса при кросс-проверке и на внешнем дополнении
+</p>
+</div>
+<p>Хотя использованный тестовый пример представляется вполне типичным, отсутствие повторностей нашего вычислительного эксперимента не дает нам права делать далеко идущие выводы. Однако некоторые достоинства и недостатки отдельных типов прогнозирующих моделей проявились достаточно четко.</p>
+<p>Бесспорными лидерами по точности прогноза явились модели случайного леса (12), бустинга (13-14) и бэггинга (11), основанные на ансамблях деревьев решений. Неплохо себя проявили также одиночные деревья и регрессия k ближайших соседей. Модели, основанные на обобщенных характеристиках обучающей выборки или ее преобразованиях, такие как регрессия на главные компоненты (7), PLS, лассо, дерево условного вывода (10), показали сравнительно неплохие результаты при перекрестной проверке, но оказались не столь хорошими “предсказателями” на “свежих” данных, возможно, не столь похожих на обучающие.</p>
+<p>Метод случайного леса не только позволяет построить превосходные модели прогнозирования, но и выполнить такую работу, как селекция набора всех информативных признаков (finding all relevant variables). В общем случае эта проблема решается с использованием трех возможных подходов (<a href="https://habrahabr.ru/post/264915/" class="uri">https://habrahabr.ru/post/264915/</a>):</p>
+<ul>
+<li>методы фильтрации (filter methods), которые рассматривают каждую переменную независимо и, в некоторой степени, изолированно, оценивая ее по тому или иному показателю (информационные или статистические критерии, минимальная избыточность при максимальной релевантности mRmR и др.);</li>
+<li>адаптационные методы (wrapper methods), осуществляющие направленный перебор разных подмножеств признаков и оценка их по заданному критерию (в разделе <a href="ch-4.html#sec_4_1">4.1</a> рассматривались три таких алгоритма: пошаговый, генетический и RFE);</li>
+<li>встроенные методы (embedded methods), когда отбор признаков производится неотделимо от процесса обучения модели (основным алгоритмом является регуляризация - см. метод лассо в разделе <a href="ch-4.html#sec_4_2">4.2</a>).</li>
+</ul>
+<p>В адаптационных методах требуется регрессионная модель (или классификатор), которая используется как черный ящик, возвращая признаки, ранжированные по какому-нибудь удобному критерию - см. рис. <a href="ch-4.html#fig:fig-4-15">4.15</a>. По практическим соображениям эта модель должна быть в вычислительном отношении быстрой, эффективной и простой, а также мало зависящей от параметров пользователя. Пакет <code>Boruta</code> (бог леса в славянской мифологии), включающий одноименную функцию, реализует адаптационный алгоритмдля модели случайного леса (Kursa, Rudnicki, 2010).</p>
+<p>Как и функция <code>varImp()</code> из пакета <code>caret</code>, функция <code>Boruta()</code> оценивает меру информативности каждой переменной в виде дополнительной ошибки регрессии, вызванной исключением этой переменной из модели. Среднее <span class="math inline">\(\mu\)</span> этой дополнительной ошибки и его стандартное отклонение <span class="math inline">\(\sigma\)</span> рассчитываются по всем деревьям в лесу, которые используют оцениваемый признак для прогнозирования. Оценка <span class="math inline">\(Z = \mu / \sigma\)</span> может непосредственно использоваться для ранжирования признаков, однако она не является мерой статистической значимости, поскольку не распределена нормально.</p>
+<p>Для того, чтобы оценить, является ли ценность признака существенной, а не обусловленной случайными флуктуациями (т.е. проверить гипотезу <span class="math inline">\(H_0: Z = 0\)</span>), алгоритм <code>Boruta</code> использует внешнее дополнение, полученное в ходе рандомизации. Исходная таблица переменных расширяется таким образом, что в пару каждому предиктору создается соответствующий “теневой” (shadow) признак, вектор которого получен случайным перемешиванием значений основного признака между строками. Для таких признаков корреляция с откликом отсутствует. Далее запускается алгоритм множественного построения моделей с использованием этой вдвое расширенной таблицы и вычисляется ценность всех признаков <span class="math inline">\(Z\)</span>.</p>
+<p>Информативная ценность теневого признака может отличаться от нуля только из-за случайных флуктуаций, поэтому множество значений <span class="math inline">\(Z\)</span> теневых признаков служит эталоном того, чтобы решить, какие признаки действительно информативны. Для этого вычисляется “теневой порог” <span class="math inline">\(MZSA\)</span> (maximum Z score among shadow attributes) и признаки, для которых <span class="math inline">\(Z &gt; MZSA\)</span> объявляются значимо важными (important), в то время как остальные - незначимыми (unimportant). Поскольку <code>Boruta</code> - высокозатратный с вычислительной точки зрения алгоритм и не всегда удается за счет неполного числа итераций Random Forrest достичь полной ясности, некоторые признаки могут быть обозначены как <em>неопределенные</em> (<code>tentative</code>).</p>
+<p>Используем метод <code>Boruta</code> для оценки важности предикторов, определяющих обилие водорослей в реках разного типа.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;algae.RData&quot;</span>) <span class="co"># Загрузка таблицы algae - раздел 4.1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Boruta)
+algae.mod &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">model.matrix</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])[, -<span class="dv">1</span>])
+algae.mod &lt;-<span class="st"> </span><span class="kw">cbind</span>(algae.mod, <span class="dt">a1 =</span> algae$a1)
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+algae.Boruta &lt;-<span class="st"> </span><span class="kw">Boruta</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae.mod, 
+                       <span class="dt">doTrace =</span> <span class="dv">2</span>, <span class="dt">ntree =</span> <span class="dv">500</span>)
+<span class="kw">getConfirmedFormula</span>(algae.Boruta) </code></pre></div>
+<pre><code>## a1 ~ sizesmall + mxPH + Cl + NO3 + NH4 + oPO4 + PO4 + Chla
+## &lt;environment: 0x000000001f787aa0&gt;</code></pre>
+<p>Таким образом, в результате 99 итераций создания моделей Random Forrest по 500 деревьев в каждой статистически значимыми были признаны 7 переменных,<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> которые были включены в объект <code>formula</code>. Статистические показатели важности признаков можно получить в виде таблицы:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attStats</span>(algae.Boruta)</code></pre></div>
+<pre><code>##                  meanImp   medianImp     minImp     maxImp   normHits
+## seasonspring  0.09257835  0.67517933 -1.9365413  1.4989626 0.01010101
+## seasonsummer -1.04077347 -1.00411562 -2.6483402  0.2317239 0.00000000
+## seasonwinter -0.14513600  0.03291201 -1.7294518  0.9941718 0.00000000
+## sizemedium    1.33059986  1.38442583 -0.6221763  2.6147492 0.01010101
+## sizesmall     3.59390779  3.58211325  1.1371523  5.4087231 0.63636364
+## speedlow      1.50002410  1.29248412  0.7383855  3.2349696 0.00000000
+## speedmedium   2.00884214  2.00336365 -0.1760864  3.8706110 0.11111111
+## mxPH          4.76928575  4.75595703  2.5677905  7.3039536 0.90909091
+## mnO2          2.09160758  1.98674670  0.1366195  4.4886813 0.14141414
+## Cl           12.31967263 12.36161570 10.0046091 14.2017087 1.00000000
+## NO3           3.87495988  3.72025512  1.2257281  6.1139452 0.70707071
+## NH4          11.51906671 11.56582712  8.9850887 14.3937642 1.00000000
+## oPO4         14.50414512 14.65124069 12.7242035 16.7108908 1.00000000
+## PO4          16.77398911 16.86049297 14.3936586 18.6203130 1.00000000
+## Chla          7.25083887  7.18426917  5.5237660  9.4052149 1.00000000
+##               decision
+## seasonspring  Rejected
+## seasonsummer  Rejected
+## seasonwinter  Rejected
+## sizemedium    Rejected
+## sizesmall    Tentative
+## speedlow      Rejected
+## speedmedium   Rejected
+## mxPH         Confirmed
+## mnO2          Rejected
+## Cl           Confirmed
+## NO3          Confirmed
+## NH4          Confirmed
+## oPO4         Confirmed
+## PO4          Confirmed
+## Chla         Confirmed</code></pre>
+<p>Разумеется, более наглядно результаты выглядят на диаграмме (рис. <a href="ch-4.html#fig:fig-4-19">4.19</a>). К сожалению, разработчики пакета сделали трудночитаемым перечень предикторов по оси Х, и нам пришлось немного повозиться, чтобы исправить этот недостаток:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(algae.Boruta, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)
+lz &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="dv">1</span>:<span class="kw">ncol</span>(algae.Boruta$ImpHistory), function(i)
+    algae.Boruta$ImpHistory[<span class="kw">is.finite</span>(algae.Boruta$ImpHistory[, i]) , i])
+<span class="kw">names</span>(lz) &lt;-<span class="st"> </span><span class="kw">colnames</span>(algae.Boruta$ImpHistory)
+Labels &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">sapply</span>(lz,median))
+<span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">las =</span> <span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">names</span>(Labels),
+     <span class="dt">at =</span> <span class="dv">1</span>:<span class="kw">ncol</span>(algae.Boruta$ImpHistory), <span class="dt">cex.axis =</span> <span class="fl">0.7</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-19"></span>
+<img src="_main_files/figure-html/fig-4-19-1.png" alt="Ранжирование предикторов с использованием алгоритма Boruta; синим цветом показана важность для значений теневых признаков" width="768" />
+<p class="caption">
+Рисунок 4.19: Ранжирование предикторов с использованием алгоритма Boruta; синим цветом показана важность для значений теневых признаков
+</p>
+</div>
+<p>Представленный ранжированный перечень предикторов достаточно близок (хотя и в разной степени) наборам информативных переменных, сформированным другими методами селекции в разделах выше. Однако оценки значимости придают алгоритму <code>Boruta</code> несомненное преимущество.</p>
+
+</div>
+<div id="sec_4_6" class="section level2">
+<h2><span class="header-section-number">4.6</span> Деревья регрессии с многомерным откликом</h2>
+<p>В разделе <a href="ch-4.html#sec_4_3">4.3</a> мы рассмотрели деревья CART, прогнозирующие конкретное значение одной зависимой переменной Y. Развитием этих идей являются деревья многомерной классификации и регрессии (MRT, Multivariate Regression Trees - De’Ath, 2002). Если в случае обычной регрессии строится модель, прогнозирующая значения одномерного вектора, то многомерный отклик задается в виде двумерной таблицы, содержащей несколько столбцов наблюдаемых признаков. Ставится задача оценить, какие предикторы и в какой степени влияют на совокупную изменчивость количественных соотношений между отдельными компонентами отклика.</p>
+<p>Как и в одномерном случае, деревья MRT формируются в результате рекурсивной процедуры разделения строк таблицы данных на гомогенные подмножества, которая реализуется с использованием набора внешних количественных или категориальных независимых переменных <span class="math inline">\(\mathbf{X}\)</span>. “Листьями” полученного дерева являются кластеры объектов, скомпонованные таким образом, чтобы минимизировать различия между точками в многомерном пространстве в пределах каждой совокупности.</p>
+<p>Искомым критерием, минимизирующим внутригрупповые различия, может быть, например, сумма квадратов отклонений <span class="math inline">\(SS_D = \sum_{ij} (y_{ij} - \bar{y}_j)^2\)</span>, где где <span class="math inline">\(y_{ij}\)</span> - значение показателя отклика <span class="math inline">\(j\)</span> для наблюдения <span class="math inline">\(i\)</span>; <span class="math inline">\(\bar{y}_j\)</span> средние значения этого показателя для формируемого кластера, куда включается <span class="math inline">\(i\)</span>-е наблюдение. Геометрически <span class="math inline">\(SS_D\)</span> можно представить как сумму евклидовых расстояний от объединяемых объектов до центра их группировки.</p>
+<p>Процедура многомерной классификации состоит из последовательности шагов, на каждом из которых синхронно выполняются следующие действия: (а) бинарное разбиение объектов на группы, обусловленное значением одной из независимых переменных, и (б) перекрестная проверка полученных результатов.</p>
+<p>Рассмотрим построение дерева MRT на знакомом нам по предыдущим разделам примере анализа обилия водорослей в зависимости от гидрохимических показателей воды и условий отбора проб в водотоках. Для переменных <code>a1</code>-<code>a7</code>, описывающих численности 7 групп водорослей, выполним преобразование Бокса-Кокса и шкалирование, что даст нам возможность соизмерить между собой значения различных показателей и корректно вычислить статистики <span class="math inline">\(SS_D\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;algae.RData&quot;</span>) <span class="co"># Загрузка таблицы algae - раздел 4.1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+Transal &lt;-<span class="st"> </span><span class="kw">preProcess</span>(algae[, <span class="dv">12</span>:<span class="dv">18</span>], <span class="dt">method =</span> <span class="kw">c</span>(<span class="st">&quot;BoxCox&quot;</span>, <span class="st">&quot;scale&quot;</span>))
+Species &lt;-<span class="st"> </span><span class="kw">predict</span>(Transal, algae[, <span class="dv">12</span>:<span class="dv">18</span>])</code></pre></div>
+<p>Построение дерева MRT будем осуществлять с использованием функции <code>mvpart()</code> из пакета <code>mvpart</code>. В левой части формулы, задающей структуру модели, представим матрицу из трансформированных численностей семи групп водорослей <code>Species</code>, а в правой части - независимые гидрохимические показатели рек <code>algae[, 1:11]</code>:<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mvpart) 
+spe.mvpart &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">data.matrix</span>(Species) ~<span class="st"> </span>., algae[, <span class="dv">1</span>:<span class="dv">11</span>], 
+                     <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(Species),
+                     <span class="dt">xvmult =</span> <span class="dv">1</span>, <span class="dt">margin =</span> <span class="fl">0.08</span>, <span class="dt">which =</span> <span class="dv">4</span>, <span class="dt">bars =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Здесь параметры <code>xval</code> и <code>xvmult</code> соответствуют числу блоков и повторностей перекрестной проверки, т.е. при <code>xval = nrow(Species)</code> осуществляется скользящий контроль. Аргументы <code>margin</code> (ширина полей), <code>which</code> (расположение текста) и <code>bars</code> (вывод столбиковых диаграмм) задают атрибуты визуализации дерева. Важный параметр <code>xv</code> определяет условие выбора числа листьев дерева: при значении <code>&quot;best&quot;</code> оно определяется автоматически по результатам перекрестной проверки, а при <code>&quot;pick&quot;</code> размеры дерева можно выбрать интерактивно, выполнив щелчок мышью по следующему графику (рис. <a href="ch-4.html#fig:fig-4-20">4.20</a>):</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-20"></span>
+<img src="figures/mvpart.png" alt="Зависимость относительной ошибки перекрестной проверки от числа узлов дерева"  />
+<p class="caption">
+Рисунок 4.20: Зависимость относительной ошибки перекрестной проверки от числа узлов дерева
+</p>
+</div>
+<p>Из представленного графика видно, что при увеличении размеров дерева ошибка на обучающей выборке (зеленые точки) постоянно уменьшается, а ошибка перекрестной проверки - монотонно возрастает (синие точки). Рекомендуемое число листьев в точке их пересечения - 2. Однако, если в предыдущих сообщениях нам было важно получить максимальную точность моделей при прогнозировании, то в случае моделей МRТ более важна их объясняющая составляющая. Поэтому, чтобы выполнить содержательный анализ зависимости свойств найденных групп водорослей от внешних факторов, разделим все множество наблюдений на 4 кластера и изобразим полученное дерево графически (рис. <a href="ch-4.html#fig:fig-4-21">4.21</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(spe.mvpart)
+<span class="kw">text</span>(spe.mvpart)  </code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-21"></span>
+<img src="figures/mvpart_res.png" alt="Построенное дерево с многомерным откликом"  />
+<p class="caption">
+Рисунок 4.21: Построенное дерево с многомерным откликом
+</p>
+</div>
+<p>Рассмотрим более внимательно некоторые нюансы итеративной процедуры построения модели MRT:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(spe.mvpart) <span class="co"># Протокол приведен с сокращениями</span></code></pre></div>
+<p><img src="figures/mvpart_output.png" style="display: block; margin: auto;" /></p>
+<p>На первом шаге <code>Node number 1</code> рассматриваются все варианты разбиения исходной выборки на две части при разных опорных значениях независимых факторов и выбирается такой из них (в нашем случае хлориды <code>Cl &lt; 9.0275</code>), который в наибольшей мере обеспечивает статистическую гомогенность формируемых кластеров (<code>complexity param = 0.0956423</code>). Кластер 2 из 47 наблюдений на последующих шагах не разбивается, а 153 наблюдения слева вновь делятся на два подмножества по условию <code>mnO2 &lt; 7.85</code> в соотношении 51 + 102. Последнее подмножество по условию <code>NO3 &lt; 6.194</code> в свою очередь делится на два кластера, на чем итерации завершаются.</p>
+<p>Анализ многомерного отклика сообщества водорослей с помощью деревьев MRT предоставляет исследователю много дополнительных возможностей интерпретации результатов. В первую очередь, это связано с оценкой того, какие компоненты отклика и их ассоциации инициируют разбиение исходной совокупности на узлах дерева и предопределяют состав сформированных подмножеств объектов:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Относительная доля групп водорослей в кластерах</span>
+groups.mrt &lt;-<span class="st"> </span><span class="kw">levels</span>(<span class="kw">as.factor</span>(spe.mvpart$where))
+leaf.sum &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="kw">length</span>(groups.mrt), <span class="kw">ncol</span>(Species))  
+<span class="kw">colnames</span>(leaf.sum) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Species)
+<span class="kw">rownames</span>(leaf.sum) &lt;-<span class="st"> </span>groups.mrt
+for (i in <span class="dv">1</span>:<span class="kw">length</span>(groups.mrt)){
+    leaf.sum[i,] &lt;-<span class="st"> </span><span class="kw">apply</span>(Species[which
+                                  (spe.mvpart$where ==<span class="st"> </span>groups.mrt[i]), ], <span class="dv">2</span>, sum)
+} 
+
+<span class="kw">head</span>(<span class="kw">round</span>(leaf.sum, <span class="dv">3</span>))</code></pre></div>
+<pre><code>##        a1     a2     a3     a4     a5     a6    a7
+## 4  68.759  9.458 16.205  5.093  3.631  2.624 5.816
+## 5   3.082  0.000  6.404  0.815  0.000  0.000 0.000
+## 6  16.437  0.417  0.561 12.609  0.000  0.437 0.330
+## 12 11.931 18.843  4.591  5.592 22.853 10.094 5.719
+## 14 18.254  5.296  8.980  3.871  8.183  5.334 2.210
+## 15 10.521  0.091  0.245  0.226  0.387  0.120 0.194</code></pre>
+<p>Разумеется, эти суммы не соответствуют значениям абсолютных численностей водорослей, поскольку набор исходных данных подвергался преобразованию Бокса-Кокса и шкалированию.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  Вывод диаграммы типа &quot;разрезанный пирог&quot;</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)) ; for (i in <span class="dv">1</span>:<span class="kw">length</span>(groups.mrt)){
+    <span class="kw">pie</span>(leaf.sum[i, <span class="kw">which</span>(leaf.sum[i,] &gt;<span class="st"> </span><span class="dv">0</span>)], <span class="dt">radius =</span> <span class="dv">1</span>, 
+        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Кл. №&quot;</span>, groups.mrt[i])) }</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-22"></span>
+<img src="figures/mvpart_pies.png" alt="Диаграммы долей средних численностей групп водорослей"  />
+<p class="caption">
+Рисунок 4.22: Диаграммы долей средних численностей групп водорослей
+</p>
+</div>
+<p>Мы получили диаграммы долей усредненных численностей групп водорослей для четырех кластеров, составивших “листья” МRТ (рис. <a href="ch-4.html#fig:fig-4-22">4.22</a>). Их визуальный анализ показывает, что подмножество 2 составлено с явным доминированием группы <code>a1</code>, подмножество 6 - с доминированием групп <code>a5</code> и <code>a6</code>, а два остальных кластера не имеют столь характерных признаков. Видимо, перекрестная проверка все же имела все основания рекомендовать нам разбиение только на два кластера.</p>
+<p>Можно также оценить, насколько велика неоднородность между кластерами, выполнив редукцию многомерного отклика <code>Species</code> и проецирование данных из многомерного пространства на плоскость с осями из двух первых главных компонент (СА). На сформированной диаграмме конкретные наблюдения, отнесенные МRТ к разным кластерам, выделены отдельные цветами и обозначены контуром, проведенным через крайние точки. В центрах тяжести областей каждого из четырех блоков данных помещен крупный кружок, обозначающий их центроид.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  Вывод диаграммы РСА</span>
+<span class="kw">rpart.pca</span>(spe.mvpart)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-23"></span>
+<img src="figures/mvpart_pca.png" alt="Диаграмма четырех групп водорослей в пространстве двух главных компонент"  />
+<p class="caption">
+Рисунок 4.23: Диаграмма четырех групп водорослей в пространстве двух главных компонент
+</p>
+</div>
+<p>Из центра координат диаграммы проводятся дополнительные оси ординации, косинусы углов между которыми соответствуют коэффициентам корреляции между каждой парой из 7 групп водорослей. Проекции точек на каждую ось ординации определяют характер распределения показателя по кластерам с разными внешними факторами. Например, на ось а1 проецируются в основном красные точки кластера 2, объединяющего наблюдения с низким содержанием хлоридов <code>Cl &lt; 9.0275</code>.</p>
+<p>Настоящий раздел можно рассматривать в качестве “реквиема” по этому весьма оригинальному и практически полезному пакету: <code>mvpart</code> был удален из репозитория CRAN и для версий R выше 3.1 отсутствует. Это уже не первый случай, когда авторы перестают поддерживать важные и популярные функциональные компоненты: например, та же участь постигла удачный пакет <code>lmRepm</code>, в котором функции построения линейных моделей <code>lm()</code> и <code>anova()</code> при оценке статистических критериев используют перестановочные алгоритмы и не столь жестко связаны с предположениями о характере распределения данных.</p>
+<p>Выхода из подобной ситуации может быть два. Во-первых, ничто не мешает установить на компьютер несколько версий R (так, один авторов этой книги при любой возможности отдает предпочтение старенькой, но симпатичной версии 2.12). Другая возможность - осуществить компиляцию последней версии пакета <code>mvpart_1.6-2</code> из архива CRAN в вашей текущей версии R (см. рекомендации в сообщении на <a href="http://stackoverflow.com/questions/29656320/r-mvpart-package-any-option-to-use-in-r-3-1-x">http://stackoverflow.com</a>).</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>Полученные вами результаты могут отличаться от приведенных в силу случайного характера подвыборок, формируемых в ходе перекрестной проверки.<a href="ch-4.html#fnref4">↩</a></p></li>
+<li id="fn5"><p>Полученные вами результаты могут отличаться от приведенных здесь в силу случайного характера подвыборок, формируемых в ходе перекрестной проверки.<a href="ch-4.html#fnref5">↩</a></p></li>
+<li id="fn6"><p>Обратите внимание: в связи с небольшим объемом рассматриваемого набора данных, оптимальные значения <code>cp</code>, найденные по результатам перекрестной проверки, будут существенно варьировать от раза к разу. Так, используя другое значение зерна в команде <code>set.seed()</code> вы, скорее всего, получите другое “оптимальное” значение <code>сp</code>.<a href="ch-4.html#fnref6">↩</a></p></li>
+<li id="fn7"><p>Полученный вами результата может отличаться от приведенного в силу случайного характера подвыборок, формируемых в ходе выполнения алгоритма<a href="ch-4.html#fnref7">↩</a></p></li>
+<li id="fn8"><p>Пакет <code>mvpart</code> был удален из хранилища CRAN, однако его можно скачать из архива CRAN и установить с помощью команды вроде следующей: <code>install.packages(&quot;C:/Desktop/mvpart_1.6-2.tar.gz&quot;, repos = NULL, type = &quot;source&quot;)</code><a href="ch-4.html#fnref8">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch-3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch-5.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

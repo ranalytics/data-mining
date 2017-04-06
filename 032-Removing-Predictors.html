@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="031-Intro-to-Caret.html">
+<link rel="next" href="033-Preprocessing.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,145 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
-</div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<div id="sec_3_2" class="section level2">
+<h2><span class="header-section-number">3.2</span> Обнаружение и удаление “ненужных” предикторов</h2>
+<p>Разведочный анализ исходных данных играет очень важную роль в процессе создании эффективных предсказательных моделей. Главная его цель - понимание свойств имеющихся в наличии переменных, таких как закономерность распределения, наличие выбросов или эффекта очень низкой дисперсии, характер взаимоотношений между откликом и предикторами, оценка уровня мультиколлинеарности и др. Поскольку многие алгоритмы могут быть чувствительными к наличию предикторов, которые не несут в себе никакой или почти никакой информации, то уже на предварительном этапе некоторые из них разумно идентифицировать как “ненужные” и в дальнейшем исключить из рассмотрения.</p>
+<p>В качестве примера используем набор данных <code>GermanCredit</code>, входящий в состав пакета caret. Он содержит информацию по 1000 клиентам одного из немецких банков, (подробное описание см. на сайте <a href="https://archive.ics.uci.edu/ml/datasets/Statlog+%28German+Credit+Data%29">UCI Machine Learning Repository</a>). Каждый клиент описан в пространстве 61 признака, которые могут использоваться для предсказания класса кредитоспособности: отклика <code>Class</code>, принимающего два значения <code>Good</code> (хороший) и <code>Bad</code> (плохой).</p>
+<p>Предположим, что мы имеем дело с экстремальным случаем, когда некоторый предиктор представлен только одним уникальным значением (например, у всех клиентов банка значения этой переменной равны 1). При таком сценарии дисперсия предиктора равна нулю и он бесполезен для предсказания интересующего нас отклика. В других случаях дисперсия может быть отличной от 0, но все же недостаточно высокой для того, чтобы сделать соответствующую переменную полезной для предсказания отклика. Подобные предикторы с околонулевой дисперсией (near-zero variance) рекомендуется удалять из дальнейшего анализа (Kuhn, Johnson, 2013).</p>
+<p>Но как обнаружить такие предикторы? Одним из свойств вариационного ряда является доля уникальных значений по сравнению с общим числом наблюдений:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+<span class="kw">data</span>(GermanCredit, <span class="dt">package =</span> <span class="st">&quot;caret&quot;</span>)
+(u &lt;-<span class="st"> </span><span class="kw">unique</span>(GermanCredit$ResidenceDuration))</code></pre></div>
+<pre><code>## [1] 4 2 3 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Доля уникальных значений:</span>
+<span class="kw">length</span>(u)/<span class="kw">nrow</span>(GermanCredit)</code></pre></div>
+<pre><code>## [1] 0.004</code></pre>
+<p>Как видим, 1000 клиентов представлены только четырьмя уникальными значениями, доля которых составляет лишь 0.4% от их общего числа.</p>
+<p>Однако сама по себе эта доля ни о чем не говорит, поскольку подавляющее большинство признаков в таблице <code>GermanCredit</code> являются индикаторными переменными, обозначающими наличие или отсутствие того или иного свойства у клиента, т.е. представлены только значениям 1 и 0. Важной является не только низкая доля уникальных значений, но еще и относительная частота этих значений. Поэтому рекомендуется (Kuhn, Johnson, 2013) рассчитывать отношение частоты наиболее часто встречающегося значения к частоте второго по встречаемости значения. Высокое отношение будет указывать на явный дисбаланс в частотах уникальных значений и, как следствие, на низкую дисперсию:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(t &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">table</span>(GermanCredit$ResidenceDuration), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<pre><code>## 
+##   4   2   3   1 
+## 413 308 149 130</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t[<span class="dv">1</span>]/t[<span class="dv">2</span>]</code></pre></div>
+<pre><code>##        4 
+## 1.340909</code></pre>
+<p>На практике предлагается придерживаться следующих эмпирических правил для заключения о том, что некоторый предиктор обладает околонулевой дисперсией:</p>
+<ul>
+<li>доля его уникальных значений от общего числа наблюдений составляет не более 10%;</li>
+<li>отношение частот первых двух наиболее обычных его значений превышает 20.</li>
+</ul>
+<p>В состав пакета caret входит функция <code>nearZeroVar()</code>, которая позволяет автоматически обнаружить предикторы, удовлетворяющие этим двум условиям:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Создадим копию данных без столбца с откликом Class:</span>
+gcred =<span class="st"> </span>GermanCredit[, -<span class="dv">10</span>]
+<span class="co"># Функция nearZeroVar() возращает вектор номеров переменных,</span>
+<span class="co"># обладающих околонулевой дисперсией:</span>
+(<span class="dt">nz =</span> <span class="kw">nearZeroVar</span>(gcred))</code></pre></div>
+<pre><code>##  [1]  9 14 15 23 24 26 27 29 33 44 46 53 58</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&quot;Имена этих переменных:&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Имена этих переменных:&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(gcred)[nz]</code></pre></div>
+<pre><code>##  [1] &quot;ForeignWorker&quot;                     
+##  [2] &quot;CreditHistory.NoCredit.AllPaid&quot;    
+##  [3] &quot;CreditHistory.ThisBank.AllPaid&quot;    
+##  [4] &quot;Purpose.DomesticAppliance&quot;         
+##  [5] &quot;Purpose.Repairs&quot;                   
+##  [6] &quot;Purpose.Vacation&quot;                  
+##  [7] &quot;Purpose.Retraining&quot;                
+##  [8] &quot;Purpose.Other&quot;                     
+##  [9] &quot;SavingsAccountBonds.gt.1000&quot;       
+## [10] &quot;Personal.Female.Single&quot;            
+## [11] &quot;OtherDebtorsGuarantors.CoApplicant&quot;
+## [12] &quot;OtherInstallmentPlans.Stores&quot;      
+## [13] &quot;Job.UnemployedUnskilled&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Удаляем предикторы с околонулевой дисперсией:</span>
+gcred.clean =<span class="st"> </span>gcred[, -nz]</code></pre></div>
+<p>Описанная процедура вызывает, вероятно, некоторые сомнения у читателя, знакомого с основами метрологии. Во-первых, сама по себе близость дисперсии к нулевому значению ни о чем не говорит, поскольку все зависит от шкалы измерений (для субмолекулярных конструкций изменения размера в миллимикроны могут быть существенными, в то время, как для астрономических наблюдений ошибка в несколько километров является ничтожной). Поэтому дисперсия измерений считается недопустимо малой, если она не превосходит оценки погрешности измерений (или ошибки воспроизведения опыта). Во-вторых, следует уточнить, что эта процедура является эвристикой, полезной лишь для наблюдений, измеренных в порядковых или счетных шкалах с небольшим интервалом значений.</p>
+<p>Другая проблема использования таких классических методов, как линейная регрессия или логистическая регрессия заключается в <em>мультиколлинеарности</em>. Наличие нескольких высоко коррелирующих друг с другом предикторов может привести к созданию неустойчивых решений или вообще сделать построение модели невозможным. Поскольку такие переменные несут, по сути, одинаковую информацию, то удаление части из них не приведет к заметному снижению качества модели.</p>
+<p>Выберем наиболее коррелирующие пары переменных из таблицы GermanCredit. Составим для этого специальную функцию (А. Шипунов):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Наибольшие значения треугольной матрицы</span>
+top.mat &lt;-<span class="st"> </span>function(X, <span class="dt">level =</span> <span class="fl">0.45</span>, <span class="dt">N =</span> <span class="dv">12</span>, <span class="dt">values =</span> <span class="ot">TRUE</span>) {
+    X.nam &lt;-<span class="st"> </span><span class="kw">row.names</span>(X)
+    X.tri &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">lower.tri</span>(X))
+    X.rep.g &lt;-<span class="st"> </span><span class="kw">rep</span>(X.nam, <span class="kw">length</span>(X.nam))[X.tri]
+    X.rep.e &lt;-<span class="st"> </span><span class="kw">rep</span>(X.nam, <span class="dt">each =</span> <span class="kw">length</span>(X.nam))[X.tri]
+    X.vec &lt;-<span class="st"> </span><span class="kw">as.vector</span>(X)[X.tri]
+    X.df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Var1 =</span> X.rep.g, <span class="dt">Var2 =</span> X.rep.e, <span class="dt">Value =</span> X.vec)
+    {if (values)
+    {X.df &lt;-<span class="st"> </span>X.df[<span class="kw">abs</span>(X.df$Value) &gt;=<span class="st"> </span>level, ]
+    X.df &lt;-<span class="st"> </span>X.df[<span class="kw">order</span>(-<span class="kw">abs</span>(X.df$Value)), ]}
+        else
+        {X.df &lt;-<span class="st"> </span>X.df[<span class="kw">order</span>(-<span class="kw">abs</span>(X.df$Value)), ]
+        X.df &lt;-<span class="st"> </span>X.df[<span class="dv">1</span>:N, ]}}
+    <span class="kw">row.names</span>(X.df) &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dt">along =</span> X.df$Value)
+    <span class="kw">return</span>(X.df)
+}
+
+<span class="kw">top.mat</span>(<span class="kw">cor</span>(gcred.clean))</code></pre></div>
+<pre><code>##                                      Var1                           Var2
+## 1              OtherInstallmentPlans.None     OtherInstallmentPlans.Bank
+## 2                         Housing.ForFree               Property.Unknown
+## 3                    Personal.Male.Single      Personal.Female.NotSingle
+## 4                             Housing.Own                   Housing.Rent
+## 5        OtherDebtorsGuarantors.Guarantor    OtherDebtorsGuarantors.None
+## 6                  CreditHistory.Critical         CreditHistory.PaidDuly
+## 7                     Job.SkilledEmployee          Job.UnskilledResident
+## 8                                  Amount                       Duration
+## 9             SavingsAccountBonds.Unknown     SavingsAccountBonds.lt.100
+## 10                        Housing.ForFree                    Housing.Own
+## 11 Job.Management.SelfEmp.HighlyQualified            Job.SkilledEmployee
+## 12                 CreditHistory.PaidDuly          NumberExistingCredits
+## 13                 CreditHistory.Critical          NumberExistingCredits
+## 14             CheckingAccountStatus.none     CheckingAccountStatus.lt.0
+## 15             CheckingAccountStatus.none CheckingAccountStatus.0.to.200
+## 16                            Housing.Own               Property.Unknown
+##         Value
+## 1  -0.8405461
+## 2   0.7798526
+## 3  -0.7380357
+## 4  -0.7359677
+## 5  -0.7314079
+## 6  -0.6836174
+## 7  -0.6524383
+## 8   0.6249842
+## 9  -0.5832811
+## 10 -0.5484452
+## 11 -0.5438517
+## 12 -0.5403545
+## 13  0.5013637
+## 14 -0.4953575
+## 15 -0.4891356
+## 16 -0.4764963</code></pre>
+<p>В состав пакета caret входит функция <code>findCorrelation()</code>, которая, как следует из ее названия, находит предикторы, чей уровень корреляции с другими предикторами в среднем превышает некоторый заданный пользователем порог (аргумент <code>cutoff</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Функция findCorrelation() возвращает вектор </span>
+<span class="co"># номеров переменных с высокой корреляцией:</span>
+(<span class="dt">highCor =</span> <span class="kw">findCorrelation</span>(<span class="kw">cor</span>(gcred.clean), <span class="dt">cutoff =</span> <span class="fl">0.75</span>))</code></pre></div>
+<pre><code>## [1] 40 41</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&quot;Имена этих переменных:&quot;</span>); <span class="kw">names</span>( gcred.clean)[highCor]</code></pre></div>
+<pre><code>## [1] &quot;Имена этих переменных:&quot;</code></pre>
+<pre><code>## [1] &quot;Property.Unknown&quot;           &quot;OtherInstallmentPlans.Bank&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Удаляем эти переменные:</span>
+gcred.clean =<span class="st">  </span>gcred.clean[, -highCor]</code></pre></div>
+<p>Наконец, специальная функция <code>findLinearCombos()</code> предназначена для нахождения и исключения переменных, связанных линейными зависимостями. Если в выборке, например, есть переменная, которая может быть выражена через сумму нескольких других переменных, то такой предиктор можно рассматривать как малоинформативный (несущий дублирующую информацию) и его можно исключить из построения модели. Результатом функции <code>findLinearCombos()</code> является список из двух элементов: <code>$linearCombos</code> - список найденных линейных комбинаций и <code>$remove</code> - вектор индексов переменных, которые можно выразить через линейную комбинацию остальных переменных.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(linCombo &lt;-<span class="st"> </span><span class="kw">findLinearCombos</span>(gcred.clean))</code></pre></div>
+<pre><code>## $linearCombos
+## $linearCombos[[1]]
+## [1] 30  9 10 11 12 26 27 28 29
+## 
+## $linearCombos[[2]]
+## [1] 34  9 10 11 12 31 32 33
+## 
+## $linearCombos[[3]]
+## [1] 43  9 10 11 12 41 42
+## 
+## 
+## $remove
+## [1] 30 34 43</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Удаляем эти переменные:</span>
+gcred.clean =<span class="st">  </span>gcred.clean[, -linCombo$remove]
+<span class="kw">dim</span>(gcred.clean)</code></pre></div>
+<pre><code>## [1] 1000   43</code></pre>
+<p>В результате всех этих операций число предикторов сократилось с 61 до 43.</p>
+<p>Отметим, что очистка исходных данных от “ненужных” предикторов с использованием представленных функций может показаться излишне радикальной. Во-первых, например, непонятно, почему рекомендуется удалить признак <code>OtherInstallmentPlans.None</code>, а не составляющий с ним корреляционную пару <code>OtherInstallmentPlans.Bank</code>. Во-вторых, разработаны более продвинутые методы минимизации “корреляционных плеяд”: использование фактора инфляции дисперсии <span class="math inline">\(VIF\)</span> или различные последовательные алгоритмы селекции. Наконец, для некоторых алгоритмов вышеописанные проблемы не несут реальной угрозы: например, деревья принятия решений нечувствительны к признакам с околонулевой дисперсией, а регрессия на главные компоненты способна преодолеть эффект мультиколлинеарности. Однако в условиях очень большого числа переменных подобные “простые” методы редукции могут оказаться неожиданно эффективными. Кроме того, при большом числе предикторов удаление “ненужных” переменных может ускорить вычисления.</p>
 
 </div>
             </section>
@@ -267,8 +374,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="031-Intro-to-Caret.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="033-Preprocessing.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

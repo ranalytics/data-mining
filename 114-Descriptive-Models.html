@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="113-Model-Building.html">
+<link rel="next" href="120-References.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,47 +228,82 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_11_4" class="section level2">
+<h2><span class="header-section-number">11.4</span> Дескриптивные модели (обучение без учителя)</h2>
+<div id="sec_11_4_1" class="section level3">
+<h3><span class="header-section-number">11.4.1</span> Кластерный анализ</h3>
+<p>Методы кластерного анализа подробно рассматривались в главе 10, и мы уже не рассчитывали обнаружить в среде <code>rattle</code> какие-то новые сюжеты. Однако, приступив к кластеризации признаков привычного набора наблюдений за погодой в г. Канберра, мы увидели еще не представленный читателям алгоритм EWKM (Entropy Weighted K-Means), который является усовершенствованной версией метода <span class="math inline">\(k\)</span> средних для обработки больших массивов данных.</p>
+<p>Отличие алгоритма, реализованного функцией <code>ewkm()</code> из одноименного пакета, заключается в вычислении весов, оценивающих меру относительной важности участия каждой переменной в формировании каждого кластера. Эти веса включаются в функцию расстояния, тем самым уменьшая его для более значимых переменных, и пересчитываются на каждой итерации объединения в кластеры.</p>
+<p><img src="figures/rattle_15.png" width="640px" style="display: block; margin: auto;" /></p>
+<p>Нажатие кнопки <code>Weight</code>s приводит к выводу весьма полезной диаграммы, которая для каждой переменной и каждого кластера показывает итоговые относительные веса в стиле “тепловой карты” (реализовано функцией <code>levelplot()</code> из пакета <code>ewkm</code>). Одновременно приведены дендрограммы иерархического объединения в группы как использованных переменных, так и исходных наблюдений, что облегчает проблему выбора числа кластеров.</p>
+<p><img src="figures/rattle_16.png" width="540px" style="display: block; margin: auto;" /></p>
+<p>Нажатие кнопки <code>Discriminant</code> выводит ординационную диаграмму с нанесенной структурой кластеров - продукт использования функции <code>clusplot()</code>:</p>
+<p><img src="figures/rattle_17.png" width="540px" style="display: block; margin: auto;" /></p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<div id="sec_11_4_2" class="section level3">
+<h3><span class="header-section-number">11.4.2</span> Ассоциативные правила</h3>
+<p>Подробно механизм формирования ассоциативных правил был рассмотрен нами в разделе <a href="054-Association-Rules-Algos.html#sec_5_4">5.4</a>. Здесь мы остановимся на небольшом примере распределения корзины товаров из 10 фильмов на DVD по заявкам 10 покупателей. Цель анализа - обнаружить закономерности формирования заявок.</p>
+<p>Исходные данные загрузим из файла <code>dvdtrans.csv</code>, представленном на <a href="http://rattle.togaware.com/">сайте разработчиков</a> пакета <code>rattle</code>. Этот файл имеет следующую структуру:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ID,Item
+<span class="dv">1</span>,Sixth Sense
+<span class="dv">1</span>,LOTR1
+<span class="dv">1</span>,Harry Potter1
+<span class="dv">1</span>,Green Mile
+<span class="dv">1</span>,LOTR2
+<span class="dv">2</span>,Gladiator
+<span class="dv">2</span>,Patriot
+<span class="dv">2</span>,Braveheart</code></pre></div>
+<p>К великому сожалению, русификация названий фильмов приводит к ошибке при выводе ассоциативных правил, поэтому нам придется знакомый всем “Властелин колец” скрывать под непонятной меткой <code>&quot;LOTR&quot;</code>. После загрузки файла и нажатия кнопки <code>Выполнить</code> получаем итоги выполнения алгоритма <code>&quot;Apriory&quot;</code>:</p>
+<p><img src="figures/rattle_18.png" width="640px" style="display: block; margin: auto;" /></p>
+<p>Опция <code>Freq Plot</code> выполняет визуализацию графика частотного распределения встречаемости комбинаций (см. рис. <a href="054-Association-Rules-Algos.html#fig:fig-5-4">5.4</a>б). Опция <code>Show Rules</code> приводит к формированию списка найденных ассоциативных правил, отсортированных по уровню поддержки (<code>Support</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">All Rules
+     lhs                        rhs             support confidence lift      
+[<span class="dv">1</span>]  {Gladiator}             =<span class="er">&gt;</span><span class="st"> </span>{Patriot}       <span class="fl">0.4</span>     <span class="fl">1.0000000</span>   <span class="fl">2.5000000</span>
+[<span class="dv">2</span>]  {Patriot}               =<span class="er">&gt;</span><span class="st"> </span>{Gladiator}     <span class="fl">0.4</span>     <span class="fl">1.0000000</span>   <span class="fl">2.5000000</span>
+[<span class="dv">3</span>]  {LOTR1}                 =<span class="er">&gt;</span><span class="st"> </span>{LOTR2}         <span class="fl">0.2</span>     <span class="fl">1.0000000</span>   <span class="fl">5.0000000</span>
+[<span class="dv">4</span>]  {LOTR2}                 =<span class="er">&gt;</span><span class="st"> </span>{LOTR1}         <span class="fl">0.2</span>     <span class="fl">1.0000000</span>   <span class="fl">5.0000000</span>
+[<span class="dv">5</span>]  {Harry Potter1}         =<span class="er">&gt;</span><span class="st"> </span>{Harry Potter2} <span class="fl">0.1</span>     <span class="fl">1.0000000</span>  <span class="fl">10.0000000</span>
+[<span class="dv">6</span>]  {Harry Potter2}         =<span class="er">&gt;</span><span class="st"> </span>{Harry Potter1} <span class="fl">0.1</span>     <span class="fl">1.0000000</span>  <span class="fl">10.0000000</span>
+...             ...         ...
+[<span class="dv">22</span>] {Braveheart,Patriot}    =<span class="er">&gt;</span><span class="st"> </span>{Gladiator}     <span class="fl">0.1</span>     <span class="fl">1.0000000</span>   <span class="fl">2.5000000</span>
+[<span class="dv">23</span>] {Gladiator,Patriot}     =<span class="er">&gt;</span><span class="st"> </span>{Braveheart}    <span class="fl">0.1</span>     <span class="fl">0.2500000</span>   <span class="fl">2.5000000</span>
+[<span class="dv">24</span>] {LOTR1,LOTR2}           =<span class="er">&gt;</span><span class="st"> </span>{Green Mile}    <span class="fl">0.1</span>     <span class="fl">0.5000000</span>   <span class="fl">2.5000000</span>
+[<span class="dv">25</span>] {Green Mile,LOTR1}      =<span class="er">&gt;</span><span class="st"> </span>{LOTR2}         <span class="fl">0.1</span>     <span class="fl">1.0000000</span>   <span class="fl">5.0000000</span>
+[<span class="dv">26</span>] {Green Mile,LOTR2}      =<span class="er">&gt;</span><span class="st"> </span>{LOTR1}         <span class="fl">0.1</span>     <span class="fl">1.0000000</span>   <span class="fl">5.0000000</span>
+[<span class="dv">27</span>] {Gladiator,Sixth Sense} =<span class="er">&gt;</span><span class="st"> </span>{Patriot}       <span class="fl">0.1</span>     <span class="fl">1.0000000</span>   <span class="fl">2.5000000</span>
+[<span class="dv">28</span>] {Patriot,Sixth Sense}   =<span class="er">&gt;</span><span class="st"> </span>{Gladiator}     <span class="fl">0.1</span>     <span class="fl">1.0000000</span>   <span class="fl">2.5000000</span>
+[<span class="dv">29</span>] {Gladiator,Patriot}     =<span class="er">&gt;</span><span class="st"> </span>{Sixth Sense}   <span class="fl">0.1</span>     <span class="fl">0.2500000</span>   <span class="fl">0.8333333</span></code></pre></div>
+<p>Вполне понятно, что посмотревшие первую серию “Властелина колец” или “Гарри Поттера” будут, вероятно, смотреть и вторую, а любители “Гладиатора” и “Патриота” захотят ознакомиться и с “Храбрым сердцем”. Для аналитиков, склонных изучать большое количество разных индексов, пакет позволяет вывести дополнительную таблицу мер “интересности” правил:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Interesting Measures
+    chiSquared hyperLift hyperConfidence leverage oddsRatio         phi
+<span class="dv">1</span>  <span class="fl">10.00000000</span> <span class="fl">1.3333333</span>       <span class="fl">0.9952381</span>     <span class="fl">0.24</span>        <span class="ot">NA</span>  <span class="fl">1.00000000</span>
+<span class="dv">2</span>  <span class="fl">10.00000000</span> <span class="fl">1.3333333</span>       <span class="fl">0.9952381</span>     <span class="fl">0.24</span>        <span class="ot">NA</span>  <span class="fl">1.00000000</span>
+<span class="dv">3</span>  <span class="fl">10.00000000</span> <span class="fl">1.0000000</span>       <span class="fl">0.9777778</span>     <span class="fl">0.16</span>        <span class="ot">NA</span>  <span class="fl">1.00000000</span>
+<span class="dv">4</span>  <span class="fl">10.00000000</span> <span class="fl">1.0000000</span>       <span class="fl">0.9777778</span>     <span class="fl">0.16</span>        <span class="ot">NA</span>  <span class="fl">1.00000000</span>
+<span class="dv">5</span>  <span class="fl">10.00000000</span> <span class="fl">1.0000000</span>       <span class="fl">0.9000000</span>     <span class="fl">0.09</span>        <span class="ot">NA</span>  <span class="fl">1.00000000</span>
+<span class="dv">6</span>  <span class="fl">10.00000000</span> <span class="fl">1.0000000</span>       <span class="fl">0.9000000</span>     <span class="fl">0.09</span>        <span class="ot">NA</span>  <span class="fl">1.00000000</span>
+...                  ...             ...
+<span class="dv">22</span>  <span class="fl">1.66666667</span> <span class="fl">1.0000000</span>       <span class="fl">0.6000000</span>     <span class="fl">0.06</span>        <span class="ot">NA</span>  <span class="fl">0.40824829</span>
+<span class="dv">23</span>  <span class="fl">1.66666667</span> <span class="fl">1.0000000</span>       <span class="fl">0.6000000</span>     <span class="fl">0.06</span>        <span class="ot">NA</span>  <span class="fl">0.40824829</span>
+<span class="dv">24</span>  <span class="fl">1.40625000</span> <span class="fl">0.5000000</span>       <span class="fl">0.6222222</span>     <span class="fl">0.06</span> <span class="fl">7.0000000</span>  <span class="fl">0.37500000</span>
+<span class="dv">25</span>  <span class="fl">4.44444444</span> <span class="fl">1.0000000</span>       <span class="fl">0.8000000</span>     <span class="fl">0.08</span>        <span class="ot">NA</span>  <span class="fl">0.66666667</span>
+<span class="dv">26</span>  <span class="fl">4.44444444</span> <span class="fl">1.0000000</span>       <span class="fl">0.8000000</span>     <span class="fl">0.08</span>        <span class="ot">NA</span>  <span class="fl">0.66666667</span>
+<span class="dv">27</span>  <span class="fl">1.66666667</span> <span class="fl">1.0000000</span>       <span class="fl">0.6000000</span>     <span class="fl">0.06</span>        <span class="ot">NA</span>  <span class="fl">0.40824829</span>
+<span class="dv">28</span>  <span class="fl">1.66666667</span> <span class="fl">1.0000000</span>       <span class="fl">0.6000000</span>     <span class="fl">0.06</span>        <span class="ot">NA</span>  <span class="fl">0.40824829</span>
+<span class="dv">29</span>  <span class="fl">0.07936508</span> <span class="fl">0.3333333</span>       <span class="fl">0.1666667</span>    -<span class="fl">0.02</span> <span class="fl">0.6666667</span> -<span class="fl">0.08908708</span></code></pre></div>
+<p>Опция `` выводит знакомый нам по рис. <a href="054-Association-Rules-Algos.html#fig:fig-5-7">5.7</a> граф сформированных правил, где достаточно четко прослеживаются покупательские предпочтения:</p>
+<p><img src="figures/rattle_19.png" width="440px" style="display: block; margin: auto;" /></p>
 
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="113-Model-Building.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="120-References.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

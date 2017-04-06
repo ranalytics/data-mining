@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="044-Ensembles.html">
+<link rel="next" href="046-MV-Trees.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,47 +228,112 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_4_5" class="section level2">
+<h2><span class="header-section-number">4.5</span> Сравнение построенных моделей и оценка информативности предикторов</h2>
+<p>Разделы <a href="041-Regression-Models.html#sec_4_1">4.1</a>-<a href="044-Ensembles.html#sec_4_4">4.4</a> содержат подробную информацию о результатах тестирования различных типов моделей регрессии в идентичных условиях и на одном и том же примере, обобщенную в файле <code>Models.txt</code>. Сравнительная точность прогноза, оцениваемая по квадрату коэффициента детерминации Rsquared при 10-кратной перекрестной проверке (ось Y) и на контрольной выборке из 140 наблюдений (ось X), представлена на рис. <a href="045-Comparing-Trees.html#fig:fig-4-18">4.18</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Models &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&#39;Models.txt&#39;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Models$Rsq,Models$Rsquared, <span class="dt">pch =</span> CIRCLE &lt;-<span class="st"> </span><span class="dv">16</span>, 
+     <span class="dt">col =</span> <span class="dv">8</span> -<span class="st"> </span>Models$col, <span class="dt">cex =</span> <span class="fl">2.5</span>,
+     <span class="dt">xlab =</span> <span class="st">&quot;Rsquared на дополнительной выборке&quot;</span>, 
+     <span class="dt">ylab =</span> <span class="st">&quot;Rsquared при кросс-проверке&quot;</span>)
+<span class="kw">text</span>(Models$Rsq, Models$Rsquared, <span class="kw">rownames</span>(Models), 
+     <span class="dt">pos =</span> <span class="dv">4</span>, <span class="dt">font =</span> <span class="dv">4</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)
+<span class="kw">legend</span>(<span class="st">&#39;bottomright&#39;</span>, <span class="kw">c</span>(<span class="st">&#39;Бэггинг/бустинг&#39;</span>, <span class="st">&#39;Деревья&#39;</span>,
+                        <span class="st">&#39;Регрессия kNN&#39;</span>, <span class="st">&#39;PLS/PCR&#39;</span>, <span class="st">&#39;Лассо&#39;</span>, <span class="st">&#39;Линейные модели&#39;</span>),
+       <span class="dt">col =</span> <span class="dv">2</span>:<span class="dv">7</span>, <span class="dt">pch =</span> CIRCLE &lt;-<span class="st"> </span><span class="dv">16</span>, <span class="dt">cex =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-18"></span>
+<img src="045-Comparing-Trees_files/figure-html/fig-4-18-1.png" alt="Результаты тестирования точности моделей регрессии различного класса при кросс-проверке и на внешнем дополнении" width="768" />
+<p class="caption">
+Рисунок 4.18: Результаты тестирования точности моделей регрессии различного класса при кросс-проверке и на внешнем дополнении
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>Хотя использованный тестовый пример представляется вполне типичным, отсутствие повторностей нашего вычислительного эксперимента не дает нам права делать далеко идущие выводы. Однако некоторые достоинства и недостатки отдельных типов прогнозирующих моделей проявились достаточно четко.</p>
+<p>Бесспорными лидерами по точности прогноза явились модели случайного леса (12), бустинга (13-14) и бэггинга (11), основанные на ансамблях деревьев решений. Неплохо себя проявили также одиночные деревья и регрессия k ближайших соседей. Модели, основанные на обобщенных характеристиках обучающей выборки или ее преобразованиях, такие как регрессия на главные компоненты (7), PLS, лассо, дерево условного вывода (10), показали сравнительно неплохие результаты при перекрестной проверке, но оказались не столь хорошими “предсказателями” на “свежих” данных, возможно, не столь похожих на обучающие.</p>
+<p>Метод случайного леса не только позволяет построить превосходные модели прогнозирования, но и выполнить такую работу, как селекция набора всех информативных признаков (finding all relevant variables). В общем случае эта проблема решается с использованием трех возможных подходов (<a href="https://habrahabr.ru/post/264915/" class="uri">https://habrahabr.ru/post/264915/</a>):</p>
+<ul>
+<li>методы фильтрации (filter methods), которые рассматривают каждую переменную независимо и, в некоторой степени, изолированно, оценивая ее по тому или иному показателю (информационные или статистические критерии, минимальная избыточность при максимальной релевантности mRmR и др.);</li>
+<li>адаптационные методы (wrapper methods), осуществляющие направленный перебор разных подмножеств признаков и оценка их по заданному критерию (в разделе <a href="041-Regression-Models.html#sec_4_1">4.1</a> рассматривались три таких алгоритма: пошаговый, генетический и RFE);</li>
+<li>встроенные методы (embedded methods), когда отбор признаков производится неотделимо от процесса обучения модели (основным алгоритмом является регуляризация - см. метод лассо в разделе <a href="042-Regularization.html#sec_4_2">4.2</a>).</li>
+</ul>
+<p>В адаптационных методах требуется регрессионная модель (или классификатор), которая используется как черный ящик, возвращая признаки, ранжированные по какому-нибудь удобному критерию - см. рис. <a href="044-Ensembles.html#fig:fig-4-15">4.15</a>. По практическим соображениям эта модель должна быть в вычислительном отношении быстрой, эффективной и простой, а также мало зависящей от параметров пользователя. Пакет <code>Boruta</code> (бог леса в славянской мифологии), включающий одноименную функцию, реализует адаптационный алгоритмдля модели случайного леса (Kursa, Rudnicki, 2010).</p>
+<p>Как и функция <code>varImp()</code> из пакета <code>caret</code>, функция <code>Boruta()</code> оценивает меру информативности каждой переменной в виде дополнительной ошибки регрессии, вызванной исключением этой переменной из модели. Среднее <span class="math inline">\(\mu\)</span> этой дополнительной ошибки и его стандартное отклонение <span class="math inline">\(\sigma\)</span> рассчитываются по всем деревьям в лесу, которые используют оцениваемый признак для прогнозирования. Оценка <span class="math inline">\(Z = \mu / \sigma\)</span> может непосредственно использоваться для ранжирования признаков, однако она не является мерой статистической значимости, поскольку не распределена нормально.</p>
+<p>Для того, чтобы оценить, является ли ценность признака существенной, а не обусловленной случайными флуктуациями (т.е. проверить гипотезу <span class="math inline">\(H_0: Z = 0\)</span>), алгоритм <code>Boruta</code> использует внешнее дополнение, полученное в ходе рандомизации. Исходная таблица переменных расширяется таким образом, что в пару каждому предиктору создается соответствующий “теневой” (shadow) признак, вектор которого получен случайным перемешиванием значений основного признака между строками. Для таких признаков корреляция с откликом отсутствует. Далее запускается алгоритм множественного построения моделей с использованием этой вдвое расширенной таблицы и вычисляется ценность всех признаков <span class="math inline">\(Z\)</span>.</p>
+<p>Информативная ценность теневого признака может отличаться от нуля только из-за случайных флуктуаций, поэтому множество значений <span class="math inline">\(Z\)</span> теневых признаков служит эталоном того, чтобы решить, какие признаки действительно информативны. Для этого вычисляется “теневой порог” <span class="math inline">\(MZSA\)</span> (maximum Z score among shadow attributes) и признаки, для которых <span class="math inline">\(Z &gt; MZSA\)</span> объявляются значимо важными (important), в то время как остальные - незначимыми (unimportant). Поскольку <code>Boruta</code> - высокозатратный с вычислительной точки зрения алгоритм и не всегда удается за счет неполного числа итераций Random Forrest достичь полной ясности, некоторые признаки могут быть обозначены как <em>неопределенные</em> (<code>tentative</code>).</p>
+<p>Используем метод <code>Boruta</code> для оценки важности предикторов, определяющих обилие водорослей в реках разного типа.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;algae.RData&quot;</span>) <span class="co"># Загрузка таблицы algae - раздел 4.1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Boruta)
+algae.mod &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">model.matrix</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])[, -<span class="dv">1</span>])
+algae.mod &lt;-<span class="st"> </span><span class="kw">cbind</span>(algae.mod, <span class="dt">a1 =</span> algae$a1)
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+algae.Boruta &lt;-<span class="st"> </span><span class="kw">Boruta</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae.mod, 
+                       <span class="dt">doTrace =</span> <span class="dv">2</span>, <span class="dt">ntree =</span> <span class="dv">500</span>)
+<span class="kw">getConfirmedFormula</span>(algae.Boruta) </code></pre></div>
+<pre><code>## a1 ~ sizesmall + mxPH + Cl + NO3 + NH4 + oPO4 + PO4 + Chla
+## &lt;environment: 0x00000000072aea50&gt;</code></pre>
+<p>Таким образом, в результате 99 итераций создания моделей Random Forrest по 500 деревьев в каждой статистически значимыми были признаны 7 переменных,<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> которые были включены в объект <code>formula</code>. Статистические показатели важности признаков можно получить в виде таблицы:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attStats</span>(algae.Boruta)</code></pre></div>
+<pre><code>##                 meanImp  medianImp     minImp    maxImp   normHits
+## seasonspring  0.5693189  0.4069052 -0.8649699  2.075703 0.01010101
+## seasonsummer -0.1596926 -0.3499825 -1.5728241  1.725287 0.00000000
+## seasonwinter -0.1775464 -0.4018779 -1.1984788  1.972420 0.00000000
+## sizemedium    0.9838655  0.8715906 -0.2870415  2.419892 0.01010101
+## sizesmall     3.5793482  3.5483906  1.5546458  5.816447 0.71717172
+## speedlow      1.6607858  1.6797431 -0.5456829  3.255695 0.05050505
+## speedmedium   2.1834842  2.2534784 -0.7136495  4.253952 0.43434343
+## mxPH          4.6814562  4.7170495  1.9551148  6.671736 0.89898990
+## mnO2          2.1644531  2.1459241 -1.8856452  4.411559 0.38383838
+## Cl           12.2427594 12.2077849 10.0451025 14.133899 1.00000000
+## NO3           4.6025536  4.6809829  2.1551312  6.578464 0.88888889
+## NH4          11.5330358 11.5867263  9.6825814 13.451071 1.00000000
+## oPO4         14.1610413 14.1254230 12.6569532 16.251786 1.00000000
+## PO4          16.3344698 16.4004710 14.2130314 18.726623 1.00000000
+## Chla          7.5156732  7.6125418  4.8295387  9.419857 1.00000000
+##               decision
+## seasonspring  Rejected
+## seasonsummer  Rejected
+## seasonwinter  Rejected
+## sizemedium    Rejected
+## sizesmall    Confirmed
+## speedlow      Rejected
+## speedmedium  Tentative
+## mxPH         Confirmed
+## mnO2         Tentative
+## Cl           Confirmed
+## NO3          Confirmed
+## NH4          Confirmed
+## oPO4         Confirmed
+## PO4          Confirmed
+## Chla         Confirmed</code></pre>
+<p>Разумеется, более наглядно результаты выглядят на диаграмме (рис. <a href="045-Comparing-Trees.html#fig:fig-4-19">4.19</a>). К сожалению, разработчики пакета сделали трудночитаемым перечень предикторов по оси Х, и нам пришлось немного повозиться, чтобы исправить этот недостаток:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(algae.Boruta, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>)
+lz &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="dv">1</span>:<span class="kw">ncol</span>(algae.Boruta$ImpHistory), function(i)
+    algae.Boruta$ImpHistory[<span class="kw">is.finite</span>(algae.Boruta$ImpHistory[, i]) , i])
+<span class="kw">names</span>(lz) &lt;-<span class="st"> </span><span class="kw">colnames</span>(algae.Boruta$ImpHistory)
+Labels &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">sapply</span>(lz,median))
+<span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">las =</span> <span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">names</span>(Labels),
+     <span class="dt">at =</span> <span class="dv">1</span>:<span class="kw">ncol</span>(algae.Boruta$ImpHistory), <span class="dt">cex.axis =</span> <span class="fl">0.7</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-19"></span>
+<img src="045-Comparing-Trees_files/figure-html/fig-4-19-1.png" alt="Ранжирование предикторов с использованием алгоритма Boruta; синим цветом показана важность для значений теневых признаков" width="768" />
+<p class="caption">
+Рисунок 4.19: Ранжирование предикторов с использованием алгоритма Boruta; синим цветом показана важность для значений теневых признаков
+</p>
 </div>
+<p>Представленный ранжированный перечень предикторов достаточно близок (хотя и в разной степени) наборам информативных переменных, сформированным другими методами селекции в разделах выше. Однако оценки значимости придают алгоритму <code>Boruta</code> несомненное преимущество.</p>
 
+</div>
+<div class="footnotes">
+<hr />
+<ol start="7">
+<li id="fn7"><p>Полученный вами результата может отличаться от приведенного в силу случайного характера подвыборок, формируемых в ходе выполнения алгоритма<a href="045-Comparing-Trees.html#fnref7">↩</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="044-Ensembles.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="046-MV-Trees.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

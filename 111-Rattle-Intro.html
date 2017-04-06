@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="105-Cohonen-Maps.html">
+<link rel="next" href="112-Descriptive-Stats.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,26 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
-</div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<div id="ch_11" class="section level1">
+<h1><span class="header-section-number">ГЛАВА 11</span> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</h1>
+<div id="----rattle" class="section level2">
+<h2><span class="header-section-number">11.1</span> Начало работы с пакетом <code id="sec_11_1">rattle</code></h2>
+<p>Читатель, вероятно, помнит, что удобным средством освоения вычислений в R для начинающего пользователя является <code>R Commander</code>. Аналогичный платформо-независимый графический интерфейс c кнопками и меню, позволяющий выполнять целый набор алгоритмов Data Mining, реализован в пакете <code>rattle</code> (Williams, 2009, 2011). С помощью этого пакета можно реализовать многие поцедуры обработки данных, не прибегая к предварительному заучиванию функций на командном языке.</p>
+<p>Установить пакет <code>rattle</code>, как и любые другие расширения в R, можно командой</p>
+<p><code>install.packages(&quot;rattle&quot;)</code></p>
+<p>В процессе инсталляции загружается графическая динамическая библиотека <code>RGtk2.dll</code>, а также необходимые для работы <code>rattle</code> пакеты <code>cairoDevice</code> и <code>XML</code>.</p>
+<p>Интерактивная среда запускается командой <code>rattle()</code>.</p>
+<p>Вы можете приступить к работе, загрузив необходимый набор данных, или продолжить сеанс анализа, открыв файл проекта с сохраненной историей Ваших действий:</p>
+<p><img src="figures/rattle_1.png" width="680px" style="display: block; margin: auto;" /></p>
+<p>На приведенном рисунке загружена таблица weather из пакета <code>rattle</code>, содержащая данные наблюдений за погодой на метеорологической станции в г. Канберра, Австралия (24 переменных разного типа в 366 строках).</p>
+<p>Таблицы данных (вкладка <code>Data</code>) могут загружаться в среду <code>rattle</code> из следующих источников:</p>
+<ul>
+<li>из произвольного текстового файла с разделителями типа <code>.csv</code> (<code>Spreadsheet</code>), или <code>ARFF</code> (Attribute-Relation File Format);</li>
+<li>через программный интерфейс доступа к базам данным <code>ODBC</code> (Open Database Connectivity), а также через буфер обмена, из Web, SPSS-файлов и проч.;</li>
+<li>из бинарных или обыкновенных файлов <code>.RData</code>, а также к наборам данных любых установленных пакетов (<code>R dataset</code>, <code>RData File</code>, <code>Library</code>).</li>
+</ul>
+<p>Для тестирования моделей исходные данные могут быть разделены на обучающую, проверочную и экзаменационную последовательности (на рисунке это соотношение составляет 75/15/15 процентов и может быть изменено в любом соотношении).</p>
+<p>Список переменных выводится в нижней части окна и можно определить их роль в дальнейших действиях: они могут быть предикторами, откликом (<code>Target</code>), а также соответствовать весам (<code>Weight</code>), так называемым “переменным риска” (<code>Risk</code>), или игнорироваться (<code>Ignore</code>).</p>
 
 </div>
             </section>
@@ -267,8 +255,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="105-Cohonen-Maps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="112-Descriptive-Stats.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="091-Data-Transformation.html">
+<link rel="next" href="093-Comparing-Diagrams.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,37 +228,108 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_9_2" class="section level2">
+<h2><span class="header-section-number">9.2</span> Непараметрический дисперсионный анализ матриц дистанций</h2>
+<p>Результаты наблюдений, представленные в виде многомерной таблицы объемом <span class="math inline">\(m \times p\)</span>, обычно можно разделить по строкам на r групп, (например, в соответствии со списком регионов, где оценивается покупательский спрос, или шириной водотока, где выполняются гидробиологические пробы). Тогда, в соответствии с моделью дисперсионного анализа, общую изменчивость каждого <span class="math inline">\(k\)</span>-го фиксированного показателя <span class="math inline">\(x_k, \, (k = 1, 2, \dots, p)\)</span> можно разложить на компоненты</p>
+<p><span class="math display">\[\text{Var}(x_k) = \text{Var}(\tau) + \text{Var}(\epsilon),\]</span></p>
+<p>где <span class="math inline">\(\text{Var}(\tau)\)</span> - вариация, обусловленная влиянием группирующего фактора, <span class="math inline">\(\text{Var}(\epsilon)\)</span> - изменчивость, связанная с воздействием неконтролируемых (в том числе случайных) факторов.</p>
+<p>Однако, если количество <span class="math inline">\(p\)</span> одновременно варьируемых показателей велико (например, номенклатура из 300-400 продаваемых товаров), то дисперсионный анализ не дает возможности оценить совокупную изменчивость всего изучаемого многомерного комплекса объектов под воздействием группирующего фактора. Один из приемов избежать “проклятия размерности” - выполнить дисперсионный анализ симметричной матрицы <span class="math inline">\(\mathbf{D}\)</span> размерностью <span class="math inline">\(m \times m\)</span>, элементами <span class="math inline">\(d_{ij}\)</span> которой являются коэффициенты расстояния между каждой парой изучаемых объектов <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>.</p>
+<p>Метод, известный как <em>непараметрический многофакторный дисперсионный анализ</em> (npMANOVA), осуществляет разложение многомерной изменчивости, заключенной в матрице расстояний, в соответствии с уровнями влияния изучаемых факторов. В первом приближении, как это показано на рис. <a href="092-Distance-ANOVA.html#fig:fig-9-1">9.1</a>, можно рассчитать общую <span class="math inline">\(SS_T\)</span> и внутригрупповую <span class="math inline">\(SS_W\)</span> суммы квадратов <span class="math inline">\(d_{ij}\)</span>, после чего оценить их дисперсионное отношение:</p>
+<p><span class="math display">\[SS_T = \frac{1}{m}\sum_{i=1}^{m-1} \sum_{j=i+1}^m d_{ij}; \, \, SS_W = \frac{1}{r}\sum_{i=1}^{m-1} \sum_{j=i+1}^m d_{ij} \omega_{ij}; \, \, F = \frac{SS_W(m-r)}{SS_T(r-1)}, \quad (9.2)\]</span></p>
+<p>где <span class="math inline">\(\omega_{ij} = 1\)</span>, если объекты <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> принадлежат одной группе, и <span class="math inline">\(0\)</span> в противном случае (Anderson, 2001).</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-1"></span>
+<img src="figures/distances.png" alt="Схема группировки матрицы расстояний" width="640px" />
+<p class="caption">
+Рисунок 9.1: Схема группировки матрицы расстояний
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>Более корректный способ вычисления тестовой статистики <span class="math inline">\(F\)</span> использует ряд конструкций линейной модели ANOVA (McArdle, Anderson, 2001). При применении этого подхода на основе исходной матрицы расстояний <span class="math inline">\(\mathbf{D}\)</span> с использованием преобразований Гувера рассчитывается матрица <span class="math inline">\(\mathbf{G}\)</span>, описывающая “центроиды”, т. е. центры распределения значений <span class="math inline">\(d_{ij}\)</span> в пределах каждой группы. Другая проекционная матрица <span class="math inline">\(\mathbf{H}\)</span> (или “шляпа”, hat) вычисляется с использованием вектора ортогональных контрастов, связанных с уровнями группировочных факторов. Тогда тестовая статистика для проверки нулевой гипотезы об отсутствии различий между <span class="math inline">\(r\)</span> группами, или псевдо-<span class="math inline">\(F\)</span>-критерий, находят как</p>
+<p><span class="math display">\[F = \frac{tr(\mathbf{HGH})(m-r)}{tr[(\mathbf{I - H})\mathbf{G}(\mathbf{I - H})](r-1)}, \quad (9.3)\]</span></p>
+<p>где <span class="math inline">\(tr\)</span> - сумма диагональных элементов матрицы, <span class="math inline">\(\mathbf{I}\)</span> - единичная матрица. При выполнении требований к конфигурации данных и использовании евклидова расстояния обе формулы (9.2) и (9.3) становятся эквивалентными и воспроизводят традиционное дисперсионное отношение Фишера.</p>
+<p>Распределение многомерной псевдо-<span class="math inline">\(F\)</span>-статистики (9.2-9.3) при справедливости нулевой гипотезы теоретически неизвестно, и поэтому для его аппроксимации используется рандомизационная процедура. Ее практическая стратегия состоит в том, чтобы получить большое подмножество значений <span class="math inline">\(F^*\)</span>, извлеченных случайно, независимо и с равной вероятностью из нуль-распределения <span class="math inline">\(\boldsymbol{F^*}\)</span>, полученного в результате многократного хаотичного перемешивания наблюдений относительно выделенных групп. <span class="math inline">\(Р\)</span>-значение, соответствующее верной нулевой гипотезе, вычисляется как доля значений <span class="math inline">\(F^*\)</span>, которые больше или равны значению <span class="math inline">\(F\)</span>, найденному на реальных данных.</p>
+<p>Непараметрический дисперсионный анализ Андерсона реализован в пакетах TraMineR (см. раздел <a href="055-Traminer.html#sec_5_5">5.5</a>) или vegan функцией</p>
+<p><code>adonis(formula, data, permutations = 999, method = &quot;bray&quot;)</code>,</p>
+<p>где объект <code>formula</code> чаще всего имеет форму <code>Y ~ A + B*C</code>, в которой <code>Y</code> - таблица исходных данных, которая пересчитывается в матрицу дистанций по выражению <code>method</code>, а <code>A</code>, <code>B</code> и <code>C</code> - независимые (“объясняющие”) факторы или непрерывные переменные. Если факторные пространства являются непересекающимися по какому-то показателю, то, указав его в качестве параметра <code>strata</code>, можно выполнить гнездовой дисперсионный анализ (nested ANOVA).</p>
+<p>Рассмотрим проведение анализа на примере таблицы <code>dune</code>, которая содержит данные по 20 пробным участкам, заложенным в дюнах одного датского острова, на которых было обнаружено 30 видов луговой травянистой растительности. Обилие каждого вида оценивалось в баллах проективного покрытия от 0 до 7. Параллельно для каждого участка измерялась толщина гумусового слоя почвы <code>A1</code> и оценивалась одна из 4-х категорий <code>Management</code> агротехнических мероприятий по улучшению травостоя (таблица <code>dune.env</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vegan)
+<span class="kw">data</span>(dune)
+<span class="kw">data</span>(dune.env)
+(results &lt;-<span class="st"> </span><span class="kw">adonis</span>(dune ~<span class="st"> </span>Management*A1, <span class="dt">data =</span> dune.env, <span class="dt">permutations =</span> <span class="dv">499</span>))</code></pre></div>
+<pre><code>## 
+## Call:
+## adonis(formula = dune ~ Management * A1, data = dune.env, permutations = 499) 
+## 
+## Permutation: free
+## Number of permutations: 499
+## 
+## Terms added sequentially (first to last)
+## 
+##               Df SumsOfSqs MeanSqs F.Model      R2 Pr(&gt;F)   
+## Management     3    1.4686 0.48953  3.2629 0.34161  0.002 **
+## A1             1    0.4409 0.44089  2.9387 0.10256  0.034 * 
+## Management:A1  3    0.5892 0.19639  1.3090 0.13705  0.240   
+## Residuals     12    1.8004 0.15003         0.41878          
+## Total         19    4.2990                 1.00000          
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Традиционная таблица дисперсионного анализа полученных результатов показывает статистическую значимость обоих основных факторов и незначимость эффекта их парного взаимодействия. Например, <span class="math inline">\(р\)</span>-значение, равное 0.018, означает, что только в 9 случаях из 500 имитируемое значение <span class="math inline">\(F^*\)</span>, полученное при справедливости нулевой гипотезы, превысило значение <span class="math inline">\(F\)</span>, вычисленное по (9.3) для эмпирических данных.</p>
+<p>Для однофакторного дисперсионного анализа и оценки однородности многомерной вариации в группах наблюдений удобно использовать также другую функцию <code>vegan</code> - <code>betadisper()</code>, на вход которой подается произвольная матрица дистанций <code>d</code>. Выполним расчеты с применением этой функции на основе группировочного фактора <code>group = Management</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">D &lt;-<span class="st"> </span><span class="kw">vegdist</span>(dune)  
+<span class="co">#  Предварительно рассчитываем матрицу расстояний Брея-Кёртиса D &lt;- vegdist(dune)  </span>
+mod &lt;-<span class="st"> </span><span class="kw">betadisper</span>(D, dune.env$Management,  <span class="dt">type =</span> <span class="st">&quot;centroid&quot;</span>)
+<span class="kw">plot</span>(mod, <span class="dt">hull =</span> <span class="ot">FALSE</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="kw">levels</span>(dune.env$Management), <span class="dt">pch =</span> <span class="dv">1</span>:<span class="dv">4</span>, <span class="dt">col =</span> <span class="dv">1</span>:<span class="dv">4</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-2"></span>
+<img src="092-Distance-ANOVA_files/figure-html/fig-9-2-1.png" alt="Центроиды групп в пространстве двух главных координат" width="576" />
+<p class="caption">
+Рисунок 9.2: Центроиды групп в пространстве двух главных координат
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">202</span>)
+<span class="co"># Выполнение рандомизационного теста и парных сравнений</span>
+<span class="kw">permutest</span>(mod, <span class="dt">pairwise =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## 
+## Permutation test for homogeneity of multivariate dispersions
+## Permutation: free
+## Number of permutations: 999
+## 
+## Response: Distances
+##           Df  Sum Sq  Mean Sq      F N.Perm Pr(&gt;F)  
+## Groups     3 0.12457 0.041525 3.8687    999  0.038 *
+## Residuals 16 0.17174 0.010733                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Pairwise comparisons:
+## (Observed p-value below diagonal, permuted p-value above diagonal)
+##           BF        HF        NM    SF
+## BF           0.3490000 0.0050000 0.220
+## HF 0.3698273           0.0050000 0.276
+## NM 0.0047822 0.0040127           0.219
+## SF 0.2094850 0.2982378 0.2391828</code></pre>
+<p>В целом перестановочный тест показал значимое (р = 0.038) влияние агротехнических мероприятий на вариацию видов растительности. Однако выполненные парные сравнения выявили значимые отличия только для метода <code>NM</code> (оставить луга в естественном состоянии) от биологического <code>BF</code> или рекреационного <code>HF</code> вмешательства. Относительные расстояния между центроидами групп можно приблизительно оценить по ординационной диаграмме (рис. <a href="092-Distance-ANOVA.html#fig:fig-9-2">9.2</a>).</p>
+<p>Для выполнения множественных сравнений наиболее распространённым и рекомендуемым в литературе является тест Тьюки, использующий критерий “подлинной” значимости (Honestly Significant Difference, HSD). HSD оценивает наименьшую величину разности математических ожиданий в группах, которую можно считать значимой. Тест Тьюки-HSD реализуется в R для модели betadisper с использованием базовой функции <code>TukeyHSD()</code>. На рис. <a href="092-Distance-ANOVA.html#fig:fig-9-3">9.3</a> представлены рассчитанные этой функцией одновременные 95%-ные доверительные интервалы разности между каждой парой групп. Поскольку этот интервал не включает 0 только для одной сравниваемой пары (<code>NM–BF</code>), то значимые различия в видовом составе растительности имеются лишь между этими группами.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#   Тест Тьюки HSD и график доверительных интервалов</span>
+(mod.HSD &lt;-<span class="st"> </span><span class="kw">TukeyHSD</span>(mod))</code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = distances ~ group, data = df)
+## 
+## $group
+##              diff          lwr        upr     p adj
+## HF-BF  0.04968632 -0.166780227 0.26615286 0.9116492
+## NM-BF  0.21678406  0.007191225 0.42637689 0.0413759
+## SF-BF  0.13061809 -0.078974740 0.34021092 0.3167622
+## NM-HF  0.16709774 -0.012386839 0.34658232 0.0726265
+## SF-HF  0.08093177 -0.098552804 0.26041635 0.5819039
+## SF-NM -0.08616596 -0.257297794 0.08496586 0.4938236</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(mod.HSD)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-3"></span>
+<img src="092-Distance-ANOVA_files/figure-html/fig-9-3-1.png" alt="Множественные сравнения методов улучшения травостоя с использованием критерия HSD Тьюки" width="672" />
+<p class="caption">
+Рисунок 9.3: Множественные сравнения методов улучшения травостоя с использованием критерия HSD Тьюки
+</p>
 </div>
 
 </div>
@@ -267,8 +338,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="091-Data-Transformation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="093-Comparing-Diagrams.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

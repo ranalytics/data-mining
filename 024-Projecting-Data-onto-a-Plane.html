@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="023-Models-for-Class-Prediction.html">
+<link rel="next" href="025-MV-analysis.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,47 +228,149 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
-</div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<div id="sec_2_4" class="section level2">
+<h2><span class="header-section-number">2.4</span> Проецирование многомерных данных на плоскости</h2>
+<p><em>Многомерный анализ</em> (Кендалл, Стьюарт, 1976) представляет собой часть статистики, которая выполняет обработку и интерпретацию результатов, полученных на основе наблюдений одновременно нескольких взаимосвязанных случайных переменных, каждая из которых представляется одинаково важной, по крайней мере, первоначально. В случае, если данные измерены в метрических шкалах и предполагаются линейные отношения между переменными, то в анализе применяются многомерные статистические методы, основанные на операциях матричной алгебры.</p>
+<p>Во многих задачах обработки многомерных наблюдений исследователя интересует, в первую очередь, возможность снижения размерности, т.е. способ выделения небольшого набора исходных признаков или их линейных комбинаций, которые в наибольшей степени объясняют изменчивость наблюдаемых объектов. Это обусловлено следующими тремя причинами: а) возможностью наглядного представления (визуализация и ординация); б) стремлению к лаконизму исследуемых моделей и в) необходимостью сжатия объемов информации (Айвазян и др., 1989).</p>
+<p>Принцип <em>ординации наблюдений</em> (нем. Ordnung) заключается в использовании различных методов оптимального целенаправленного проецирования (projecting pursuit) облака точек из многомерного пространства в пространство малой размерности (с 2 или 3 осями координат). Для этого используются различные методы или их модификации, но в целом сущность ординации заключается в представлении исходной матрицы данных <span class="math inline">\(\mathbf Y\)</span> в виде совокупности <span class="math inline">\(p\)</span> латентных переменных <span class="math inline">\(\mathbf F\)</span>: <span class="math display">\[Y_1, Y_2, \dots, Y_m \Rightarrow F_1, F_2, \dots, F_p,\]</span> которые и являются осями ординационной диаграммы (двумерной при <span class="math inline">\(р = 2\)</span> или трехмерной в случае с тремя такими латентными переменными). Выбор осей ординации осуществляется с использованием принципа оптимальности: стремления достичь минимума потерь содержательной информации, имеющейся в исходных данных.</p>
+<p>Как правило, первая ось <span class="math inline">\(F_1\)</span> проводится через центр сгущения значений <span class="math inline">\(y_{ij}\)</span> и совпадает с направлением наибольшей по длине оси эллипсоида рассеяния. Вторая ось <span class="math inline">\(F_2\)</span>, также проходит через центр распределения, но проводится перпендикулярно к первой и совпадает по направлению со второй из главных полуосей эллипсоида рассеяния. Эта операция обеспечивает формирование “картинки” данных с минимально возможными искажениями, а новые обобщающие переменные <span class="math inline">\(F_1\)</span> и <span class="math inline">\(F_2\)</span> становятся ортогональными (т.е. взаимно некоррелированными, независимыми).</p>
+<p>Большинство методов снижения размерности основано на анализе собственных значений и собственных векторов, который является важнейшим разделом линейной (матричной) алгебры. В кратком изложении суть преобразований <span class="math inline">\(\mathbf Y \Rightarrow \mathbf F\)</span> заключается в следующем:</p>
+<ol style="list-style-type: decimal">
+<li>Нахождение собственных значений и собственных векторов осуществляется в ходе математической операции линейного преобразования квадратной симметричной матрицы C размерностью <span class="math inline">\(m\)</span>. Это может быть любая матрица дистанций, но чаще всего используется дисперсионно-ковариационная матрица <span class="math inline">\(\mathbf C = \mathbf Y&#39; \mathbf Y /(n - 1)\)</span> стандартизованных исходных данных.</li>
+<li>Coбственными значениями квадратной матрицы <span class="math inline">\(\mathbf C\)</span> называются такие значения <span class="math inline">\(\lambda_k\)</span>, при которых система <span class="math inline">\(m\)</span> уравнений вида <span class="math inline">\((\mathbf{C} - \lambda_k \mathbf{I})\mathbf{u}_k = \mathbf{0}\)</span> имеет нетривиальное решение. Здесь <span class="math inline">\(\mathbf{u}_k\)</span> - собственные векторы матрицы <span class="math inline">\(\mathbf{C}\)</span>, соответствующие <span class="math inline">\(\lambda_k\)</span>, <span class="math inline">\(k = 1, 2, \dots, m\)</span>, <span class="math inline">\(\mathbf{I}\)</span> - единичная матрица.</li>
+<li>Матрица из <span class="math inline">\(k\)</span> собственных векторов <span class="math inline">\(\mathbf{U}_k\)</span> представляет собой веса для пересчета из исходного в редуцированное информационное пространство, т.е. матрицы переменных <span class="math inline">\(\mathbf Y\)</span> и <span class="math inline">\(\mathbf F\)</span> связаны соотношением <span class="math inline">\(\mathbf{F}_{n \times k} = \mathbf{Y}_{n \times m} \mathbf{U}_{m \times k}\)</span>.</li>
+<li>Каждое собственное значение <span class="math inline">\(\lambda_k\)</span> соответствует величине дисперсии, объясняемой на <span class="math inline">\(k\)</span>-м уровне, т.е. сумма всех собственных значений будет равняться сумме дисперсий всех исходных переменных.</li>
+<li>Ряд собственных значений обычно ранжируется от самого большого до минимального: первое собственное значение <span class="math inline">\(\lambda_1\)</span>, объясняющее наибольшую долю вариации данных, часто называют “доминирующим” или “ведущим”. Значения <span class="math inline">\(\lambda_1\)</span> и <span class="math inline">\(\lambda_2\)</span> определяют меру значимости осей <span class="math inline">\(F_1\)</span> и <span class="math inline">\(F_2\)</span> ординационной диаграммы, т.е. концентрацию исходных точек вдоль каждой оси и, в итоге, ее выраженность.</li>
+<li>Собственные значения <span class="math inline">\(\lambda_k\)</span> находят в ходе итерационной процедуры, и точность их вычисления зависит от степени обусловленности исходной матрицы <span class="math inline">\(\mathbf C\)</span>.</li>
+</ol>
+<p>Классическим методом снижения размерности данных является анализ главных компонент (PCA, Principal Components Analysis), который широко используется в различных областях науки и техники и детально описан в многочисленных руководствах (ter Braak, 1983; Айвазян и др., 1989; Джонгман и др., 1999; Legendre, Legendre, 2012).</p>
+<p>Снижение размерности исходного пространства методом PCA можно представить как последовательный, итеративный процесс, который можно оборвать на любом шаге <span class="math inline">\(u\)</span>. Вследствие ортогональности системы координат главных компонент (т.е. фактически, их взаимной независимости) нет необходимости перестраивать матрицы счетов (scores) <span class="math inline">\(\mathbf F\)</span> и нагрузок (loadings) <span class="math inline">\(\mathbf U\)</span> при изменении числа компонент: последующие столбцы или строки просто прибавляются или отбрасываются.</p>
+<p>Используем в качестве примера идентификацию типа оконных стекол (Glass Identification) по выборке, представленный в коллекции баз данных <a href="http://archive.ics.uci.edu/ml/">UCI Machine Learning Repository</a>. Существует два основных способа производства листового стекла: горизонтальный на расплаве олова (флэш-стекло) и по принципу вертикального вытягивания. Термически полированное флэш-стекло отличается идеально глянцевой поверхностью, высокой светопропускающей способностью и великолепными оптическими свойствами, исключающими искажение изображения.</p>
+<p>В ходе криминалистической экспертизы мельчайших осколков стекла можно определить их оптическую рефракцию (<code>RI</code>) и сделать химический анализ содержания окислов основных элементов. Ставится вопрос, можно ли по этим данным выполнить прогноз типа производства стекла <code>Сlass</code>. Исходные данные представлены в файле <code>Glass.txt</code><a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> и можно предварительно рассмотреть описательные статистики отдельных переменных:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;data/Glass.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>,
+                     <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">t</span>(<span class="kw">apply</span>(DGlass[, -<span class="dv">10</span>], <span class="dv">2</span>, function(x) {
+<span class="kw">c</span>(Минимум =<span class="st"> </span><span class="kw">min</span>(x), Максимум =<span class="st"> </span><span class="kw">max</span>(x),
+        Среднее =<span class="st"> </span><span class="kw">mean</span>(x), Отклонение =<span class="st"> </span><span class="kw">sd</span>(x),
+        Корреляция =<span class="st"> </span><span class="kw">cor</span>(x, DGlass$Class))  <span class="co"># признаков с Class</span>
+})), <span class="dv">3</span>)</code></pre></div>
+<pre><code>##    Минимум Максимум Среднее Отклонение Корреляция
+## RI    1.51     1.53  1.5186    0.00305    -0.0601
+## Na   10.73    14.86 13.2017    0.58830     0.0186
+## Mg    0.00     4.49  3.2949    0.88778    -0.1462
+## Al    0.29     2.12  1.2817    0.32374     0.1998
+## Si   69.81    74.45 72.5869    0.64117    -0.0785
+## K     0.00     1.10  0.4775    0.21873     0.0386
+## Ca    7.08    16.19  8.9247    1.37263     0.0446
+## Ba    0.00     3.15  0.0298    0.25353     0.0312
+## Fe    0.00     0.37  0.0676    0.09951     0.0532</code></pre>
+<p>В среде R расчет главных компонент может быть осуществлен с использованием функций <code>princomp()</code> или <code>prcomp()</code>, но мы будем ориентироваться на многообразие возможностей пакета <code>vegan()</code> и его функцию <code>rda()</code>. Протокол анализа ограничим четырьмя главными компонентами, объясняющими 98% общей вариации данных:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vegan)
+Y &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>])
+mod.pca &lt;-<span class="st"> </span>vegan::<span class="kw">rda</span>(Y ~<span class="st"> </span><span class="dv">1</span>)
+<span class="kw">head</span>(<span class="kw">summary</span>(mod.pca))</code></pre></div>
+<pre><code>## 
+## Call:
+## rda(formula = Y ~ 1) 
+## 
+## Partitioning of variance:
+##               Inertia Proportion
+## Total           3.656          1
+## Unconstrained   3.656          1
+## 
+## Eigenvalues, and their contribution to the variance 
+## 
+## Importance of components:
+##                          PC1    PC2     PC3     PC4     PC5     PC6
+## Eigenvalue            2.6056 0.5828 0.21129 0.18895 0.04308 0.01403
+## Proportion Explained  0.7126 0.1594 0.05779 0.05168 0.01178 0.00384
+## Cumulative Proportion 0.7126 0.8720 0.92984 0.98152 0.99330 0.99714
+##                            PC7      PC8       PC9
+## Eigenvalue            0.008907 0.001562 6.952e-07
+## Proportion Explained  0.002440 0.000430 0.000e+00
+## Cumulative Proportion 0.999570 1.000000 1.000e+00
+## 
+## Scaling 2 for species and site scores
+## * Species are scaled proportional to eigenvalues
+## * Sites are unscaled: weighted dispersion equal on all dimensions
+## * General scaling constant of scores:  4.93332 
+## 
+## 
+## Species scores
+## 
+##          PC1       PC2       PC3        PC4        PC5        PC6
+## RI -0.006663  0.003040 -0.001587 -0.0007297  0.0005398  9.075e-05
+## Na  0.461583  1.180084  0.833131  0.0499341  0.0109644  2.782e-03
+## Mg  2.037591  0.659746 -0.616211 -0.5223737 -0.0598691  4.080e-02
+## Al  0.240546 -0.337483 -0.107770  0.6588300 -0.2282742  1.616e-01
+## Si  0.691702 -1.339222  0.458279 -0.4986449  0.0521649  4.062e-02
+## K   0.265988 -0.302647 -0.111021  0.2512089 -0.1346813 -2.370e-01
+## Ca -3.512043  0.228783 -0.158561 -0.3491594 -0.0734353  2.515e-02
+## Ba -0.190199 -0.009844 -0.267021  0.3372595  0.4523324  1.708e-02
+## Fe -0.039086 -0.017137 -0.046526  0.0299297  0.0074709 -8.279e-02
+## 
+## 
+## Site scores (weighted sums of species scores)
+## 
+##         PC1      PC2      PC3      PC4       PC5      PC6
+## 1    0.1468  0.65354 -0.45248 -0.29870 -0.042920  0.93669
+## 2    0.2831  0.14066  0.44579  0.17972  0.156651  0.10489
+## 3    0.2893 -0.07868  0.33811  0.17331  0.112400  0.71176
+## 4    0.1923  0.01262 -0.08129  0.03596  0.003594 -0.17275
+## 5    0.2337 -0.14621  0.16040 -0.10747  0.193631 -0.07327
+## 6    0.2215 -0.29717 -0.20023  0.14445 -0.180684  0.05884
+## ....</code></pre>
+<p>Рассмотрим, какую конфигурацию имеет распределение наблюдений в пространстве первых двух главных компонент <code>PC1</code> и <code>PC2</code>. Наибольший интерес для нас представляет взаимное расположение сгущений точек, принадлежащих стеклам двух типов: <code>Class = {1, 3}</code> - оконное и автомобильное флэш-стекло, и <code>Class = 2</code> - тянутое стекло. Выполним построение ординационной диаграммы с использованием пакета <code>ggplot2</code> (рис. <a href="025-MV-analysis.html#fig:fig-2-11">2.11</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FAC &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(DGlass$Class ==<span class="st"> </span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>))
+pca.scores &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">summary</span>(mod.pca)$sites[, <span class="dv">1</span>:<span class="dv">2</span>])
+pca.scores &lt;-<span class="st"> </span><span class="kw">cbind</span>(pca.scores, FAC)
 
+<span class="co"># Составляем таблицу для &quot;каркаса&quot; точек на графике:</span>
+l &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">unique</span>(pca.scores$FAC), function(c) 
+         { f &lt;-<span class="st"> </span><span class="kw">subset</span>(pca.scores, FAC ==<span class="st"> </span>c); f[<span class="kw">chull</span>(f), ]})
+hull &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, l)
+
+<span class="co"># Включаем в названия осей доли объясненной дисперсии:</span>
+axX &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;PC1 (&quot;</span>, <span class="kw">as.integer</span>(<span class="dv">100</span>*mod.pca$CA$eig[<span class="dv">1</span>]/<span class="kw">sum</span>(mod.pca$CA$eig)), <span class="st">&quot;%)&quot;</span>)
+axY &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;PC2 (&quot;</span>, <span class="kw">as.integer</span>(<span class="dv">100</span>*mod.pca$CA$eig[<span class="dv">2</span>]/<span class="kw">sum</span>(mod.pca$CA$eig)), <span class="st">&quot;%)&quot;</span>)
+
+<span class="co"># Выводим ординационную диаграмму:</span>
+<span class="kw">ggplot</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> hull, 
+               <span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">fill =</span> FAC), <span class="dt">alpha =</span> <span class="fl">0.4</span>, <span class="dt">linetype =</span> <span class="dv">0</span>) +<span class="st">  </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> pca.scores, 
+             <span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">shape =</span> FAC, <span class="dt">colour =</span> FAC), <span class="dt">size =</span> <span class="dv">3</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;purple&#39;</span>, <span class="st">&#39;blue&#39;</span>)) +
+<span class="st">  </span><span class="kw">xlab</span>(axX) +<span class="st"> </span><span class="kw">ylab</span>(axY) +<span class="st"> </span><span class="kw">coord_equal</span>() +<span class="st"> </span><span class="kw">theme_bw</span>()</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-10"></span>
+<img src="024-Projecting-Data-onto-a-Plane_files/figure-html/fig-2-10-1.png" alt="Ординационная диаграмма, построенная методом PCA" width="768" />
+<p class="caption">
+Рисунок 2.10: Ординационная диаграмма, построенная методом PCA
+</p>
+</div>
+<p>Заметим, что для выделения наблюдений каждого класса на диаграммах обычно применяются четыре вспомогательных графических объекта: а) “каркас” (hull) или контур, проводимый через крайние точки, как мы это выполнили на рис. <a href="024-Projecting-Data-onto-a-Plane.html#fig:fig-2-10">2.10</a>; б) эллипс, ограничивающий, например, 95% наблюдений; в) точка центроида или “центра тяжести” облака точек; г) “паук” (spider), т.е. набор линий, соединяющих каждую точку с центроидом своего класса.</p>
+<p>По существу расчетов можно отметить следующее:</p>
+<ul>
+<li>первая главная компонента объясняет 71% совокупной дисперсии в данных, а <span class="math inline">\(F_1\)</span> и <span class="math inline">\(F_2\)</span> совместно - 87%, что является вполне обнадеживающим результатом;</li>
+<li>ось <code>РС1</code> в значительной мере определяется содержанием магния и кальция, а ось <code>РС2</code> - концентрациями натрия и кремния;</li>
+<li>диаграмма на рис. <a href="024-Projecting-Data-onto-a-Plane.html#fig:fig-2-10">2.10</a> показывает, что химический состав флэш-стекла в целом не отличается от тянутого, но для него не характерно повышенное содержание кальция (точки левее <code>РС1 = -0.5</code>).</li>
+</ul>
+<p>Итак, ординация показала, что облака точек обоих классов являются плохо разделяемыми. Обратим внимание, что в расчетах не использовался такой ключевой показатель, как тип производства стекла, известный нам по примерам обучающей выборки.</p>
+
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p>Этот файл можно найти в <a href="https://github.com/ranalytics/data-mining">репозитории</a> с приложениями к книге.<a href="024-Projecting-Data-onto-a-Plane.html#fnref3">↩</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="023-Models-for-Class-Prediction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="025-MV-analysis.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

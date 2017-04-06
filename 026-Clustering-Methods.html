@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="025-MV-analysis.html">
+<link rel="next" href="031-Intro-to-Caret.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,47 +228,124 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_2_6" class="section level2">
+<h2><span class="header-section-number">2.6</span> Методы кластеризации</h2>
+<p>В разделах <a href="024-Projecting-Data-onto-a-Plane.html#sec_2_4">2.4</a>-<a href="025-MV-analysis.html#sec_2_5">2.5</a> мы рассмотрели две процедуры: <em>необъясненная</em> (непрямая) ординация наблюдений, при которой конфигурация точек определяется случайной вариацией данных и не связывается с какими-либо внешними причинами, и <em>прямая</em> ординация с использованием объясняющих переменных (в рассмотренном примере - способ изготовления стекла). Ранжирование, непрямая ординация и кластеризация представляют собой совокупность методов обучения без учителя, основанных, как правило, на анализе расстояний между всеми возможными парами объектов в пространстве наблюдаемых независимых признаков. Такой подход, основанный на минимально возможном искажении исходной взаимной упорядоченности точек, обеспечивает наглядное графическое представление геометрической метафоры исследуемых объектов.</p>
+<p>Под <em>кластеризацией</em> (от англ. cluster - гроздь, скопление) понимается задача разбиения всей исходной совокупности элементов на отдельные группы однородных объектов, сходных между собой, но имеющих отчетливые отличия этих групп друг от друга. Пусть <span class="math inline">\(d(х_i, х_j)\)</span> - некоторая мера близости между каждой парой классифицируемых объектов <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span>. В качестве таковой может использоваться любая полезная функция: евклидово или манхэттенское расстояние, коэффициент корреляции Пирсона, расстояние <span class="math inline">\(\chi^2\)</span>, коэффициенты сходства Жаккара, Съеренсена, Ренконена и многие другие.</p>
+<p>Наиболее часто применяется агломеративный иерархический алгоритм “дендрограмма”, отдельные версии которого отличаются правилами вычисления расстояния между кластерами. Дендрограммы просты в интерпретации и предоставляют полную информацию о соподчиненности всех классифицируемых объектов. Иногда они просто встраиваются в другие, более общие графики (например, “тепловые карты”), расширяя их понимание и возможность интерпретации.</p>
+<p>Рассмотрим в качестве примера набор данных <code>USArrests</code> о криминогенной обстановке по штатам США (из пакета <code>cluster</code>). С помощью тепловой карты, представленной на рис. рис. <a href="026-Clustering-Methods.html#fig:fig-2-12">2.12</a>, можно: а) разбить 50 штатов США на группы по криминальной напряженности, б) установить характер взаимосвязи между числом арестованных за убийство (<code>Murder</code>), изнасилование (<code>Rape</code>), разбой (<code>Assault</code>), а также долей городских жителей (<code>UrbanPop</code>) и, наконец, в) убедиться в том, что число изнасилований в Аляске много меньше, чем в Род-Айленде.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cluster)
+<span class="kw">data</span>(<span class="st">&quot;USArrests&quot;</span>)
+x =<span class="st"> </span><span class="kw">as.matrix</span>(USArrests)
+rc &lt;-<span class="st"> </span><span class="kw">rainbow</span>(<span class="kw">nrow</span>(x), <span class="dt">start =</span> <span class="dv">0</span>, <span class="dt">end =</span> .<span class="dv">3</span>)
+cc &lt;-<span class="st"> </span><span class="kw">rainbow</span>(<span class="kw">ncol</span>(x), <span class="dt">start =</span> <span class="dv">0</span>, <span class="dt">end =</span> .<span class="dv">3</span>)
+hv &lt;-<span class="st"> </span><span class="kw">heatmap</span>(x,  <span class="dt">scale =</span> <span class="st">&quot;col&quot;</span>,  <span class="dt">RowSideColors =</span> rc,
+           <span class="dt">ColSideColors =</span> cc, <span class="dt">margins =</span> <span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">10</span>),
+           <span class="dt">cexCol =</span> <span class="fl">1.5</span>, <span class="dt">cexRow =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-12"></span>
+<img src="026-Clustering-Methods_files/figure-html/fig-2-12-1.png" alt="Пример тепловой карты с дендрограммами" width="768" />
+<p class="caption">
+Рисунок 2.12: Пример тепловой карты с дендрограммами
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>Однако существенным недостатком иерархических методов является их детерминированность: объединение классов на более высоком уровне полностью определяется результатами агломерации на нижних уровнях. Для оценки того, какой из вариантов кластеризации в наибольшей степени отражает близость объектов в исходном признаковом пространстве, могут быть использованы кофенетическая корреляция (cophenetic correlation) или различные ранговые индексы.</p>
+<p>Кроме иерархических методов классификации большое распространение также получили различные итерационные процедуры, которые пытаются найти наилучшее разбиение, ориентируясь на заданный критерий оптимизации, не строя при этом полного дерева. Наиболее популярный неиерархический алгоритм - метод <span class="math inline">\(k\)</span> средних Мак-Кина, в котором сам пользователь должен задать искомое число конечных кластеров, обозначаемое как “<span class="math inline">\(k\)</span>”. Его главным преимуществом является возможность обрабатывать очень большие массивы данных, поскольку нет необходимости хранить в памяти компьютера всю матрицу расстояний целиком.</p>
+<p>Выполним разбиение 50 штатов на 5 классов по степени их криминализации:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df.stand &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">scale</span>(USArrests))
+(clus &lt;-<span class="st"> </span><span class="kw">kmeans</span>(df.stand, <span class="dt">centers =</span> <span class="dv">5</span>))</code></pre></div>
+<pre><code>## K-means clustering with 5 clusters of sizes 5, 8, 13, 15, 9
+## 
+## Cluster means:
+##       Murder    Assault   UrbanPop        Rape
+## 1 -1.1176648 -1.2258563 -1.6124616 -1.23334676
+## 2  1.4118898  0.8743346 -0.8145211  0.01927104
+## 3  0.6950701  1.0394414  0.7226370  1.27693964
+## 4 -0.5069441 -0.4002992  0.6397341 -0.23901076
+## 5 -0.7931716 -0.9304050 -0.4902018 -0.77805428
+## 
+## Clustering vector:
+##        Alabama         Alaska        Arizona       Arkansas     California 
+##              2              3              3              2              3 
+##       Colorado    Connecticut       Delaware        Florida        Georgia 
+##              3              4              4              3              2 
+##         Hawaii          Idaho       Illinois        Indiana           Iowa 
+##              4              5              3              4              5 
+##         Kansas       Kentucky      Louisiana          Maine       Maryland 
+##              4              5              2              1              3 
+##  Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
+##              4              3              5              2              3 
+##        Montana       Nebraska         Nevada  New Hampshire     New Jersey 
+##              5              5              3              5              4 
+##     New Mexico       New York North Carolina   North Dakota           Ohio 
+##              3              3              2              1              4 
+##       Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
+##              4              4              4              4              2 
+##   South Dakota      Tennessee          Texas           Utah        Vermont 
+##              1              2              3              4              1 
+##       Virginia     Washington  West Virginia      Wisconsin        Wyoming 
+##              4              4              1              5              5 
+## 
+## Within cluster sum of squares by cluster:
+## [1]  2.196512  8.316061 19.922437 14.960324  6.234959
+##  (between_SS / total_SS =  73.7 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;    
+## [5] &quot;tot.withinss&quot; &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;        
+## [9] &quot;ifault&quot;</code></pre>
+<p>Мы видим, что к каждому из пяти кластеров относится от 7 до 13 штатов, причем наибольший криминальный риск имеет место в 3 и 4 группах.</p>
+<p>Любой алгоритм кластеризации может считаться результативным, если выполняется <em>гипотеза компактности</em>, т.е. можно найти такое разбиение объектов на группы, что расстояния между объектами из одной группы (intra-cluster distances) будут меньше некоторого значения <span class="math inline">\(\epsilon &gt; 0\)</span>, а между объектами из разных групп (cross-cluster distance) - больше <span class="math inline">\(\epsilon\)</span>. Можно сформировать таблицу всех этих расстояний как показано ниже:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&#39;reshape2&#39;</span>)
+n &lt;-<span class="st"> </span><span class="kw">dim</span>(df.stand)[[<span class="dv">1</span>]] 
+euc.dist &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">dist</span>(df.stand))
+dist =<span class="st"> </span><span class="kw">melt</span>(euc.dist)
+df.stand$cluster &lt;-<span class="st"> </span>clus$cluster
+pairs &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">dist =</span> dist, 
+                    <span class="dt">ca =</span> <span class="kw">as.vector</span>(<span class="kw">outer</span>(<span class="dv">1</span>:n, <span class="dv">1</span>:n,
+                                         function(a, b) df.stand[a, <span class="st">&#39;cluster&#39;</span>])),
+                    <span class="dt">cb =</span> <span class="kw">as.vector</span>(<span class="kw">outer</span>(<span class="dv">1</span>:n, <span class="dv">1</span>:n,
+                                         function(a, b) df.stand[b, <span class="st">&#39;cluster&#39;</span>])))
+<span class="kw">dcast</span>(pairs, ca ~<span class="st"> </span>cb, <span class="dt">value.var =</span> <span class="st">&#39;dist.value&#39;</span>, mean)</code></pre></div>
+<pre><code>##   ca         1        2        3        4        5
+## 1  1 0.8192236 3.740748 4.651124 2.865534 1.589380
+## 2  2 3.7407483 1.283606 2.556633 2.986930 3.136207
+## 3  3 4.6511236 2.556633 1.584229 2.777835 3.656428
+## 4  4 2.8655340 2.986930 2.777835 1.293573 1.822823
+## 5  5 1.5893797 3.136207 3.656428 1.822823 1.030227</code></pre>
+<p>В полученной таблице по главной диагонали приведены средние внутрикластерные расстояния, которые очевидно меньше, чем межкластерные расстояния (недиагональные элементы таблицы).</p>
+<p>Поскольку объекты таблицы <code>USArrests</code> многомерны, то для вывода ординационной диаграммы выполним свертку информации по 4 имеющимся показателям к двум главным компонентам. После этого можно осуществить визуализацию групп (см. рис. <a href="026-Clustering-Methods.html#fig:fig-2-13">2.13</a>) и “на глаз” оценить качество кластеризации.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c.pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(USArrests, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>) 
+d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x=</span>c.pca$x[, <span class="dv">1</span>], <span class="dt">y=</span>c.pca$x[, <span class="dv">2</span>])
+d$cluster &lt;-<span class="st"> </span>clus$cluster
+<span class="kw">library</span>(<span class="st">&#39;ggplot2&#39;</span>)
+<span class="kw">library</span>(<span class="st">&#39;grDevices&#39;</span>)
+h &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, <span class="kw">lapply</span>(<span class="kw">unique</span>(clus$cluster),
+                           function(c) { f &lt;-<span class="st"> </span><span class="kw">subset</span>(d,cluster==c); f[<span class="kw">chull</span>(f),]}))
+<span class="kw">ggplot</span>() +<span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">data =</span> d, 
+                     <span class="kw">aes</span>(<span class="dt">label =</span> cluster, <span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">color =</span> cluster), 
+                     <span class="dt">size =</span> <span class="dv">3</span>) +
+<span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> h, 
+                 <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">group =</span> cluster, <span class="dt">fill =</span> <span class="kw">as.factor</span>(cluster)),
+                 <span class="dt">alpha =</span> <span class="fl">0.4</span>, <span class="dt">linetype =</span> <span class="dv">0</span>) +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-13"></span>
+<img src="026-Clustering-Methods_files/figure-html/fig-2-13-1.png" alt="Пример кластеризации методом k средних" width="576" />
+<p class="caption">
+Рисунок 2.13: Пример кластеризации методом k средних
+</p>
 </div>
+<p>Другим современным подходом к кластеризации объектов являются алгоритмы типа нечетких <em>C</em>-средних и Гюстафсона-Кесселя (Барсегян и др., 2004), которые ищут кластеры в пространстве нечетких множеств в форме эллипсоидов, что делает эти методы более гибкими при решении различных практических задач. В литературе также описывается множество других методов кластеризации, не использующих матрицы сходств и основанных на оценивании функций плотности статистического распределения, эвристических алгоритмах перебора, идеях математического программирования. Каждый из них имеет специфическую идеологическую основу и подходы к построению критериев качества моделей, которые мы рассмотрим далее в главе <a href="101-Partitioning-Algos.html#ch_10">10</a>.</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="025-MV-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="031-Intro-to-Caret.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="052-Binary-Decision-Trees.html">
+<link rel="next" href="054-Association-Rules-Algos.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,129 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
-</div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<div id="sec_5_3" class="section level2">
+<h2><span class="header-section-number">5.3</span> Поиск логических закономерностей в данных</h2>
+<p>Основное требование к математическому аппарату Data Minning заключается не только в эффективности классификаторов, но и в интерпретируемости результатов. Методы поиска логических закономерностей в бинарных матрицах наблюдений (как и в некоторых классических методах многомерного анализа) апеллируют к информации, заключенной не в отдельных признаках, а в различных сочетаниях их значений. Для признаков, измеренных в альтернативных шкалах, их значения <span class="math inline">\(x_i = 0\)</span> или <span class="math inline">\(x_i = 1\)</span> рассматриваются как элементарные события, что позволяет сформулировать решающие правила на простом и понятном человеку языке логических высказываний, таких как <code>ЕСЛИ {(событие 1) и (событие 2) и ... и (событие N)} ТО ...</code>.</p>
+<p>Так, классификация лиц в рассмотренном примере рис. <a href="051-Association-Rules.html#fig:fig-5-1">5.1</a> может быть произведена, например, с помощью логических высказываний 1 и 2:</p>
+<ol style="list-style-type: decimal">
+<li><code>ЕСЛИ {(голова овальная) и (есть носогубная складка) и (есть очки) и (есть трубка)} ИЛИ {(глаза круглые) и (лоб без морщин) и (есть борода) и (есть серьга)} ТО (&quot;Патриот&quot;)</code></li>
+<li><code>ЕСЛИ {(нос круглый) и (лысый) и (есть усы) и (брови подняты кверху)} ИЛИ {(оттопыренные уши) и (толстые губы) и (нет родинки на щеке) и (есть бабочка)} ТО (&quot;Демократ&quot;)</code>.</li>
+</ol>
+<p>Математическая запись этих правил выглядит следующим образом:</p>
+<p><span class="math display">\[[(x_1=0) \wedge (x_6=1) \wedge (x_{11}=1) \wedge (x_{16}=1)] \vee \\
+[(x_{4}=1) \wedge (x_{5}=0) \wedge (x_{10}=1) \wedge (x_{15}=1)] \Rightarrow \omega_1\]</span></p>
+<p><span class="math display">\[[(x_3=1) \wedge (x_8=0) \wedge (x_9=1) \wedge (x_{14}=1)] \vee\\
+[(x_2=1) \wedge (x_7=1) \wedge (x_{12}=0) \wedge (x_{13}=1)] \Rightarrow \omega_2\]</span>.</p>
+<p>Здесь значки <span class="math inline">\(\vee\)</span> - конъюнкция (“и”), <span class="math inline">\(\wedge\)</span> - дизъюнкция (“или”), <span class="math inline">\(\Rightarrow\)</span> - импликация (“если, то”).</p>
+<p>Будем использовать логический метод распознавания, известный под названием алгоритм “Кора”, который в свое время широко использовался в геологоразведочных работах и скрининге лекарственных препаратов (Бонгард, 1967; Вайнцвайг, 1973). В детерминистической версии алгоритма обучающая выборка <span class="math inline">\(\boldsymbol{x}\)</span>, предварительно разделенная на два класса (1 и 2), многократно просматривается и из всего множества высказываний выделяются так называемые непротиворечивые логические высказывания <span class="math inline">\(\mathbf{\Psi}(\boldsymbol{x}, \tau)\)</span>, покрывающие все множество примеров. Непротиворечивым высказыванием для каждого класса считается конъюнкция, которая встречается с вероятностью не менее <span class="math inline">\(\tau\)</span> только в одном классе и ни разу не встречается в другом.</p>
+<p>Представленный ниже скрипт выполняет перебор всех возможных комбинаций столбцов <span class="math inline">\(x_i\)</span>, <span class="math inline">\(i = 1, \dots, m = 16\)</span>, по 2, 3 и <code>maxKSize = 4</code> с использованием функции <code>combn()</code>. Для каждой комбинации столбцов перебираются все возможные варианты событий (<code>x_i = 0</code> или <code>x_i = 1</code>). Для сокращения объема вычислений подмножества исходной матрицы трансформировались в векторы символьных бинарных переменных, а комбинации значений <span class="math inline">\(x_i\)</span> выражались наборами “битовых масок” (например, <code>&quot;000&quot;</code>, <code>&quot;001&quot;</code>, <code>&quot;010&quot;</code>, <code>&quot;011&quot;</code>, <code>&quot;100&quot;</code>, <code>&quot;101&quot;</code>, <code>&quot;110&quot;</code>, <code>&quot;111&quot;</code>).</p>
+<p>В ходе перебора конъюнкции, отобранные по совокупности условий, будем сохранять в трех глобальных объектах класса <code>list</code>, для чего используем оператор глобального присваивания <code>&lt;&lt;-</code>. Определим предварительно несколько функций:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Преобразование числа в набор битов (5 -&gt; &quot;0101&quot;)</span>
+number2binchar &lt;-<span class="st"> </span>function(number, nBits) {
+    <span class="kw">paste</span>(<span class="kw">tail</span>(<span class="kw">rev</span>(<span class="kw">as.numeric</span>(<span class="kw">intToBits</span>(number))), nBits),
+          <span class="dt">collapse =</span> <span class="st">&quot;&quot;</span>)
+}
+
+<span class="co">#  Поиск конъюнкций по набору битовых масок </span>
+MaskCompare &lt;-<span class="st"> </span>function(Nclass, KSize, BitMask,
+                        vec_pos, vec_neg, ColCom) {
+    nK &lt;-<span class="st"> </span><span class="kw">sapply</span>(BitMask, function(x) {
+        if (<span class="kw">sum</span>(x ==<span class="st"> </span>vec_neg) &gt;<span class="st"> </span><span class="dv">0</span>) <span class="kw">return</span> (<span class="dv">0</span>)
+        if (minNum &gt;<span class="st"> </span>(<span class="dt">countK =</span> <span class="kw">sum</span>(x ==<span class="st"> </span>vec_pos))) <span class="kw">return</span>(<span class="dv">0</span>)
+        <span class="co">#  Cохранение конъюнкции в трех объектах list</span>
+        Value.list[[<span class="kw">length</span>(Value.list) +<span class="st"> </span><span class="dv">1</span>]] &lt;&lt;-
+<span class="st">            </span><span class="kw">list</span>(<span class="dt">Nclass =</span> Nclass, <span class="dt">KSize =</span> KSize, 
+                 <span class="dt">countK =</span> countK, <span class="dt">Bits =</span> x)
+        ColCom.list[[<span class="kw">length</span>(ColCom.list) +<span class="st"> </span><span class="dv">1</span>]] &lt;&lt;-<span class="st"> </span><span class="kw">list</span>(ColCom)
+        RowList.list[[<span class="kw">length</span>(RowList.list) +<span class="st"> </span><span class="dv">1</span>]] &lt;&lt;-
+<span class="st">            </span><span class="kw">list</span>(<span class="kw">which</span>(vec_pos %in%<span class="st"> </span>x))
+        <span class="kw">return</span>(countK) } )
+}</code></pre></div>
+<p>Зададим минимальную частоту встречаемости конъюнкций <code>minNum = 4</code> (т.е. <span class="math inline">\(\tau\)</span> = 50%) и выполним формирование всех логических правил для рассматриваемого примера:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DFace &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="dt">file =</span> <span class="st">&quot;data/Faces.txt&quot;</span>,
+                    <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)
+maxKSize &lt;-<span class="st"> </span><span class="dv">4</span>
+minNum &lt;-<span class="st"> </span><span class="dv">4</span>
+
+<span class="co">#  Списки для хранения результатов</span>
+Value.list &lt;-<span class="st"> </span><span class="kw">list</span>()   <span class="co"># Nclass, KSize, BitMask, countK</span>
+ColCom.list &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Наименования переменных ColCom</span>
+RowList.list &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Номера индексов строк RowList</span>
+
+<span class="co">#  Перебор конъюнкций разной длины</span>
+for (KSize in <span class="dv">2</span>:maxKSize) {
+    BitMask &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">0</span>:(<span class="dv">2</span>^KSize -<span class="st"> </span><span class="dv">1</span>),
+                      function(x) <span class="kw">number2binchar</span>(x, KSize))
+    cols &lt;-<span class="st">  </span><span class="kw">combn</span>(<span class="kw">colnames</span>(DFace[, -<span class="dv">17</span>]), KSize)
+    
+    for (i in <span class="dv">1</span>:<span class="kw">ncol</span>(cols))  {
+        SubArr &lt;-<span class="st"> </span>DFace[, (<span class="kw">names</span>(DFace) %in%<span class="st"> </span>cols[, i])]
+        vec1 &lt;-<span class="st"> </span><span class="kw">apply</span>(SubArr[DFace$Class ==<span class="st"> </span><span class="dv">1</span>, ],<span class="dv">1</span>,
+                      function(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;&quot;</span>))
+        vec2 &lt;-<span class="st"> </span><span class="kw">apply</span>(SubArr[DFace$Class ==<span class="st"> </span><span class="dv">2</span>,], <span class="dv">1</span>,
+                      function(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;&quot;</span>))
+        <span class="kw">MaskCompare</span>(<span class="dv">1</span>, KSize, BitMask, vec1, vec2, cols[, i])
+        <span class="kw">MaskCompare</span>(<span class="dv">2</span>, KSize, BitMask, vec2, vec1, cols[, i])
+    }
+}
+<span class="co">#  Создание результирующей таблицы</span>
+DFval =<span class="st"> </span><span class="kw">do.call</span>(rbind.data.frame, Value.list)
+nrow =<span class="st"> </span><span class="kw">length</span>(Value.list)
+DFvar &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">ncol =</span> maxKSize +<span class="st"> </span><span class="dv">1</span>, <span class="dt">nrow =</span> nrow,
+                              <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="dv">1</span>:nrow, <span class="kw">c</span>(
+                                  <span class="kw">paste</span>(<span class="st">&quot;L&quot;</span>, <span class="dv">1</span>:maxKSize, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>),
+                                  <span class="st">&quot;Объекты:&quot;</span>))))
+for (i in <span class="dv">1</span>:nrow) {
+    Varl &lt;-<span class="st"> </span><span class="kw">unlist</span>(ColCom.list[[i]])
+    DFvar[i, <span class="dv">1</span>:<span class="kw">length</span>( Varl)] &lt;-<span class="st"> </span>Varl
+    Objl &lt;-<span class="st"> </span><span class="kw">unlist</span>(RowList.list[[i]])
+    DFvar[i, maxKSize +<span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">paste</span>(Objl, <span class="dt">collapse =</span> <span class="st">&quot; &quot;</span>)
+}
+
+DFvar[<span class="kw">is.na</span>(DFvar)] &lt;-<span class="st"> &quot; &quot;</span>
+DFout &lt;-<span class="st"> </span><span class="kw">cbind</span>(DFval, DFvar)
+
+<span class="co">#  Вывод результатов</span>
+<span class="kw">print</span>(<span class="st">&quot;Конъюнкции класса 1&quot;</span>) </code></pre></div>
+<pre><code>## [1] &quot;Конъюнкции класса 1&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DFout[DFout$Nclass ==<span class="st"> </span><span class="dv">1</span>, ]</code></pre></div>
+<pre><code>##    Nclass KSize countK Bits L1  L2  L3  L4 Объекты:
+## 1       1     2      4   00 x2 x14          2 3 6 8
+## 2       1     2      4   00 x3  x7          1 3 5 7
+## 7       1     3      4  010 x2 x11 x14      2 3 6 8
+## 10      1     3      4  111 x4 x10 x15      2 5 7 8
+## 12      1     3      4  111 x6  x9 x11      1 3 6 8
+## 13      1     3      4  111 x6 x11 x16      1 3 4 6
+## 14      1     3      4  111 x9 x11 x13      1 3 6 8
+## 16      1     4      4 0111 x1  x6  x9 x11  1 3 6 8
+## 17      1     4      4 0111 x1  x6 x11 x16  1 3 4 6
+## 18      1     4      4 0111 x1  x9 x11 x13  1 3 6 8
+## 23      1     4      4 1011 x4  x5 x10 x15  2 5 7 8
+## 25      1     4      4 1111 x6  x9 x11 x13  1 3 6 8
+## 26      1     4      4 0101 x8  x9 x12 x13  1 6 7 8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&quot;Конъюнкции класса 2&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Конъюнкции класса 2&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DFout[DFout$Nclass ==<span class="st"> </span><span class="dv">2</span>, ] </code></pre></div>
+<pre><code>##    Nclass KSize countK Bits  L1  L2  L3  L4 Объекты:
+## 3       2     2      4   00  x6 x10          4 5 6 8
+## 4       2     2      4   00 x11 x15          1 3 5 7
+## 5       2     3      4  111  x2  x4  x7      5 6 7 8
+## 6       2     3      4  111  x2  x7 x13      2 5 7 8
+## 8       2     3      4  111  x3  x9 x14      1 3 4 6
+## 9       2     3      4  111  x4  x7 x16      5 6 7 8
+## 11      2     3      4  010  x6  x7 x10      4 5 6 8
+## 15      2     4      4 0101  x1  x4  x5 x16  1 6 7 8
+## 19      2     4      4 1110  x2  x4  x7 x12  5 6 7 8
+## 20      2     4      4 1111  x2  x4  x7 x16  5 6 7 8
+## 21      2     4      4 1101  x2  x7 x12 x13  2 5 7 8
+## 22      2     4      4 1011  x3  x8  x9 x14  1 3 4 6
+## 24      2     4      4 1101  x4  x7 x12 x16  5 6 7 8</code></pre>
+<p>Результат, содержащий логические высказывания для каждого класса (<code>Nclass</code>) будет выглядеть следующим образом, где <code>KSize</code> - длина коньюнкции, <code>Bits</code> - ее битовая маска, <code>L1</code>-<code>L4</code> - наименования исходных переменных, <code>countK</code> - встречаемость конъюнкции на объектах своего класса.</p>
+<p>Дальнейшая работа с выделенными логическими высказываниями сводится к следующему (реализация алгоритма в R находится в стадии доработки). Из генерируемого списка необходимо исключить подчиненные (или дочерние) конъюнкции, включающие более короткие претенденты: например, для класса 1 высказывание №7 является дочерним по отношению к конъюнкции №1 и должно было быть удалено. После такой операции поглощения ликвидируется избыточность решающего правила, в котором остаются конъюнкции минимального ранга, содержащие выделенные закономерности в концентрированной форме.</p>
+<p>Хорошим правилом было бы также исключить высказывания, которые по определенным критериям считаются “предрассудками”. К ним относятся конъюнкции, не связанные с объективным правилом классификации, но, в силу ограниченности выборки, получившие хорошие оценки на обучении. Для выделения признаков, склонных к предрассудкам, выполняют бутстреп-процедуру, в которой обучающая выборка многократно случайным образом разбивается на классы. Разбитая таким образом выборка является тестом, позволяющим присвоить каждому исходному признаку штрафные баллы за склонность к предрассудкам. Конъюнкции, набравшие сверхнормативное количество штрафных очков, из решающего правила исключаются.</p>
+<p>Описанием каждого класса является логическая сумма (дизъюнкция) некоторого количества непротиворечивых и продуктивных конъюнкций, прошедших описанные выше этапы отбора. Комбинация этих логических высказываний представляет собой своеобразную мозаично-фрагментарную разделяющую поверхность специального типа (в отличии, например, от линейной плоскости логита). Более общая версия алгоритма “Кора” предполагает выделение логических закономерностей для <span class="math inline">\(K\)</span> классов, <span class="math inline">\(K &gt; 2\)</span>. Среди конъюнкций выделяются те, которые верны на обучающей выборке чаще, чем некоторый порог <span class="math inline">\(\tau_1\)</span>, для одного из классов и не характерны для любого другого (верны реже, чем в доле случаев <span class="math inline">\(\tau_2\)</span>).</p>
+<p>Существует возможность использовать сгенерированные конъюнкции для экзамена тестируемых примеров по принципу голосования. Чтобы классифицировать новое наблюдение <span class="math inline">\(\boldsymbol{x}\)</span>, подсчитывается число отобранных конъюнкций <span class="math inline">\(L_k\)</span>, характерных для каждого <span class="math inline">\(k\)</span>-гo класса, которые верны для тестируемого бинарного вектора. Если <span class="math inline">\(L_k\)</span> является максимальным из всех, то принимается решение о принадлежности объекта <span class="math inline">\(k\)</span>-му классу.</p>
+<p>Алгоритм “Кора”, как и другие логические методы распознавания образов, является достаточно трудоемким, поскольку при отборе конъюнкций необходим полный или частично направленный перебор. Здесь может быть полезно использование процедур эволюционного поиска: генетический алгоритм (genetic algorithm), случайный поиск с адаптацией (СПА - см. книгу Г. С. Лбова, 1981 на сайте <a href="http://math.nsc.ru/AP/oteks/Russian/links/SPA/index.html">math.nsc.ru</a>) и др.</p>
 
 </div>
             </section>
@@ -267,8 +358,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="052-Binary-Decision-Trees.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="054-Association-Rules-Algos.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия и другие алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://ranalytics.github.io/data-mining/" />
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  <meta name="github-repo" content="ranalytics/data-mining" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-04-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="082-NN-with-Caret.html">
+<link rel="next" href="084-GLM-for-Counts.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R (вместо предисловия)</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_1"><i class="fa fa-check"></i><b>1.1.1</b> От статистического анализа разового эксперимента к Data Mining</a></li>
+<li class="chapter" data-level="1.1.2" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_2"><i class="fa fa-check"></i><b>1.1.2</b> Принципиальная множественность моделей окружающего мира</a></li>
+<li class="chapter" data-level="1.1.3" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_3"><i class="fa fa-check"></i><b>1.1.3</b> Нарастающая множественность алгоритмов построения моделей</a></li>
+<li class="chapter" data-level="1.1.4" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_4"><i class="fa fa-check"></i><b>1.1.4</b> Типы и характеристики групп моделей Data Mining</a></li>
+<li class="chapter" data-level="1.1.5" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_5"><i class="fa fa-check"></i><b>1.1.5</b> Природа многомерного отклика и его моделирование</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="012-R-Intro.html"><a href="012-R-Intro.html"><i class="fa fa-check"></i><b>1.2</b> Статистическая среда R и ее использование в Data Mining</a></li>
+<li class="chapter" data-level="1.3" data-path="013-What-This-Book-Is-About.html"><a href="013-What-This-Book-Is-About.html"><i class="fa fa-check"></i><b>1.3</b> О чем эта книга и чего в ней нет</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_1"><i class="fa fa-check"></i><b>4.1.1</b> Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="4.1.2" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_2"><i class="fa fa-check"></i><b>4.1.2</b> Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="4.1.3" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_3"><i class="fa fa-check"></i><b>4.1.3</b> Генетический алгоритм</a></li>
+<li class="chapter" data-level="4.1.4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_4"><i class="fa fa-check"></i><b>4.1.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_1"><i class="fa fa-check"></i><b>4.2.1</b> Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="4.2.2" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_2"><i class="fa fa-check"></i><b>4.2.2</b> Метод частных наименьших квадратов (PLS)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_3"><i class="fa fa-check"></i><b>4.2.3</b> Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="4.2.4" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_4"><i class="fa fa-check"></i><b>4.2.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_1"><i class="fa fa-check"></i><b>4.3.1</b> Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="4.3.2" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_2"><i class="fa fa-check"></i><b>4.3.2</b> Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="4.3.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_3"><i class="fa fa-check"></i><b>4.3.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_1"><i class="fa fa-check"></i><b>4.4.1</b> Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="4.4.2" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_2"><i class="fa fa-check"></i><b>4.4.2</b> Бустинг</a></li>
+<li class="chapter" data-level="4.4.3" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_3"><i class="fa fa-check"></i><b>4.4.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="053-Logic-Rules.html"><a href="053-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="054-Association-Rules-Algos.html"><a href="054-Association-Rules-Algos.html"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+<li class="chapter" data-level="5.5" data-path="055-Traminer.html"><a href="055-Traminer.html"><i class="fa fa-check"></i><b>5.5</b> Анализ последовательностей знаков или событий</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классификаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Ядерные функции машины опорных векторов</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html"><i class="fa fa-check"></i><b>7</b> Модели классификации для нескольких классов</a><ul>
+<li class="chapter" data-level="7.1" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html#sec_7_1"><i class="fa fa-check"></i><b>7.1</b> Ирисы Фишера и метод <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="7.2" data-path="072-NBC.html"><a href="072-NBC.html"><i class="fa fa-check"></i><b>7.2</b> Наивный байесовский классификатор</a></li>
+<li class="chapter" data-level="7.3" data-path="073-In-Discriminant-Space.html"><a href="073-In-Discriminant-Space.html"><i class="fa fa-check"></i><b>7.3</b> Классификация в линейном дискриминантном пространстве</a></li>
+<li class="chapter" data-level="7.4" data-path="074-Nonlinear-Classifiers.html"><a href="074-Nonlinear-Classifiers.html"><i class="fa fa-check"></i><b>7.4</b> Нелинейные классификаторы в R</a></li>
+<li class="chapter" data-level="7.5" data-path="075-Multinomial-Logit.html"><a href="075-Multinomial-Logit.html"><i class="fa fa-check"></i><b>7.5</b> Модель мультиномиального логита</a></li>
+<li class="chapter" data-level="7.6" data-path="076-NN.html"><a href="076-NN.html"><i class="fa fa-check"></i><b>7.6</b> Классификаторы на основе искусственных нейронных сетей</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html"><i class="fa fa-check"></i><b>8</b> Моделирование порядковых и счетных переменных</a><ul>
+<li class="chapter" data-level="8.1" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html#sec_8_1"><i class="fa fa-check"></i><b>8.1</b> Модель логита для порядковой переменной</a></li>
+<li class="chapter" data-level="8.2" data-path="082-NN-with-Caret.html"><a href="082-NN-with-Caret.html"><i class="fa fa-check"></i><b>8.2</b> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></a></li>
+<li class="chapter" data-level="8.3" data-path="083-Model-Complexes.html"><a href="083-Model-Complexes.html"><i class="fa fa-check"></i><b>8.3</b> Методы комплексации модельных прогнозов</a></li>
+<li class="chapter" data-level="8.4" data-path="084-GLM-for-Counts.html"><a href="084-GLM-for-Counts.html"><i class="fa fa-check"></i><b>8.4</b> Обобщенные линейные модели для счетных данных</a></li>
+<li class="chapter" data-level="8.5" data-path="085-ZIP-for-Counts.html"><a href="085-ZIP-for-Counts.html"><i class="fa fa-check"></i><b>8.5</b> ZIP- и барьерные модели счетных данных</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html"><i class="fa fa-check"></i><b>9</b> Методы многомерной ординации</a><ul>
+<li class="chapter" data-level="9.1" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html#sec_9_1"><i class="fa fa-check"></i><b>9.1</b> Преобразование данных и вычисление матрицы расстояний</a></li>
+<li class="chapter" data-level="9.2" data-path="092-Distance-ANOVA.html"><a href="092-Distance-ANOVA.html"><i class="fa fa-check"></i><b>9.2</b> Непараметрический дисперсионный анализ матриц дистанций</a></li>
+<li class="chapter" data-level="9.3" data-path="093-Comparing-Diagrams.html"><a href="093-Comparing-Diagrams.html"><i class="fa fa-check"></i><b>9.3</b> Методы ординации объектов и переменных: построение и сравнение диаграмм</a></li>
+<li class="chapter" data-level="9.4" data-path="094-Ordination-Factors.html"><a href="094-Ordination-Factors.html"><i class="fa fa-check"></i><b>9.4</b> Оценка связи ординации с внешними факторами</a></li>
+<li class="chapter" data-level="9.5" data-path="095-NMDS.html"><a href="095-NMDS.html"><i class="fa fa-check"></i><b>9.5</b> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html"><i class="fa fa-check"></i><b>10</b> Кластерный анализ</a><ul>
+<li class="chapter" data-level="10.1" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html#sec_10_1"><i class="fa fa-check"></i><b>10.1</b> Алгоритмы кластеризации, основанные на разделении</a></li>
+<li class="chapter" data-level="10.2" data-path="102-H-Clustering.html"><a href="102-H-Clustering.html"><i class="fa fa-check"></i><b>10.2</b> Иерархическая кластеризация</a></li>
+<li class="chapter" data-level="10.3" data-path="103-Clustering-Quality.html"><a href="103-Clustering-Quality.html"><i class="fa fa-check"></i><b>10.3</b> Оценка качества кластеризации</a></li>
+<li class="chapter" data-level="10.4" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html"><i class="fa fa-check"></i><b>10.4</b> Другие алгоритмы кластеризации</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_1"><i class="fa fa-check"></i><b>10.4.1</b> Иерархическая кластеризация на главные компоненты</a></li>
+<li class="chapter" data-level="10.4.2" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_2"><i class="fa fa-check"></i><b>10.4.2</b> Метод нечетких <em>k</em> средних (fuzzy analysis clustering)</a></li>
+<li class="chapter" data-level="10.4.3" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_3"><i class="fa fa-check"></i><b>10.4.3</b> Статистическая модель кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="105-Cohonen-Maps.html"><a href="105-Cohonen-Maps.html"><i class="fa fa-check"></i><b>10.5</b> Самоорганизующиеся карты Кохонена</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html"><i class="fa fa-check"></i><b>11</b> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</a><ul>
+<li class="chapter" data-level="11.1" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html#----rattle"><i class="fa fa-check"></i><b>11.1</b> Начало работы с пакетом <code id="sec_11_1">rattle</code></a></li>
+<li class="chapter" data-level="11.2" data-path="112-Descriptive-Stats.html"><a href="112-Descriptive-Stats.html"><i class="fa fa-check"></i><b>11.2</b> Описательная статистика и визуализация данных</a></li>
+<li class="chapter" data-level="11.3" data-path="113-Model-Building.html"><a href="113-Model-Building.html"><i class="fa fa-check"></i><b>11.3</b> Построение и тестирование моделей классификации</a></li>
+<li class="chapter" data-level="11.4" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html"><i class="fa fa-check"></i><b>11.4</b> Дескриптивные модели (обучение без учителя)</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_1"><i class="fa fa-check"></i><b>11.4.1</b> Кластерный анализ</a></li>
+<li class="chapter" data-level="11.4.2" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_2"><i class="fa fa-check"></i><b>11.4.2</b> Ассоциативные правила</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="120-References.html"><a href="120-References.html"><i class="fa fa-check"></i><b>12</b> Список рекомендуемой литературы</a></li>
+<li class="chapter" data-level="" data-path="130-Appendix.html"><a href="130-Appendix.html"><i class="fa fa-check"></i>Приложение: cправочная карта по Data Mining с использованием R</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec_8_3" class="section level2">
+<h2><span class="header-section-number">8.3</span> Методы комплексации модельных прогнозов</h2>
+<p>Существует два возможных подхода к получению некоторого обобщенного предсказания на основе формального или неформального объединения частных прогнозов. В разделе <a href="044-Ensembles.html#sec_4_4">4.4</a> нами подробно рассматривалось агрегирование результатов моделирования, когда каждая модель имеет фактически одну и ту же структуру, но многократно обучается на слегка модифицированных исходных данных или при небольшой вариации управляющих параметров (bagging). Другой путь - построить на одних и тех же исходных данных некоторый “коллектив” (ensemble) из принципиально разнотипных моделей и выполнить комбинирование прогнозов (forecast combinations).</p>
+<p>По аналогии с методами коллективного решения, столь эффективно используемым в человеческом обществе, считается, что суммарная эффективность системы коллективного прогнозирования теоретически будет в среднем значительно выше любого из его членов. Этот оптимизм мало чем подтверждается на практике, но нельзя не признать, что комбинированный прогноз значительно более устойчив к не вполне объяснимым “провалам”, которые свойственны отдельным индивидуальным методам, и поэтому может быть эффективным инструментом страхования на случай возможных стохастических рисков (в мире трейдинга это называется хеджированием, англ. hedging).</p>
+<p>Пусть имеется <span class="math inline">\(m\)</span> прогнозов <span class="math inline">\(\boldsymbol{y_1, y_2, ..., y_m}\)</span> для переменной <span class="math inline">\(\mathbf{Y}\)</span>, полученных с помощью <span class="math inline">\(m\)</span> различных моделей. Под коллективным прогнозом <span class="math inline">\(\boldsymbol{g}\)</span> будем понимать прогноз той же переменной <span class="math inline">\(\mathbf{Y}\)</span> как некоторую функции от индивидуальных прогнозов <span class="math inline">\(\boldsymbol{y_k}\)</span>: <span class="math inline">\(\boldsymbol{g = F(y_1, y_2, \dots, y_m; X)}\)</span>.</p>
+<p>Число различных алгоритмов синтеза коллективов из нескольких моделей постоянно растет (даже неполная библиография по этой проблеме насчитывает свыше 500 наименований), а их классификация может быть весьма условной. Наиболее простыми являются <em>методы без адаптации</em>.</p>
+<p>Коллективный прогноз <span class="math inline">\(\boldsymbol{g}\)</span>, построенный без адаптации, представляют в виде линейной комбинации из базового или суженного (наиболее информативного) множества частных прогнозов</p>
+<p><span class="math display">\[g = \sum_{k=1}^m y_k \omega_k,\]</span></p>
+<p>где <span class="math inline">\(\mathbf{\omega}\)</span> - вектор неизвестных весовых коэффициентов, компоненты которого неизменны на всем диапазоне варьирования исходных данных <span class="math inline">\(\mathbf{X}\)</span>. Тогда задача комплексации эквивалентна определению совокупности значений вектора <span class="math inline">\(\omega_k\)</span>, удовлетворяющих заданным ограничениям и минимизирующих некоторый критерий качества. Очевидно, что качество (надежность) прогноза <span class="math inline">\(\boldsymbol{g}\)</span> тем выше, чем “ближе” расчетные значения <span class="math inline">\(\mathbf{Y}\)</span> к фактическим.</p>
+<p>Обратимся вновь к примеру из предыдущих разделов, но будем теперь строить модели прогнозирования не для возрастных категорий, а непосредственно для числа колец в раковинах <code>rings</code> тасманских морских ушек. Заменим фактор <code>пол</code> на две метрические переменные <code>полM</code> и <code>полI</code>, после чего разделим исходную выборку на обучающую и проверочную в соотношении 2:1.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;data/abalone.RData&quot;</span>)
+<span class="co"># Формирование матрицы предикторов</span>
+X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(rings ~<span class="st"> </span>., <span class="dt">data =</span> abalone[, <span class="dv">1</span>:<span class="dv">9</span>])[, -<span class="dv">1</span>]
+Y &lt;-<span class="st"> </span>abalone$rings
+<span class="co"># Разделение на обучающую и проверочную выборки</span>
+train &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="kw">nrow</span>(X)) &lt;=<span class="st"> </span>.<span class="dv">66</span></code></pre></div>
+<p>На объектах обучающей выборки (2748 наблюдений) построим шесть моделей оценки <code>rings</code> с использованием функции <code>train()</code> из пакета <code>caret</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+<span class="kw">library</span>(party)
+
+<span class="co"># Для параллельных вычислений:</span>
+<span class="kw">require</span>(doParallel)
+cl &lt;-<span class="st"> </span><span class="kw">makeCluster</span>(<span class="kw">detectCores</span>() -<span class="st"> </span><span class="dv">1</span>)
+<span class="kw">registerDoParallel</span>(cl)
+
+myControl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&#39;cv&#39;</span>, <span class="dt">number =</span> <span class="dv">10</span>, 
+                          <span class="dt">savePredictions =</span> <span class="ot">TRUE</span>, <span class="dt">returnData =</span> <span class="ot">FALSE</span>,
+                          <span class="dt">verboseIter =</span> <span class="ot">FALSE</span>)
+PP &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>, <span class="st">&#39;scale&#39;</span>)
+
+<span class="co"># Обучение избранных моделей</span>
+<span class="kw">set.seed</span>(<span class="dv">202</span>)
+<span class="co"># Регрессия на k-ближайших соседей </span>
+m.knn &lt;-<span class="st"> </span><span class="kw">train</span>(X[train, ], Y[train], <span class="dt">method =</span> <span class="st">&#39;knn&#39;</span>,
+               <span class="dt">trControl =</span> myControl, <span class="dt">preProcess =</span> PP)
+<span class="co"># Линейная модель</span>
+m.lm &lt;-<span class="st"> </span><span class="kw">train</span>(X[train, ], Y[train], <span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>,
+              <span class="dt">trControl =</span> myControl, <span class="dt">preProcess =</span> PP)
+<span class="co"># Гребневая регрессия с регуляризацией</span>
+m.rlm &lt;-<span class="st"> </span><span class="kw">train</span>(X[train, ], Y[train], <span class="dt">method =</span> <span class="st">&#39;glmnet&#39;</span>,
+               <span class="dt">trControl =</span> myControl, <span class="dt">preProcess =</span> PP)
+<span class="co"># Модель опорных векторов</span>
+m.svm &lt;-<span class="st"> </span><span class="kw">train</span>(X[train, ], Y[train], <span class="dt">method =</span> <span class="st">&#39;svmRadial&#39;</span>,
+               <span class="dt">trControl =</span> myControl, <span class="dt">preProcess =</span> PP)
+<span class="co">#  Метод случайного леса</span>
+m.rf &lt;-<span class="st"> </span><span class="kw">train</span>(X[train, ], Y[train], <span class="dt">method =</span> <span class="st">&#39;rf&#39;</span>,
+              <span class="dt">trControl =</span> myControl)
+<span class="co"># Бэггинг деревьев условного вывода</span>
+m.ctr &lt;-<span class="st"> </span><span class="kw">train</span>(X[train, ], Y[train], <span class="st">&quot;bag&quot;</span>, <span class="dt">B =</span> <span class="dv">10</span>, 
+               <span class="dt">bagControl =</span> <span class="kw">bagControl</span>(<span class="dt">fit =</span> ctreeBag$fit,
+                                       <span class="dt">predict =</span> ctreeBag$pred, 
+                                       <span class="dt">aggregate =</span> ctreeBag$aggregate))
+
+<span class="kw">stopCluster</span>(cl)</code></pre></div>
+<p>Обратим внимание на модель <code>m.ctr</code>, построенную методом <code>&quot;bag&quot;</code>. При построении этой модели используется специальная функция <code>bag()</code> из пакета <code>caret</code>, позволяющая выполнить бэггинг широкого класса различных моделей (<code>daBag</code>, <code>plsBag</code>, <code>nbBag</code>, <code>ctreeBag</code>, <code>svmBag</code>, <code>nnetBag</code>). Мы осуществили бэггинг деревьев условного вывода (см. раздел <a href="044-Ensembles.html#sec_4_4">4.3</a>), агрегируя каждый раз по 10 деревьев.</p>
+<p>Упакуем результаты моделирования в объект класса <code>list</code> и извлечем значения среднеквадратичной ошибки <code>RMSE</code> каждой индивидуальной модели на обучающей выборке:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Создание списка всех моделей</span>
+all.models &lt;-<span class="st"> </span><span class="kw">list</span>(m.knn, m.lm, m.rlm, m.svm, m.rf, m.ctr)
+<span class="kw">names</span>(all.models) &lt;-<span class="st"> </span><span class="kw">sapply</span>(all.models, function(x) x$method)
+<span class="kw">sort</span>(<span class="kw">sapply</span>(all.models, function(x) <span class="kw">min</span>(x$results$RMSE)))</code></pre></div>
+<pre><code>##        rf svmRadial        lm    glmnet       bag       knn 
+##  2.142822  2.151066  2.189748  2.190679  2.213785  2.251248</code></pre>
+<p>В целом все модели показали близкие результаты, хотя можно отметить традиционное лидерство методов случайного леса (<code>rf</code>) и опорных векторов (<code>svmRadial</code>).</p>
+<p>Сформируем таблицу частных прогнозов для объектов тестовой выборки (1429 наблюдений) и оценим ошибки индивидуальных моделей <code>RMSE</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">preds.all &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sapply</span>(all.models, function(x){<span class="kw">predict</span>(x, X)}))
+<span class="kw">head</span>(preds.all) </code></pre></div>
+<pre><code>##         knn        lm    glmnet svmRadial        rf       bag
+## 1  9.111111  9.271303  9.253349  8.479311 12.071000  9.063321
+## 2  8.888889  7.829085  7.842020  8.365610  7.177400  8.979464
+## 3 10.000000 11.169981 11.109249 10.796564  9.761967 12.347767
+## 4  9.222222  9.613559  9.611096  9.568827  9.788767  9.714990
+## 5  6.333333  6.690712  6.684828  6.237234  6.521167  6.646564
+## 6  7.000000  7.808261  7.816015  7.287081  7.803167  7.670769</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmse &lt;-<span class="st"> </span>function(x,y){<span class="kw">sqrt</span>(<span class="kw">mean</span>((x -<span class="st"> </span>y)^<span class="dv">2</span>))}
+<span class="kw">print</span>(<span class="st">&quot;Среднеквадратичная ошибка на тестовой выборке:&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Среднеквадратичная ошибка на тестовой выборке:&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">sort</span>(<span class="kw">apply</span>(preds.all[!train,], <span class="dv">2</span>, rmse, <span class="dt">y =</span> Y[!train])), <span class="dt">digits =</span> <span class="dv">3</span>)</code></pre></div>
+<pre><code>##        rf svmRadial       bag        lm    glmnet       knn 
+##      2.19      2.19      2.24      2.25      2.25      2.25</code></pre>
+<p>В целом незначительное (2-4%) увеличение ошибки <code>RMSE</code> на свежих наблюдениях свидетельствует о хорошем качестве моделей.</p>
+<p>Рассмотрим теперь возможные алгоритмы комплексации частных прогнозов, реализованные в пакете <code>ForecastCombinations</code>. Два из них основаны только на самих предсказаниях и не требуют предварительного обучения:</p>
+<ul>
+<li>простое среднее (<code>simple</code>) при <span class="math inline">\(k = const = 1/m\)</span>;</li>
+<li>по лучшему частному прогнозу (<code>best</code>), т.е. <span class="math inline">\(k = 1\)</span> для <span class="math inline">\(max(y_k)\)</span> и <span class="math inline">\(k = 0\)</span> для остальных <span class="math inline">\(y_k\)</span>.</li>
+</ul>
+<p>Комплексация, основанная на дисперсиях (<code>variance based</code>), требует оценки на некоторой обучающей выборке значений среднеквадратичных отклонений <span class="math inline">\(MSE_k\)</span> для каждой индивидуальной модели и тогда</p>
+<p><span class="math display">\[\omega_k = (1/MSE_k)/\sum_{k=1}^m (1/MSE_k).\]</span> Другим способом комплексации прогнозов разных моделей является использование линейной модели, в которой коэффициенты играют роль весов, определяющих вклад каждой из объединяемых моделей. С легкой руки букмекеров эту процедуру стали часто называть <em>стэкингом</em> (stacking).</p>
+<p>Разумеется, обычный метод наименьших квадратов (<code>ols</code>) является одним из претендентов на создание такой “модели моделей”. Однако, поскольку прогнозы частных моделей сильно коррелируют между собой, то для получения комплексного результата предлагают использовать иные методы регрессии, которые, по мнению авторов, могут лучше справиться с этой напастью. В пакет <code>ForecastCombinations</code> включены метод наименьших абсолютных отклонений (<code>robust</code>) и наименьших квадратов с ограничениями (<code>cls</code> - Constrained Least Squares). Во втором случае на значения коэффициентов регрессии накладываются ограничения: все они неотрицательны и в сумме равны 1, т.е. по сути отражают вклад каждой частной модели в общий прогноз. Коэффициенты CLS-модели рассчитываются с использованием метода квадратичного программирования, представленного функцией <code>solve.QP()</code> из пакета <code>quadprog</code>.</p>
+<p>На вход функции <code>Forecast_comb()</code> из пакета <code>ForecastCombinations</code> подаются объекты для обучения (матрица <code>fhat</code> со значениями частных прогнозов <span class="math inline">\(y_1, y_2,\dots, y_m\)</span> и вектор <code>obs</code> с соответствующими наблюдаемыми величинами <span class="math inline">\(y\)</span>) и прогноза (матрица <code>fhat_new</code> со значениями частных прогнозов, которые следует объединить с использованием метода <code>Averaging_scheme</code>). На выходе формируются векторы прогнозов <code>pred</code> и весов <code>weights</code>. С учетом выполненного нами разбиения исходной таблицы <code>abalone</code>, рассчитаем сравнительную оценку <code>RMSE</code>, полученную каждым методом комплексации на проверочной выборке:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ForecastCombinations)
+scheme &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;simple&quot;</span>,  <span class="st">&quot;variance based&quot;</span>, <span class="st">&quot;ols&quot;</span>, <span class="st">&quot;robust&quot;</span>, <span class="st">&quot;cls&quot;</span>, <span class="st">&quot;best&quot;</span>)
+combine_f &lt;-<span class="st"> </span><span class="kw">list</span>()
+for (i in scheme) {
+    combine_f[[i]] &lt;-<span class="st"> </span><span class="kw">Forecast_comb</span>(<span class="dt">obs =</span> Y[train],
+                                    <span class="dt">fhat =</span> <span class="kw">as.matrix</span>(preds.all[train, ]),
+                                    <span class="dt">fhat_new =</span> <span class="kw">as.matrix</span>(preds.all[!train, ]),
+                                    <span class="dt">Averaging_scheme =</span> i)
+    tmp &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">sqrt</span>(<span class="kw">mean</span>((combine_f[[i]]$pred -<span class="st"> </span>Y[!train])^<span class="dv">2</span>)), <span class="dv">3</span>)
+    <span class="kw">cat</span>(i, <span class="st">&quot;:&quot;</span>, tmp, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
+}</code></pre></div>
+<pre><code>## simple : 2.155 
+## variance based : 2.151 
+## ols : 2.303 
+## robust : 2.304 
+## cls : 2.19 
+## best : 2.19</code></pre>
+<p>Рассмотрим веса, которые получили каждые модели при реализации каждой схемы усреднения (приведем их предварительно к единой шкале):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">w.list &lt;-<span class="st"> </span><span class="kw">sapply</span>(combine_f, function(sp.list) sp.list$weights)
+w.list$ols &lt;-<span class="st"> </span>w.list$ols[-<span class="dv">1</span>]
+w.list$robust &lt;-<span class="st"> </span>w.list$robust[-<span class="dv">1</span>]
+weights &lt;-<span class="st"> </span><span class="kw">as.data.frame.list</span>(w.list)
+<span class="kw">rownames</span>(weights) &lt;-<span class="st"> </span>scheme  
+wstan &lt;-<span class="st"> </span>function(x) <span class="kw">abs</span>(x)/<span class="kw">sum</span>(<span class="kw">abs</span>(x)) 
+weights[<span class="dv">3</span>, ] &lt;-<span class="st"> </span><span class="kw">wstan</span>(weights[<span class="dv">3</span>, ])
+weights[<span class="dv">4</span>, ] &lt;-<span class="st"> </span><span class="kw">wstan</span>(weights[<span class="dv">4</span>, ])
+<span class="kw">print</span>(<span class="kw">round</span>(weights, <span class="dv">3</span>))</code></pre></div>
+<pre><code>##                simple.1 simple.2 simple.3 simple.4 simple.5 simple.6
+## simple            0.167    0.167    0.167    0.167    0.167    0.167
+## variance based    0.167    0.167    0.167    0.167    0.167    0.167
+## ols               0.123    0.123    0.123    0.123    0.123    0.123
+## robust            0.104    0.104    0.104    0.104    0.104    0.104
+## cls               0.167    0.167    0.167    0.167    0.167    0.167
+## best              0.167    0.167    0.167    0.167    0.167    0.167
+##                variance.based    ols robust cls best
+## simple                  0.108 -0.142 -0.148   0    0
+## variance based          0.094 -0.105 -0.193   0    0
+## ols                     0.069  0.059  0.136   0    0
+## robust                  0.065  0.150  0.164   0    0
+## cls                     0.493  1.754  1.738   1    1
+## best                    0.107 -0.390 -0.350   0    0</code></pre>
+<p>Комплексные прогнозы, созданные по схемам cls и best, эквивалентны мнению “непогрешимого” авторитета (а таковым оказался метод <code>rf</code>). Соответственно они дали ошибку, в точности равную погрешности наиболее качественной индивидуальной модели. Схемы <code>ols</code> и <code>robust</code> потерпели относительную неудачу, тогда как наиболее точным оказался прогноз, основанный на дисперсии (<code>variance based</code>).</p>
+<p>П. Полищук (<a href="http://www.qsar4u.com/files/rintro/05.html">http://www.qsar4u.com</a>) предлагает применять метод неотрицательных наименьших квадратов (non-negative least squares), используя пакет <code>nnls</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(nnls)
+m.nnls &lt;-<span class="st"> </span><span class="kw">nnls</span>(<span class="kw">as.matrix</span>(preds.all[train, ]), Y[train])
+<span class="kw">coef</span>(m.nnls)</code></pre></div>
+<pre><code>## [1] 0.000000 0.000000 0.000000 0.000000 1.008573 0.000000</code></pre>
+<p>Этот метод дал те же значения весов, что и CLS-регрессия (впрочем, эти методы идентичны, по-видимому, и по своей сути).</p>
+<p>Кроме линейного стэкинга для комплексации можно применять любые изощренные алгоритмы статистического моделирования. Например, набор частных прогнозов можно выразить через небольшое число главных компонент и на последующих шагах применить любой другой алгоритм взвешивания (Горелик, Френкель, 1983).<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a> П. Брусиловский и Г. Розенберг (1983) использовали для комплексации многорядный алгоритм МГУА, строили самообучающиеся иерархические модели и назвали этот метод “модельным штурмом”. Дело устойчиво идет к проблемам создания “коллектива коллективов”.</p>
+<p>Пакет <code>ForecastCombinations</code> также позволяет реализовать эксперименты подобного рода. Из 6 векторов частных прогнозов, полученных нами по индивидуальным моделям, можно построить 53 модели регрессии с различными наборами переменных от одного до 5. Функция <code>Forecast_comb_all()</code> выполняет настройку всех этих моделей и сводит результаты в новую таблицу (т.е. вместо 6 прогнозов предлагается иметь дело с 53-мя прогнозами на основе прогнозов). Далее их можно просто усреднить:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">combine_f_all &lt;-<span class="st"> </span><span class="kw">Forecast_comb_all</span>(Y[train],
+                                   <span class="dt">fhat =</span> <span class="kw">as.matrix</span>(preds.all[train, ]),
+                                   <span class="dt">fhat_new =</span> <span class="kw">as.matrix</span>(preds.all[!train, ]))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">combine_f_all &lt;-<span class="st"> </span><span class="kw">Forecast_comb_all</span>(Y[train],
+                                   <span class="dt">fhat =</span> <span class="kw">as.matrix</span>(preds.all[train, ]),
+                                   <span class="dt">fhat_new =</span> <span class="kw">as.matrix</span>(preds.all[!train, ]))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Усредняем комбинированные прогнозы по всем регрессиям</span>
+Combined_f_all_simple &lt;-<span class="st"> </span><span class="kw">apply</span>(combine_f_all$pred, <span class="dv">1</span>, mean)
+<span class="kw">print</span>(<span class="kw">sqrt</span>(<span class="kw">mean</span>((Combined_f_all_simple -<span class="st"> </span>Y[!train])^<span class="dv">2</span>)), <span class="dt">digits =</span> <span class="dv">3</span>)</code></pre></div>
+<pre><code>## [1] 2.17</code></pre>
+<p>Для моделей регрессии по каждому подмножеству отдельных моделей функция <code>Forecast_comb_all()</code> рассчитывает также набор информационных критериев (AIC, BIC и Mallow’s Cp), которые могут быть использованы для расчета взвешенного среднего:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Комбинирование прогнозов с использованием  Mallow&#39;s Cp:</span>
+Combined_f_all_mal &lt;-<span class="st"> </span><span class="kw">t</span>(combine_f_all$mal %*%<span class="st"> </span><span class="kw">t</span>(combine_f_all$pred))
+<span class="kw">print</span>(<span class="kw">sqrt</span>(<span class="kw">mean</span>((Combined_f_all_mal -<span class="st"> </span>Y[!train])^<span class="dv">2</span>)), <span class="dt">digits =</span> <span class="dv">3</span>)</code></pre></div>
+<pre><code>## [1] 2.27</code></pre>
+<p>Итогом всех этих достаточно трудоемких вычислительных процедур оказался весьма скромный результат.</p>
+<p>Альтернативой механическому усреднению прогнозов является учет структурных связей в ансамбле таким образом, чтобы положительные свойства той или иной модели (метода) доминировали при формировании коллективного отклика, а отрицательные - отфильтровывались (Растригин, Эренштейн, 1981). В частности, существенным влиянием должны обладать самые “непохожие” между собой модели, являющиеся носителями нетривиальных тенденций моделируемого процесса. Основным направлением развития в этой области является разработка методов адаптации, в основе которых лежат алгоритмы Бейтса-Гренджера (Bates, Grander, 1965), Ньюболда-Гренджера (Newbald, Grander, 1974), Ершова (1975) и др. К сожалению, нам не удалось обнаружить пакеты R, в которых были бы реализованы вменяемые методы комплексации прогнозов с адаптацией.</p>
+
+</div>
+<div class="footnotes">
+<hr />
+<ol start="9">
+<li id="fn9"><p>Информация о всех литературных источниках этого раздела приведена в (Розенберг и др., 1994).<a href="083-Model-Complexes.html#fnref9">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="082-NN-with-Caret.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="084-GLM-for-Counts.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="065-Comparing-Classifiers.html">
+<link rel="next" href="072-NBC.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,192 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="ch_7" class="section level1">
+<h1><span class="header-section-number">ГЛАВА 7</span> Модели классификации для нескольких классов</h1>
+<div id="sec_7_1" class="section level2">
+<h2><span class="header-section-number">7.1</span> Ирисы Фишера и метод <em>k</em> ближайших соседей</h2>
+<p><em>Ирисы Фишера</em> - самый популярный в статистической литературе набор данных, часто используемый для иллюстрации работы различных алгоритмов классификации. При всем желании мы не смогли без него обойтись, поскольку в современных реальных приложениях редко встречаются такие компактные наборы данных, позволяющие построить хороший классификатор при минимуме исходных признаков.</p>
+<p>Выборка состоит из 150 экземпляров ирисов трех видов (рис. <a href="071-Multiclass-Classification.html#fig:fig-7-1">7.1</a>), для которых измерялись четыре характеристики: длина и ширина чашелистика (<code>Sepal.Length</code> и <code>Sepal.Width</code>), длина и ширина лепестка (<code>Petal.Length</code> и <code>Petal.Width</code>). Поставим своей задачей на основе этого набора данных, включенного в базовый дистрибутив R, построить различные модели многоклассовой классификации, оценивающие каждый из трех видов растения по данным проведенных измерений.</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-7-1"></span>
+<img src="figures/iris.PNG" alt="Виды ирисов в выборке Фишера-Андерсона" width="500px" />
+<p class="caption">
+Рисунок 7.1: Виды ирисов в выборке Фишера-Андерсона
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>Исследуем характер статистической вариации признаков этой выборки с использованием категоризованных диаграмм, где данные сгруппированы по отдельным видам. Из графиков, представленных на рис. <a href="071-Multiclass-Classification.html#fig:fig-7-2">7.2</a>, видно, что размеры лепестка <code>Petal.Width</code> являются гораздо более выраженным классифицирующим признаком, чем ширина чашелистика.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(iris)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(gridExtra)
+a &lt;-<span class="st"> </span><span class="kw">qplot</span>(Sepal.Length, Sepal.Width, <span class="dt">data =</span> iris) +
+<span class="st">    </span><span class="kw">facet_grid</span>(<span class="dt">facets =</span> ~<span class="st"> </span>Species) +
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) 
+b &lt;-<span class="st"> </span><span class="kw">qplot</span>(Petal.Length, Petal.Width,<span class="dt">data =</span> iris) +
+<span class="st">    </span><span class="kw">facet_grid</span>(<span class="dt">facets =</span> ~<span class="st"> </span>Species) +
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)
+<span class="kw">grid.arrange</span>(a, b, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-7-2"></span>
+<img src="071-Multiclass-Classification_files/figure-html/fig-7-2-1.png" alt="Категоризованная диаграмма выборки ирисов" width="576" />
+<p class="caption">
+Рисунок 7.2: Категоризованная диаграмма выборки ирисов
+</p>
 </div>
+<p>Выполним теперь визуализацию анализируемых данных в пространстве первых двух главных компонент (рис. <a href="071-Multiclass-Classification.html#fig:fig-7-3">7.3</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vegan)
+mod.pca &lt;-<span class="st"> </span>vegan::<span class="kw">rda</span>(iris[, -<span class="dv">5</span>], <span class="dt">scale =</span> <span class="ot">TRUE</span>)
+scores &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(vegan::<span class="kw">scores</span>(mod.pca, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>,
+                               <span class="dt">scaling =</span> <span class="dv">3</span>))
+scores$Species &lt;-<span class="st"> </span>iris$Species
+<span class="co"># Включаем в названия осей доли объясненных дисперсий</span>
+axX &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;PC1 (&quot;</span>,
+             <span class="kw">as.integer</span>(<span class="dv">100</span>*mod.pca$CA$eig[<span class="dv">1</span>]/<span class="kw">sum</span>(mod.pca$CA$eig)), <span class="st">&quot;%)&quot;</span>)
+axY &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;PC2 (&quot;</span>,
+             <span class="kw">as.integer</span>(<span class="dv">100</span>*mod.pca$CA$eig[<span class="dv">2</span>]/<span class="kw">sum</span>(mod.pca$CA$eig)), <span class="st">&quot;%)&quot;</span>)
+<span class="co"># Составляем таблицу для &quot;каркаса&quot; точек</span>
+l &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">unique</span>(scores$Species), function(c) { 
+    f &lt;-<span class="st"> </span><span class="kw">subset</span>(scores, Species ==<span class="st"> </span>c)
+    f[<span class="kw">chull</span>(f), ]})
+hull &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, l)
+<span class="co"># Выводим ординационную диаграмму</span>
+<span class="kw">ggplot</span>() +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> hull, <span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">fill =</span> Species),
+                 <span class="dt">alpha =</span> <span class="fl">0.4</span>, <span class="dt">linetype =</span> <span class="dv">0</span>) +<span class="st">  </span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> scores, <span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">shape =</span> Species,
+                                  <span class="dt">colour =</span> Species), <span class="dt">size =</span> <span class="dv">3</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;purple&#39;</span>, <span class="st">&#39;green&#39;</span>, <span class="st">&#39;blue&#39;</span>)) +
+<span class="st">    </span><span class="kw">xlab</span>(axX) +<span class="st"> </span><span class="kw">ylab</span>(axY) +<span class="st"> </span><span class="kw">coord_equal</span>() +<span class="st"> </span><span class="kw">theme_bw</span>() </code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-7-3"></span>
+<img src="071-Multiclass-Classification_files/figure-html/fig-7-3-1.png" alt="Ординационная диаграмма данных по ирисам в осях двух главных компонент" width="672" />
+<p class="caption">
+Рисунок 7.3: Ординационная диаграмма данных по ирисам в осях двух главных компонент
+</p>
+</div>
+<p>Как видно на рис. <a href="071-Multiclass-Classification.html#fig:fig-7-3">7.3</a>, один из классов (<em>Iris setosa</em>) линейно отделим от двух остальных.</p>
+<p>В разделах <a href="034-Handling-Missing-Values.html#sec_3_4">3.4</a> и <a href="042-Regularization.html#sec_4_2">4.2</a> мы использовали простейший, но достаточно эффективный алгоритм <span class="math inline">\(k\)</span> ближайших соседей (k nearest neighbors), или kNN-регрессию. В основе метода kNN-классификатора лежит гипотеза компактности, которая предполагает, что тестируемый объект d будет иметь такую же метку класса, как и обучающие объекты в локальной области его ближайшего окружения. В варианте 1NN анализируемый объект относят к определенному классу в зависимости от информации о его ближайшем соседе. В варианте kNN каждый объект относится к преобладающему классу ближайших соседей, где <span class="math inline">\(k\)</span> - параметр алгоритма.</p>
+<p>Решающие правила в методе kNN определяются границами смежных сегментов диаграммы Вороного (Voronoi resselation), разделяющей плоскость на <span class="math inline">\(n\)</span> выпуклых многоугольников, каждый из которых содержит один и только один объект обучающей выборки (рис. <a href="071-Multiclass-Classification.html#fig:fig-7-4">7.4</a>). В <span class="math inline">\(p\)</span>-мерных пространствах границы решений состоят уже из сегментов <span class="math inline">\((p - 1)\)</span>-мерных полуплоскостей, образованных выпуклыми многогранниками Вороного.</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-7-4"></span>
+<img src="figures/voronoi.png" alt="Иллюстрация работы алгоритма *k* ближайших соседей" width="200px" />
+<p class="caption">
+Рисунок 7.4: Иллюстрация работы алгоритма <em>k</em> ближайших соседей
+</p>
+</div>
+<p>Алгоритм предсказания строится по принципу “большинства голосов”, т.е. в качестве результата объявляется метка класса-победителя. На рис. <a href="071-Multiclass-Classification.html#fig:fig-7-4">7.4</a> тестируемый объект “звёздочка” попадает в ячейку объекта класса “треугольников” и при <span class="math inline">\(k = 1\)</span> будет отнесён к этому классу. Однако при <span class="math inline">\(k = 3\)</span> по голосам двух ближайших соседей из трех экзаменуемая точка будет отнесена к классу “кружочков”. Вероятностный вариант метода kNN использует для ранжирования предполагаемых классов сумму “голосов” соседей с учетом их весов, в частности, евклидовой меры расстояния между тестируемым объектом и каждым из соседей.</p>
+<p>Вариант 1NN всегда обеспечивает 100% правильное распознавание примеров обучающей выборки (самый ближайший сосед - он сам), однако часто ошибается на неизвестных ему данных. При увеличении <span class="math inline">\(k &gt; 1\)</span> до некоторых пределов качество распознавания на контрольной выборке будет возрастать. Оптимальное в смысле точности предсказаний значение <span class="math inline">\(k\)</span> может быть найдено с использованием перекрестной проверки. Для этого по фиксированному значению <span class="math inline">\(k\)</span> строится модель <span class="math inline">\(k\)</span>-ближайших соседей и оценивается CV-ошибка классификации. Эти действия повторяются для различных <span class="math inline">\(k\)</span> и значение, соответствующее наименьшей ошибке распознавания, принимается как оптимальное.</p>
+<p>В среде R классификация методом ближайших соседей может быть выполнена функциями <code>knn()</code> из базового пакета <code>class</code> и <code>kknn()</code> из одноименного пакета с расширенными возможностями настройки меры близости и формы используемой ядерной функции. Существует несколько возможностей оценить оптимальное значение <code>k</code> с помощью кросс-проверки:</p>
+<ol style="list-style-type: decimal">
+<li>Воспользоваться функцией <code>train.kknn()</code> из пакета <code>kknn</code> (по умолчанию задается скользящий контроль):</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(kknn)
+<span class="kw">train.kknn</span>(Species ~<span class="st"> </span>., iris, <span class="dt">kmax =</span> <span class="dv">50</span>, <span class="dt">kernel =</span> <span class="st">&quot;rectangular&quot;</span>) </code></pre></div>
+<pre><code>## 
+## Call:
+## train.kknn(formula = Species ~ ., data = iris, kmax = 50, kernel = &quot;rectangular&quot;)
+## 
+## Type of response variable: nominal
+## Minimal misclassification: 0.02666667
+## Best kernel: rectangular
+## Best k: 16</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Составить собственный скрипт для выполнения перекрестной проверки, например (рис. <a href="071-Multiclass-Classification.html#fig:fig-7-5">7.5</a>):</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">max_K =<span class="st"> </span><span class="dv">20</span>
+gen.err.kknn &lt;-<span class="st"> </span><span class="kw">numeric</span>(max_K)
+mycv.err.kknn &lt;-<span class="st"> </span><span class="kw">numeric</span>(max_K)
+n &lt;-<span class="st"> </span><span class="kw">nrow</span>(iris)
+
+<span class="co">#  Рассматриваем число возможных соседей от 1 до 20</span>
+for (k.val in <span class="dv">1</span>:max_K)  {  
+    pred.train &lt;-<span class="st"> </span><span class="kw">kknn</span>(Species ~<span class="st"> </span>., iris,
+                       <span class="dt">train =</span> iris, <span class="dt">test =</span> iris, <span class="dt">k =</span> k.val, 
+                       <span class="dt">kernel =</span> <span class="st">&quot;rectangular&quot;</span>)
+    gen.err.kknn[k.val] &lt;-<span class="st"> </span><span class="kw">mean</span>(pred.train$fit !=<span class="st"> </span>iris$Species)
+    for (i in <span class="dv">1</span>:n)   {
+        pred.mycv &lt;-<span class="st"> </span><span class="kw">kknn</span>(Species ~<span class="st"> </span>., <span class="dt">train =</span> iris[-i, ], <span class="dt">test =</span> iris[i, ],
+                          <span class="dt">k =</span> k.val, <span class="dt">kernel =</span> <span class="st">&quot;rectangular&quot;</span>)
+        mycv.err.kknn[k.val] &lt;-<span class="st"> </span>mycv.err.kknn[k.val] +
+<span class="st">            </span>(pred.mycv$fit !=<span class="st"> </span>iris$Species[i]) }
+}
+mycv.err.kknn &lt;-<span class="st"> </span>mycv.err.kknn/n
+
+<span class="kw">plot</span>(<span class="dv">1</span>:<span class="dv">20</span>, gen.err.kknn, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&#39;k&#39;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.07</span>),
+     <span class="dt">ylab =</span> <span class="st">&#39;Ошибка классификации&#39;</span>, <span class="dt">col =</span> <span class="st">&quot;limegreen&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>) 
+<span class="kw">points</span>(<span class="dv">1</span>:max_K, mycv.err.kknn, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+<span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;При обучении&quot;</span>, <span class="st">&quot;Скользящий контроль&quot;</span>),
+       <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;limegreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-7-5"></span>
+<img src="071-Multiclass-Classification_files/figure-html/fig-7-5-1.png" alt="Нахождение оптимального числа $k$ ближайших соседей при классификации видов ириса" width="480" />
+<p class="caption">
+Рисунок 7.5: Нахождение оптимального числа <span class="math inline">\(k\)</span> ближайших соседей при классификации видов ириса
+</p>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Использовать функцию <code>train()</code> из пакета <code>caret</code>, с которой мы уже неоднократно сталкивались ранее (см. главу <a href="031-Intro-to-Caret.html#ch_3">3</a>):</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+contrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">repeats =</span> <span class="dv">3</span>)
+<span class="kw">train</span>(Species ~<span class="st"> </span>., <span class="dt">data =</span> iris, <span class="dt">method =</span> <span class="st">&quot;kknn&quot;</span>, 
+      <span class="dt">trControl =</span> contrl, <span class="dt">preProcess =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),
+      <span class="dt">tuneLength =</span> <span class="dv">20</span>)</code></pre></div>
+<pre><code>## k-Nearest Neighbors 
+## 
+## 150 samples
+##   4 predictor
+##   3 classes: &#39;setosa&#39;, &#39;versicolor&#39;, &#39;virginica&#39; 
+## 
+## Pre-processing: centered (4), scaled (4) 
+## Resampling: Cross-Validated (10 fold, repeated 3 times) 
+## Summary of sample sizes: 135, 135, 135, 135, 135, 135, ... 
+## Resampling results across tuning parameters:
+## 
+##   kmax  Accuracy   Kappa    
+##    5    0.9466667  0.9200000
+##    7    0.9466667  0.9200000
+##    9    0.9466667  0.9200000
+##   11    0.9488889  0.9233333
+##   13    0.9555556  0.9333333
+##   15    0.9555556  0.9333333
+##   17    0.9555556  0.9333333
+##   19    0.9555556  0.9333333
+##   21    0.9555556  0.9333333
+##   23    0.9555556  0.9333333
+##   25    0.9555556  0.9333333
+##   27    0.9555556  0.9333333
+##   29    0.9577778  0.9366667
+##   31    0.9577778  0.9366667
+##   33    0.9577778  0.9366667
+##   35    0.9577778  0.9366667
+##   37    0.9577778  0.9366667
+##   39    0.9577778  0.9366667
+##   41    0.9577778  0.9366667
+##   43    0.9577778  0.9366667
+## 
+## Tuning parameter &#39;distance&#39; was held constant at a value of 2
+## 
+## Tuning parameter &#39;kernel&#39; was held constant at a value of optimal
+## Accuracy was used to select the optimal model using  the largest value.
+## The final values used for the model were kmax = 43, distance = 2
+##  and kernel = optimal.</code></pre>
+<p>Здесь была осуществлена трехкратная перекрестная проверка с разбивкой на 10 блоков, т.е. случайным образом исходная выборка делилась на 10 частей, после чего поочередно 9 частей использовались для оценки <span class="math inline">\(k\)</span>, а по одной части оценивалась точность классификации, и такая процедура повторялась три раза.</p>
+<p>Выполним теперь стандартную процедуру тестирования модели при <span class="math inline">\(k = 13\)</span>. Исходную выборку разбиваем на две части: обучающую (<code>train</code>) и проверочную (<code>test</code>) в соотношении 3:1:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+(samp.size &lt;-<span class="st"> </span><span class="kw">floor</span>(<span class="kw">nrow</span>(iris) *<span class="st"> </span>.<span class="dv">75</span>))</code></pre></div>
+<pre><code>## [1] 112</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">train.ind &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">seq_len</span>(<span class="kw">nrow</span>(iris)), <span class="dt">size =</span> samp.size)
+train &lt;-<span class="st"> </span>iris[train.ind, ]
+test &lt;-<span class="st"> </span>iris[-train.ind, ] </code></pre></div>
+<p>Функция <code>knn()</code> из пакета <code>class</code> сразу на выходе дает предсказываемые значения для тестовой последовательности, которые можно использовать для построения матрицы неточностей:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knn.iris &lt;-<span class="st"> </span>class::<span class="kw">knn</span>(<span class="dt">train =</span> train[, -<span class="dv">5</span>], <span class="dt">test =</span> test[, -<span class="dv">5</span>], 
+                <span class="dt">cl =</span> train[, <span class="st">&quot;Species&quot;</span>], <span class="dt">k =</span> <span class="dv">13</span>, <span class="dt">prob =</span> <span class="ot">TRUE</span>)
+(<span class="kw">table</span>(Факт =<span class="st"> </span>test$Species, Прогноз =<span class="st"> </span>knn.iris))</code></pre></div>
+<pre><code>##             Прогноз
+## Факт         setosa versicolor virginica
+##   setosa         11          0         0
+##   versicolor      0         13         0
+##   virginica       0          1        13</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Acc &lt;-<span class="st"> </span><span class="kw">mean</span>(knn.iris ==<span class="st"> </span>test$Species)
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=97.37%&quot;</code></pre>
+<p>Метод дал одну ошибку при предсказании 38 “свежих” примеров, что является вполне приличным результатом.</p>
 
 </div>
             </section>
@@ -267,8 +421,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="065-Comparing-Classifiers.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="072-NBC.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

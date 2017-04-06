@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="074-Nonlinear-Classifiers.html">
+<link rel="next" href="076-NN.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,72 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
-</div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<div id="sec_7_5" class="section level2">
+<h2><span class="header-section-number">7.5</span> Модель мультиномиального логита</h2>
+<p>Логистическая регрессия обычно используется как бинарный классификатор для выборок с альтернативным откликом. Однако этот метод можно обобщить и на случай с несколькими классами. В качестве моделируемого отклика <span class="math inline">\(Y\)</span> могут использоваться номинальные или порядковые переменные, и в обоих случаях мы сталкиваемся с многомерным биномиальным распределением.</p>
+<p>Рассмотрим сначала модель логита (multinomial logit) для отклика с несколькими классами. Пусть <span class="math inline">\(J\)</span> обозначает число классов для случайной независимой величины <span class="math inline">\(Y\)</span> (требование независимости всех <span class="math inline">\(J\)</span> альтернатив тут играет важное значение). Многомерное распределение вероятности наблюдения каждого из ее классов может быть представлено вектором <span class="math inline">\(\{ \pi_1, \dots \pi_J\}\)</span>. Тогда для каждого из <span class="math inline">\(n\)</span> независимых наблюдений оценка <span class="math inline">\(\pi_j\)</span> будет соответствовать вероятности того, насколько предпочтительно присвоение произвольному тестируемому объекту метки класса <span class="math inline">\(j\)</span>.</p>
+<p>Отметим, что для оценки всех вероятностей достаточно построить <span class="math inline">\(J - 1\)</span> моделей, поскольку недостающее значение легко получить из условий нормировки (сумма <span class="math inline">\(\pi_j\)</span> всегда равна 1). Поэтому любой из классов можно принять за базовый (примем для определенности, что это класс с номером 1), и тогда совокупность логит-моделей (baseline-category logit) будет иметь вид:</p>
+<p><span class="math display">\[ \log(\pi_j / \pi_1) = \alpha_j + \beta_j \mathbf{x}, \, \, j=2, \dots, J.\]</span></p>
+<p>Коэффициенты системы логит-уравнений оцениваются совместно путем максимизации общего критерия правдоподобия, т.е. другая форма анализа, основанная, например, на трех последовательно построенных моделях регрессии локально для каждого класса, может дать совсем иные результаты (Agresti, 2007).</p>
+<p>Для анализа категориальных данных в R существуют мощные специализированные пакеты <code>VGAM</code> и <code>mlogit</code>. Мы же воспользуемся более простой в освоении функцией <code>multinom()</code> из пакета <code>nnet</code>, которая осуществляет оценку коэффициентов системы логит-моделей с использованием алгоритмов построения искусственных нейронных сетей (см. раздел 7.6). Для данных по ирисам Фишера получаем:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nnet)
+MN.iris &lt;-<span class="st"> </span><span class="kw">multinom</span>(Species ~. , <span class="dt">data =</span> iris)</code></pre></div>
+<pre><code>## # weights:  18 (10 variable)
+## initial  value 164.791843 
+## iter  10 value 16.177348
+## iter  20 value 7.111438
+## iter  30 value 6.182999
+## iter  40 value 5.984028
+## iter  50 value 5.961278
+## iter  60 value 5.954900
+## iter  70 value 5.951851
+## iter  80 value 5.950343
+## iter  90 value 5.949904
+## iter 100 value 5.949867
+## final  value 5.949867 
+## stopped after 100 iterations</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(MN.iris)</code></pre></div>
+<pre><code>## Call:
+## multinom(formula = Species ~ ., data = iris)
+## 
+## Coefficients:
+##            (Intercept) Sepal.Length Sepal.Width Petal.Length Petal.Width
+## versicolor    18.69037    -5.458424   -8.707401     14.24477   -3.097684
+## virginica    -23.83628    -7.923634  -15.370769     23.65978   15.135301
+## 
+## Std. Errors:
+##            (Intercept) Sepal.Length Sepal.Width Petal.Length Petal.Width
+## versicolor    34.97116     89.89215    157.0415     60.19170    45.48852
+## virginica     35.76649     89.91153    157.1196     60.46753    45.93406
+## 
+## Residual Deviance: 11.89973 
+## AIC: 31.89973</code></pre>
+<p>Анализируя коэффициенты, можно заметить, например, что ширина чашелистика <code>Sepal.Width</code> уменьшается при переходе от <code>setosa</code> к <code>virginica</code>, причем логарифм отношения шансов <span class="math inline">\(\log(\pi_{vir} / \pi_{set})\)</span> уменьшается на величину <span class="math inline">\(\beta_{23} = -15.3\)</span> при увеличении ширины на 1 см.</p>
+<p>Метод <code>fitted()</code>, применяемый к объекту <code>multinom</code>, возвращает матрицу апостериорных вероятностей принадлежности каждого наблюдения к соответствующим классам. Предсказание класса осуществляется с учетом максимума такой вероятности:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Probs &lt;-<span class="st"> </span><span class="kw">fitted</span>(MN.iris)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">apply</span>(Probs, <span class="dv">1</span>, function(x) <span class="kw">colnames</span>(Probs)[<span class="kw">which</span>(x ==<span class="st"> </span><span class="kw">max</span>(x))])
+(<span class="kw">table</span>(Факт =<span class="st"> </span>iris$Species, Прогноз =<span class="st"> </span>pred))</code></pre></div>
+<pre><code>##             Прогноз
+## Факт         setosa versicolor virginica
+##   setosa         50          0         0
+##   versicolor      0         49         1
+##   virginica       0          1        49</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Acc &lt;-<span class="st"> </span><span class="kw">mean</span>(pred ==<span class="st"> </span>iris$Species)
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=98.67%&quot;</code></pre>
+<p>Поскольку функции, выполняющие подгонку моделей мультиноминального логита, обычно не проводят анализа статистической значимости коэффициентов, рассчитаем <span class="math inline">\(p\)</span>-значения самостоятельно с использованием <a href="https://ru.wikipedia.org/wiki/%D0%A2%D0%B5%D1%81%D1%82_%D0%92%D0%B0%D0%BB%D1%8C%D0%B4%D0%B0">теста Вальда</a> и <span class="math inline">\(t\)</span>-статистики:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span><span class="kw">summary</span>(MN.iris)$coefficients/<span class="kw">summary</span>(MN.iris)$standard.errors
+<span class="co"># p-значения на основе теста Вальда </span>
+(<span class="dv">1</span> -<span class="st"> </span><span class="kw">pnorm</span>(<span class="kw">abs</span>(z), <span class="dv">0</span>, <span class="dv">1</span>))*<span class="dv">2</span></code></pre></div>
+<pre><code>##            (Intercept) Sepal.Length Sepal.Width Petal.Length Petal.Width
+## versicolor   0.5930295    0.9515807   0.9557828    0.8129231   0.9457075
+## virginica    0.5051288    0.9297757   0.9220685    0.6955898   0.7417773</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># p-значения на основе  t-статистики</span>
+<span class="kw">pt</span>(z, <span class="dt">df =</span> <span class="kw">nrow</span>(iris) -<span class="st"> </span><span class="dv">5</span>, <span class="dt">lower =</span> <span class="ot">FALSE</span>) </code></pre></div>
+<pre><code>##            (Intercept) Sepal.Length Sepal.Width Petal.Length Petal.Width
+## versicolor   0.2969240    0.5241679   0.5220705    0.4066286   0.5270993
+## virginica    0.7469061    0.5350513   0.5388982    0.3480821   0.3711264</code></pre>
+<p>И мы с недоумением видим, что, несмотря на приличную точность предсказаний модели, все отношения <span class="math inline">\(\log(\pi_k / \pi_1)\)</span> согласно вычисленным <span class="math inline">\(р\)</span>-значениям статистически не отличаются от 0, т.е. все шансы равны. Ответ видится в резковатой реплике проф. Б. Рипли (B. Ripley) при дискуссии в Интернете: <em>“Попробуйте почитать наши книги. Там объясняется, почему тесты Вальда выполнять нельзя, и что асимптотическая теория может здесь дико вводить в заблуждение”</em>. Читатели, желающие убедиться в правоте сказанного могут пересчитать <span class="math inline">\(р\)</span>-значения коэффициентов с использованием теста множителей Лагранжа или бутстрепа, в частности, функцией <code>cluster.im.mlogit()</code> из пакета <code>clusterSEs</code>.</p>
 
 </div>
             </section>
@@ -267,8 +301,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="074-Nonlinear-Classifiers.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="076-NN.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

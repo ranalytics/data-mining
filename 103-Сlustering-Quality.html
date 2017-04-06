@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия, алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия, алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия, алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-04-02">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="102-H-Clustering.html">
+<link rel="next" href="104-Other-Clustering-Methods.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R (вместо предисловия)</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных</a><ul>
+<li><a href="01-Data-Mining-Models-in-R.html#------data-mining"><em>От статистического анализа разового эксперимента к Data Mining</em></a></li>
+<li class="chapter" data-level="" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#----"><i class="fa fa-check"></i>Принципиальная множественность моделей окружающего мира</a></li>
+<li class="chapter" data-level="" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#----"><i class="fa fa-check"></i>Нарастающая множественность алгоритмов построения моделей</a></li>
+<li class="chapter" data-level="" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#-----data-mining"><i class="fa fa-check"></i>Типы и характеристики групп моделей Data Mining</a></li>
+<li class="chapter" data-level="" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#-----"><i class="fa fa-check"></i>Природа многомерного отклика и его моделирование</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="012-R-Intro.html"><a href="012-R-Intro.html"><i class="fa fa-check"></i><b>1.2</b> Статистическая среда R и ее использование в Data Mining</a></li>
+<li class="chapter" data-level="1.3" data-path="013-What-This-Book-Is-About.html"><a href="013-What-This-Book-Is-About.html"><i class="fa fa-check"></i><b>1.3</b> О чем эта книга и чего в ней нет</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#-----"><i class="fa fa-check"></i>Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#--"><i class="fa fa-check"></i>Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#-"><i class="fa fa-check"></i>Генетический алгоритм</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#------"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="" data-path="042-Regularization.html"><a href="042-Regularization.html#---"><i class="fa fa-check"></i>Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="" data-path="042-Regularization.html"><a href="042-Regularization.html#----pls"><i class="fa fa-check"></i>Метод частных наименьших квадратов (PLS)</a></li>
+<li><a href="042-Regularization.html#---k--">Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="" data-path="042-Regularization.html"><a href="042-Regularization.html#-------1"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#-----"><i class="fa fa-check"></i>Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#------"><i class="fa fa-check"></i>Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#-------2"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="" data-path="042-Regularization.html"><a href="042-Regularization.html#---"><i class="fa fa-check"></i>Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="" data-path="044-Ensembles.html"><a href="044-Ensembles.html#d091d183d181d182d0b8d0bdd0b3"><i class="fa fa-check"></i>Бустинг</a></li>
+<li class="chapter" data-level="" data-path="044-Ensembles.html"><a href="044-Ensembles.html#-------3"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="053-Logic-Rules.html"><a href="053-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="054-Association-Rules-Algos.html"><a href="054-Association-Rules-Algos.html"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+<li class="chapter" data-level="5.5" data-path="055-Traminer.html"><a href="055-Traminer.html"><i class="fa fa-check"></i><b>5.5</b> Анализ последовательностей знаков или событий</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классфикаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Классификаторы с использованием нелинейных разделяющих поверхностей</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html"><i class="fa fa-check"></i><b>7</b> Модели классификации для нескольких классов</a><ul>
+<li class="chapter" data-level="7.1" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html#sec_7_1"><i class="fa fa-check"></i><b>7.1</b> Ирисы Фишера и метод k-ближайших соседей</a></li>
+<li class="chapter" data-level="7.2" data-path="072-NBC.html"><a href="072-NBC.html"><i class="fa fa-check"></i><b>7.2</b> Наивный байесовский классификатор</a></li>
+<li class="chapter" data-level="7.3" data-path="073-In-Discriminant-Space.html"><a href="073-In-Discriminant-Space.html"><i class="fa fa-check"></i><b>7.3</b> Классификация в линейном дискриминантном пространстве</a></li>
+<li class="chapter" data-level="7.4" data-path="074-Nonlinear-Classifiers.html"><a href="074-Nonlinear-Classifiers.html"><i class="fa fa-check"></i><b>7.4</b> Нелинейные классификаторы в R</a></li>
+<li class="chapter" data-level="7.5" data-path="075-Multinomial-Logit.html"><a href="075-Multinomial-Logit.html"><i class="fa fa-check"></i><b>7.5</b> Модель мультиномиального логита</a></li>
+<li class="chapter" data-level="7.6" data-path="076-NN.html"><a href="076-NN.html"><i class="fa fa-check"></i><b>7.6</b> Классификаторы на основе искусственных нейронных сетей</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html"><i class="fa fa-check"></i><b>8</b> Моделирование порядковых и счетных переменных</a><ul>
+<li class="chapter" data-level="8.1" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html#sec_8_1"><i class="fa fa-check"></i><b>8.1</b> Модель логита для порядковой переменной</a></li>
+<li class="chapter" data-level="8.2" data-path="082-NN-with-Caret.html"><a href="082-NN-with-Caret.html"><i class="fa fa-check"></i><b>8.2</b> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></a></li>
+<li class="chapter" data-level="8.3" data-path="083-Model-Complexes.html"><a href="083-Model-Complexes.html"><i class="fa fa-check"></i><b>8.3</b> Методы комплексации модельных прогнозов</a></li>
+<li class="chapter" data-level="8.4" data-path="084-GLM-for-Counts.html"><a href="084-GLM-for-Counts.html"><i class="fa fa-check"></i><b>8.4</b> Обобщенные линейные модели для счетных данных</a></li>
+<li class="chapter" data-level="8.5" data-path="085-ZIP-for-Counts.html"><a href="085-ZIP-for-Counts.html"><i class="fa fa-check"></i><b>8.5</b> ZIP- и барьерные модели счетных данных</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html"><i class="fa fa-check"></i><b>9</b> Методы многомерной ординации</a><ul>
+<li class="chapter" data-level="9.1" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html#sec_9_1"><i class="fa fa-check"></i><b>9.1</b> Преобразование данных и вычисление матрицы расстояний</a></li>
+<li class="chapter" data-level="9.2" data-path="092-Distance-ANOVA.html"><a href="092-Distance-ANOVA.html"><i class="fa fa-check"></i><b>9.2</b> Непараметрический дисперсионный анализ матриц дистанций</a></li>
+<li class="chapter" data-level="9.3" data-path="093-Comparing-Diagrams.html"><a href="093-Comparing-Diagrams.html"><i class="fa fa-check"></i><b>9.3</b> Методы ординации объектов и переменных: построение и сравнение диаграмм</a></li>
+<li class="chapter" data-level="9.4" data-path="094-Ordination-Factors.html"><a href="094-Ordination-Factors.html"><i class="fa fa-check"></i><b>9.4</b> Оценка связи ординации с внешними факторами</a></li>
+<li class="chapter" data-level="9.5" data-path="095-NMDS.html"><a href="095-NMDS.html"><i class="fa fa-check"></i><b>9.5</b> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html"><i class="fa fa-check"></i><b>10</b> Кластерный анализ</a><ul>
+<li class="chapter" data-level="10.1" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html#sec_10_1"><i class="fa fa-check"></i><b>10.1</b> Алгоритмы кластеризации, основанные на разделении</a></li>
+<li class="chapter" data-level="10.2" data-path="102-H-Clustering.html"><a href="102-H-Clustering.html"><i class="fa fa-check"></i><b>10.2</b> Иерархическая кластеризация</a></li>
+<li class="chapter" data-level="10.3" data-path="103-Сlustering-Quality.html"><a href="103-Сlustering-Quality.html"><i class="fa fa-check"></i><b>10.3</b> Оценка качества кластеризации</a></li>
+<li class="chapter" data-level="10.4" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html"><i class="fa fa-check"></i><b>10.4</b> Другие алгоритмы кластеризации</a><ul>
+<li class="chapter" data-level="" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#----"><i class="fa fa-check"></i>Иерархическая кластеризация на главные компоненты</a></li>
+<li class="chapter" data-level="" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#--k--fuzzy-analysis-clustering"><i class="fa fa-check"></i>Метод нечетких k-средних (fuzzy analysis clustering)</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#--"><i class="fa fa-check"></i>Статистическая модель кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="105-Cohonen-Maps.html"><a href="105-Cohonen-Maps.html"><i class="fa fa-check"></i><b>10.5</b> Самоорганизующиеся карты Кохонена</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html"><i class="fa fa-check"></i><b>11</b> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</a><ul>
+<li class="chapter" data-level="11.1" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html#----rattle"><i class="fa fa-check"></i><b>11.1</b> Начало работы с пакетом <code id="sec_11_1">rattle</code></a></li>
+<li class="chapter" data-level="11.2" data-path="112-Descriptive-Stats.html"><a href="112-Descriptive-Stats.html"><i class="fa fa-check"></i><b>11.2</b> Описательная статистика и визуализация данных</a></li>
+<li class="chapter" data-level="11.3" data-path="113-Model-Building.html"><a href="113-Model-Building.html"><i class="fa fa-check"></i><b>11.3</b> Построение и тестирование моделей классификации</a></li>
+<li class="chapter" data-level="11.4" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html"><i class="fa fa-check"></i><b>11.4</b> Дескриптивные модели (обучение без учителя)</a><ul>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#-"><i class="fa fa-check"></i>Кластерный анализ</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#-"><i class="fa fa-check"></i>Ассоциативные правила</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#--"><i class="fa fa-check"></i>Список рекомендуемой литературы</a></li>
+<li class="chapter" data-level="" data-path="131-Appendix.html"><a href="131-Appendix.html"><i class="fa fa-check"></i>Приложение: cправочная карта по Data Mining с использованием R</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия, алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec_10_3" class="section level2">
+<h2><span class="header-section-number">10.3</span> Оценка качества кластеризации</h2>
+<p>После создания кластерного решения обычно возникает вопрос, насколько оно устойчиво и статистически значимо. Здесь существует эмпирическое правило - устойчивая группировка должна сохраняться при изменении методов кластеризации: например, если результаты иерархического кластерного анализа имеют долю совпадений более 70% с группировкой по методу <span class="math inline">\(k\)</span> средних, то предположение об устойчивости принимается.</p>
+<p>В теоретическом плане проблема проверки адекватности кластеризации не решена, по крайней мере, без использования другого вида анализа или априорного знания принадлежности объектов к соответствующим классам. Авторы сборника Ким и др. (1989, с. 192 и далее) подробно рассматривают и в итоге отвергают пять методов проверки адекватности кластеризации (<a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7">ru.wikipedia.org</a>):</p>
+<ol style="list-style-type: decimal">
+<li>Кофенетическая корреляция – не рекомендуется и ограниченна в использовании;</li>
+<li>Тесты на значимость разбиения данных на кластеры (многомерный дисперсионный анализ) – всегда дают значимый результат;</li>
+<li>Методика повторных (случайных) выборок – не доказывает обоснованность решения;</li>
+<li>Тесты значимости для признаков, не использованных при кластеризации, – пригодны только при наличии повторных измерений;</li>
+<li>Методы Монте-Карло очень сложны и доступны только опытным математикам.</li>
+</ol>
+<p>С тех пор в литературе предложено множество методов и критериев оценки качества результатов кластеризации (clustering validation). Можно выделить несколько подходов к валидации<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a> кластеров (Kassambara, 2017):</p>
+<ul>
+<li><em>внешняя валидация</em>, которая заключается в сравнении итогов кластерного анализа с заранее известным результатом (т.е. метки кластеров известны априори);</li>
+<li><em>относительная валидация</em>, которая оценивает структуру кластеров, изменяя различные параметры одного и того же алгоритма (например, число групп <span class="math inline">\(k\)</span>);</li>
+<li><em>внутренняя валидация</em>, которая использует внутреннюю информацию процесса объединения в кластеры (если внешняя информация отсутствует);</li>
+<li><em>оценка стабильности</em> объединения в кластеры (или специальная версия внутренней валидации), использующая методы ресэмплинга.</li>
+</ul>
+<p>Одна из проблем машинного обучения без учителя состоит в том, что методы кластеризации будут формировать группы, даже если анализируемый набор данных представляет собой полностью случайную структуру. Поэтому первой задачей валидации, которую рекомендуется выполнить перед началом кластерного анализа, является оценка общей предрасположенности имеющихся данных к объединению в кластеры (clustering tendency).</p>
+<p><em>Статистика Хопкинса</em> (Hopkins) является одним из индикаторов тенденции к группированию. Для ее расчета создается B псевдо-наборов данных, сгенерированных случайным образом на основе распределения с тем же стандартным отклонением, что и оригинальный набор данных. Для каждого наблюдения <span class="math inline">\(i\)</span> из <span class="math inline">\(n\)</span> рассчитывается среднее расстояние до <span class="math inline">\(k\)</span> ближайших соседей: <span class="math inline">\(w_i\)</span> между реальными объектами и <span class="math inline">\(q_i\)</span> между искусственными объектами и их самыми близкими реальными соседями. Тогда статистика Хопкинса</p>
+<p><span class="math display">\[H_{ind} = \frac{\sum_n w_i}{\sum_n q_i + \sum_n w_i},\]</span></p>
+<p>превышающая 0.5, будет соответствовать нулевой гипотезе о том, что <span class="math inline">\(q_i\)</span> и <span class="math inline">\(w_i\)</span> подобны, а группируемые объекты распределены случайно и однородно. Величина <span class="math inline">\(H_{ind} &lt; 0.25\)</span> на 90%-нном уровне уверенности указывает на имеющуюся тенденцию к группированию данных.</p>
+<p>Весьма полезна также визуальная оценка тенденции (VAT, Visual Assessment of cluster Tendency): потенциальные группы представлены темными квадратами вдоль главной диагонали “VAT-диаграммы”. Функция <code>get_clust_tendency()</code> из пакета <code>factoextra</code> попутно с графиком рассчитывает также и статистику Хопкинса:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cluster)
+<span class="kw">data</span>(<span class="st">&quot;USArrests&quot;</span>)
+df.stand &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">scale</span>(USArrests))
+<span class="kw">library</span>(<span class="st">&quot;factoextra&quot;</span>)
+<span class="kw">get_clust_tendency</span>(df.stand, <span class="dt">n =</span> <span class="dv">30</span>,
+                   <span class="dt">gradient =</span> <span class="kw">list</span>(<span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;white&quot;</span>))</code></pre></div>
+<pre><code>## $hopkins_stat
+## [1] 0.386467
+## 
+## $plot</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-10"></span>
+<img src="103-Сlustering-Quality_files/figure-html/fig-10-10-1.png" alt="Корреляция между кластеризациями на основе разных методов" width="480" />
+<p class="caption">
+Рисунок 10.10: Корреляция между кластеризациями на основе разных методов
+</p>
+</div>
+<p>В случае криминогенности штатов США мы имеем весьма умеренную склонность к образованию групп. В разделе <a href="101-Partitioning-Algos.html#sec_10_1">10.1</a> мы рассмотрели три метода выбора оптимального числа кластеров, которые не всегда давали однозначные оценки. “Но это еще не все…”. С помощью пакета <code>NbClust</code> можно найти оптимальную схему объединения в кластеры, используя ни много ни мало целых 30 индексов качества! При этом происходит перебор различных комбинаций числа групп, метрик дистанции и методов кластеризации:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(NbClust)
+nb &lt;-<span class="st"> </span><span class="kw">NbClust</span>(df.stand, <span class="dt">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="dt">min.nc =</span> <span class="dv">2</span>,
+              <span class="dt">max.nc =</span> <span class="dv">8</span>, <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>, <span class="dt">index =</span> <span class="st">&quot;all&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nb$Best.nc</code></pre></div>
+<pre><code>##                      KL     CH Hartigan    CCC   Scott  Marriot   TrCovW
+## Number_clusters  8.0000  2.000   5.0000  2.000  5.0000      5.0   4.0000
+## Value_Index     24.0818 43.462  12.3077 -0.141 43.9763 180497.5 383.4582
+##                  TraceW Friedman   Rubin Cindex     DB Silhouette   Duda
+## Number_clusters  5.0000   6.0000  5.0000 4.0000 4.0000     2.0000 2.0000
+## Value_Index     15.3518   2.8394 -0.5185 0.3713 0.7784     0.4085 1.0397
+##                 PseudoT2   Beale Ratkowsky    Ball PtBiserial Frey McClain
+## Number_clusters   2.0000  2.0000    2.0000  3.0000     3.0000    1   2.000
+## Value_Index      -0.6878 -0.0874    0.4466 18.8709     0.6361   NA   0.547
+##                   Dunn Hubert SDindex Dindex   SDbw
+## Number_clusters 8.0000      0  4.0000      0 8.0000
+## Value_Index     0.2509      0  1.2638      0 0.1636</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(nb) +<span class="st"> </span><span class="kw">theme_minimal</span>()</code></pre></div>
+<pre><code>## Among all indices: 
+## ===================
+## * 2 proposed  0 as the best number of clusters
+## * 1 proposed  1 as the best number of clusters
+## * 8 proposed  2 as the best number of clusters
+## * 2 proposed  3 as the best number of clusters
+## * 4 proposed  4 as the best number of clusters
+## * 5 proposed  5 as the best number of clusters
+## * 1 proposed  6 as the best number of clusters
+## * 3 proposed  8 as the best number of clusters
+## 
+## Conclusion
+## =========================
+## * According to the majority rule, the best number of clusters is  2 .</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-11"></span>
+<img src="103-Сlustering-Quality_files/figure-html/fig-10-11-1.png" alt="Оптимальное число кластеров по оценкам различных индексов" width="480" />
+<p class="caption">
+Рисунок 10.11: Оптимальное число кластеров по оценкам различных индексов
+</p>
+</div>
+<p>Разброс оценок числа классов наилучшего разбиения весьма велик: от 2 по индексу МакКлайна до 8 по индексу Данна, поэтому приходится прибегать к тривиальному голосованию.</p>
+<p><em>Кофенетическую корреляцию</em> можно также рассчитать между исходной матрицей дистанции и матрицей кофенетических расстояний, и тогда она может служить мерой адекватности кластерного решения исходным данным. Оценим по этому показателю пять иерархических кластеризаций, сравниваемых между собой в предыдущем разделе (Borcard et al., 2011):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">dist</span>(df.stand, <span class="dt">method =</span> <span class="st">&quot;euclidean&quot;</span>)
+<span class="kw">library</span>(vegan)
+hc_list &lt;-<span class="st"> </span><span class="kw">list</span>(hc1 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d,<span class="st">&quot;com&quot;</span>),
+                hc2 &lt;-<span class="st">  </span><span class="kw">hclust</span>(d,<span class="st">&quot;single&quot;</span>), hc3 &lt;-<span class="st">  </span><span class="kw">hclust</span>(d,<span class="st">&quot;ave&quot;</span>),
+                hc4 &lt;-<span class="st">  </span><span class="kw">hclust</span>(d, <span class="st">&quot;centroid&quot;</span>), hc5 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="st">&quot;ward.D2&quot;</span>))
+Coph &lt;-<span class="st"> </span><span class="kw">rbind</span>(
+    MantelStat &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(hc_list, 
+                                function(hc) <span class="kw">mantel</span>(d, <span class="kw">cophenetic</span>(hc))$statistic)),
+    MantelP &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(hc_list, 
+                             function(hc) <span class="kw">mantel</span>(d, <span class="kw">cophenetic</span>(hc))$signif)))
+<span class="kw">colnames</span>(Coph) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Complete&quot;</span>, <span class="st">&quot;Single&quot;</span>, <span class="st">&quot;Average&quot;</span>, <span class="st">&quot;Centroid&quot;</span>, <span class="st">&quot;Ward.D2&quot;</span>) 
+<span class="kw">rownames</span>(Coph) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;W Мантеля&quot;</span>, <span class="st">&quot;Р-значение&quot;</span>)
+<span class="kw">round</span>(Coph, <span class="dv">3</span>)</code></pre></div>
+<pre><code>##            Complete Single Average Centroid Ward.D2
+## W Мантеля     0.698  0.541   0.718    0.607   0.698
+## Р-значение    0.001  0.001   0.001    0.001   0.001</code></pre>
+<p>Таким образом, максимальное значение коэффициента W матричной корреляции Мантеля (а, следовательно, и наибольшая адекватность матрице расстояний, построенной по исходным данным) принадлежит кластеризации по методу средней связи. Нелишне заметить, что все рассмотренные кластеризации статистически значимы, т.е. не могут быть объяснены случайными причинами (впрочем, такое будет почти всегда). Наконец, Ким и др. (1989) не рекомендуют использовать кофенетическую корреляцию в основном по причине несоответствия кофенетических расстояний нормальному распределению. Можно, однако, привести массу аргументов, показывающих откровенную слабость этих утверждений.</p>
+<p>После того, как мы попытались оценить, насколько хорошо топология дендрограммы отображает предрасположенность объектов к группированию, остаются некоторые вопросы, вызывающие несомненный интерес. Можно ли вычислить <span class="math inline">\(p\)</span>-значения в целом для полученной иерархической кластеризации? Какие фрагменты древовидной структуры являются “слабым звеном” в полученной конструкции?</p>
+<p>Однако правомерен и контрвопрос: “Нужно ли вычислять эти <span class="math inline">\(р\)</span>-значения?” Как убедительно сказано в книге Джеймс и др. (2016), не существует правильных или неправильных результатов кластеризации, поскольку, по определению, это метод обучения без учителя. Все определяется соответствием полученного решения поставленной задаче, которая на практике в большинстве случаев сводится просто к тому, чтобы приблизительно оценить, на сколько групп целесообразно разделить данные. При этом степень этого соответствия всегда будет субъективной.</p>
+<p>Ответ на второй вопрос об устойчивости фрагментов кластерной структуры состоит в том, чтобы взять из исходной таблицы множество повторных выборок, построить для каждой из них свою дендрограмму и вычислить частоту встречаемости каждого фрагмента в сформированной последовательности разбиений. Разумеется, здесь невозможно обойтись без бутстрепа, позволяющего подсчитать вероятность BP (Bootstrap Probability) встречаемости произвольного узла в бутстреп-копиях. Обычно фрагменты древовидной структуры считаются статистически значимыми, если с ветвями дерева связывается бутстреп-вероятность, превышающая 70-80%.</p>
+<p>Х. Шимодейра (Shimodaira, 2002), сравнивая центры распределения исходной и бутстреп-выборок, показал, что величина BP является приближенной оценкой вероятности появления узла в дереве. Несмещенную оценку вероятности AU (Approximately Unbiased) можно получить, выполнив повторную серию бутстрепа в различных масштабах (multiscale bootstrap resampling). Для этого отдельно вычисляют BP-значения, формируя бутстреп-выборки разного объема: например, <span class="math inline">\(0.5n, 0.6n, \dots, 1.4n, 1.5n\)</span>, где <span class="math inline">\(n\)</span> - объем исходной выборки. Несмещенная бутстреп-вероятность AU находится аппроксимацией ряда полученных значений BP. Оптимальные оценки AU для каждого кластера дендрограммы, найденные путем подбора параметрических моделей с использованием метода максимального правдоподобия, могут быть получены с использованием пакетов <code>pvclust</code> и <code>scaleboot</code> для R.</p>
+<p>Некоторая проблема заключается в том, что функция <code>pvclust()</code>, ориентированная на генетические исследования, выполняет кластеризацию признаков (т.е. столбцов таблицы данных), а для 4 показателей нашей демонстрационной таблицы <code>USArrests</code> это особого интереса не представляет. Если попробовать выполнить анализ с транспонированной матрицей <span class="math inline">\(4 \times 60\)</span>, выполнив команду <code>pvclust(t(USArrests))</code>, то решение найти нельзя из-за проблем с сингулярными преобразованиями:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Error in <span class="kw">solve.default</span>(<span class="kw">crossprod</span>(X, X/vv)), 
+system is exactly singular:<span class="st"> </span>U[<span class="dv">2</span>, <span class="dv">2</span>] =<span class="st"> </span><span class="dv">0</span></code></pre></div>
+<p>Воспользуемся тогда в качестве примера набором <code>Boston</code> из пакета <code>MASS</code>, включающим 14 признаков привлекательности 506 участков города для проживания (рис. <a href="103-Сlustering-Quality.html#fig:fig-10-12">10.12</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Boston, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>)
+<span class="kw">library</span>(pvclust)
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+<span class="co">#  Бутстреп деревьев и расчет BP- и AU- вероятностей для узлов</span>
+boston.pv &lt;-<span class="st"> </span><span class="kw">pvclust</span>(Boston, <span class="dt">nboot =</span> <span class="dv">100</span>, <span class="dt">method.dist =</span> <span class="st">&quot;cor&quot;</span>, 
+                     <span class="dt">method.hclust =</span> <span class="st">&quot;average&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(boston.pv)  <span class="co"># дендрограмма с p-значениями</span>
+<span class="kw">pvrect</span>(boston.pv) <span class="co"># выделение боксами достоверных фрагментов</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-12"></span>
+<img src="103-Сlustering-Quality_files/figure-html/fig-10-12-1.png" alt="Дендрограмма с нанесенными значениями AU/BP для каждого узла" width="576" />
+<p class="caption">
+Рисунок 10.12: Дендрограмма с нанесенными значениями AU/BP для каждого узла
+</p>
+</div>
+<p>Этот пример показывает, что с практической точки зрения кластеризация признаков (переменных) может быть столь же важна, как и группировка объектов. Использование коэффициентов корреляции для расчета матрицы дистанций <code>method.dist = &quot;cor&quot;</code> избавляет нас от необходимости стандартизовать данные.</p>
+<p>При анализе дендрограммы на рис. <a href="103-Сlustering-Quality.html#fig:fig-10-12">10.12</a> можно увидеть, что признаки иногда образуют кластеры с ясно интерпретируемой зависимостью (“среднее число комнат в жилье <code>rm</code>” и “медианная стоимость дома <code>medv</code>”), но часто их тесная связь нуждается в дополнительном осмыслении (“индекс доступности к кольцевым дорогам <code>rad</code>” и “сумма налога на недвижимость <code>tax</code>”, или “доля участков, продаваемых в розницу <code>indus</code>” и “концентрация окислов азота <code>nox</code>”). В целом была получена весьма стабильная кластеризация: наименее низкую бутстреп-вероятность имеют такие важнейшие признаки, как “криминальный индекс <code>crim</code>” и “процент жителей с низким социальным статусом <code>lstat</code>”, которые вполне могут объединиться в группу с любым другим из имеющихся показателей (например, “долей афроамериканцев <code>black</code>”).</p>
+
+</div>
+<div class="footnotes">
+<hr />
+<ol start="11">
+<li id="fn11"><p>Мы используем термин “валидность”, чтобы избегнуть некоторой двусмысленности таких понятий как “адекватность”, “эффективность”, “значимость”.<a href="103-Сlustering-Quality.html#fnref11">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="102-H-Clustering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="104-Other-Clustering-Methods.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

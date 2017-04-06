@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия и другие алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://ranalytics.github.io/data-mining/" />
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  <meta name="github-repo" content="ranalytics/data-mining" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-04-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="083-Model-Complexes.html">
+<link rel="next" href="085-ZIP-for-Counts.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R (вместо предисловия)</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_1"><i class="fa fa-check"></i><b>1.1.1</b> От статистического анализа разового эксперимента к Data Mining</a></li>
+<li class="chapter" data-level="1.1.2" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_2"><i class="fa fa-check"></i><b>1.1.2</b> Принципиальная множественность моделей окружающего мира</a></li>
+<li class="chapter" data-level="1.1.3" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_3"><i class="fa fa-check"></i><b>1.1.3</b> Нарастающая множественность алгоритмов построения моделей</a></li>
+<li class="chapter" data-level="1.1.4" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_4"><i class="fa fa-check"></i><b>1.1.4</b> Типы и характеристики групп моделей Data Mining</a></li>
+<li class="chapter" data-level="1.1.5" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_5"><i class="fa fa-check"></i><b>1.1.5</b> Природа многомерного отклика и его моделирование</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="012-R-Intro.html"><a href="012-R-Intro.html"><i class="fa fa-check"></i><b>1.2</b> Статистическая среда R и ее использование в Data Mining</a></li>
+<li class="chapter" data-level="1.3" data-path="013-What-This-Book-Is-About.html"><a href="013-What-This-Book-Is-About.html"><i class="fa fa-check"></i><b>1.3</b> О чем эта книга и чего в ней нет</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_1"><i class="fa fa-check"></i><b>4.1.1</b> Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="4.1.2" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_2"><i class="fa fa-check"></i><b>4.1.2</b> Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="4.1.3" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_3"><i class="fa fa-check"></i><b>4.1.3</b> Генетический алгоритм</a></li>
+<li class="chapter" data-level="4.1.4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_4"><i class="fa fa-check"></i><b>4.1.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_1"><i class="fa fa-check"></i><b>4.2.1</b> Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="4.2.2" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_2"><i class="fa fa-check"></i><b>4.2.2</b> Метод частных наименьших квадратов (PLS)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_3"><i class="fa fa-check"></i><b>4.2.3</b> Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="4.2.4" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_4"><i class="fa fa-check"></i><b>4.2.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_1"><i class="fa fa-check"></i><b>4.3.1</b> Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="4.3.2" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_2"><i class="fa fa-check"></i><b>4.3.2</b> Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="4.3.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_3"><i class="fa fa-check"></i><b>4.3.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_1"><i class="fa fa-check"></i><b>4.4.1</b> Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="4.4.2" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_2"><i class="fa fa-check"></i><b>4.4.2</b> Бустинг</a></li>
+<li class="chapter" data-level="4.4.3" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_3"><i class="fa fa-check"></i><b>4.4.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="053-Logic-Rules.html"><a href="053-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="054-Association-Rules-Algos.html"><a href="054-Association-Rules-Algos.html"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+<li class="chapter" data-level="5.5" data-path="055-Traminer.html"><a href="055-Traminer.html"><i class="fa fa-check"></i><b>5.5</b> Анализ последовательностей знаков или событий</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классификаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Ядерные функции машины опорных векторов</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html"><i class="fa fa-check"></i><b>7</b> Модели классификации для нескольких классов</a><ul>
+<li class="chapter" data-level="7.1" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html#sec_7_1"><i class="fa fa-check"></i><b>7.1</b> Ирисы Фишера и метод <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="7.2" data-path="072-NBC.html"><a href="072-NBC.html"><i class="fa fa-check"></i><b>7.2</b> Наивный байесовский классификатор</a></li>
+<li class="chapter" data-level="7.3" data-path="073-In-Discriminant-Space.html"><a href="073-In-Discriminant-Space.html"><i class="fa fa-check"></i><b>7.3</b> Классификация в линейном дискриминантном пространстве</a></li>
+<li class="chapter" data-level="7.4" data-path="074-Nonlinear-Classifiers.html"><a href="074-Nonlinear-Classifiers.html"><i class="fa fa-check"></i><b>7.4</b> Нелинейные классификаторы в R</a></li>
+<li class="chapter" data-level="7.5" data-path="075-Multinomial-Logit.html"><a href="075-Multinomial-Logit.html"><i class="fa fa-check"></i><b>7.5</b> Модель мультиномиального логита</a></li>
+<li class="chapter" data-level="7.6" data-path="076-NN.html"><a href="076-NN.html"><i class="fa fa-check"></i><b>7.6</b> Классификаторы на основе искусственных нейронных сетей</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html"><i class="fa fa-check"></i><b>8</b> Моделирование порядковых и счетных переменных</a><ul>
+<li class="chapter" data-level="8.1" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html#sec_8_1"><i class="fa fa-check"></i><b>8.1</b> Модель логита для порядковой переменной</a></li>
+<li class="chapter" data-level="8.2" data-path="082-NN-with-Caret.html"><a href="082-NN-with-Caret.html"><i class="fa fa-check"></i><b>8.2</b> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></a></li>
+<li class="chapter" data-level="8.3" data-path="083-Model-Complexes.html"><a href="083-Model-Complexes.html"><i class="fa fa-check"></i><b>8.3</b> Методы комплексации модельных прогнозов</a></li>
+<li class="chapter" data-level="8.4" data-path="084-GLM-for-Counts.html"><a href="084-GLM-for-Counts.html"><i class="fa fa-check"></i><b>8.4</b> Обобщенные линейные модели для счетных данных</a></li>
+<li class="chapter" data-level="8.5" data-path="085-ZIP-for-Counts.html"><a href="085-ZIP-for-Counts.html"><i class="fa fa-check"></i><b>8.5</b> ZIP- и барьерные модели счетных данных</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html"><i class="fa fa-check"></i><b>9</b> Методы многомерной ординации</a><ul>
+<li class="chapter" data-level="9.1" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html#sec_9_1"><i class="fa fa-check"></i><b>9.1</b> Преобразование данных и вычисление матрицы расстояний</a></li>
+<li class="chapter" data-level="9.2" data-path="092-Distance-ANOVA.html"><a href="092-Distance-ANOVA.html"><i class="fa fa-check"></i><b>9.2</b> Непараметрический дисперсионный анализ матриц дистанций</a></li>
+<li class="chapter" data-level="9.3" data-path="093-Comparing-Diagrams.html"><a href="093-Comparing-Diagrams.html"><i class="fa fa-check"></i><b>9.3</b> Методы ординации объектов и переменных: построение и сравнение диаграмм</a></li>
+<li class="chapter" data-level="9.4" data-path="094-Ordination-Factors.html"><a href="094-Ordination-Factors.html"><i class="fa fa-check"></i><b>9.4</b> Оценка связи ординации с внешними факторами</a></li>
+<li class="chapter" data-level="9.5" data-path="095-NMDS.html"><a href="095-NMDS.html"><i class="fa fa-check"></i><b>9.5</b> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html"><i class="fa fa-check"></i><b>10</b> Кластерный анализ</a><ul>
+<li class="chapter" data-level="10.1" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html#sec_10_1"><i class="fa fa-check"></i><b>10.1</b> Алгоритмы кластеризации, основанные на разделении</a></li>
+<li class="chapter" data-level="10.2" data-path="102-H-Clustering.html"><a href="102-H-Clustering.html"><i class="fa fa-check"></i><b>10.2</b> Иерархическая кластеризация</a></li>
+<li class="chapter" data-level="10.3" data-path="103-Clustering-Quality.html"><a href="103-Clustering-Quality.html"><i class="fa fa-check"></i><b>10.3</b> Оценка качества кластеризации</a></li>
+<li class="chapter" data-level="10.4" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html"><i class="fa fa-check"></i><b>10.4</b> Другие алгоритмы кластеризации</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_1"><i class="fa fa-check"></i><b>10.4.1</b> Иерархическая кластеризация на главные компоненты</a></li>
+<li class="chapter" data-level="10.4.2" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_2"><i class="fa fa-check"></i><b>10.4.2</b> Метод нечетких <em>k</em> средних (fuzzy analysis clustering)</a></li>
+<li class="chapter" data-level="10.4.3" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_3"><i class="fa fa-check"></i><b>10.4.3</b> Статистическая модель кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="105-Cohonen-Maps.html"><a href="105-Cohonen-Maps.html"><i class="fa fa-check"></i><b>10.5</b> Самоорганизующиеся карты Кохонена</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html"><i class="fa fa-check"></i><b>11</b> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</a><ul>
+<li class="chapter" data-level="11.1" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html#----rattle"><i class="fa fa-check"></i><b>11.1</b> Начало работы с пакетом <code id="sec_11_1">rattle</code></a></li>
+<li class="chapter" data-level="11.2" data-path="112-Descriptive-Stats.html"><a href="112-Descriptive-Stats.html"><i class="fa fa-check"></i><b>11.2</b> Описательная статистика и визуализация данных</a></li>
+<li class="chapter" data-level="11.3" data-path="113-Model-Building.html"><a href="113-Model-Building.html"><i class="fa fa-check"></i><b>11.3</b> Построение и тестирование моделей классификации</a></li>
+<li class="chapter" data-level="11.4" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html"><i class="fa fa-check"></i><b>11.4</b> Дескриптивные модели (обучение без учителя)</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_1"><i class="fa fa-check"></i><b>11.4.1</b> Кластерный анализ</a></li>
+<li class="chapter" data-level="11.4.2" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_2"><i class="fa fa-check"></i><b>11.4.2</b> Ассоциативные правила</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="120-References.html"><a href="120-References.html"><i class="fa fa-check"></i><b>12</b> Список рекомендуемой литературы</a></li>
+<li class="chapter" data-level="" data-path="130-Appendix.html"><a href="130-Appendix.html"><i class="fa fa-check"></i>Приложение: cправочная карта по Data Mining с использованием R</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec_8_4" class="section level2">
+<h2><span class="header-section-number">8.4</span> Обобщенные линейные модели для счетных данных</h2>
+<p>В предыдущих главах нами рассматривались примеры использования методов построения моделей для различных типов распределения отклика. При этом значительная часть реальных наблюдений сводится к подсчету числа экземпляров: это могут быть обследуемые респонденты, проданные гаджеты, тыс. клеток водорослей, нажатия кнопок мыши или птицы, пролетающие мимо наблюдателя. Эти данные по своей природе дискретны и может возникнуть вопрос, а какое распределение выбрать для их описания?</p>
+<p>Этот выбор, в первом приближении, делается априори на основании имеющихся знаний относительно отклика. Например, если моделируется присутствие (1) и отсутствие (0) животных на некоторой изучаемой площади как функция нескольких факторов, то выбор прост: необходимо использовать биномиальное распределение. Однако это, вероятно, единственный сценарий, где ситуация столь очевидна.</p>
+<p>Обычно, если это позволяет характер вариации переменной <span class="math inline">\(Y\)</span>, прибегают к аппроксимации счетных данных тем или иным непрерывным распределением - нормальным, гамма или Вейбулла, - что мы в конце концов и сделали с числом колец в раковинах морских ушек (рис. 8.4). Хорошему результату подгонки параметров модели и гарантированной неотрицательности модельных значений может способствовать преобразование исходных данных с помощью различных функций, таких как, логарифмирование или трансформация Бокса-Кокса (см. раздел <a href="033-Preprocessing.html#sec_3_3">3.3</a>).</p>
+<p>Однако зачастую дискретность отклика оказывается столь очевидной (<span class="math inline">\(y_i = 0, 1, 2, \dots\)</span>), что аппроксимация непрерывным распределением оказывается неудовлетворительной и это сильно влияет на адекватность регрессии с использованием МНК. Если счетные данные имеют тенденцию к гетерогенности (т.е. в большинстве случаев можно не встретить ни одного экземпляра, реже попадутся единичные особи, и лишь иногда их большие скопления) и фиксированный верхний предел у них отсутствует, то хорошим вариантом является аппроксимация наблюдений распределением Пуассона (Zuur et al., 2009).</p>
+<p>Распределение Пуассона <span class="math inline">\(P(\lambda)\)</span> имеет случайная величина <span class="math inline">\(Y\)</span>, отражающая количество событий, произошедших за некоторый промежуток времени, когда эти события независимы и происходят с постоянной интенсивностью <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\lambda \in (0, \infty)\)</span>. Предполагается, что среднее <span class="math inline">\(\mu = E(Y) = \lambda\)</span> и дисперсия <span class="math inline">\(\text{Var}(Y) = \lambda\)</span>, а функция плотности вероятности <span class="math inline">\(p(k) = e^{-\lambda} \lambda^k/k!, \, \, k = 1, 2, \dots, \infty\)</span>, где <span class="math inline">\(k!\)</span> - факториал от числа событий.</p>
+<p>Пуассоновскую регрессию применяют, когда отклик является <span class="math inline">\(Y\)</span> счетной переменной, имеющей такое распределение. Соответствующая модель имеет вид</p>
+<p><span class="math display">\[\ln(\lambda) = \beta_0 + \sum_p \beta_j x_j,\]</span></p>
+<p>где <span class="math inline">\(x_1, \dots, x_p\)</span> - набор из <span class="math inline">\(p\)</span> независимых переменных, <span class="math inline">\(\beta_0\)</span> - математическое ожидание <span class="math inline">\(Y\)</span> при равенстве нулю всех предикторов <span class="math inline">\(x_j\)</span>, <span class="math inline">\(\beta_j\)</span> - коэффициенты независимых переменных.</p>
+<p>Нередкими проблемами подгонки распределением Пуассона являются:</p>
+<ul>
+<li>значительное по сравнению с теорией количество нулевых значений в выборке, сопровождающееся сильно разреженными таблицами данных;</li>
+<li>эксцесс - избыток некоторых наблюдаемых значений по сравнению с ожидаемыми частотами;</li>
+<li>наличие большой гетерогенности данных, вследствие чего оценка дисперсии начинает значимо превышать среднее, <span class="math inline">\(Var(Y) \gg \mu\)</span> (overdispersion).</li>
+</ul>
+<p>Если наблюдается отчетливая избыточная дисперсия (“перерассеяние”), то альтернативой распределению Пуассона для счетных данных является отрицательное биномиальное распределение.</p>
+<p>*Отрицательное биномиальное распределение NB(r, p), также называемое распределением Паскаля, - это распределение дискретной случайной величины, которая отражает количество произошедших неудач в последовательности испытаний Бернулли с вероятностью успеха <span class="math inline">\(p\)</span>, проводимой до <span class="math inline">\(r\)</span>-го успеха. Его обычно интерпретируют как смесь распределений гамма <span class="math inline">\(\Gamma(.)\)</span> и Пуассона, т.е. функция плотности вероятности имеет вид:</p>
+<p><span class="math display">\[f(y; \mu, \theta) = \frac{\Gamma(y + \theta)}{\Gamma(y)\theta !} \frac{\mu^y\theta^y}{\mu+\theta^{(y+\theta)}},\]</span></p>
+<p>где <span class="math inline">\(\mu = E(Y)\)</span> - среднее, а <span class="math inline">\(\theta\)</span> - параметр формы распределения.</p>
+<p>Включение в функцию распределения дополнительного параметра позволяет учесть превышение дисперсии над средним:</p>
+<p><span class="math display">\[\text{Var}(Y) = \mu + \mu^2 / \theta.\]</span></p>
+<p>При <span class="math inline">\(\theta \rightarrow \infty\)</span> отрицательное биномиальное распределение сводится к распределению Пуассона (Agresti, 2007; Zeileis et al., 2008).</p>
+<p>Обобщенная линейная модель для отрицательного биномиального распределения оценивает зависимость μ от совокупности объясняющих переменных с использованием функции связи (link function), как и в случае с лог-линейной моделью Пуассона. Принято считать, что параметр формы постоянен на всей области определения модели, что аналогично предположению о гомоскедастичности для моделей с нормальным распределением остатков.</p>
+<p>Если аналитик колеблется в выборе между двумя конкурирующими статистическими моделями, то основанием для выбора может служить оценка согласия между наблюдаемыми данными и GLM с соответствующим теоретическим распределением. Рассмотрим эту задачу на примере двухлетнего подсчета числа амфибий, раздавленных автомобилями на 52 участках дорожной сети в южной части Португалии. Файл с данными <code>RoadKills.txt</code> можно скачать с полным комплектом данных к книге Zuur et al. (2009) на сайте <a href="http://www.highstat.com/book2.htm" class="uri">http://www.highstat.com/book2.htm</a>.</p>
+<p><img src="figures/frog.png" width="240px" style="display: block; margin: auto;" /></p>
+<p>Само по себе распределение отклика <code>TOT.N</code> (числа погибших животных на каждом обследованном участке, экз.) трудно принять как пуассоновское (рис. <a href="084-GLM-for-Counts.html#fig:fig-8-7">8.7</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">RK &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;data/RoadKills.txt&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">dec =</span> <span class="st">&quot;.&quot;</span>)
+y &lt;-<span class="st"> </span>RK$TOT.N
+<span class="kw">library</span>(vcd)
+gf &lt;-<span class="st"> </span><span class="kw">goodfit</span>(<span class="kw">table</span>(y), <span class="dt">type =</span> <span class="st">&quot;poisson&quot;</span>, <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>) 
+<span class="co">#  Визуализация подогнанных данных гистограммой </span>
+<span class="kw">plot</span>(gf, <span class="dt">ylab =</span> <span class="st">&quot;Частоты&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Число классов&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-8-7"></span>
+<img src="084-GLM-for-Counts_files/figure-html/fig-8-7-1.png" alt="Гистограмма отклонений эмпирических частот от теоретических частот распределения Пуассона (красные кружки)" width="768" />
+<p class="caption">
+Рисунок 8.7: Гистограмма отклонений эмпирических частот от теоретических частот распределения Пуассона (красные кружки)
+</p>
+</div>
+<p>Модель регрессии Пуассона дает нам возможность объяснить эти отклонения за счет влияния внешних факторов. На первом этапе оценим общий вид моделируемых зависимостей, для чего применим одну независимую переменную - <code>D.PARK</code> (расстояние до заповедника), которая нам представляется наиболее экологически значимой:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M1 &lt;-<span class="st">  </span><span class="kw">glm</span>(TOT.N ~<span class="st"> </span>D.PARK, <span class="dt">family =</span>  poisson, <span class="dt">data =</span>  RK)
+<span class="kw">summary</span>(M1)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = TOT.N ~ D.PARK, family = poisson, data = RK)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -8.1100  -1.6950  -0.4708   1.4206   7.3337  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  4.316e+00  4.322e-02   99.87   &lt;2e-16 ***
+## D.PARK      -1.059e-04  4.387e-06  -24.13   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 1071.4  on 51  degrees of freedom
+## Residual deviance:  390.9  on 50  degrees of freedom
+## AIC: 634.29
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>Была построена модель <span class="math inline">\(\log(\mu_i) = 4.13 - 0.0000106 \times \text{D.PARK}_i\)</span>, или в другой форме, <span class="math inline">\(\mu_i = \exp(4.13 - 0.0000106 \times \text{D.PARK}_i)\)</span>, где <span class="math inline">\(\mu_i\)</span> - прогнозируемая величина пуассоновской частоты с учетом значения расстояния <span class="math inline">\(\text{D.PARK}_i\)</span>. Построим график полученной зависимости (рис. <a href="084-GLM-for-Counts.html#fig:fig-8-8">8.8</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(ggplot2)
+MyData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">D.PARK =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">25000</span>, <span class="dt">by =</span> <span class="dv">1000</span>))
+G &lt;-<span class="st"> </span><span class="kw">predict</span>(M1, <span class="dt">newdata =</span> MyData, <span class="dt">type =</span> <span class="st">&quot;link&quot;</span>, <span class="dt">se =</span> <span class="ot">TRUE</span>)
+MyData$FIT &lt;-<span class="st"> </span><span class="kw">exp</span>(G$fit)
+MyData$FSEUP &lt;-<span class="st"> </span><span class="kw">exp</span>(G$fit +<span class="st"> </span><span class="fl">1.96</span>*G$se.fit)
+MyData$FSELOW &lt;-<span class="st"> </span><span class="kw">exp</span>(G$fit -<span class="st"> </span><span class="fl">1.96</span>*G$se.fit)
+<span class="kw">ggplot</span>(MyData, <span class="kw">aes</span>(D.PARK, FIT)) +
+<span class="st">    </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> FSEUP, <span class="dt">ymax =</span> FSELOW), 
+                <span class="dt">fill =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> .<span class="dv">25</span>) +<span class="st"> </span><span class="kw">geom_line</span>(<span class="dt">colour =</span> <span class="dv">3</span>) +
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Расстояние до парка&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Убийства на дорогах&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> RK, <span class="kw">aes</span>(D.PARK, TOT.N) )</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-8-8"></span>
+<img src="084-GLM-for-Counts_files/figure-html/fig-8-8-1.png" alt="Зависимость числа раздавленных лягушек от расстояния до натурального лесного массива" width="576" />
+<p class="caption">
+Рисунок 8.8: Зависимость числа раздавленных лягушек от расстояния до натурального лесного массива
+</p>
+</div>
+<p>Обращает на себя внимание очень узкая полоса 95%-го доверительного интервала относительно линии регрессии. Это обусловлено, возможно, как неверной спецификацией построенной модели, так и заниженной оценкой остаточной дисперсии.</p>
+<p>Включим в модель дополнительные предикторы с целью повышения ее адекватности. В исходной таблице данных для этого имеется 18 полезных переменных-кандидатов. Выполним, однако, предварительно две операции - преобразование данных и удаление высоко коррелированных признаков.</p>
+<p>Поскольку 8 переменных имеют размерность площади (га), а другие заданы длиной (расстоянием в м), то разумно привести их к единой функциональной форме и извлечь квадратный корень из значений первой группы признаков. Далее оценим степень мультиколлинеарности 18-мерного комплекса переменных и вычислим для каждого предиктора фактор инфляции дисперсии (Variance Inflation Factor, VIF).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(car)
+<span class="kw">library</span>(dplyr)
+RK[, <span class="dv">7</span>:<span class="dv">14</span>] &lt;-<span class="st"> </span><span class="kw">sqrt</span>(RK[, <span class="dv">7</span>:<span class="dv">14</span>])
+res &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">vif</span>(<span class="kw">glm</span>(TOT.N ~<span class="st"> </span>., <span class="dt">data =</span> RK[, <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">7</span>:<span class="dv">23</span>)], 
+                    <span class="dt">family =</span>  poisson)))
+<span class="kw">print</span>(res, <span class="dv">4</span>)</code></pre></div>
+<pre><code>##  D.WAT.RES D.WAT.COUR     D.PARK    WAT.RES   L.P.ROAD   L.D.ROAD 
+##      1.876      2.315      2.630      2.667      4.323      4.538 
+##     MONT.S    L.WAT.C      SHRUB      POLIC      URBAN     OPEN.L 
+##      4.801      5.196      5.469      5.786      6.822     18.955 
+##      OLIVE      L.SDI    N.PATCH     P.EDGE       MONT 
+##     20.382     24.535     25.856     26.869     36.951</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">RK<span class="fl">.11</span> &lt;-<span class="st"> </span><span class="kw">select</span>(RK, D.WAT.RES, D.WAT.COUR, WAT.RES,
+                D.PARK, L.D.ROAD, L.P.ROAD, MONT.S, SHRUB,
+                L.WAT.C, POLIC, URBAN)</code></pre></div>
+<p>Превышение VIF некоторого порогового значения (обычно это критическое значение принимается равным 5) свидетельствует о наличии проблемы мультиколлинеарности для <span class="math inline">\(X_j\)</span>. Удалим из таблицы данных 7 переменных с максимальными VIF.</p>
+<p>Построим модель регрессии Пуассона с использованием предикторов, отобранных выше, и выполним процедуру пошаговой селекции исключений с включениями, пока не минимизируем значение AIC-критерия:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Y &lt;-<span class="st"> </span>RK$TOT.N
+
+M2 &lt;-<span class="st">  </span><span class="kw">glm</span>(Y ~<span class="st"> </span>., <span class="dt">family =</span>  poisson, <span class="dt">data =</span>  RK<span class="fl">.11</span>)
+<span class="kw">summary</span>(M2)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Y ~ ., family = poisson, data = RK.11)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -5.1654  -1.4541   0.0377   1.6005   3.9850  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  3.765e+00  1.720e-01  21.890  &lt; 2e-16 ***
+## D.WAT.RES    4.006e-04  1.030e-04   3.891 9.97e-05 ***
+## D.WAT.COUR   2.164e-04  1.607e-04   1.346 0.178218    
+## WAT.RES      3.328e-01  7.078e-02   4.701 2.59e-06 ***
+## D.PARK      -1.515e-04  6.550e-06 -23.131  &lt; 2e-16 ***
+## L.D.ROAD     1.484e-05  3.380e-05   0.439 0.660663    
+## L.P.ROAD     4.450e-01  7.375e-02   6.034 1.60e-09 ***
+## MONT.S       1.950e-01  3.661e-02   5.327 9.97e-08 ***
+## SHRUB       -8.358e-01  1.284e-01  -6.509 7.54e-11 ***
+## L.WAT.C      3.261e-01  4.554e-02   7.160 8.07e-13 ***
+## POLIC       -1.533e-01  5.688e-02  -2.694 0.007054 ** 
+## URBAN       -1.016e-01  2.636e-02  -3.855 0.000116 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 1071.44  on 51  degrees of freedom
+## Residual deviance:  237.16  on 40  degrees of freedom
+## AIC: 500.55
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M3 &lt;-<span class="st"> </span><span class="kw">step</span>(M2, <span class="dt">trace =</span> <span class="dv">0</span>)
+<span class="kw">summary</span>(M3) </code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Y ~ D.WAT.RES + WAT.RES + D.PARK + L.P.ROAD + MONT.S + 
+##     SHRUB + L.WAT.C + POLIC + URBAN, family = poisson, data = RK.11)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -4.9834  -1.4447  -0.0584   1.4051   3.8822  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  3.904e+00  1.055e-01  37.015  &lt; 2e-16 ***
+## D.WAT.RES    3.516e-04  9.607e-05   3.660 0.000253 ***
+## WAT.RES      3.120e-01  6.821e-02   4.574 4.79e-06 ***
+## D.PARK      -1.491e-04  6.275e-06 -23.768  &lt; 2e-16 ***
+## L.P.ROAD     4.462e-01  6.468e-02   6.898 5.26e-12 ***
+## MONT.S       2.005e-01  3.607e-02   5.558 2.73e-08 ***
+## SHRUB       -8.151e-01  1.230e-01  -6.628 3.40e-11 ***
+## L.WAT.C      2.917e-01  3.702e-02   7.879 3.31e-15 ***
+## POLIC       -1.262e-01  4.325e-02  -2.918 0.003521 ** 
+## URBAN       -1.070e-01  2.587e-02  -4.137 3.52e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 1071.44  on 51  degrees of freedom
+## Residual deviance:  238.98  on 42  degrees of freedom
+## AIC: 498.37
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<p>После исключения двух переменных в ходе пошаговой процедуры значение AIC-критерия несколько снизилось при статистически незначимом увеличении (c 237.2 до 239) остаточного девианса</p>
+<p><span class="math display">\[D = 2 \sum_i \left( y_i \log \frac{y_i}{\mu_i} - (y_i - \mu_i)\right).\]</span></p>
+<p>Напомним, что распределение разности девиансов асимптотически приближается к <span class="math inline">\(\chi^2\)</span>-распределению с <span class="math inline">\(p1-p2\)</span> степенями свободы</p>
+<p><span class="math display">\[D_1 - D_2 \sim \chi^2_{p1-p2},\]</span></p>
+<p>чем мы воспользовались, чтобы оценить статистическую значимость однородности ошибок двух регрессионных моделей с помощью команды <code>anova(M2, M3, test = &quot;Chi&quot;)</code>. Та же функция для одной модели показывает, как уменьшается нуль-девианс при включении в модель последовательно каждого очередного предиктора:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(M3, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: poisson, link: log
+## 
+## Response: Y
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##           Df Deviance Resid. Df Resid. Dev  Pr(&gt;Chi)    
+## NULL                         51    1071.44              
+## D.WAT.RES  1   109.55        50     961.89 &lt; 2.2e-16 ***
+## WAT.RES    1     0.28        49     961.61 0.5947268    
+## D.PARK     1   595.60        48     366.01 &lt; 2.2e-16 ***
+## L.P.ROAD   1     7.17        47     358.84 0.0074114 ** 
+## MONT.S     1    16.35        46     342.49 5.272e-05 ***
+## SHRUB      1    20.79        45     321.71 5.138e-06 ***
+## L.WAT.C    1    51.96        44     269.75 5.666e-13 ***
+## POLIC      1    12.80        43     256.95 0.0003475 ***
+## URBAN      1    17.97        42     238.98 2.240e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Очевидно, что наибольший вклад в снижение ошибки модели вносят расстояния до лесного массива, реки или другого водного резервуара (<code>D.PARK</code>, <code>D.WAT.RES</code>, <code>L.WAT.C</code>), в меньшей мере это относится к наличию кустарников (<code>SHRUB</code>), поликультурных насаждений (<code>POLIC</code>) или урбанизированных территорий (<code>URBAN</code>), а доля девианса, связанного с площадью водного резервуара (<code>WAT.RES</code>), не отличается от нуля.</p>
+<p>Однако следует задаться вопросом, насколько точно была оценена нами дисперсия аппроксимирующего распределения. Поскольку остаточный девианс имеет <span class="math inline">\(\chi^2\)</span>-распределение с <span class="math inline">\((n - p)\)</span> степенями свободы, то одним из признаков избыточной дисперсии является значение <span class="math inline">\(\phi = D/(n-p)\)</span>. Если это отношение приблизительно равно 1, то можно благополучно предположить, что избыточно дисперсии нет. В рассматриваемом примере <span class="math inline">\(\phi = 239/42 = 5.69\)</span> и опасность недооценки дисперсии существует.</p>
+<p>Мы можем компенсировать возможную избыточную дисперсию, приняв квази-распределение Пуассона и задав в функции <code>glm()</code> параметр <code>family = quasipoisson</code>. Для этого типа распределения среднее и дисперсия для <span class="math inline">\(Y\)</span> будет равно <span class="math inline">\(E(Y) = \mu\)</span> и <span class="math inline">\(\text{Var} = \phi \times \mu\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M4 &lt;-<span class="st"> </span><span class="kw">glm</span>(Y ~<span class="st"> </span>D.WAT.RES +<span class="st"> </span>WAT.RES +<span class="st"> </span>D.PARK +<span class="st"> </span>L.P.ROAD +
+<span class="st">              </span>MONT.S +<span class="st"> </span>SHRUB +<span class="st"> </span>L.WAT.C +<span class="st"> </span>POLIC +<span class="st"> </span>URBAN, 
+          <span class="dt">family =</span> quasipoisson, <span class="dt">data =</span>  RK<span class="fl">.11</span>)
+<span class="kw">summary</span>(M4)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Y ~ D.WAT.RES + WAT.RES + D.PARK + L.P.ROAD + MONT.S + 
+##     SHRUB + L.WAT.C + POLIC + URBAN, family = quasipoisson, data = RK.11)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -4.9834  -1.4447  -0.0584   1.4051   3.8822  
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  3.904e+00  2.401e-01  16.261  &lt; 2e-16 ***
+## D.WAT.RES    3.516e-04  2.187e-04   1.608  0.11539    
+## WAT.RES      3.120e-01  1.553e-01   2.009  0.05095 .  
+## D.PARK      -1.491e-04  1.428e-05 -10.442 3.04e-13 ***
+## L.P.ROAD     4.462e-01  1.472e-01   3.031  0.00417 ** 
+## MONT.S       2.005e-01  8.210e-02   2.442  0.01891 *  
+## SHRUB       -8.151e-01  2.799e-01  -2.912  0.00573 ** 
+## L.WAT.C      2.917e-01  8.426e-02   3.461  0.00125 ** 
+## POLIC       -1.262e-01  9.845e-02  -1.282  0.20688    
+## URBAN       -1.070e-01  5.890e-02  -1.818  0.07627 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 5.181428)
+## 
+##     Null deviance: 1071.44  on 51  degrees of freedom
+## Residual deviance:  238.98  on 42  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<p>Другой формой команды <code>anova()</code> является функция <code>drop1()</code>, которая поочередно удаляет из модели по одной объясняющей переменной и каждый раз пересчитывает значение остаточного девианса. Значимость различий отдельных моделей оценивается по <span class="math inline">\(\chi^2\)</span>-критерию.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">drop1</span>(M4, <span class="dt">test =</span> <span class="st">&quot;Chi&quot;</span>)</code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## Y ~ D.WAT.RES + WAT.RES + D.PARK + L.P.ROAD + MONT.S + SHRUB + 
+##     L.WAT.C + POLIC + URBAN
+##           Df Deviance scaled dev.  Pr(&gt;Chi)    
+## &lt;none&gt;         238.98                          
+## D.WAT.RES  1   252.26       2.564 0.1092996    
+## WAT.RES    1   258.82       3.829 0.0503756 .  
+## D.PARK     1   888.32     125.321 &lt; 2.2e-16 ***
+## L.P.ROAD   1   284.12       8.712 0.0031606 ** 
+## MONT.S     1   268.17       5.633 0.0176229 *  
+## SHRUB      1   285.09       8.899 0.0028526 ** 
+## L.WAT.C    1   301.24      12.017 0.0005271 ***
+## POLIC      1   247.95       1.731 0.1882444    
+## URBAN      1   256.95       3.469 0.0625355 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Отметим, что в результате применения квази-пуассоновского распределения при наличии избыточной дисперсии мы получаем следующую коррекцию модели Пуассона:</p>
+<ul>
+<li>значения коэффициентов модели и оценки ее девианса не меняются;</li>
+<li><span class="math inline">\(р\)</span>-величины коэффициентов увеличиваются и некоторые параметры модели оцениваются уже как статистически незначимые;</li>
+<li>величина AIC-критерия рассчитана быть не может.</li>
+</ul>
+<p>Заметим также, что ширина доверительного интервала модели на рис. <a href="084-GLM-for-Counts.html#fig:fig-8-8">8.8</a> должна быть увеличена в <span class="math inline">\(\phi = 7.63\)</span> раза.</p>
+<p>Мы получили регрессионную модель, достаточно убедительную с экологической точки зрения и позволяющую ранжировать и интерпретировать степень влияния отдельных предикторов. Однако насколько она хороша для прогнозирования на новых данных? Загрузим пакет <code>caret</code> и проведем отбор информативного комплекса переменных методом RFE (Recursive feature selection - см. раздел <a href="041-Regression-Models.html#sec_4_1">4.1</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+glmFuncs &lt;-<span class="st"> </span>lmFuncs
+glmFuncs$fit &lt;-<span class="st"> </span>function(x, y, first, last, ...) { 
+    tmp &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(x)
+    tmp$y &lt;-<span class="st"> </span>y 
+    <span class="kw">glm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> tmp, <span class="dt">family =</span> <span class="kw">quasipoisson</span>(<span class="dt">link =</span> <span class="st">&#39;log&#39;</span>))
+}
+<span class="kw">set.seed</span>(<span class="dv">13</span>)
+ctrl &lt;-<span class="st"> </span><span class="kw">rfeControl</span>(<span class="dt">functions =</span> glmFuncs, <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, 
+                   <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">returnResamp =</span> <span class="st">&quot;final&quot;</span>)
+lmProfileF &lt;-<span class="st"> </span><span class="kw">rfe</span>(<span class="dt">x =</span> RK<span class="fl">.11</span>, <span class="dt">y =</span> RK$TOT.N, <span class="dt">sizes =</span> <span class="dv">1</span>:<span class="dv">10</span>,
+                  <span class="dt">rfeControl =</span> ctrl)</code></pre></div>
+<p>Проверим справедливость сделанного выбора с помощью функции <code>train()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">train</span>(TOT.N ~<span class="st"> </span>D.PARK, <span class="dt">data =</span> RK, <span class="dt">method =</span> <span class="st">&#39;glm&#39;</span>, 
+      <span class="dt">family =</span> quasipoisson, <span class="dt">trControl =</span> 
+          <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">verboseIter =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Generalized Linear Model 
+## 
+## 52 samples
+##  1 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 47, 47, 48, 47, 46, 46, ... 
+## Resampling results:
+## 
+##   RMSE      Rsquared 
+##   15.95588  0.7753695
+## 
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">train</span>(TOT.N ~<span class="st"> </span>D.WAT.RES +<span class="st"> </span>WAT.RES +<span class="st"> </span>D.PARK +<span class="st"> </span>L.P.ROAD +
+<span class="st">          </span>MONT.S +<span class="st"> </span>SHRUB +<span class="st"> </span>L.WAT.C +<span class="st"> </span>POLIC +<span class="st"> </span>URBAN, <span class="dt">data =</span> RK,
+      <span class="dt">method=</span><span class="st">&#39;glm&#39;</span>, <span class="dt">family =</span> quasipoisson,
+      <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">verboseIter =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Generalized Linear Model 
+## 
+## 52 samples
+##  9 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 47, 46, 45, 45, 49, 48, ... 
+## Resampling results:
+## 
+##   RMSE      Rsquared 
+##   18.99993  0.5742747
+## 
+## </code></pre>
+<p>Тестирование показало, что модель с 1 предиктором при перекрестной проверке дает меньшую ошибку, чем множественная регрессия на основе 9 параметров.</p>
+<p>Выполним теперь построение модели на основе отрицательного биномиального распределения (NB), для чего воспользуемся функцией <code>glm.nb()</code> из пакета <code>MASS</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)
+M5 &lt;-<span class="st">  </span><span class="kw">glm.nb</span>(Y ~<span class="st"> </span>.,  <span class="dt">data =</span> RK<span class="fl">.11</span>)
+<span class="kw">summary</span>(M5)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm.nb(formula = Y ~ ., data = RK.11, init.theta = 5.539729346, 
+##     link = log)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.49027  -0.78494  -0.05133   0.68202   1.44678  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  3.821e+00  3.528e-01  10.830   &lt;2e-16 ***
+## D.WAT.RES    4.469e-04  2.411e-04   1.854   0.0638 .  
+## D.WAT.COUR   2.761e-04  3.537e-04   0.781   0.4350    
+## WAT.RES      2.778e-01  1.736e-01   1.600   0.1096    
+## D.PARK      -1.502e-04  1.472e-05 -10.203   &lt;2e-16 ***
+## L.D.ROAD     1.434e-05  7.091e-05   0.202   0.8397    
+## L.P.ROAD     3.528e-01  1.708e-01   2.066   0.0389 *  
+## MONT.S       1.831e-01  8.950e-02   2.045   0.0408 *  
+## SHRUB       -6.939e-01  3.046e-01  -2.278   0.0227 *  
+## L.WAT.C      2.349e-01  1.029e-01   2.284   0.0224 *  
+## POLIC       -1.297e-01  1.499e-01  -0.866   0.3866    
+## URBAN       -2.917e-02  6.651e-02  -0.439   0.6610    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for Negative Binomial(5.5397) family taken to be 1)
+## 
+##     Null deviance: 214.316  on 51  degrees of freedom
+## Residual deviance:  54.764  on 40  degrees of freedom
+## AIC: 396.92
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  5.54 
+##           Std. Err.:  1.50 
+## 
+##  2 x log-likelihood:  -370.919</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M6 &lt;-<span class="st"> </span><span class="kw">step</span>(M5, <span class="dt">trace =</span> <span class="dv">0</span>)
+<span class="kw">summary</span>(M6)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm.nb(formula = Y ~ D.WAT.RES + WAT.RES + D.PARK + L.P.ROAD + 
+##     MONT.S + SHRUB + L.WAT.C, data = RK.11, init.theta = 5.204690159, 
+##     link = log)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.59068  -0.82198  -0.02681   0.67624   1.29964  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  3.943e+00  2.435e-01  16.194   &lt;2e-16 ***
+## D.WAT.RES    4.478e-04  2.217e-04   2.020   0.0434 *  
+## WAT.RES      2.546e-01  1.719e-01   1.482   0.1385    
+## D.PARK      -1.447e-04  1.385e-05 -10.449   &lt;2e-16 ***
+## L.P.ROAD     2.820e-01  1.419e-01   1.987   0.0469 *  
+## MONT.S       2.024e-01  8.882e-02   2.279   0.0227 *  
+## SHRUB       -6.690e-01  3.074e-01  -2.176   0.0296 *  
+## L.WAT.C      1.644e-01  8.351e-02   1.968   0.0491 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for Negative Binomial(5.2047) family taken to be 1)
+## 
+##     Null deviance: 204.391  on 51  degrees of freedom
+## Residual deviance:  54.054  on 44  degrees of freedom
+## AIC: 390.57
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  5.20 
+##           Std. Err.:  1.37 
+## 
+##  2 x log-likelihood:  -372.571</code></pre>
+<p>В дополнение к обычному набору показателей в протокол включены оценка дисперсии и параметр распределения <code>Theta</code>, обозначенный выше как <span class="math inline">\(\theta\)</span>. В отношении построенных моделей NB можно также выполнить анализ девиансов, как это мы делали выше на примере пуассоновской регрессии. При сравнении моделей, построенных для разных распределений, необходимо использовать величины логарифмов функции правдоподобия или значения AIC-критерия: значение последнего для NB-модели AIC = 390.57 существенно меньше, чем для оптимальной модели регрессии Пуассона AIC = 498.37.</p>
+<p>Выполним в заключение тестирование в режиме перекрестной проверки моделей отрицательного биномиального распределения с одним и семью предикторами соответственно:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">train</span>(TOT.N ~<span class="st"> </span>D.PARK, <span class="dt">data =</span> RK, <span class="dt">method =</span> <span class="st">&#39;glm.nb&#39;</span>, 
+      <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">verboseIter =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Negative Binomial Generalized Linear Model 
+## 
+## 52 samples
+##  1 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 47, 48, 46, 47, 46, 46, ... 
+## Resampling results across tuning parameters:
+## 
+##   link      RMSE      Rsquared 
+##   identity       NaN        NaN
+##   log       31.55278  0.6871591
+##   sqrt      29.85382  0.6871591
+## 
+## RMSE was used to select the optimal model using  the smallest value.
+## The final value used for the model was link = sqrt.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">train</span>(TOT.N ~<span class="st"> </span>D.WAT.RES +<span class="st"> </span>WAT.RES +<span class="st"> </span>D.PARK +<span class="st"> </span>L.P.ROAD +<span class="st"> </span>
+<span class="st">          </span>MONT.S +<span class="st"> </span>SHRUB +<span class="st"> </span>L.WAT.C, <span class="dt">data =</span> RK, <span class="dt">method =</span> <span class="st">&#39;glm.nb&#39;</span>, 
+      <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">verboseIter =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Negative Binomial Generalized Linear Model 
+## 
+## 52 samples
+##  7 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 47, 48, 48, 46, 46, 47, ... 
+## Resampling results across tuning parameters:
+## 
+##   link      RMSE      Rsquared 
+##   identity       NaN        NaN
+##   log       31.69848  0.7108295
+##   sqrt      29.83198  0.7294065
+## 
+## RMSE was used to select the optimal model using  the smallest value.
+## The final value used for the model was link = sqrt.</code></pre>
+<p>В этом случае обе модели показали весьма близкие результаты и окончательный вывод зависит от решения аналитика. Заметим, что функция <code>train()</code> попутно сравнила два вида функции связи (<code>link</code>) и более точным оказалось использование квадратного корня.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="083-Model-Complexes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="085-ZIP-for-Counts.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

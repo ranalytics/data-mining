@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="051-Association-Rules.html">
+<link rel="next" href="053-Logic-Rules.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,122 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
-</div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<div id="sec_5_2" class="section level2">
+<h2><span class="header-section-number">5.2</span> Бинарные деревья решений</h2>
+<p>Как было отмечено в разделе <a href="043-Decision-Trees.html#sec_4_3">4.3</a>, использование иерархических древовидных структур (decision trees) является одним из наиболее универсальных и эффективных методов классификации и регрессии (Hunt et al., 1966; Breiman at al., 1984; Loh and Shih, 1997). Классификационные модели деревьев рекурсивно делят набор данных на подмножества, являющиеся все более и более гомогенными относительно определенных признаков. Создается решающее правило классификации иерархического типа и формируется ассоциативный логический ключ, дающий возможность выполнять распознавание объектов из новых выборок.</p>
+<p>Самым простым, частным случаем деревьев решений являются деревья бинарной классификации, в узлах которых ветвление может вестись только в двух направлениях, т.е. осуществляется выбор из двух альтернатив (“да” и “нет”). Создание такой дихотомической классификационной модели осуществляется с использованием алгоритма ID3 (Interactive Dichotomizer).</p>
+<p>В основе алгоритма (Quinlan, 1986) лежит циклическое разбиение обучающей выборки на классы в соответствии с переменной, имеющей наибольшую “классифицирующую силу”. Каждое подмножество наблюдений (объектов), выделяемое такой переменной, вновь разбивается на классы с использованием следующей переменной с наибольшей классифицирующей способностью и т.д. Разбиение заканчивается, когда в итоговом подмножестве оказываются объекты лишь одного класса. Пути движения по полученному дереву решений с верхнего уровня на самые нижние определяются логическими правилами в виде цепочек конъюнкций.</p>
+<p>При выборе критерия, оценивающего классифицирующую силу, обычно используют теоретико-информационный подход. Мера информационного выигрыша IG (Information Gain) для разбиения A определяется как разность энтропии Шеннона <span class="math inline">\(H(S)\)</span> для исходного набора данных и суммы энтропий всех фрагментов данных после разбиения <span class="math inline">\(Н(S_{\nu})\)</span> с соответствующим весом в зависимости от размера каждой части:</p>
+<p><span class="math display">\[IG(S, A) = H(S) - \sum_{\nu \in V}\frac{S_{\nu}}{S}H(S_{\nu}),\]</span></p>
+<p>где <span class="math inline">\(\nu\)</span> выбранное опорное значение переменной <span class="math inline">\(V\)</span>, использованное для разбиения <span class="math inline">\(A\)</span>. Если разделение на классы выполнено оптимально, то каждое подмножество <span class="math inline">\(S_{\nu}\)</span> будет иметь небольшую энтропию, и, следовательно, значение <span class="math inline">\(IG\)</span> будет максимальным. На языке R этот критерий может быть рассчитан следующим образом:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Entropy &lt;-<span class="st"> </span>function(vls) {
+    res &lt;-<span class="st"> </span>vls/<span class="kw">sum</span>(vls)*<span class="kw">log2</span>(vls/<span class="kw">sum</span>(vls))
+    res[vls ==<span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
+    -<span class="kw">sum</span>(res)
+}
+InformationGain &lt;-<span class="st"> </span>function(tble) {
+    entropyBefore &lt;-<span class="st"> </span><span class="kw">Entropy</span>(<span class="kw">colSums</span>(tble))
+    s &lt;-<span class="st"> </span><span class="kw">rowSums</span>(tble)
+    entropyAfter &lt;-<span class="st"> </span><span class="kw">sum</span>(s/<span class="kw">sum</span>(s) *
+<span class="st">                            </span><span class="kw">apply</span>(tble, <span class="dt">MARGIN =</span> <span class="dv">1</span>, <span class="dt">FUN =</span> Entropy ))
+    informationGain &lt;-<span class="st"> </span>entropyBefore -<span class="st"> </span>entropyAfter
+    <span class="kw">return</span> (informationGain)
+}</code></pre></div>
+<p>Для реализации алгоритма ID3 используем компоненты пакета data.tree: объект класса tree (дерево) и метод AddChild , добавляющий к выстраиваемому дереву очередной дочерний узел (см. <a href="http://ipub.com/wp-content/uploads/2016/02/applications.html">http://ipub.com/wp-content</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IsPure &lt;-<span class="st"> </span>function(data) {
+    <span class="kw">length</span>(<span class="kw">unique</span>(data[, <span class="kw">ncol</span>(data)])) ==<span class="st"> </span><span class="dv">1</span>
+}
+
+TrainID3 &lt;-<span class="st"> </span>function(node, data) {
+    node$obsCount &lt;-<span class="st"> </span><span class="kw">nrow</span>(data)
+    <span class="co">#  если текущий набор данных принадлежит к одному классу, то</span>
+    if (<span class="kw">IsPure</span>(data)) {
+        <span class="co">#создается лист дерева с экземплярами этого класса</span>
+        child &lt;-<span class="st"> </span>node$<span class="kw">AddChild</span>(<span class="kw">unique</span>(data[, <span class="kw">ncol</span>(data)]))
+        node$feature &lt;-<span class="st"> </span><span class="kw">tail</span>(<span class="kw">names</span>(data), <span class="dv">1</span>)
+        child$obsCount &lt;-<span class="st"> </span><span class="kw">nrow</span>(data)
+        child$feature &lt;-<span class="st"> &#39;&#39;</span>
+    } else {
+        <span class="co"># рассчитывается вектор информационных выигрышей IG</span>
+        ig &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">colnames</span>(data)[-<span class="kw">ncol</span>(data)], 
+                     function(x) <span class="kw">InformationGain</span>(
+                         <span class="kw">table</span>(data[, x], data[, <span class="kw">ncol</span>(data)])))
+        <span class="co">#  выбирается значение признака с наибольшей величиной IG</span>
+        feature &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">which.max</span>(ig))
+        node$feature &lt;-<span class="st"> </span>feature
+        <span class="co"># создается подмножества данных на основе этого значения </span>
+        childObs &lt;-<span class="st"> </span><span class="kw">split</span>(data[, <span class="kw">names</span>(data) !=<span class="st"> </span>feature, 
+                               <span class="dt">drop =</span> <span class="ot">FALSE</span>], data[, feature], <span class="dt">drop =</span> <span class="ot">TRUE</span>)
+        <span class="co">#  создаются дочерние узлы дерева c именем признака</span>
+        for (i in <span class="dv">1</span>:<span class="kw">length</span>(childObs)) {
+            child &lt;-<span class="st"> </span>node$<span class="kw">AddChild</span>(<span class="kw">names</span>(childObs)[i])
+            <span class="co"># осуществляется рекурсия алгоритма для дочернего узла</span>
+            <span class="kw">TrainID3</span>(child, childObs[[i]])
+        }
+    }
+}</code></pre></div>
+<p>Обратим внимание, что наша функция TrainID3 является рекурсивной, т.е. для выполнения итераций вызов функции осуществляется из тела ее самой. Функция завершает работу, если все ветви дерева завершаются листьями с объектами одного класса.</p>
+<p>Для иллюстрации работы алгоритма ID3 обратимся к нашему примеру по классификации лиц избирателей (см. рис. <a href="051-Association-Rules.html#fig:fig-5-1">5.1</a> в разделе <a href="051-Association-Rules.html#sec_5_1">5.1</a>). Для получения осмысленной визуализации дерева перейдем от численных обозначений к натуральным названиям признаков и их градаций. В результате получаем следующее дерево решений:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DFace &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="dt">file =</span> <span class="st">&quot;data/Faces.txt&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)
+DFaceN &lt;-<span class="st"> </span>DFace[, -<span class="dv">17</span>]; Class &lt;-<span class="st"> </span>DFace$Class 
+DFaceN[DFaceN ==<span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> &quot;Да&quot;</span> ; DFaceN[DFaceN ==<span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> &quot;Нет&quot;</span>
+Class[Class ==<span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> &quot;Патриот&quot;</span>
+Class[Class ==<span class="st"> </span><span class="dv">2</span>] &lt;-<span class="st"> &quot;Демократ&quot;</span>
+DFaceN &lt;-<span class="st"> </span><span class="kw">cbind</span>(DFaceN,Class) 
+
+<span class="kw">colnames</span>(DFaceN) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;голова_круглая&quot;</span>, <span class="st">&quot;уши_оттопырен&quot;</span>,
+                      <span class="st">&quot;нос_круглый&quot;</span>, <span class="st">&quot;глаза_круглые&quot;</span>, <span class="st">&quot;лоб_морщины&quot;</span>,
+                      <span class="st">&quot;носогубн_складка&quot;</span>, <span class="st">&quot;губы_толстые&quot;</span>, <span class="st">&quot;волосы&quot;</span>, <span class="st">&quot;усы&quot;</span>,<span class="st">&quot;борода&quot;</span>,
+                      <span class="st">&quot;очки&quot;</span>,<span class="st">&quot;родинка_щеке&quot;</span>, <span class="st">&quot;бабочка&quot;</span>, <span class="st">&quot;брови_подняты&quot;</span>, <span class="st">&quot;серьга&quot;</span>,
+                      <span class="st">&quot;курит_трубка&quot;</span>, <span class="st">&quot;Группа&quot;</span>)
+<span class="kw">library</span>(data.tree)
+tree &lt;-<span class="st"> </span>Node$<span class="kw">new</span>(<span class="st">&quot;DFaceN&quot;</span>)  <span class="co"># Создаем «пустое» дерево</span>
+<span class="kw">TrainID3</span>(tree, DFaceN)
+<span class="kw">print</span>(tree, <span class="st">&quot;feature&quot;</span>, <span class="st">&quot;obsCount&quot;</span>)</code></pre></div>
+<pre><code>##                       levelName       feature obsCount
+## 1  DFaceN                       уши_оттопырен       16
+## 2   ¦--Да                              борода       10
+## 3   ¦   ¦--Да                     нос_круглый        7
+## 4   ¦   ¦   ¦--Да                курит_трубка        3
+## 5   ¦   ¦   ¦   ¦--Да                  Группа        1
+## 6   ¦   ¦   ¦   ¦   °--Патриот                       1
+## 7   ¦   ¦   ¦   °--Нет                 Группа        2
+## 8   ¦   ¦   ¦       °--Демократ                      2
+## 9   ¦   ¦   °--Нет               губы_толстые        4
+## 10  ¦   ¦       ¦--Да                  Группа        1
+## 11  ¦   ¦       ¦   °--Демократ                      1
+## 12  ¦   ¦       °--Нет                 Группа        3
+## 13  ¦   ¦           °--Патриот                       3
+## 14  ¦   °--Нет                         Группа        3
+## 15  ¦       °--Демократ                              3
+## 16  °--Нет                      брови_подняты        6
+## 17      ¦--Да                          Группа        2
+## 18      ¦   °--Демократ                              2
+## 19      °--Нет                         Группа        4
+## 20          °--Патриот                               4</code></pre>
+<p>Выращивание дерева начинается с переменной, имеющей наибольшее значение критерия IG, каковой оказались оттопыренные уши: ее значению “Да” соответствует группа из 10 объектов, а значению “Нет” - из 6. Если в первой ветви для классификации последовательно привлекаются еще 4 признака (наличие бороды, круглого носа, курительной трубки и толстых губ), то во втором случае безошибочное разбиение сразу происходит при использовании поднятых бровей. Проверим теперь, насколько эффективен полученный классификатор на обучающей выборке:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Predict &lt;-<span class="st"> </span>function(tree, features) {
+    if (tree$children[[<span class="dv">1</span>]]$isLeaf) 
+        <span class="kw">return</span>(tree$children[[<span class="dv">1</span>]]$name)
+    child &lt;-<span class="st"> </span>tree$children[[features[[tree$feature]]]]
+    <span class="kw">return</span>( <span class="kw">Predict</span>(child, features))
+}
+pred &lt;-<span class="st"> </span><span class="kw">apply</span>(DFaceN[, -<span class="dv">17</span>], <span class="dv">1</span>, function(x) <span class="kw">Predict</span>(tree, x))
+<span class="kw">table</span>(Факт =<span class="st"> </span>DFaceN$Группа, Прогноз =<span class="st"> </span>pred)</code></pre></div>
+<pre><code>##           Прогноз
+## Факт       Демократ Патриот
+##   Демократ        8       0
+##   Патриот         0       8</code></pre>
+<p>Предсказание электоральной группы по всей обучающей выборке, как и в случае логистической регрессии, также оказалось безошибочным. Однако нет уверенности, что построенные деревья будут столь же успешны при практической реализации на “свежих” данных. Для оценки эффективности модели выполним перекрестную проверку:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Nerr &lt;-<span class="st"> </span><span class="dv">0</span>
+for (i in <span class="dv">1</span>:<span class="kw">nrow</span>(DFaceN)) {
+    tree &lt;-<span class="st"> </span>Node$<span class="kw">new</span>(<span class="st">&quot;DFaceN&quot;</span>)
+    <span class="kw">TrainID3</span>(tree, DFaceN[-i, ])
+    Nerr =<span class="st"> </span>Nerr +<span class="st"> </span>
+<span class="st">        </span><span class="kw">sum</span>(DFaceN[i,<span class="dv">17</span>] !=<span class="st"> </span><span class="kw">Predict</span>(tree,DFaceN[i, -<span class="dv">17</span>]))  }
+(Nerr/<span class="kw">nrow</span>(DFaceN))</code></pre></div>
+<pre><code>## [1] 0.25</code></pre>
+<p>При выполнении скользящего контроля четыре объекта из 16 оказались неверно предсказанными с помощью бинарного дерева, построенного после исключения тестируемого примера. Считается (Дук, Самойленко, 2001), что алгоритм ID3 в случае взаимозависимых признаков нередко направляет ход логического вывода по ложному пути и создает лишь иллюзию правильного рассуждения. Но для более обоснованных выводов следует рассматривать результаты тестирования на более серьезных примерах, чем наш.</p>
 
 </div>
             </section>
@@ -267,8 +351,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="051-Association-Rules.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="053-Logic-Rules.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

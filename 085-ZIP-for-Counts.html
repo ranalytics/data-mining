@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="084-GLM-for-Counts.html">
+<link rel="next" href="091-Data-Transformation.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,47 +228,239 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_8_5" class="section level2">
+<h2><span class="header-section-number">8.5</span> ZIP- и барьерные модели счетных данных</h2>
+<p>Как обсуждалось выше, реальные данные часто характеризуются существенными отклонениями от теоретического однопараметрического распределения Пуассона: избытком нулевых значений и/или нарушениями предположения о параметре дисперсии <span class="math inline">\(\text{Var}(Y) \neq E(Y)\)</span>. Учесть повышенную разреженность данных можно с использованием <em>модели Пуассона со смешанными параметрами</em>, учитывающей избыток нулей (Zero Inflated Poisson, ZIP), или специальной двухкомпонентной <em>модели с измененными нулями</em> (Zero-altered Poisson, ZAP), которую часто называют “барьерной” моделью (hurdle model). Если наряду с избытком нулей имеет место отчетливая избыточная дисперсия, то можно воспользоваться соответствующими моделями на основе отрицательного биномиального распределения: ZINB (Zero-inﬂated Negative Binomial) и ZANB (Zero-altered Negative Binomial). Эти четыре модели будут предметом нашего дальнейшего обсуждения (подробности см. в Zeileis et al., 2008; Zuur et al., 2009; Cameron, Trivedi, 2013; Кшнясев, 2010).</p>
+<p>Рассмотрим в качестве примера таблицу <code>NMES1988</code> из пакета <code>AER</code>, содержащий данные о визитах 4406 респондентов старше 66 лет в учреждения бесплатного медицинского обслуживания США в 1988 г. Число посещений <code>visits</code> примем в качестве отклика, а три метрических переменных и три фактора используем в качестве предикторов:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(AER)
+<span class="kw">data</span>(<span class="st">&quot;NMES1988&quot;</span>)        <span class="co"># Загружаем данные и отбираем столбцы</span>
+nmes &lt;-<span class="st"> </span>NMES1988[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">6</span>:<span class="dv">8</span>, <span class="dv">13</span>, <span class="dv">15</span>, <span class="dv">18</span>)]
+<span class="kw">sum</span>(nmes$visits &lt;<span class="st"> </span><span class="dv">1</span>)   <span class="co"># наблюдаемое число нулей</span></code></pre></div>
+<pre><code>## [1] 683</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">table</span>(nmes$visits))  </code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-8-9"></span>
+<img src="085-ZIP-for-Counts_files/figure-html/fig-8-9-1.png" alt="Наблюдаемые частоты посещений врача" width="576" />
+<p class="caption">
+Рисунок 8.9: Наблюдаемые частоты посещений врача
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>Вычислим теоретическую частоту нулевых значений:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod1 &lt;-<span class="st"> </span><span class="kw">glm</span>(visits ~<span class="st"> </span>., <span class="dt">data =</span> nmes, <span class="dt">family =</span> <span class="st">&quot;poisson&quot;</span>)
+mu &lt;-<span class="st"> </span><span class="kw">predict</span>(mod1, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>) <span class="co"># среднее Пуассона</span>
+exp &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">dpois</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">lambda =</span> mu))  <span class="co"># теоретическая частота</span>
+<span class="kw">round</span>(exp)                             <span class="co"># нулевых значений</span></code></pre></div>
+<pre><code>## [1] 47</code></pre>
+<p>Модели ZIP и ZINB называют моделями со смешанными параметрами (mixture models), поскольку присутствие нулей считается итогом двух различных процессов: биномиального процесса и процесса формирования счетной случайной величины. Здесь биномиальный процесс моделирует вероятность измерения ложно-положительного результата против всех других типов данных (включая истинные нули и конкретные счетные значения). Иными словами, мы делим данные на три воображаемые группы: первая группа содержит только ложные нули – наблюдения с вероятностью появления <span class="math inline">\(\pi_i\)</span>, вторая группа - истинные нули с вероятностью <span class="math inline">\((pi_i - 1)\)</span>, и третья группа - ненулевые наблюдения, которые (вместе со второй группой!) моделируются регрессией Пуассона с учетом независимых переменных. Тогда распределение вероятностей по ZIP-модели определяется следующими выражениями:</p>
+<p><span class="math display">\[P(y_i = 0) = \pi_i + (1 + \pi_i) \times e^{-\mu_i}, \, \, \, \mu_i = e^{\alpha + \beta_1 x_{1i} + \beta_2 x_{2i}  + \dots}\]</span></p>
+<p><span class="math display">\[P(Y_i = y_i | y_i &gt; 0) = (1 - \pi_i) \times \frac{\mu^{y_i} \times e^{-\mu_i}}{y_i!}, \, \, \, \pi_i = \frac{e^{\nu}}{1 + e^{\nu}}.\]</span></p>
+<p>Модель ZINB формулируется так же, но значение <span class="math inline">\(\mu_i\)</span> подгоняется с использованием отрицательного биномиального распределения.</p>
+<p>Построение моделей с избыточными нулями осуществляется с использованием функции <code>zeroinfl()</code> из пакета <code>pscl</code>, для чего необходимо выполнить следующий код:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pscl)
+M.ZIP &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(visits ~<span class="st"> </span>., <span class="dt">data =</span> nmes, <span class="dt">dist =</span> <span class="st">&quot;poisson&quot;</span>, <span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>)
+<span class="kw">summary</span>(M.ZIP)</code></pre></div>
+<pre><code>## 
+## Call:
+## zeroinfl(formula = visits ~ ., data = nmes, dist = &quot;poisson&quot;, link = &quot;logit&quot;)
+## 
+## Pearson residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.4092 -1.1579 -0.4769  0.5435 25.0380 
+## 
+## Count model coefficients (poisson with log link):
+##                  Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)      1.405812   0.024175  58.152  &lt; 2e-16 ***
+## hospital         0.159011   0.006060  26.239  &lt; 2e-16 ***
+## healthpoor       0.253454   0.017705  14.315  &lt; 2e-16 ***
+## healthexcellent -0.304134   0.031151  -9.763  &lt; 2e-16 ***
+## chronic          0.101836   0.004721  21.571  &lt; 2e-16 ***
+## gendermale      -0.062332   0.013054  -4.775 1.80e-06 ***
+## school           0.019144   0.001873  10.221  &lt; 2e-16 ***
+## insuranceyes     0.080557   0.017145   4.699 2.62e-06 ***
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)     -0.08102    0.14233  -0.569 0.569219    
+## hospital        -0.30330    0.09158  -3.312 0.000927 ***
+## healthpoor       0.02166    0.16170   0.134 0.893431    
+## healthexcellent  0.23786    0.14990   1.587 0.112550    
+## chronic         -0.53117    0.04601 -11.545  &lt; 2e-16 ***
+## gendermale       0.41527    0.08919   4.656 3.22e-06 ***
+## school          -0.05677    0.01223  -4.640 3.49e-06 ***
+## insuranceyes    -0.75294    0.10257  -7.341 2.12e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Number of iterations in BFGS optimization: 24 
+## Log-likelihood: -1.613e+04 on 16 Df</code></pre>
+<p>Построенная модель ZIP включает следующие статистически значимые переменные: время пребывания в больнице (<code>hospital</code>), оценка хроничности заболевания (<code>chronic</code>), длительности обучения (<code>school</code>), пола (<code>gender</code>), наличия страховки (<code>insurance</code>). Самооценка же здоровья (<code>health</code>) оказалась незначимой.</p>
+<p>Аналогичным образом можно построить модель с использованием отрицательного биномиального распределения, которая имеет аналогичную структуру и поэтому полный протокол результатов не приводится:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M.ZINB &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(visits ~<span class="st"> </span>., <span class="dt">data =</span> nmes, <span class="dt">dist =</span> <span class="st">&quot;negbin&quot;</span>, <span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>)
+<span class="kw">summary</span>(M.ZINB) </code></pre></div>
+<pre><code>## 
+## Call:
+## zeroinfl(formula = visits ~ ., data = nmes, dist = &quot;negbin&quot;, link = &quot;logit&quot;)
+## 
+## Pearson residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.1966 -0.7097 -0.2784  0.3256 17.7661 
+## 
+## Count model coefficients (negbin with log link):
+##                  Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)      1.193466   0.056737  21.035  &lt; 2e-16 ***
+## hospital         0.201214   0.020392   9.867  &lt; 2e-16 ***
+## healthpoor       0.287190   0.045940   6.251 4.07e-10 ***
+## healthexcellent -0.313540   0.062977  -4.979 6.40e-07 ***
+## chronic          0.128955   0.011938  10.802  &lt; 2e-16 ***
+## gendermale      -0.080093   0.031035  -2.581  0.00986 ** 
+## school           0.021338   0.004368   4.886 1.03e-06 ***
+## insuranceyes     0.126815   0.041687   3.042  0.00235 ** 
+## Log(theta)       0.394731   0.035145  11.231  &lt; 2e-16 ***
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)     -0.06354    0.27668  -0.230  0.81837    
+## hospital        -0.81760    0.43875  -1.863  0.06240 .  
+## healthpoor       0.10178    0.44071   0.231  0.81735    
+## healthexcellent  0.10488    0.30965   0.339  0.73484    
+## chronic         -1.24630    0.17918  -6.956 3.51e-12 ***
+## gendermale       0.64937    0.20046   3.239  0.00120 ** 
+## school          -0.08481    0.02676  -3.169  0.00153 ** 
+## insuranceyes    -1.15808    0.22436  -5.162 2.45e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Theta = 1.484 
+## Number of iterations in BFGS optimization: 31 
+## Log-likelihood: -1.209e+04 on 17 Df</code></pre>
+<p>Визуально сравнить степень согласия эмпирических и оцененных моделью частот можно с использованием гистограмм (поскольку для лучшего восприятия графика из частот извлекают квадратный корень, их называют еще “рутограммами” - от англ. “root”, корень):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># для инсталляции countreg выполните команду: </span>
+<span class="co"># install.packages(&quot;countreg&quot;, repos=&quot;http://R-Forge.R-project.org&quot;)</span>
+<span class="kw">library</span>(countreg)
+<span class="kw">rootogram</span>(M.ZIP)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-8-10"></span>
+<img src="085-ZIP-for-Counts_files/figure-html/fig-8-10-1.png" alt="Рутограмма частот для модели ZIP" width="576" />
+<p class="caption">
+Рисунок 8.10: Рутограмма частот для модели ZIP
+</p>
 </div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rootogram</span>(M.ZINB)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-8-11"></span>
+<img src="085-ZIP-for-Counts_files/figure-html/fig-8-11-1.png" alt="Рутограмма частот для модели ZINB" width="576" />
+<p class="caption">
+Рисунок 8.11: Рутограмма частот для модели ZINB
+</p>
+</div>
+<p>В результате введения в модель на основе отрицательного биномиального распределения ZINB дополнительного параметра <code>Theta</code>, компенсирующего избыточную дисперсию, оценки коэффициентов и их уровней значимостей были уточнены, максимум логарифма функции правдоподобия увеличился, а гистограмма на рис. <a href="085-ZIP-for-Counts.html#fig:fig-8-11">8.11</a> приобрела более плавный характер.</p>
+<p>Заметим, что мы построили простейший вариант моделей, исходя из предположения о том, что параметр <span class="math inline">\(\pi_i\)</span> равен постоянному значению (т.е. <span class="math inline">\(\nu = const\)</span>). Изменяя структуру правой части объекта formula, мы можем задать любую зависимость для  от имеющихся ковариат (Zuur et al., 2009)</p>
+<p>Барьерная модель по своему смыслу является уже не смешанной, а двухкомпонентной моделью, т.е. задается как комбинация двух самостоятельных уравнений регрессии: логит-регрессии для моделирования вероятности <span class="math inline">\(P(y_i = 0)\)</span> на основе биномиального распределения, и множественной регрессии для ненулевой средней численности в предположении одно- или двухпараметрического распределения для стохастической компоненты, например:</p>
+<p><span class="math display">\[ f_{ZAP}(y; \beta, \gamma) =
+  \begin{cases}
+    f_{bin}(y = 0; \gamma)       &amp; \quad \text{для } y=0\\
+    (1-f_{bin}(y = 0; \gamma))\times\frac{f_{Pois}(y;\beta)}{1-f_{Pois}(y;\beta)}  &amp; \quad \text{для } y&gt;0\\
+  \end{cases}. \]</span></p>
+<p>Выполним построение моделей ZAP и ZANB, для чего воспользуемся функцией <code>hurdle()</code> из пакета <code>pscl</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M.ZAP &lt;-<span class="st">  </span><span class="kw">hurdle</span>(visits ~<span class="st"> </span>., <span class="dt">data =</span> nmes, 
+                 <span class="dt">dist =</span> <span class="st">&quot;poisson&quot;</span>, <span class="dt">zero.dist =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>)
+<span class="kw">summary</span>(M.ZAP)</code></pre></div>
+<pre><code>## 
+## Call:
+## hurdle(formula = visits ~ ., data = nmes, dist = &quot;poisson&quot;, zero.dist = &quot;binomial&quot;, 
+##     link = &quot;logit&quot;)
+## 
+## Pearson residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.4144 -1.1565 -0.4770  0.5432 25.0228 
+## 
+## Count model coefficients (truncated poisson with log link):
+##                  Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)      1.406459   0.024180  58.167  &lt; 2e-16 ***
+## hospital         0.158967   0.006061  26.228  &lt; 2e-16 ***
+## healthpoor       0.253521   0.017708  14.317  &lt; 2e-16 ***
+## healthexcellent -0.303677   0.031150  -9.749  &lt; 2e-16 ***
+## chronic          0.101720   0.004719  21.557  &lt; 2e-16 ***
+## gendermale      -0.062247   0.013055  -4.768 1.86e-06 ***
+## school           0.019078   0.001872  10.194  &lt; 2e-16 ***
+## insuranceyes     0.080879   0.017139   4.719 2.37e-06 ***
+## Zero hurdle model coefficients (binomial with logit link):
+##                  Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)      0.043147   0.139852   0.309 0.757688    
+## hospital         0.312449   0.091437   3.417 0.000633 ***
+## healthpoor      -0.008716   0.161024  -0.054 0.956833    
+## healthexcellent -0.289570   0.142682  -2.029 0.042409 *  
+## chronic          0.535213   0.045378  11.794  &lt; 2e-16 ***
+## gendermale      -0.415658   0.087608  -4.745 2.09e-06 ***
+## school           0.058541   0.011989   4.883 1.05e-06 ***
+## insuranceyes     0.747120   0.100880   7.406 1.30e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Number of iterations in BFGS optimization: 14 
+## Log-likelihood: -1.613e+04 on 16 Df</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M.ZANB &lt;-<span class="st">  </span><span class="kw">hurdle</span> (visits ~<span class="st"> </span>., <span class="dt">data =</span> nmes, 
+                   <span class="dt">dist =</span> <span class="st">&quot;negbin&quot;</span>, <span class="dt">link=</span><span class="st">&quot;logit&quot;</span>)
+<span class="kw">summary</span>(M.ZANB)</code></pre></div>
+<pre><code>## 
+## Call:
+## hurdle(formula = visits ~ ., data = nmes, dist = &quot;negbin&quot;, link = &quot;logit&quot;)
+## 
+## Pearson residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.1718 -0.7080 -0.2737  0.3196 18.0092 
+## 
+## Count model coefficients (truncated negbin with log link):
+##                  Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)      1.197699   0.058973  20.309  &lt; 2e-16 ***
+## hospital         0.211898   0.021396   9.904  &lt; 2e-16 ***
+## healthpoor       0.315958   0.048056   6.575 4.87e-11 ***
+## healthexcellent -0.331861   0.066093  -5.021 5.14e-07 ***
+## chronic          0.126421   0.012452  10.152  &lt; 2e-16 ***
+## gendermale      -0.068317   0.032416  -2.108   0.0351 *  
+## school           0.020693   0.004535   4.563 5.04e-06 ***
+## insuranceyes     0.100172   0.042619   2.350   0.0188 *  
+## Log(theta)       0.333255   0.042754   7.795 6.46e-15 ***
+## Zero hurdle model coefficients (binomial with logit link):
+##                  Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)      0.043147   0.139852   0.309 0.757688    
+## hospital         0.312449   0.091437   3.417 0.000633 ***
+## healthpoor      -0.008716   0.161024  -0.054 0.956833    
+## healthexcellent -0.289570   0.142682  -2.029 0.042409 *  
+## chronic          0.535213   0.045378  11.794  &lt; 2e-16 ***
+## gendermale      -0.415658   0.087608  -4.745 2.09e-06 ***
+## school           0.058541   0.011989   4.883 1.05e-06 ***
+## insuranceyes     0.747120   0.100880   7.406 1.30e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Theta: count = 1.3955
+## Number of iterations in BFGS optimization: 16 
+## Log-likelihood: -1.209e+04 on 17 Df</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">rootogram</span>(M.ZAP)
+<span class="kw">rootogram</span>(M.ZANB)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-8-12"></span>
+<img src="085-ZIP-for-Counts_files/figure-html/fig-8-12-1.png" alt="Рутограмма частот моделей ZAP и ZANB" width="768" />
+<p class="caption">
+Рисунок 8.12: Рутограмма частот моделей ZAP и ZANB
+</p>
+</div>
+<p>На вопрос о том, какая модель эффективнее, можно дать очевидный ответ (<code>M.ZANB</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fm &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;ZIP&quot;</span> =<span class="st"> </span>M.ZIP, <span class="st">&quot;ZINB&quot;</span> =<span class="st"> </span>M.ZINB, 
+           <span class="st">&quot;Hurdle-Pois&quot;</span> =<span class="st"> </span>M.ZAP,  <span class="st">&quot;Hurdle-NB&quot;</span> =<span class="st"> </span>M.ZANB)
+<span class="kw">rbind</span>(<span class="dt">logLik =</span> <span class="kw">sapply</span>(fm, function(x) <span class="kw">round</span>(<span class="kw">logLik</span>(x), <span class="dt">digits =</span> <span class="dv">0</span>)),
+      <span class="dt">AIC =</span> <span class="kw">sapply</span>(fm, function(x) <span class="kw">round</span>(<span class="kw">AIC</span>(x), <span class="dt">digits =</span> <span class="dv">0</span>)))</code></pre></div>
+<pre><code>##           ZIP   ZINB Hurdle-Pois Hurdle-NB
+## logLik -16134 -12091      -16134    -12088
+## AIC     32300  24215       32301     24210</code></pre>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="084-GLM-for-Counts.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="091-Data-Transformation.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

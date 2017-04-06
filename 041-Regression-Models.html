@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия и другие алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://ranalytics.github.io/data-mining/" />
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  <meta name="github-repo" content="ranalytics/data-mining" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-04-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="035-The-train-Functions.html">
+<link rel="next" href="042-Regularization.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R (вместо предисловия)</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_1"><i class="fa fa-check"></i><b>1.1.1</b> От статистического анализа разового эксперимента к Data Mining</a></li>
+<li class="chapter" data-level="1.1.2" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_2"><i class="fa fa-check"></i><b>1.1.2</b> Принципиальная множественность моделей окружающего мира</a></li>
+<li class="chapter" data-level="1.1.3" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_3"><i class="fa fa-check"></i><b>1.1.3</b> Нарастающая множественность алгоритмов построения моделей</a></li>
+<li class="chapter" data-level="1.1.4" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_4"><i class="fa fa-check"></i><b>1.1.4</b> Типы и характеристики групп моделей Data Mining</a></li>
+<li class="chapter" data-level="1.1.5" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_5"><i class="fa fa-check"></i><b>1.1.5</b> Природа многомерного отклика и его моделирование</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="012-R-Intro.html"><a href="012-R-Intro.html"><i class="fa fa-check"></i><b>1.2</b> Статистическая среда R и ее использование в Data Mining</a></li>
+<li class="chapter" data-level="1.3" data-path="013-What-This-Book-Is-About.html"><a href="013-What-This-Book-Is-About.html"><i class="fa fa-check"></i><b>1.3</b> О чем эта книга и чего в ней нет</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_1"><i class="fa fa-check"></i><b>4.1.1</b> Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="4.1.2" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_2"><i class="fa fa-check"></i><b>4.1.2</b> Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="4.1.3" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_3"><i class="fa fa-check"></i><b>4.1.3</b> Генетический алгоритм</a></li>
+<li class="chapter" data-level="4.1.4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_4"><i class="fa fa-check"></i><b>4.1.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_1"><i class="fa fa-check"></i><b>4.2.1</b> Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="4.2.2" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_2"><i class="fa fa-check"></i><b>4.2.2</b> Метод частных наименьших квадратов (PLS)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_3"><i class="fa fa-check"></i><b>4.2.3</b> Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="4.2.4" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_4"><i class="fa fa-check"></i><b>4.2.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_1"><i class="fa fa-check"></i><b>4.3.1</b> Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="4.3.2" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_2"><i class="fa fa-check"></i><b>4.3.2</b> Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="4.3.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_3"><i class="fa fa-check"></i><b>4.3.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_1"><i class="fa fa-check"></i><b>4.4.1</b> Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="4.4.2" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_2"><i class="fa fa-check"></i><b>4.4.2</b> Бустинг</a></li>
+<li class="chapter" data-level="4.4.3" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_3"><i class="fa fa-check"></i><b>4.4.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="053-Logic-Rules.html"><a href="053-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="054-Association-Rules-Algos.html"><a href="054-Association-Rules-Algos.html"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+<li class="chapter" data-level="5.5" data-path="055-Traminer.html"><a href="055-Traminer.html"><i class="fa fa-check"></i><b>5.5</b> Анализ последовательностей знаков или событий</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классификаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Ядерные функции машины опорных векторов</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html"><i class="fa fa-check"></i><b>7</b> Модели классификации для нескольких классов</a><ul>
+<li class="chapter" data-level="7.1" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html#sec_7_1"><i class="fa fa-check"></i><b>7.1</b> Ирисы Фишера и метод <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="7.2" data-path="072-NBC.html"><a href="072-NBC.html"><i class="fa fa-check"></i><b>7.2</b> Наивный байесовский классификатор</a></li>
+<li class="chapter" data-level="7.3" data-path="073-In-Discriminant-Space.html"><a href="073-In-Discriminant-Space.html"><i class="fa fa-check"></i><b>7.3</b> Классификация в линейном дискриминантном пространстве</a></li>
+<li class="chapter" data-level="7.4" data-path="074-Nonlinear-Classifiers.html"><a href="074-Nonlinear-Classifiers.html"><i class="fa fa-check"></i><b>7.4</b> Нелинейные классификаторы в R</a></li>
+<li class="chapter" data-level="7.5" data-path="075-Multinomial-Logit.html"><a href="075-Multinomial-Logit.html"><i class="fa fa-check"></i><b>7.5</b> Модель мультиномиального логита</a></li>
+<li class="chapter" data-level="7.6" data-path="076-NN.html"><a href="076-NN.html"><i class="fa fa-check"></i><b>7.6</b> Классификаторы на основе искусственных нейронных сетей</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html"><i class="fa fa-check"></i><b>8</b> Моделирование порядковых и счетных переменных</a><ul>
+<li class="chapter" data-level="8.1" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html#sec_8_1"><i class="fa fa-check"></i><b>8.1</b> Модель логита для порядковой переменной</a></li>
+<li class="chapter" data-level="8.2" data-path="082-NN-with-Caret.html"><a href="082-NN-with-Caret.html"><i class="fa fa-check"></i><b>8.2</b> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></a></li>
+<li class="chapter" data-level="8.3" data-path="083-Model-Complexes.html"><a href="083-Model-Complexes.html"><i class="fa fa-check"></i><b>8.3</b> Методы комплексации модельных прогнозов</a></li>
+<li class="chapter" data-level="8.4" data-path="084-GLM-for-Counts.html"><a href="084-GLM-for-Counts.html"><i class="fa fa-check"></i><b>8.4</b> Обобщенные линейные модели для счетных данных</a></li>
+<li class="chapter" data-level="8.5" data-path="085-ZIP-for-Counts.html"><a href="085-ZIP-for-Counts.html"><i class="fa fa-check"></i><b>8.5</b> ZIP- и барьерные модели счетных данных</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html"><i class="fa fa-check"></i><b>9</b> Методы многомерной ординации</a><ul>
+<li class="chapter" data-level="9.1" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html#sec_9_1"><i class="fa fa-check"></i><b>9.1</b> Преобразование данных и вычисление матрицы расстояний</a></li>
+<li class="chapter" data-level="9.2" data-path="092-Distance-ANOVA.html"><a href="092-Distance-ANOVA.html"><i class="fa fa-check"></i><b>9.2</b> Непараметрический дисперсионный анализ матриц дистанций</a></li>
+<li class="chapter" data-level="9.3" data-path="093-Comparing-Diagrams.html"><a href="093-Comparing-Diagrams.html"><i class="fa fa-check"></i><b>9.3</b> Методы ординации объектов и переменных: построение и сравнение диаграмм</a></li>
+<li class="chapter" data-level="9.4" data-path="094-Ordination-Factors.html"><a href="094-Ordination-Factors.html"><i class="fa fa-check"></i><b>9.4</b> Оценка связи ординации с внешними факторами</a></li>
+<li class="chapter" data-level="9.5" data-path="095-NMDS.html"><a href="095-NMDS.html"><i class="fa fa-check"></i><b>9.5</b> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html"><i class="fa fa-check"></i><b>10</b> Кластерный анализ</a><ul>
+<li class="chapter" data-level="10.1" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html#sec_10_1"><i class="fa fa-check"></i><b>10.1</b> Алгоритмы кластеризации, основанные на разделении</a></li>
+<li class="chapter" data-level="10.2" data-path="102-H-Clustering.html"><a href="102-H-Clustering.html"><i class="fa fa-check"></i><b>10.2</b> Иерархическая кластеризация</a></li>
+<li class="chapter" data-level="10.3" data-path="103-Clustering-Quality.html"><a href="103-Clustering-Quality.html"><i class="fa fa-check"></i><b>10.3</b> Оценка качества кластеризации</a></li>
+<li class="chapter" data-level="10.4" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html"><i class="fa fa-check"></i><b>10.4</b> Другие алгоритмы кластеризации</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_1"><i class="fa fa-check"></i><b>10.4.1</b> Иерархическая кластеризация на главные компоненты</a></li>
+<li class="chapter" data-level="10.4.2" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_2"><i class="fa fa-check"></i><b>10.4.2</b> Метод нечетких <em>k</em> средних (fuzzy analysis clustering)</a></li>
+<li class="chapter" data-level="10.4.3" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_3"><i class="fa fa-check"></i><b>10.4.3</b> Статистическая модель кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="105-Cohonen-Maps.html"><a href="105-Cohonen-Maps.html"><i class="fa fa-check"></i><b>10.5</b> Самоорганизующиеся карты Кохонена</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html"><i class="fa fa-check"></i><b>11</b> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</a><ul>
+<li class="chapter" data-level="11.1" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html#----rattle"><i class="fa fa-check"></i><b>11.1</b> Начало работы с пакетом <code id="sec_11_1">rattle</code></a></li>
+<li class="chapter" data-level="11.2" data-path="112-Descriptive-Stats.html"><a href="112-Descriptive-Stats.html"><i class="fa fa-check"></i><b>11.2</b> Описательная статистика и визуализация данных</a></li>
+<li class="chapter" data-level="11.3" data-path="113-Model-Building.html"><a href="113-Model-Building.html"><i class="fa fa-check"></i><b>11.3</b> Построение и тестирование моделей классификации</a></li>
+<li class="chapter" data-level="11.4" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html"><i class="fa fa-check"></i><b>11.4</b> Дескриптивные модели (обучение без учителя)</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_1"><i class="fa fa-check"></i><b>11.4.1</b> Кластерный анализ</a></li>
+<li class="chapter" data-level="11.4.2" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_2"><i class="fa fa-check"></i><b>11.4.2</b> Ассоциативные правила</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="120-References.html"><a href="120-References.html"><i class="fa fa-check"></i><b>12</b> Список рекомендуемой литературы</a></li>
+<li class="chapter" data-level="" data-path="130-Appendix.html"><a href="130-Appendix.html"><i class="fa fa-check"></i>Приложение: cправочная карта по Data Mining с использованием R</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch_4" class="section level1">
+<h1><span class="header-section-number">ГЛАВА 4</span> Построение регрессионных моделей различного типа</h1>
+<div id="sec_4_1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Селекция оптимального набора предикторов линейной модели</h2>
+<p>Модель множественной линейной регрессии является, безусловно, весьма полезной и широко применяемой для прогнозирования количественного отклика. Считается, что наиболее эффективный путь улучшения качества регрессии - исключение незначимых коэффициентов, или, выражаясь точнее, отбор информативного комплекса <span class="math inline">\(S_q\)</span> из <span class="math inline">\(q\)</span> переменных <span class="math inline">\((q &lt; m)\)</span>. Причины, по которым стоит проводить селекцию “оптимального подмножества” предикторов, Дж. Фаравэй (Faraway, 2006) видит в следующем:</p>
+<ol style="list-style-type: decimal">
+<li>Принцип бритвы Оккама утверждает, что из нескольких вероятных объяснений явления лучшим является самое простое. Компактная модель, из которой удалены избыточные предикторы, лучше объясняет имеющиеся данные.</li>
+<li>Ненужные предикторы добавляют шум к оценке влияния других интересующих нас факторов. Иначе степени свободы (часто ограниченные) будут тратиться впустую.</li>
+<li>При наличии коллинеарности некоторые переменные будут “пытаться сделать одну и ту же работу” (т.е., повторно объяснять вариацию значений зависимой переменной).</li>
+<li>Если модель используется для прогнозирования, то можно сэкономить время и/или деньги, не измеряя избыточные переменные.</li>
+</ol>
+<p>Алгоритмы выбора оптимального подмножества <span class="math inline">\(S_q\)</span> обычно основаны на последовательном “переборном” процессе, при котором многократно создаются модели с различными наборами предикторов, лучшая из которых определяется по некоторому критерию эффективности (ошибка или точность модели, <span class="math inline">\(R^2\)</span>, АIC и проч.). Рассмотрим технику применения и оценим полученные результаты с использованием трех таких методов: пошаговый (forward/backward) метод селекции, рекурсивное исключение и генетический алгоритм, представленные в пакете caret.</p>
+<p>В качестве примера рассмотрим построение регрессионных моделей, прогнозирующих обилие водорослей группы <code>a1</code> в зависимости от гидрохимических показателей воды и условий отбора проб в различных водотоках (см. подробное описание таблицы переменных в разделе <a href="034-Handling-Missing-Values.html#sec_3_4">3.4</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DMwR)
+<span class="kw">data</span>(algae)
+<span class="kw">library</span>(caret)
+
+<span class="co"># Заполним пропуски в данных на основе алгоритма бэггинга</span>
+pPbI &lt;-<span class="st"> </span><span class="kw">preProcess</span>(algae[, <span class="dv">4</span>:<span class="dv">11</span>], <span class="dt">method =</span> <span class="st">&#39;bagImpute&#39;</span>)
+algae[, <span class="dv">4</span>:<span class="dv">11</span>] &lt;-<span class="st"> </span><span class="kw">predict</span>(pPbI, algae[, <span class="dv">4</span>:<span class="dv">11</span>])
+
+<span class="co"># Сохраним таблицу для использования в дальнейшем</span>
+<span class="co"># save(algae, file=&quot;algae.RData&quot;)</span></code></pre></div>
+<p>Важные предварительные выводы можно сделать, сформировав корреляционную матрицу предикторов (рис. <a href="041-Regression-Models.html#fig:fig-4-1">4.1</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Mcor &lt;-<span class="st"> </span><span class="kw">cor</span>(algae[, <span class="dv">4</span>:<span class="dv">11</span>])
+<span class="kw">library</span>(corrplot)
+<span class="kw">corrplot</span>(Mcor, <span class="dt">method =</span> <span class="st">&quot;color&quot;</span>, <span class="dt">addCoef.col =</span> <span class="st">&quot; darkgreen&quot;</span>, 
+         <span class="dt">addgrid.col =</span> <span class="st">&quot;gray33&quot;</span>, <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-1"></span>
+<img src="041-Regression-Models_files/figure-html/fig-4-1-1.png" alt="Корреляционная матрица показателей качества воды в реках" width="576" />
+<p class="caption">
+Рисунок 4.1: Корреляционная матрица показателей качества воды в реках
+</p>
+</div>
+<p>Очевидно, что между предикторами существуют корреляционные связи умеренной силы, а коллинеарность, в целом, выражена слабо.</p>
+<div id="sec_4_1_1" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Полная регрессионная модель и пошаговая процедура</h3>
+<p>Построим сначала линейную модель на основе полного набора переменных:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm.a1 &lt;-<span class="st"> </span><span class="kw">lm</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])
+<span class="kw">summary</span>(lm.a1)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = a1 ~ ., data = algae[, 1:12])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -37.286 -11.941  -2.666   7.199  62.938 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  40.660398  23.935937   1.699  0.09106 . 
+## seasonspring  3.595224   4.137801   0.869  0.38605   
+## seasonsummer  0.302678   3.994759   0.076  0.93969   
+## seasonwinter  3.472394   3.849457   0.902  0.36821   
+## sizemedium    3.609751   3.741636   0.965  0.33594   
+## sizesmall     9.910150   4.128996   2.400  0.01739 * 
+## speedlow      3.342744   4.685579   0.713  0.47650   
+## speedmedium  -0.253552   3.213791  -0.079  0.93720   
+## mxPH         -3.305772   2.690630  -1.229  0.22078   
+## mnO2          1.047343   0.703971   1.488  0.13852   
+## Cl           -0.037342   0.033711  -1.108  0.26944   
+## NO3          -1.524650   0.549128  -2.776  0.00606 **
+## NH4           0.001636   0.001002   1.633  0.10416   
+## oPO4         -0.001989   0.039522  -0.050  0.95993   
+## PO4          -0.054853   0.030371  -1.806  0.07253 . 
+## Chla         -0.068090   0.078898  -0.863  0.38926   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 17.64 on 184 degrees of freedom
+## Multiple R-squared:  0.3686, Adjusted R-squared:  0.3171 
+## F-statistic:  7.16 on 15 and 184 DF,  p-value: 2.965e-12</code></pre>
+<p>Отметим, что при всей внушительной адекватности модели в целом (по <span class="math inline">\(F\)</span>-критерию), почти все коэффициенты оцениваются как статистически незначимые. Выполним стандартную пошаговую процедуру включений с исключениями “слабых” предикторов, используя функцию <code>step()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_step.a1 &lt;-<span class="st"> </span><span class="kw">step</span>(lm.a1, <span class="dt">trace =</span> <span class="dv">0</span>)
+<span class="kw">summary</span>(lm_step.a1)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = a1 ~ size + mxPH + mnO2 + NO3 + NH4 + PO4, data = algae[, 
+##     1:12])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -37.892 -11.716  -3.773   7.617  64.945 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 47.4021122 21.3532410   2.220 0.027596 *  
+## sizemedium   3.3970379  3.3654060   1.009 0.314054    
+## sizesmall   10.4380289  3.7845961   2.758 0.006377 ** 
+## mxPH        -3.7892907  2.4251489  -1.562 0.119817    
+## mnO2         0.8785464  0.6289587   1.397 0.164078    
+## NO3         -1.7435933  0.5143279  -3.390 0.000848 ***
+## NH4          0.0017711  0.0009525   1.859 0.064493 .  
+## PO4         -0.0613682  0.0116599  -5.263 3.77e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 17.45 on 192 degrees of freedom
+## Multiple R-squared:  0.3557, Adjusted R-squared:  0.3322 
+## F-statistic: 15.14 on 7 and 192 DF,  p-value: 1.064e-15</code></pre>
+<p>Доля значимых предикторов стала существенно выше. Проверим также, можно ли считать статистически значимой некоторое увеличение ошибки модели:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(lm.a1, lm_step.a1)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: a1 ~ season + size + speed + mxPH + mnO2 + Cl + NO3 + NH4 + oPO4 + 
+##     PO4 + Chla
+## Model 2: a1 ~ size + mxPH + mnO2 + NO3 + NH4 + PO4
+##   Res.Df   RSS Df Sum of Sq      F Pr(&gt;F)
+## 1    184 57269                           
+## 2    192 58438 -8   -1169.7 0.4698 0.8764</code></pre>
+<p>Выполним тестирование обоих моделей функцией <code>train()</code> из пакета <code>caret</code> (см. раздел <a href="035-The-train-Functions.html#sec_3_5">3.5</a>) с использованием 10-кратной перекрестной проверки:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm.a1.cv &lt;-<span class="st"> </span><span class="kw">train</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>], <span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>,
+                  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>))
+
+lm_step.a1.cv &lt;-<span class="st"> </span><span class="kw">train</span>(a1 ~<span class="st"> </span>size +<span class="st"> </span>mxPH +<span class="st"> </span>mnO2 +<span class="st"> </span>NO3 +<span class="st"> </span>NH4 +<span class="st"> </span>PO4, 
+                       <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>], <span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>,
+                       <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>))</code></pre></div>
+<p>Преимущества модели, полученной с использованием пошаговой процедуры отбора предикторов, вполне очевидны.</p>
+</div>
+<div id="sec_4_1_2" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> Рекурсивное исключение переменных</h3>
+<p>Алгоритм рекурсивного исключения (RFE - Recursive Feature Elimination) выполняется следующим образом. Вначале строится модель по всем предикторам, которые ранжируются по их важности. Далее рассматривается последовательность подмножеств <span class="math inline">\(\mathbf{S}\)</span> (<span class="math inline">\(\mathbf{S_1} &gt; \mathbf{S_2}\)</span>, и т.д.) из переменных наивысшего ранга. На каждой итерации подмножества Si ранги предикторов пересматриваются, а модели пересчитываются. Итоговая модель основывается на подмножестве <span class="math inline">\(\mathbf{S_i}\)</span>, обеспечивающем оптимум заданному критерию качества.</p>
+<p>Функция <code>rfe()</code> из пакета <code>caret</code> включает алгоритм RFE в процедуру ресэмплинга, и тогда цикл рекурсивного исключения приобретает следующий вид:</p>
+<p><img src="figures/resampling_workflow.png" width="720px" style="display: block; margin: auto;" /></p>
+<p>Синтаксис параметров функций <code>rfe()</code> и <code>rfeControl()</code> в целом похож на таковой у функций <code>train()</code> и <code>trainControl()</code> (см. раздел <a href="035-The-train-Functions.html#sec_3_5">3.5</a>). Отметим, что функция <code>rfe()</code> не осуществляет оптимизацию модели, включающей номинальные предикторы, поэтому их необходимо преобразовать в индикаторные переменные с использованием функции <code>model.matrix()</code>. После этого в новой таблице х вместо каждого из факторов образуется несколько бинарных (0/1) столбцов с наименованиями, соответствующими уровням этого фактора (рис. <a href="041-Regression-Models.html#fig:fig-4-2">4.2</a>):<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(a1 ~<span class="st"> </span>., <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])[, -<span class="dv">1</span>]
+<span class="kw">set.seed</span>(<span class="dv">10</span>)
+ctrl &lt;-<span class="st"> </span><span class="kw">rfeControl</span>(<span class="dt">functions =</span> lmFuncs, <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,
+                   <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">returnResamp =</span> <span class="st">&quot;final&quot;</span>)
+lmProfileF &lt;-<span class="st"> </span><span class="kw">rfe</span>(<span class="kw">as.data.frame</span>(x), algae$a1, 
+                  <span class="dt">sizes =</span> <span class="dv">1</span>:<span class="dv">10</span>, <span class="dt">rfeControl =</span> ctrl)
+
+<span class="kw">predictors</span>(lmProfileF)</code></pre></div>
+<pre><code>## [1] &quot;NO3&quot;          &quot;sizesmall&quot;    &quot;PO4&quot;          &quot;NH4&quot;         
+## [5] &quot;mnO2&quot;         &quot;mxPH&quot;         &quot;Cl&quot;           &quot;seasonwinter&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(lmProfileF$fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ ., data = tmp)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -36.254 -12.037  -3.009   7.770  64.905 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  54.544067  20.665487   2.639  0.00899 ** 
+## NO3          -1.530537   0.531707  -2.879  0.00445 ** 
+## sizesmall     7.455181   3.024325   2.465  0.01458 *  
+## PO4          -0.055530   0.012328  -4.504 1.16e-05 ***
+## NH4           0.001498   0.000974   1.538  0.12565    
+## mnO2          0.803687   0.637043   1.262  0.20864    
+## mxPH         -4.341665   2.411078  -1.801  0.07333 .  
+## Cl           -0.036081   0.032476  -1.111  0.26796    
+## seasonwinter  2.009832   2.714520   0.740  0.45997    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 17.45 on 191 degrees of freedom
+## Multiple R-squared:  0.3584, Adjusted R-squared:  0.3315 
+## F-statistic: 13.34 on 8 and 191 DF,  p-value: 2.944e-15</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(gridExtra)
+<span class="kw">grid.arrange</span>(<span class="kw">ggplot</span>(lmProfileF, <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>),
+             <span class="kw">ggplot</span>(lmProfileF, <span class="dt">metric =</span> <span class="st">&quot;Rsquared&quot;</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-2"></span>
+<img src="041-Regression-Models_files/figure-html/fig-4-2-1.png" alt="Изменение корня из среднеквадратичной ошибки и коэффициента детерминации в зависимости от числа предикторов (по результатам перекрестной проверки)" width="768" />
+<p class="caption">
+Рисунок 4.2: Изменение корня из среднеквадратичной ошибки и коэффициента детерминации в зависимости от числа предикторов (по результатам перекрестной проверки)
+</p>
+</div>
+<p>Нельзя утверждать, что нам удалось достигнуть серьезных успехов, применив метод RFE: пошаговая модель <code>lm_step.a1</code> была компактнее и чуть лучше (по результатам перекрестной проверки), хотя и уступала модели RFE по величине ошибки на обучающей выборке.</p>
+</div>
+<div id="sec_4_1_3" class="section level3">
+<h3><span class="header-section-number">4.1.3</span> Генетический алгоритм</h3>
+<p>Генетический алгоритм, позаимствованный у природных аналогов и разработанный Дж. Холландом (Holland, 1975), отличается от большинства иных процедур селекции тем, что поиск оптимального решения развивается не сам по себе, а с учетом предыдущего опыта. Смысл его заключается в следующем:</p>
+<ul>
+<li>формируемое решение кодируется как вектор <span class="math inline">\(x^0\)</span>, который называется хромосомой и соответствует битовой маске, т.е. двоичному представлению набора исходных переменных;</li>
+<li>инициализируется исходная “популяция” <span class="math inline">\(\Pi^0 (x_1^0, \dots, x_{\lambda})\)</span> потенциальных решений, состоящая из некоторого количества хромосом <span class="math inline">\(\lambda\)</span>;</li>
+<li>каждой хромосоме в популяции присваиваются две оценки: значение эффективности <span class="math inline">\(\mu(x_i^0)\)</span> в соответствии с заданной функцией оптимальности и вероятность воспроизведения <span class="math inline">\(P(x_i^0)\)</span>, которая зависит от “перспективности” этой хромосомы;</li>
+<li>в соответствии с вероятностями воспроизведения хромосомы производят потомков, используя операции кроссинговера (обмена фрагментами между хромосомами) и мутации (замена значения бита 0/1 на противоположный) - см. рис. <a href="041-Regression-Models.html#fig:fig-4-3">4.3</a>;</li>
+<li>в ходе репродуцирования создается новая популяция хромосом, причем с большей вероятностью воспроизводятся наиболее перспективные фрагменты “генетического кода”;</li>
+<li>формирование новой популяции многократно повторяется и осуществляется поиск субоптимальных моделей;</li>
+<li>процесс останавливается, если получено удовлетворительное решение, либо исчерпано все отведенное на эволюцию время.</li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:fig-4-3"></span>
+<img src="figures/chromosomes.png" alt="Схема кроссинговера и мутации во время применения генетического алгоритма" width="680px" />
+<p class="caption">
+Рисунок 4.3: Схема кроссинговера и мутации во время применения генетического алгоритма
+</p>
+</div>
+<p>Синтаксис пары функций <code>gafs()</code> и <code>gafsControl()</code>, реализующих генетический алгоритм в пакете <code>caret</code>, в целом аналогичен таковому у функций <code>rfe()</code> и <code>rfeControl()</code>, но требует задания дополнительных аргументов, регулирующих скорость эволюции. Похоже, что здесь преобразовывать факторы в индикаторные переменные не требуется (эта проблема нами не исследовалась):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Выполнение этого кода потребует более 30 мин.</span>
+<span class="co"># Результаты вычислений здесь не приводятся</span>
+<span class="kw">set.seed</span>(<span class="dv">10</span>)
+ctrl &lt;-<span class="st"> </span><span class="kw">gafsControl</span>(<span class="dt">functions =</span> rfGA, <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, 
+                    <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">returnResamp =</span> <span class="st">&quot;final&quot;</span>)
+lmProfGafs &lt;-<span class="st"> </span><span class="kw">gafs</span>(algae[, <span class="dv">1</span>:<span class="dv">11</span>], algae$a1, 
+                   <span class="dt">iters =</span> <span class="dv">10</span>, <span class="co"># 10 генераций</span>
+                   <span class="dt">gafsControl =</span> ctrl)
+lmProfGafs</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_gafs.a1 &lt;-<span class="st"> </span><span class="kw">lm</span>(a1 ~<span class="st"> </span>size +<span class="st"> </span>mxPH +<span class="st"> </span>Cl +<span class="st"> </span>NO3 +<span class="st"> </span>PO4,
+                 <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>])
+<span class="kw">train</span>(a1 ~<span class="st"> </span>size +<span class="st"> </span>mxPH +<span class="st"> </span>Cl +<span class="st"> </span>NO3 +<span class="st"> </span>PO4,
+      <span class="dt">data =</span> algae[, <span class="dv">1</span>:<span class="dv">12</span>], <span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>,
+      <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>))</code></pre></div>
+<pre><code>## Linear Regression 
+## 
+## 200 samples
+##   5 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 180, 179, 180, 180, 180, 180, ... 
+## Resampling results:
+## 
+##   RMSE      Rsquared 
+##   17.71498  0.3419793
+## 
+## Tuning parameter &#39;intercept&#39; was held constant at a value of TRUE
+## </code></pre>
+<p>Несмотря на большие затраты вычислительных ресурсов (поиск решения продолжался более 30 мин.), была получена комбинация предикторов, превосходящая по критериям RMSE и Rsquared все три предыдущие модели.</p>
+</div>
+<div id="sec_4_1_4" class="section level3">
+<h3><span class="header-section-number">4.1.4</span> Тестирование моделей с использованием дополнительного набора данных</h3>
+<p>Возникает естественный вопрос: а какой из четырех полученных моделей следует все же отдать предпочтение при прогнозировании? Хорошую возможность ответить на него предоставляет нам Л. Торго (Torgo, 2011), подготовивший на сайте своей книги (<a href="http://www.dcc.fc.up.pt" class="uri">http://www.dcc.fc.up.pt</a>) специально предназначенный для этого набор данных из 140 наблюдений (см. файл <code>Eval.txt</code> с предикторами и <code>Sols.txt</code> со значениями отклика). Пропущенные значения заполним с использованием алгоритма бэггинга:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Eval &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&#39;Eval.txt&#39;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">dec =</span> <span class="st">&#39;.&#39;</span>,
+                   <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&#39;season&#39;</span>, <span class="st">&#39;size&#39;</span>, <span class="st">&#39;speed&#39;</span>, <span class="st">&#39;mxPH&#39;</span>, <span class="st">&#39;mnO2&#39;</span>, <span class="st">&#39;Cl&#39;</span>,
+                                 <span class="st">&#39;NO3&#39;</span>,<span class="st">&#39;NH4&#39;</span>,<span class="st">&#39;oPO4&#39;</span>,<span class="st">&#39;PO4&#39;</span>,<span class="st">&#39;Chla&#39;</span>),
+                   <span class="dt">na.strings =</span> <span class="kw">c</span>(<span class="st">&#39;XXXXXXX&#39;</span>))
+Sols &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&#39;Sols.txt&#39;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">dec =</span> <span class="st">&#39;.&#39;</span>,          
+                   <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&#39;a1&#39;</span>, <span class="st">&#39;a2&#39;</span>, <span class="st">&#39;a3&#39;</span>, <span class="st">&#39;a4&#39;</span>, <span class="st">&#39;a5&#39;</span>, <span class="st">&#39;a6&#39;</span>, <span class="st">&#39;a7&#39;</span>),
+                   <span class="dt">na.strings =</span> <span class="kw">c</span>(<span class="st">&#39;XXXXXXX&#39;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ImpEval &lt;-<span class="st"> </span><span class="kw">preProcess</span>(Eval[, <span class="dv">4</span>:<span class="dv">11</span>], <span class="dt">method =</span> <span class="st">&#39;bagImpute&#39;</span>)
+Eval[, <span class="dv">4</span>:<span class="dv">11</span>] &lt;-<span class="st"> </span><span class="kw">predict</span>(ImpEval, Eval[, <span class="dv">4</span>:<span class="dv">11</span>])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Cохраним данные для дальнейшего использования</span>
+<span class="kw">save</span>(Eval, Sols, <span class="dt">file =</span> <span class="st">&quot;algae_test.RData&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span>Sols$a1
+EvalF &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">model.matrix</span>(y ~<span class="st"> </span>., Eval)[, -<span class="dv">1</span>])</code></pre></div>
+<p>Выполним прогноз для набора предикторов тестовой выборки и оценим точность каждой модели по трем показателям: среднему абсолютному отклонению (<code>MAE</code>), корню из среднеквадратичного отклонения (<code>RSME</code>) и квадрату коэффициента детерминации <code>Rsq = 1 - NSME</code>, где <code>NSME</code> - относительная ошибка, равная отношению средних квадратов отклонений от регрессии и от общего среднего:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Функция, выводящая вектор критериев</span>
+ModCrit &lt;-<span class="st"> </span>function(pred, fact) {
+    mae &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(pred -<span class="st"> </span>fact))
+    rmse &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">mean</span>((pred -<span class="st"> </span>fact)^<span class="dv">2</span>))
+    Rsq &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span><span class="kw">sum</span>((fact -<span class="st"> </span>pred)^<span class="dv">2</span>)/<span class="kw">sum</span>((<span class="kw">mean</span>(fact) -<span class="st"> </span>fact)^<span class="dv">2</span>)
+    <span class="kw">c</span>(<span class="dt">MAE =</span> mae, <span class="dt">RSME =</span> rmse,  <span class="dt">Rsq =</span> Rsq )
+}
+y &lt;-<span class="st"> </span>Sols$a1
+EvalF &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">model.matrix</span>(y ~<span class="st"> </span>., Eval)[, -<span class="dv">1</span>])
+Result &lt;-<span class="st"> </span><span class="kw">rbind</span>(
+    <span class="dt">lm_full =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(lm.a1,Eval), Sols[, <span class="dv">1</span>]),
+    <span class="dt">lm_step =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(lm_step.a1, Eval), Sols[, <span class="dv">1</span>]),
+    <span class="dt">lm_rfe =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(lmProfileF$fit, EvalF), Sols[, <span class="dv">1</span>]),
+    <span class="dt">lm_gafs =</span> <span class="kw">ModCrit</span>(<span class="kw">predict</span>(lm_gafs.a1, Eval), Sols[, <span class="dv">1</span>]))
+Result</code></pre></div>
+<pre><code>##              MAE     RSME       Rsq
+## lm_full 12.65429 16.82707 0.3253951
+## lm_step 12.47924 16.63718 0.3405343
+## lm_rfe  12.33770 16.51345 0.3503067
+## lm_gafs 12.72925 17.19677 0.2954261</code></pre>
+<p>Вероятно, нет смысла делать серьезные выводы из того, что рейтинг лучших моделей при перекрестной проверке и при независимом тестировании на объектах, не участвовавших в построении моделей, оказался столь несовпадающим. Во-первых, разброс критериев точности моделей находится в пределах доверительных интервалов, поэтому их ранжирование, строго говоря, можно трактовать как обусловленное случайными причинами. Во-вторых, многое зависит от того, например, насколько неоднородны были между собой обе выборки. И, наконец, напомним, что одним из основных принципов моделирования сложных систем является <em>принцип множественности моделей</em>, сформулированный В. В. Налимовым и заключающийся в возможности представления одной и той же системы множеством различных моделей в зависимости от целей исследования.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>Полученные вами результаты могут отличаться от приведенных в силу случайного характера подвыборок, формируемых в ходе перекрестной проверки.<a href="041-Regression-Models.html#fnref4">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="035-The-train-Functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="042-Regularization.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

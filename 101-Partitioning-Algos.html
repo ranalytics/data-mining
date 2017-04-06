@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия и другие алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://ranalytics.github.io/data-mining/" />
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  <meta name="github-repo" content="ranalytics/data-mining" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-04-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="095-NMDS.html">
+<link rel="next" href="102-H-Clustering.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R (вместо предисловия)</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_1"><i class="fa fa-check"></i><b>1.1.1</b> От статистического анализа разового эксперимента к Data Mining</a></li>
+<li class="chapter" data-level="1.1.2" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_2"><i class="fa fa-check"></i><b>1.1.2</b> Принципиальная множественность моделей окружающего мира</a></li>
+<li class="chapter" data-level="1.1.3" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_3"><i class="fa fa-check"></i><b>1.1.3</b> Нарастающая множественность алгоритмов построения моделей</a></li>
+<li class="chapter" data-level="1.1.4" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_4"><i class="fa fa-check"></i><b>1.1.4</b> Типы и характеристики групп моделей Data Mining</a></li>
+<li class="chapter" data-level="1.1.5" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_5"><i class="fa fa-check"></i><b>1.1.5</b> Природа многомерного отклика и его моделирование</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="012-R-Intro.html"><a href="012-R-Intro.html"><i class="fa fa-check"></i><b>1.2</b> Статистическая среда R и ее использование в Data Mining</a></li>
+<li class="chapter" data-level="1.3" data-path="013-What-This-Book-Is-About.html"><a href="013-What-This-Book-Is-About.html"><i class="fa fa-check"></i><b>1.3</b> О чем эта книга и чего в ней нет</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_1"><i class="fa fa-check"></i><b>4.1.1</b> Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="4.1.2" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_2"><i class="fa fa-check"></i><b>4.1.2</b> Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="4.1.3" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_3"><i class="fa fa-check"></i><b>4.1.3</b> Генетический алгоритм</a></li>
+<li class="chapter" data-level="4.1.4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_4"><i class="fa fa-check"></i><b>4.1.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_1"><i class="fa fa-check"></i><b>4.2.1</b> Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="4.2.2" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_2"><i class="fa fa-check"></i><b>4.2.2</b> Метод частных наименьших квадратов (PLS)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_3"><i class="fa fa-check"></i><b>4.2.3</b> Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="4.2.4" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_4"><i class="fa fa-check"></i><b>4.2.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_1"><i class="fa fa-check"></i><b>4.3.1</b> Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="4.3.2" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_2"><i class="fa fa-check"></i><b>4.3.2</b> Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="4.3.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_3"><i class="fa fa-check"></i><b>4.3.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_1"><i class="fa fa-check"></i><b>4.4.1</b> Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="4.4.2" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_2"><i class="fa fa-check"></i><b>4.4.2</b> Бустинг</a></li>
+<li class="chapter" data-level="4.4.3" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_3"><i class="fa fa-check"></i><b>4.4.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="053-Logic-Rules.html"><a href="053-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="054-Association-Rules-Algos.html"><a href="054-Association-Rules-Algos.html"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+<li class="chapter" data-level="5.5" data-path="055-Traminer.html"><a href="055-Traminer.html"><i class="fa fa-check"></i><b>5.5</b> Анализ последовательностей знаков или событий</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классификаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Ядерные функции машины опорных векторов</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html"><i class="fa fa-check"></i><b>7</b> Модели классификации для нескольких классов</a><ul>
+<li class="chapter" data-level="7.1" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html#sec_7_1"><i class="fa fa-check"></i><b>7.1</b> Ирисы Фишера и метод <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="7.2" data-path="072-NBC.html"><a href="072-NBC.html"><i class="fa fa-check"></i><b>7.2</b> Наивный байесовский классификатор</a></li>
+<li class="chapter" data-level="7.3" data-path="073-In-Discriminant-Space.html"><a href="073-In-Discriminant-Space.html"><i class="fa fa-check"></i><b>7.3</b> Классификация в линейном дискриминантном пространстве</a></li>
+<li class="chapter" data-level="7.4" data-path="074-Nonlinear-Classifiers.html"><a href="074-Nonlinear-Classifiers.html"><i class="fa fa-check"></i><b>7.4</b> Нелинейные классификаторы в R</a></li>
+<li class="chapter" data-level="7.5" data-path="075-Multinomial-Logit.html"><a href="075-Multinomial-Logit.html"><i class="fa fa-check"></i><b>7.5</b> Модель мультиномиального логита</a></li>
+<li class="chapter" data-level="7.6" data-path="076-NN.html"><a href="076-NN.html"><i class="fa fa-check"></i><b>7.6</b> Классификаторы на основе искусственных нейронных сетей</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html"><i class="fa fa-check"></i><b>8</b> Моделирование порядковых и счетных переменных</a><ul>
+<li class="chapter" data-level="8.1" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html#sec_8_1"><i class="fa fa-check"></i><b>8.1</b> Модель логита для порядковой переменной</a></li>
+<li class="chapter" data-level="8.2" data-path="082-NN-with-Caret.html"><a href="082-NN-with-Caret.html"><i class="fa fa-check"></i><b>8.2</b> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></a></li>
+<li class="chapter" data-level="8.3" data-path="083-Model-Complexes.html"><a href="083-Model-Complexes.html"><i class="fa fa-check"></i><b>8.3</b> Методы комплексации модельных прогнозов</a></li>
+<li class="chapter" data-level="8.4" data-path="084-GLM-for-Counts.html"><a href="084-GLM-for-Counts.html"><i class="fa fa-check"></i><b>8.4</b> Обобщенные линейные модели для счетных данных</a></li>
+<li class="chapter" data-level="8.5" data-path="085-ZIP-for-Counts.html"><a href="085-ZIP-for-Counts.html"><i class="fa fa-check"></i><b>8.5</b> ZIP- и барьерные модели счетных данных</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html"><i class="fa fa-check"></i><b>9</b> Методы многомерной ординации</a><ul>
+<li class="chapter" data-level="9.1" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html#sec_9_1"><i class="fa fa-check"></i><b>9.1</b> Преобразование данных и вычисление матрицы расстояний</a></li>
+<li class="chapter" data-level="9.2" data-path="092-Distance-ANOVA.html"><a href="092-Distance-ANOVA.html"><i class="fa fa-check"></i><b>9.2</b> Непараметрический дисперсионный анализ матриц дистанций</a></li>
+<li class="chapter" data-level="9.3" data-path="093-Comparing-Diagrams.html"><a href="093-Comparing-Diagrams.html"><i class="fa fa-check"></i><b>9.3</b> Методы ординации объектов и переменных: построение и сравнение диаграмм</a></li>
+<li class="chapter" data-level="9.4" data-path="094-Ordination-Factors.html"><a href="094-Ordination-Factors.html"><i class="fa fa-check"></i><b>9.4</b> Оценка связи ординации с внешними факторами</a></li>
+<li class="chapter" data-level="9.5" data-path="095-NMDS.html"><a href="095-NMDS.html"><i class="fa fa-check"></i><b>9.5</b> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html"><i class="fa fa-check"></i><b>10</b> Кластерный анализ</a><ul>
+<li class="chapter" data-level="10.1" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html#sec_10_1"><i class="fa fa-check"></i><b>10.1</b> Алгоритмы кластеризации, основанные на разделении</a></li>
+<li class="chapter" data-level="10.2" data-path="102-H-Clustering.html"><a href="102-H-Clustering.html"><i class="fa fa-check"></i><b>10.2</b> Иерархическая кластеризация</a></li>
+<li class="chapter" data-level="10.3" data-path="103-Clustering-Quality.html"><a href="103-Clustering-Quality.html"><i class="fa fa-check"></i><b>10.3</b> Оценка качества кластеризации</a></li>
+<li class="chapter" data-level="10.4" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html"><i class="fa fa-check"></i><b>10.4</b> Другие алгоритмы кластеризации</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_1"><i class="fa fa-check"></i><b>10.4.1</b> Иерархическая кластеризация на главные компоненты</a></li>
+<li class="chapter" data-level="10.4.2" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_2"><i class="fa fa-check"></i><b>10.4.2</b> Метод нечетких <em>k</em> средних (fuzzy analysis clustering)</a></li>
+<li class="chapter" data-level="10.4.3" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_3"><i class="fa fa-check"></i><b>10.4.3</b> Статистическая модель кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="105-Cohonen-Maps.html"><a href="105-Cohonen-Maps.html"><i class="fa fa-check"></i><b>10.5</b> Самоорганизующиеся карты Кохонена</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html"><i class="fa fa-check"></i><b>11</b> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</a><ul>
+<li class="chapter" data-level="11.1" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html#----rattle"><i class="fa fa-check"></i><b>11.1</b> Начало работы с пакетом <code id="sec_11_1">rattle</code></a></li>
+<li class="chapter" data-level="11.2" data-path="112-Descriptive-Stats.html"><a href="112-Descriptive-Stats.html"><i class="fa fa-check"></i><b>11.2</b> Описательная статистика и визуализация данных</a></li>
+<li class="chapter" data-level="11.3" data-path="113-Model-Building.html"><a href="113-Model-Building.html"><i class="fa fa-check"></i><b>11.3</b> Построение и тестирование моделей классификации</a></li>
+<li class="chapter" data-level="11.4" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html"><i class="fa fa-check"></i><b>11.4</b> Дескриптивные модели (обучение без учителя)</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_1"><i class="fa fa-check"></i><b>11.4.1</b> Кластерный анализ</a></li>
+<li class="chapter" data-level="11.4.2" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_2"><i class="fa fa-check"></i><b>11.4.2</b> Ассоциативные правила</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="120-References.html"><a href="120-References.html"><i class="fa fa-check"></i><b>12</b> Список рекомендуемой литературы</a></li>
+<li class="chapter" data-level="" data-path="130-Appendix.html"><a href="130-Appendix.html"><i class="fa fa-check"></i>Приложение: cправочная карта по Data Mining с использованием R</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch_10" class="section level1">
+<h1><span class="header-section-number">ГЛАВА 10</span> Кластерный анализ</h1>
+<div id="sec_10_1" class="section level2">
+<h2><span class="header-section-number">10.1</span> Алгоритмы кластеризации, основанные на разделении</h2>
+<p>Алгоритмы неиерахического разделения (Partitioning algorithms) осуществляют декомпозицию набора данных, состоящего из <span class="math inline">\(n\)</span> наблюдений, на <span class="math inline">\(k\)</span> групп (кластеров) с заранее неизвестными параметрами. При этом выполняется поиск центроидов - максимально удаленных друг от друга центров сгущений точек <span class="math inline">\(C_k\)</span> с минимальным разбросом внутри каждого кластера. К разделяющим алгоритмам относятся:</p>
+<ul>
+<li>метод <span class="math inline">\(k\)</span> средних Мак-Кина (<span class="math inline">\(k\)</span>-means clustering; MacQueen, 1967), в котором каждый из <span class="math inline">\(k\)</span> кластеров представлен центроидом;</li>
+<li>разделение вокруг <span class="math inline">\(k\)</span> медоидов или PAM (Partitioning Around Medoids; Kaufman, Rousseeuw, 1990), где <em>медоид</em> - это центроид, координаты которого смещены к ближайшему из исходных объектов данных;</li>
+<li>алгоритм CLARA (Clustering Large Applications) - метод, весьма похожий на PAM и используемый для анализа больших наборов данных.</li>
+</ul>
+<p>Метод <span class="math inline">\(k\)</span> средних выполняет кластеризацию следующим образом:</p>
+<ol style="list-style-type: decimal">
+<li>Назначается число групп (<span class="math inline">\(k\)</span>), на которые должны быть разбиты данные. Случайно выбирается <span class="math inline">\(k\)</span> объектов исходного набора как первоначальные центры кластеров.</li>
+<li>Каждому наблюдению присваивается номер группы по самому близкому центроиду, т.е. на основании наименьшего евклидова расстояния между объектом и точкой <span class="math inline">\(C_k\)</span>.</li>
+<li>Пересчитываются координаты центроидов <span class="math inline">\(\mu_k\)</span> всех <span class="math inline">\(k\)</span> кластеров и вычисляются внутригрупповые разбросы (within-cluster variation) <span class="math inline">\(W(C_k) = \sum_{x_i \in C_k} (x_i - \mu_k)^2\)</span>. Если набор данных включает <span class="math inline">\(р\)</span> переменных, то <span class="math inline">\(\mu_k\)</span> представляет собой вектор средних с <span class="math inline">\(p\)</span> элементами.</li>
+<li>Минимизируется общий внутригрупповой разброс <span class="math inline">\(W_{total} = \sum_k W(C_k) \rightarrow \min\)</span>, для чего шаги 2 и 3 повторяются многократно, пока назначения групп не прекращают изменяться или не достигнуто заданное число итераций iter.max. Предельное число итераций для минимизации <span class="math inline">\(W_{total}\)</span>, установленное функцией <code>kmeans()</code> по умолчанию, составляет <code>iter.max = 10</code>.</li>
+</ol>
+<p>В разделе <a href="026-Clustering-Methods.html#sec_2_6">2.6</a> мы уже подробно разбирали пример кластеризации 50 штатов США по криминогенной обстановке на 5 групп с использованием функции <code>kmeans()</code> из пакета <code>cluster</code>. Пример сопровождается скриптами, графической интерпретацией разбиения и приводятся конкретные вычисленные значения вышеприведенных статистик. В связи с этим в дальнейшем мы будем обсуждать только нюансы практического использования метода.</p>
+<p>Объединение в кластеры методом <span class="math inline">\(k\)</span> средних - очень простой и эффективный алгоритм, имеющий, однако, две существенные проблемы. Во-первых, итоговые результаты чувствительны к начальному случайному выбору центров групп. Возможное решение этой проблемы состоит в многократном выполнении алгоритма с различным случайным назначением начальных центроидов. Итерация с минимальным значением <span class="math inline">\(W_{total}\)</span> отбирается как конечный вариант кластеризации. Число таких итераций можно задать параметром <code>nstart</code> функции <code>kmeans()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cluster)
+<span class="kw">data</span>(<span class="st">&quot;USArrests&quot;</span>)
+df.stand &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">scale</span>(USArrests))
+<span class="kw">set.seed</span>(<span class="dv">5</span>)
+<span class="kw">c</span>(<span class="kw">kmeans</span>(df.stand, <span class="dt">centers =</span> <span class="dv">5</span>, <span class="dt">nstart =</span> <span class="dv">1</span>)$tot.withinss,
+  <span class="kw">kmeans</span>(df.stand, <span class="dt">centers =</span> <span class="dv">5</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)$tot.withinss) </code></pre></div>
+<pre><code>## [1] 51.63029 48.94420</code></pre>
+<p>Нам удалось за 25 повторов алгоритма несколько уменьшить значение критерия оптимальности. Вторая проблема - необходимость априори задавать фиксированное число кластеров для разбиения, которое, безусловно, далеко не всегда выбирается оптимальным. Поэтому одной из задач кластерного анализа является подбор оптимального значения <span class="math inline">\(k\)</span>, для которой существует несколько версий решения. Метод “локтя” (elbow method) рассматривает характер изменения разброса <span class="math inline">\(W_{total}\)</span> с увеличением числа групп <span class="math inline">\(k\)</span>. Объединив все <span class="math inline">\(n\)</span> наблюдений в одну группу, мы имеем наибольшую внутрикластерную дисперсию, которая будет снижаться до 0 при <span class="math inline">\(k \rightarrow n\)</span>. На каком-то этапе можно усмотреть, что снижение этой дисперсии замедляется - на графике это происходит в точке, называемой “локтем” (родственник “каменистой осыпи” для анализа главных компонент). Построить такой график можно в результате прямого перебора, либо с использованием функции <code>fviz_nbclust()</code> из прекрасного пакета <code>factoextra</code>, предназначенного для визуализации результатов кластерного анализа на основе графической системы <code>ggplot2</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">k.max &lt;-<span class="st"> </span><span class="dv">15</span> <span class="co"># максимальное число кластеров</span>
+wss &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span>:k.max, function(k){
+    <span class="kw">kmeans</span>(df.stand, k, <span class="dt">nstart =</span> <span class="dv">10</span>)$tot.withinss
+})
+<span class="co"># Вывод не приводится:</span>
+<span class="co"># plot(1:k.max, wss, type = &quot;b&quot;, pch = 19, frame = FALSE, </span>
+<span class="co">#      xlab = &quot;Число кластеров K&quot;, </span>
+<span class="co">#      ylab = &quot;Общая внутригрупповая сумма квадратов&quot;)</span>
+
+<span class="co"># Формируем график с помощью fviz_nbclust():</span>
+<span class="kw">library</span>(factoextra)
+<span class="kw">fviz_nbclust</span>(df.stand, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">4</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-1"></span>
+<img src="101-Partitioning-Algos_files/figure-html/fig-10-1-1.png" alt="Выбор оптимального числа кластеров по методу &quot;локтя&quot;" width="480" />
+<p class="caption">
+Рисунок 10.1: Выбор оптимального числа кластеров по методу “локтя”
+</p>
+</div>
+<p>Альтернативой субъективно понимаемым графикам “локтя” является использование статистики разрыва (<a href="https://web.stanford.edu/~hastie/Papers/gap.pdf">gap statistic</a>; Tibshirani et al., 2001), которые генерируются на основе ресэмплинга и имитационных процедур Монте-Карло. Пусть <span class="math inline">\(E_{n}^*\{\log(W_k^*)\}\)</span> обозначает оценку средней дисперсии <span class="math inline">\(W_k^*\)</span>, полученной бутстреп-методом, когда <span class="math inline">\(k\)</span> кластеров образованы случайными наборами объектов из исходной выборки размером <span class="math inline">\(n\)</span>. Тогда статистика</p>
+<p><span class="math display">\[Gap_{n}(k) = E_n^*\{\log(W_k^*)\} - \log(W_k)\]</span></p>
+<p>определяет отклонение наблюдаемой дисперсии <span class="math inline">\(W_k\)</span> от ее ожидаемой величины при справедливости нулевой гипотезы о том, что исходные данные образуют только один кластер.</p>
+<p>При сравнительном анализе последовательности значений <span class="math inline">\(Gap_n(k), \, k = 2, \dots, K_{max}\)</span> наибольшее значение статистики соответствует наиболее полезной группировке, дисперсия которой максимально меньше внутригрупповой дисперсии кластеров, собранных из случайных объектов исходной выборки:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+gap_stat &lt;-<span class="st"> </span><span class="kw">clusGap</span>(df.stand, <span class="dt">FUN =</span> kmeans, <span class="dt">nstart =</span> <span class="dv">10</span>, <span class="dt">K.max =</span> <span class="dv">10</span>, <span class="dt">B =</span> <span class="dv">50</span>)
+<span class="co"># Печать и визуализация результатов</span>
+<span class="kw">print</span>(gap_stat, <span class="dt">method =</span> <span class="st">&quot;firstmax&quot;</span>)</code></pre></div>
+<pre><code>## Clustering Gap statistic [&quot;clusGap&quot;] from call:
+## clusGap(x = df.stand, FUNcluster = kmeans, K.max = 10, B = 50,     nstart = 10)
+## B=50 simulated reference sets, k = 1..10; spaceH0=&quot;scaledPCA&quot;
+##  --&gt; Number of clusters (method &#39;firstmax&#39;): 4
+##           logW   E.logW       gap     SE.sim
+##  [1,] 3.458369 3.633279 0.1749100 0.04956376
+##  [2,] 3.135112 3.370352 0.2352405 0.04192860
+##  [3,] 2.977727 3.234819 0.2570927 0.04085179
+##  [4,] 2.826221 3.120886 0.2946656 0.04153549
+##  [5,] 2.738868 3.022296 0.2834282 0.04377128
+##  [6,] 2.669860 2.935234 0.2653739 0.04201917
+##  [7,] 2.612957 2.855663 0.2427060 0.04029606
+##  [8,] 2.545027 2.782767 0.2377398 0.04031744
+##  [9,] 2.471474 2.715964 0.2444898 0.03998257
+## [10,] 2.397200 2.654907 0.2577068 0.04074831</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_gap_stat</span>(gap_stat)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-2"></span>
+<img src="101-Partitioning-Algos_files/figure-html/fig-10-2-1.png" alt="График GAP-статистики для выбора оптимального числа кластеров" width="480" />
+<p class="caption">
+Рисунок 10.2: График GAP-статистики для выбора оптимального числа кластеров
+</p>
+</div>
+<p>Параметр <code>FUNcluster</code> использованной выше функции <code>clusGap()</code> указывает на необходимый метод кластеризации и при <code>FUN = pam</code> осуществляется разделение вокруг <span class="math inline">\(k\)</span> медоидов:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+gap_stat &lt;-<span class="st"> </span><span class="kw">clusGap</span>(df.stand, <span class="dt">FUN =</span>  pam, <span class="dt">K.max =</span> <span class="dv">7</span>, <span class="dt">B =</span> <span class="dv">100</span>)
+<span class="kw">print</span>(gap_stat, <span class="dt">method =</span> <span class="st">&quot;firstmax&quot;</span>)</code></pre></div>
+<pre><code>## Clustering Gap statistic [&quot;clusGap&quot;] from call:
+## clusGap(x = df.stand, FUNcluster = pam, K.max = 7, B = 100)
+## B=100 simulated reference sets, k = 1..7; spaceH0=&quot;scaledPCA&quot;
+##  --&gt; Number of clusters (method &#39;firstmax&#39;): 4
+##          logW   E.logW       gap     SE.sim
+## [1,] 3.458369 3.632850 0.1744804 0.03737864
+## [2,] 3.135112 3.380017 0.2449056 0.04476136
+## [3,] 2.981802 3.250681 0.2688793 0.04601583
+## [4,] 2.834744 3.141994 0.3072506 0.04709690
+## [5,] 2.745099 3.049445 0.3043454 0.04729300
+## [6,] 2.685908 2.962081 0.2761727 0.04687566
+## [7,] 2.634287 2.886058 0.2517713 0.04560393</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(k.pam &lt;-<span class="st"> </span><span class="kw">pam</span>(df.stand, <span class="dt">k =</span> <span class="dv">4</span>))</code></pre></div>
+<pre><code>## Medoids:
+##               ID     Murder    Assault   UrbanPop         Rape
+## Alabama        1  1.2425641  0.7828393 -0.5209066 -0.003416473
+## Michigan      22  0.9900104  1.0108275  0.5844655  1.480613993
+## Oklahoma      36 -0.2727580 -0.2371077  0.1699510 -0.131534211
+## New Hampshire 29 -1.3059321 -1.3650491 -0.6590781 -1.252564419
+## Clustering vector:
+##        Alabama         Alaska        Arizona       Arkansas     California 
+##              1              2              2              1              2 
+##       Colorado    Connecticut       Delaware        Florida        Georgia 
+##              2              3              3              2              1 
+##         Hawaii          Idaho       Illinois        Indiana           Iowa 
+##              3              4              2              3              4 
+##         Kansas       Kentucky      Louisiana          Maine       Maryland 
+##              3              3              1              4              2 
+##  Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
+##              3              2              4              1              3 
+##        Montana       Nebraska         Nevada  New Hampshire     New Jersey 
+##              3              3              2              4              3 
+##     New Mexico       New York North Carolina   North Dakota           Ohio 
+##              2              2              1              4              3 
+##       Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
+##              3              3              3              3              1 
+##   South Dakota      Tennessee          Texas           Utah        Vermont 
+##              4              1              2              3              4 
+##       Virginia     Washington  West Virginia      Wisconsin        Wyoming 
+##              3              3              4              4              3 
+## Objective function:
+##    build     swap 
+## 1.035116 1.027102 
+## 
+## Available components:
+##  [1] &quot;medoids&quot;    &quot;id.med&quot;     &quot;clustering&quot; &quot;objective&quot;  &quot;isolation&quot; 
+##  [6] &quot;clusinfo&quot;   &quot;silinfo&quot;    &quot;diss&quot;       &quot;call&quot;       &quot;data&quot;</code></pre>
+<p>Метод PAM во многом идентичен алгоритму <span class="math inline">\(k\)</span> средних за исключением того, что вместо вычисления центроидов осуществляется поиск <span class="math inline">\(k\)</span> наиболее представительных объектов (или медоидов) среди анализируемых наблюдений. Внутрикластерный разброс оценивается при этом по манхэттенскому, а не евклидовому расстоянию, как в <code>kmeans()</code>. Мы прибегли к простейшему варианту вычислений - использованию функции <code>pam()</code> из пакета <code>cluster</code>, которая выделила в качестве центральных представителей классов Алабаму, Мичиган, Оклахому и Нью-Гэмпшир.</p>
+<p>Поскольку параметром функции <code>pam()</code> также является число кластеров <span class="math inline">\(k\)</span>, проверим оптимальность его значения третьим из наиболее популярных методов - по средней ширине силуэта (average silhouette width). Для каждого найденного кластера может быть вычислена “ширина силуэта”:</p>
+<p><span class="math display">\[s_i = \frac{b(i) - a(i)}{\max[b(i), a(i)]},\]</span></p>
+<p>где <span class="math inline">\(a(i)\)</span> - среднее расстояние между объектами <span class="math inline">\(i\)</span>-го кластера, <span class="math inline">\(b(i)\)</span> - среднее расстояние от объектов <span class="math inline">\(i\)</span>-го кластера до другого кластера, самого близкого к <span class="math inline">\(i\)</span>-му. Диаграмму силуэтов можно построить с использованием функции <code>fviz_silhouette()</code> из пакета <code>factoextra</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_silhouette</span>(<span class="kw">silhouette</span>(k.pam))</code></pre></div>
+<pre><code>##   cluster size ave.sil.width
+## 1       1    8          0.39
+## 2       2   12          0.31
+## 3       3   20          0.28
+## 4       4   10          0.46</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-3"></span>
+<img src="101-Partitioning-Algos_files/figure-html/fig-10-3-1.png" alt="Диаграмма силуэтов при разбиении на 4 кластера" width="576" />
+<p class="caption">
+Рисунок 10.3: Диаграмма силуэтов при разбиении на 4 кластера
+</p>
+</div>
+<p>На рис. <a href="101-Partitioning-Algos.html#fig:fig-10-3">10.3</a> для каждого из 50 штатов показана разность <span class="math inline">\(s\)</span> средних расстояний до объектов своего кластера и чужого кластера, ближайшего к анализируемому объекту. Общее среднее из этих значений Smean определяет качество выполненной кластеризации. Функция <code>fviz_nbclust()</code> выполняет сканирование разбиений с различными значениями <span class="math inline">\(k\)</span>, и строит график зависимости <span class="math inline">\(S_{mean}\)</span> от <span class="math inline">\(k\)</span>, подобный представленным на рис. <a href="101-Partitioning-Algos.html#fig:fig-10-1">10.1</a>-<a href="101-Partitioning-Algos.html#fig:fig-10-2">10.2</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(df.stand, pam, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-4"></span>
+<img src="101-Partitioning-Algos_files/figure-html/fig-10-4-1.png" alt="График ширины силуэтов для выбора оптимального числа кластеров" width="576" />
+<p class="caption">
+Рисунок 10.4: График ширины силуэтов для выбора оптимального числа кластеров
+</p>
+</div>
+<p>Метод силуэтов оценил как наилучшее разбиение на два кластера <span class="math inline">\(k = 2\)</span>. Отметим, что в условиях неопределенности различные алгоритмы могут порождать конкурирующие решения. Колеблющийся читатель может в таких случаях пользоваться функцией <code>pamk()</code> из пакета <code>fpc</code>, которая не требует задавать число классов, а оценивает его самостоятельно.</p>
+<p>Алгоритм CLARA мало чем отличается от метода PAM, но приспособлен для обработки больших массивов данных (миллионы наблюдений и более). Соответствующая функция <code>clara()</code> из пакета <code>cluster</code> специально оптимизирована для сокращения времени расчетов и рационального использования оперативной памяти.</p>
+<p>Значительный интерес представляет построение двумерных диаграмм (ординационных “биплотов”) распределения наблюдений по кластерам, которые формируются с предварительным приведением исходного пространства признаков к двум главным компонентам (см. рис. <a href="026-Clustering-Methods.html#fig:fig-2-13">2.13</a> из раздела <a href="026-Clustering-Methods.html#sec_2_6">2.6</a>). Обычно для этого используется функция clustplot(), но мы предлагаем вниманию читателей функцию <code>fviz_cluster()</code> из пакета <code>factoextra</code>, которая использует для создания диаграмм графическую систему <code>ggplot2</code>.</p>
+<p>Эта функция может быть использована для визуализации результатов по методам <span class="math inline">\(k\)</span> средних, PAM, CLARA и Fanny. Ее простейший формат имеет вид:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_cluster</span>(object, <span class="dt">data =</span> <span class="ot">NULL</span>, <span class="dt">stand =</span> <span class="ot">TRUE</span>, 
+             <span class="dt">geom =</span> <span class="kw">c</span>(<span class="st">&quot;point&quot;</span>, <span class="st">&quot;text&quot;</span>), 
+             <span class="dt">frame =</span> <span class="ot">TRUE</span>, <span class="dt">frame.type =</span> <span class="st">&quot;convex&quot;</span>)</code></pre></div>
+<p>где:</p>
+<ul>
+<li><code>object</code>: объект класса <code>&quot;partition&quot;</code>, созданный функциями <code>pam()</code>, <code>clara()</code> или <code>fanny()</code> из пакета <code>cluster</code>, или объект, возвращаемый функцией <code>kmeans()</code>;</li>
+<li><code>data</code>: таблица с исходными данными для кластеризации (этот аргумент необходим только, если используется объект <code>kmeans</code>);</li>
+<li><code>stand = TRUE</code>: данные стандартизуются перед выполнением анализа главных компонент;</li>
+<li><code>geom</code>: три возможных комбинации стиля отображения наблюдений на графике - текстовые метки <code>&quot;text&quot;</code>, точки <code>&quot;point&quot;</code> или оба типа одновременно <code>c(&quot;point&quot;, &quot;text&quot;)</code>;</li>
+<li><code>frame = TRUE</code>: проводится контур вокруг точек для каждого кластера;</li>
+<li><code>frame.type</code>: возможные значения - <code>&quot;convex&quot;</code> или типы эллипсов <code>ggplot2::stat_ellipse</code>, включая один из трех <code>c(&quot;t&quot;, &quot;norm&quot;, &quot;euclid&quot;)</code>.</li>
+</ul>
+<p>Построим ординационные диаграммы для результатов кластеризации методами PAM и CLARA. Чтобы получить аккуратные графики, заменим длинные названия штатов США на их сокращенную аббревиатуру из файла <code>St_USA.txt</code>. Во втором случае будем использовать для построения эллипсов многомерное <span class="math inline">\(t\)</span>-распределение с доверительным интервалом <span class="math inline">\(\eta = 0.7\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ShState &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&quot;data/St_USA.txt&quot;</span>)
+<span class="kw">rownames</span>(df.stand) &lt;-<span class="st"> </span>ShState$Short
+<span class="kw">fviz_cluster</span>(<span class="kw">pam</span>(df.stand, <span class="dv">4</span>), <span class="dt">stand =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-5"></span>
+<img src="101-Partitioning-Algos_files/figure-html/fig-10-5-1.png" alt="Диаграмма распределения штатов США по кластерам, полученным методом PAM" width="768" />
+<p class="caption">
+Рисунок 10.5: Диаграмма распределения штатов США по кластерам, полученным методом PAM
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_cluster</span>(<span class="kw">clara</span>(df.stand, <span class="dv">4</span>), <span class="dt">stand =</span> <span class="ot">FALSE</span>, 
+             <span class="dt">ellipse.type =</span> <span class="st">&quot;t&quot;</span>, <span class="dt">ellipse.level =</span> <span class="fl">0.7</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-6"></span>
+<img src="101-Partitioning-Algos_files/figure-html/fig-10-6-1.png" alt="Диаграмма распределения штатов США по кластерам, полученным методом CLARA; эллипсы построены на основе $t$-распределения" width="768" />
+<p class="caption">
+Рисунок 10.6: Диаграмма распределения штатов США по кластерам, полученным методом CLARA; эллипсы построены на основе <span class="math inline">\(t\)</span>-распределения
+</p>
+</div>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="095-NMDS.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="102-H-Clustering.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

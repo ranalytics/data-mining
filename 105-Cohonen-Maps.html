@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="104-Other-Clustering-Methods.html">
+<link rel="next" href="111-Rattle-Intro.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,47 +228,135 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_10_5" class="section level2">
+<h2><span class="header-section-number">10.5</span> Самоорганизующиеся карты Кохонена</h2>
+<p>Самоорганизующиеся карты (SOM, Self Organizing Maps), разработанные Т. Кохоненом (Kohonen, 1982), представляют собой мощный инструмент, объединяющий две важные парадигмы анализа данных – кластеризацию и проецирование, т.е. визуализацию многомерных данных на плоскости. В отличие от рассмотренной в разделах <a href="#sec_7_7">7.7</a> и <a href="082-NN-with-Caret.html#sec_8_2">8.2</a> нейронной сети обратного распространения, процедура настройки SOM относится к алгоритмами обучения без учителя.</p>
+<p>Сеть Кохонена имеет всего два слоя: входной и выходной, составленный из радиальных нейронов упорядоченной структуры (выходной слой называют также слоем топологической карты, или “экраном”). Нейроны выходного слоя располагаются в узлах двумерной сетки с прямоугольными или шестиугольными ячейками. Количество нейронов в сетке <span class="math inline">\(p\)</span> определяет степень детализации результата работы алгоритма, и, в конечном счете, от этого зависит точность обобщающей способности карты.</p>
+<p>Самоорганизующиеся карты в ходе своего обучения анализируют характер расположения точек входного слоя в m-мерном пространстве и стремятся воспроизвести на выходе нейронной сети топологический порядок и определенную степень регулярности исходных данных (т.е. метрическую близость векторов). Подгонка SOM заключается в итеративной настройке вектора весовых коэффициентов <span class="math inline">\(\boldsymbol{w}_j\)</span> каждого нейрона, <span class="math inline">\(j = 1, 2 \dots, p\)</span>, для чего используется модифицированный алгоритм соревновательного обучения Хебба, который учитывает не только вклад нейрона-победителя, но и ближайших его соседей, расположенных в <span class="math inline">\(R\)</span>-окрестности:</p>
+<ol style="list-style-type: decimal">
+<li>На стадии инициализации всем весовым коэффициентам присваиваются небольшие случайные значения <span class="math inline">\(w_{ij}^0, i = 1, 2, \dots, m\)</span>.</li>
+<li>На выходы сети подаются последовательно в случайном порядке образы <span class="math inline">\(\mathbf{y}\)</span> объектов входного слоя и для каждого из них выбирается “нейрон-победитель” (BMU, Best Matching Unit) с минимальным расстоянием <span class="math inline">\(\sum_{i=1}^m (y_i - w_{ij}^t)\)</span> - см. рис. <a href="105-Cohonen-Maps.html#fig:fig-10-19">10.19</a>.</li>
+<li>Определяется подмножество “ближайшего окружения” BMU, радиус которого <span class="math inline">\(R\)</span> уменьшается с каждой итерацией <span class="math inline">\(t\)</span>.</li>
+<li>Пересчитываются веса <span class="math inline">\(\boldsymbol{w}_j^t\)</span> выделенных узлов с учетом их расстояний до нейрона-победителя и близости к вектору <span class="math inline">\(\mathbf{y}\)</span>.</li>
+</ol>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-19"></span>
+<img src="figures/cohonen_activation.png" alt="Схема активации нейронов в сети Кохонена" width="440px" />
+<p class="caption">
+Рисунок 10.19: Схема активации нейронов в сети Кохонена
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<p>Шаги 2-4 алгоритма повторяются, пока выходные значения сети не будут стабилизированы с заданной точностью. При этом качество проецирования многомерных данных на плоскость достигается в SOM на нескольких уровнях: <em>сохранение топологии</em> (т.е. на множествах точек исходных данных и нейронов обученной сети структура соседства одинакова), <em>сохранение порядка</em> (т.е. расстояния между эквивалентными парами точек пропорциональны) и <em>сохранение метрических свойств при сжатии пространства</em>.</p>
+<p>“Проекционный экран” в результате обучения приобретает свойства упорядоченной структуры, в которой величины синапсов нейронов плавно меняются вдоль двух измерений. Цвет и расположение фрагментов двумерной решетки используется для анализа закономерностей, связываемых с компонентами набора данных. В частности, с каждым узлом (нейроном) могут ассоциироваться локальные сгущения исходных объектов, которые могут служить потенциальными центрами кластеров.</p>
+<p>Для обучения сети обычно используются функции <code>somgrid()</code> и <code>som()</code> из пакета <code>kohonen</code>. По завершении итерационного процесса функции plot() становится доступным для визуализации следующий комплект карт:</p>
+<ul>
+<li><code>&quot;codes&quot;</code> - показывается распределение по решетке соотношение долей участия отдельных исходных переменных;</li>
+<li><code>&quot;counts&quot;</code> - число исходных объектов в каждом узле сети;</li>
+<li><code>&quot;mapping&quot;</code> - координаты исходных объектов на сформированной карте;</li>
+<li><code>&quot;property&quot;</code>, <code>&quot;quality&quot;</code>, <code>&quot;dist.neighbours&quot;</code> - различными цветами изображается целый набор свойств каждого узла: доли участия отдельных исходных переменных, меры парных или средних расстояний между нейронами и т.д.</li>
+</ul>
+<p>Опять воспользуемся в качестве примера набором Boston из пакета MASS. Чтобы график <code>&quot;codes&quot;</code> был более лаконичен, из исходного набора признаков выделим 7 переменных, предположительно наиболее значимых для кластеризации (см. рис. <a href="104-Other-Clustering-Methods.html#fig:fig-10-13">10.13</a>). Смысл сокращенных наименований переменных приведен в разделе <a href="103-Clustering-Quality.html#sec_10_3">10.3</a>. Выполним предварительно стандартизацию данных.</p>
+<p>Укажем функции <code>somgrid()</code> создать для проекционного экрана гексагональную решетку 69, т.е. 506 земельных участков Бостона будут “самоорганизовываться” на 54 нейронах выходного слоя:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Boston, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>)
+VarName =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;indus&quot;</span>, <span class="st">&quot;dis&quot;</span>, <span class="st">&quot;nox&quot;</span>,  <span class="st">&quot;medv&quot;</span>, <span class="st">&quot;lstat&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;rad&quot;</span>) 
+<span class="co"># отбор переменных для обучения SOM</span>
+data_train &lt;-<span class="st"> </span>Boston[, VarName]
+data_train_matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">scale</span>(data_train))
 
+<span class="kw">library</span>(kohonen)
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+som_grid &lt;-<span class="st"> </span><span class="kw">somgrid</span>(<span class="dt">xdim =</span> <span class="dv">9</span>, <span class="dt">ydim =</span> <span class="dv">6</span>, <span class="dt">topo =</span> <span class="st">&quot;hexagonal&quot;</span>) 
+som_model &lt;-<span class="st"> </span><span class="kw">som</span>(data_train_matrix, <span class="dt">grid =</span> som_grid, <span class="dt">rlen =</span> <span class="dv">100</span>,
+                 <span class="dt">alpha =</span> <span class="kw">c</span>(<span class="fl">0.05</span>,<span class="fl">0.01</span>), <span class="dt">keep.data =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(som_model, <span class="dt">type =</span> <span class="st">&quot;changes&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-20"></span>
+<img src="105-Cohonen-Maps_files/figure-html/fig-10-20-1.png" alt="Снижение среднего расстояния до ближайших нейронов в ходе 100 итераций (`rlen`) обучения сети SOM при заданных значениях гипер-параметра `alpha`" width="480" />
+<p class="caption">
+Рисунок 10.20: Снижение среднего расстояния до ближайших нейронов в ходе 100 итераций (<code>rlen</code>) обучения сети SOM при заданных значениях гипер-параметра <code>alpha</code>
+</p>
+</div>
+<p>Выполним теперь визуализацию комплекта карт Кохонена с разными управляющими параметрами функции <code>plot()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Зададим палитру цветов</span>
+coolBlueHotRed &lt;-<span class="st"> </span>function(n, <span class="dt">alpha =</span> <span class="dv">1</span>) {
+    <span class="kw">rainbow</span>(n, <span class="dt">end =</span> <span class="dv">4</span>/<span class="dv">6</span>, <span class="dt">alpha =</span> alpha)[n:<span class="dv">1</span>] 
+}
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))
+<span class="co"># Сколько объектов связано с каждым узлом?</span>
+<span class="kw">plot</span>(som_model, <span class="dt">type =</span> <span class="st">&quot;counts&quot;</span>, <span class="dt">palette.name =</span> coolBlueHotRed)
+<span class="co"># Каково среднее расстояние объектов узла до его прототипов?</span>
+<span class="kw">plot</span>(som_model, <span class="dt">type =</span> <span class="st">&quot;quality&quot;</span>, <span class="dt">palette.name =</span> coolBlueHotRed)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-21"></span>
+<img src="105-Cohonen-Maps_files/figure-html/fig-10-21-1.png" alt="Карты SOM типа `&quot;counts&quot;` и `&quot;quality&quot;`" width="768" />
+<p class="caption">
+Рисунок 10.21: Карты SOM типа <code>&quot;counts&quot;</code> и <code>&quot;quality&quot;</code>
+</p>
+</div>
+<p>Тип карты <code>&quot;mapping&quot;</code> позволяет получить распределение объектов по узлам, удовлетворяющее любому заданному условию. Например, мы желаем выделить участки с низкой долей афроамериканцев (<code>black</code> - признак, который в настройке сети не участвовал). А также показать, как при этом распределяются доли участия отдельных исходных переменных:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colB &lt;-<span class="st"> </span><span class="kw">ifelse</span>(Boston$black &lt;=<span class="st"> </span><span class="dv">100</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;gray70&quot;</span>)
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))
+<span class="kw">plot</span>(som_model, <span class="dt">type =</span> <span class="st">&quot;mapping&quot;</span>, <span class="dt">col =</span> colB, <span class="dt">pch =</span> <span class="dv">16</span>)
+<span class="kw">plot</span>(som_model, <span class="dt">type =</span> <span class="st">&quot;codes&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-22"></span>
+<img src="105-Cohonen-Maps_files/figure-html/fig-10-22-1.png" alt="Карты SOM типа `&quot;mapping&quot;` и `&quot;codes&quot;`" width="768" />
+<p class="caption">
+Рисунок 10.22: Карты SOM типа <code>&quot;mapping&quot;</code> и <code>&quot;codes&quot;</code>
+</p>
+</div>
+<p>Поскольку объединенная карта <code>&quot;codes&quot;</code> не всегда бывает хорошо интерпретируемой, можно получить карту распределения любого показателя в его стандартизованной или натуральной шкале:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))
+<span class="kw">plot</span>(som_model, <span class="dt">type =</span> <span class="st">&quot;property&quot;</span>, 
+     <span class="dt">property =</span> som_model$codes[[<span class="dv">1</span>]][,<span class="dv">1</span>], 
+     <span class="dt">main =</span> <span class="st">&quot;indus - доля домов, продаваемых в розницу&quot;</span>,
+     <span class="dt">palette.name =</span> coolBlueHotRed)
+var_unscaled &lt;-<span class="st"> </span><span class="kw">aggregate</span>(<span class="kw">as.numeric</span>(data_train[, <span class="dv">3</span>]),
+                          <span class="dt">by =</span> <span class="kw">list</span>(som_model$unit.classif), 
+                          <span class="dt">FUN =</span> mean, <span class="dt">simplify =</span> <span class="ot">TRUE</span>)[, <span class="dv">2</span>]
+<span class="kw">plot</span>(som_model, <span class="dt">type =</span> <span class="st">&quot;property&quot;</span>, <span class="dt">property =</span> var_unscaled,
+     <span class="dt">main =</span> <span class="st">&quot;nox - содержание окислов азота&quot;</span>,
+     <span class="dt">palette.name =</span> coolBlueHotRed)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-23"></span>
+<img src="105-Cohonen-Maps_files/figure-html/fig-10-23-1.png" alt="Карты SOM для стандартизованного и исходного показателя" width="768" />
+<p class="caption">
+Рисунок 10.23: Карты SOM для стандартизованного и исходного показателя
+</p>
+</div>
+<p>Естественно, что значения активации каждого нейрона по каждому предиктору можно использовать для группировки узлов. Зададимся числом кластеров <span class="math inline">\(k = 5\)</span> и выполним иерархическую кластеризацию (по умолчанию используются <code>method = &quot;complete&quot;</code> и <code>distance = &quot;euclidean&quot;</code>). Можно построить карты типа <code>&quot;mapping&quot;</code> (с метками объектов) или <code>&quot;codes&quot;</code> (с распределением доли вклада переменных). Остановимся на втором типе:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Формируем матрицу &quot;узлы  переменные&quot;
+mydata &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(som_model$codes[[<span class="dv">1</span>]])
+<span class="co"># Используем иерархическую кластеризацию с порогом при k=5</span>
+som_cluster &lt;-<span class="st"> </span><span class="kw">cutree</span>(<span class="kw">hclust</span>(<span class="kw">dist</span>(mydata)), <span class="dv">5</span>)
+<span class="co"># Определяем палитру цветов</span>
+pretty_palette &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&#39;#ff7f0e&#39;</span>, <span class="st">&#39;#2ca02c&#39;</span>,
+                    <span class="st">&#39;#d62728&#39;</span>, <span class="st">&#39;#9467bd&#39;</span>, <span class="st">&#39;#8c564b&#39;</span>, <span class="st">&#39;#e377c2&#39;</span>)
+<span class="co"># Показываем разными цветами кластеры узлов и переменные</span>
+<span class="kw">plot</span>(som_model, <span class="dt">type =</span> <span class="st">&quot;codes&quot;</span>, 
+     <span class="dt">bgcol =</span> pretty_palette[som_cluster])
+<span class="kw">add.cluster.boundaries</span>(som_model, som_cluster) </code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-24"></span>
+<img src="105-Cohonen-Maps_files/figure-html/fig-10-24-1.png" alt="Кластеризация узлов карты SOM" width="768" />
+<p class="caption">
+Рисунок 10.24: Кластеризация узлов карты SOM
+</p>
+</div>
+<p>Традиционно метод Кохонена рассматривается как эмпирический алгоритм, а выводы (в первую очередь, качественные) о структуре данных делаются на основе визуального анализа представленных карт. Основная трудность применения SOM, как и в случае анализа главных компонент, заключается в смысловой интерпретации топологии сети и связывании ее отдельных участков с некоторыми конкретными обобщениями из предметной области.</p>
+<p>Однако алгоритм SOM нашел широкое применение в ГИС-технологиях, поскольку легко реализовать информационную цепочку от исходной таблицы к узлам решетки, а от них - к конкретным координатам на географической карте. Например, участники коллектива “Dublin R Users Group” использовали результаты переписи населения 2011 г., разбили территорию Дублина на 18500 маленьких площадок и описали проживающее на них население с использованием 767 переменных из 15 разделов. На ресурсах (<a href="https://www.r-bloggers.com/self-organising-maps-for-customer-segmentation-using-r/">https://www.r-bloggers.com</a>, <a href="http://www.slideshare.net/shanelynn/2014-0117-dublin-r-selforganising-maps-for-customer-segmentation-shane-lynn">http://www.slideshare.net</a>) доступны полный комплект исходных данных, подробное описание и скрипты R. Основные результаты представлены на рис. <a href="105-Cohonen-Maps.html#fig:fig-10-25">10.25</a>:</p>
+<p><img src="figures/fig_10_25a.png" width="440px" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-25"></span>
+<img src="figures/fig_10_25b.jpg" alt="Кластерная форма карты SOM и ее отображение на карте Дублина (категории от 1 до 6 связываются с градациями жилой застройки и обеспеченности населения - от трущоб до благополучных элитных районов)" width="440px" />
+<p class="caption">
+Рисунок 10.25: Кластерная форма карты SOM и ее отображение на карте Дублина (категории от 1 до 6 связываются с градациями жилой застройки и обеспеченности населения - от трущоб до благополучных элитных районов)
+</p>
+</div>
+<p>Похожий подход использован в программе ScanEx IMAGE Processor v3.6 (<a href="http://www.scanex.ru" class="uri">http://www.scanex.ru</a>), руководство к которой содержит также достаточно подробное русскоязычное описание техники расчетов и формул, применяемых при обучении SOM.</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="104-Other-Clustering-Methods.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="111-Rattle-Intro.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="101-Partitioning-Algos.html">
+<link rel="next" href="103-Clustering-Quality.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,37 +228,102 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_10_2" class="section level2">
+<h2><span class="header-section-number">10.2</span> Иерархическая кластеризация</h2>
+<p>Методы иерархической кластеризации основываются на двух идеях: <em>агломерации</em> (AGNES, Agglomerative Nesting), т.е. последовательного объединения индивидуальных объектов или их групп во все более крупные подмножества, или обратном по смыслу процессе <em>разбиения</em> (DIANA, Divise Analysis), который начинается с корня и на каждом шаге делит образующие группы по степени их гетерогенности (Ким и др., 1989; Kassambara, 2017). В обоих случаях результат работы алгоритма представляет собой древовидную структуру, или <em>дендрограмму</em>.</p>
+<p>Отдельные версии агломеративной иерархической процедуры отличаются правилами вычисления расстояния между кластерами. Например, алгоритм <em>средней связи</em> (average linkage clustering) на каждом следующем шаге объединяет два ближайших кластера, рассчитывая среднюю арифметическую дистанцию между всеми парами объектов. К алгоритму средней связи естественно сразу добавить еще два со взаимно противоположными тенденциями:</p>
+<ul>
+<li>алгоритм <em>одиночной связи</em>, или “ближайшего соседа” (single linkage clustering), когда расстояние между кластерами оценивается как минимальное из дистанций между парами объектов, один из которых входит в первый кластер, а другой - во второй;</li>
+<li>и алгоритм <em>полной связи</em> или “дальнего соседа” (complete linkage clustering), когда вычисляется расстояние между наиболее удаленными объектами.</li>
+</ul>
+<p>Более глубокий статистический смысл в понятие расстояния между кластерами вкладывается при использовании <em>центроидного</em> метода (centroid linkage clustering) и метода минимума дисперсии <em>Уорда</em> (Ward).</p>
+<p>Утверждать, какой из методов предпочтительней, довольно просто - это тот, который чаще всего приводит к <em>естественной</em> кластеризации. Однако имеющиеся огромные расхождения в понимании столь тонкого предмета, как “естественность”, вынуждают признать этот термин нечетким. Поэтому мы ограничимся в этом разделе лишь анализом сходства результатов кластеризации, полученных различными алгоритмами.</p>
+<p>Предварительно рассмотрим функции, которые используют в R для проведения иерархической кластеризации:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;complete&quot;</span>)
+<span class="kw">agnes</span>(x, <span class="dt">metric =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)
+<span class="kw">diana</span>(x, <span class="dt">metric =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p>где</p>
+<ul>
+<li><code>d</code>: матрица дистанций, полученная функцией <code>dist()</code> или как-то иначе;</li>
+<li><code>method</code>: метод агломерации, определяемый одним из значений <code>&quot;ward.D&quot;</code>, <code>&quot;ward.D2&quot;</code>, <code>&quot;single&quot;</code>, <code>&quot;complete&quot;</code>, <code>&quot;average&quot;</code>, <code>&quot;mcquitty&quot;</code>, <code>&quot;median&quot;</code> или <code>&quot;centroid&quot;</code>;</li>
+<li><code>x</code>: таблица данных для вычисления расстояний (наблюдения - по строкам, признаки - по столбцам);</li>
+<li><code>metric</code>: метрика расстояний между наблюдениями, т.е. <code>&quot;euclidean&quot;</code> или <code>&quot;manhattan&quot;</code>;</li>
+<li><code>stand = TRUE</code>: осуществляется стандартизация каждой переменной таблицы (по столбцам).</li>
+</ul>
+<p>Очевидно, что агломерационные процедуры <code>hclust()</code> и <code>agnes()</code> приведут к одному и тому же результату, а <code>diana()</code> выполнит алгоритм последовательного разбиения.</p>
+<p>Приведем различные варианты формирования дендрограмм и способы их визуализации на примере кластеризации штатов США по криминогенной обстановке. Первые три диаграммы на рис. <a href="102-H-Clustering.html#fig:fig-10-7">10.7</a> построены с использованием базовой функции <code>plot.hclust()</code>, имеющей ограниченный набор настраиваемых параметров. Для варианта <code>&quot;complete&quot;</code> показан пример разрезания дерева на 4 группы, которые на дендрограмме можно показать в виде прямоугольников.</p>
+<p>Четвертый рисунок получен с помощью функции <code>plot.dendrogram()</code>, которая имеет такие дополнительные параметры как <code>nodePar</code> - спецификацию графического изображения узлов дерева, и <code>edgePar</code> - список графических параметров для представления ветвей разными цветами.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cluster)
+<span class="kw">data</span>(<span class="st">&quot;USArrests&quot;</span>)
+d &lt;-<span class="st"> </span><span class="kw">dist</span>(<span class="kw">scale</span>(USArrests), <span class="dt">method =</span> <span class="st">&quot;euclidean&quot;</span>)
+
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">1</span>))
+<span class="co"># Параметр hang=-1  выравнивает метки</span>
+<span class="kw">plot</span>(<span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;average&quot;</span> ), <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">hang =</span> -<span class="dv">1</span>)
+<span class="kw">plot</span>(<span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;single&quot;</span> ), <span class="dt">cex =</span> <span class="fl">0.7</span>)
+
+res.hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;complete&quot;</span> )
+grp &lt;-<span class="st"> </span><span class="kw">cutree</span>(res.hc, <span class="dt">k =</span> <span class="dv">4</span>)  <span class="co"># Разрезание дерева на 4 группы</span>
+<span class="kw">plot</span>(res.hc, <span class="dt">cex =</span> <span class="fl">0.7</span>)
+<span class="kw">rect.hclust</span>(res.hc, <span class="dt">k =</span> <span class="dv">4</span>, <span class="dt">border =</span> <span class="dv">2</span>:<span class="dv">5</span>)
+
+hcd &lt;-<span class="st"> </span><span class="kw">as.dendrogram</span>(<span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;ward.D2&quot;</span> ))
+nodePar &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">lab.cex =</span> <span class="fl">0.7</span>, <span class="dt">pch =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">19</span>), <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
+<span class="kw">plot</span>(hcd,  <span class="dt">xlab =</span> <span class="st">&quot;Height&quot;</span>, <span class="dt">nodePar =</span> nodePar, <span class="dt">horiz =</span> <span class="ot">TRUE</span>,
+     <span class="dt">edgePar =</span> <span class="kw">list</span>(<span class="dt">col =</span> <span class="dv">2</span>:<span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>:<span class="dv">1</span>))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-7"></span>
+<img src="102-H-Clustering_files/figure-html/fig-10-7-1.png" alt="Дендрограмма распределения штатов США по кластерам. По порядку сверху вниз: `&quot;average&quot;` - метод средней связи, `&quot;single&quot;` - метод одиночной связи, `&quot;complete&quot;` - метод полной связи, `&quot;ward.D2&quot;` - метод Уорда" width="672" />
+<p class="caption">
+Рисунок 10.7: Дендрограмма распределения штатов США по кластерам. По порядку сверху вниз: <code>&quot;average&quot;</code> - метод средней связи, <code>&quot;single&quot;</code> - метод одиночной связи, <code>&quot;complete&quot;</code> - метод полной связи, <code>&quot;ward.D2&quot;</code> - метод Уорда
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>Дополнительные возможности для графического представления дендрограмм можно найти в функциях пакетов <code>ape</code> (анализ филогенетики и эволюции) и <code>ggdendro</code>, использующего графическую систему <code>ggplot2</code>.</p>
+<p>Визуальные впечатления от сравнения различных дендрограмм на рис. <a href="102-H-Clustering.html#fig:fig-10-7">10.7</a> и опыт специалистов свидетельствует о том, что метод Уорда и полной связи дают весьма сходные результаты (к ним приближается также метод средней связи). Метод одиночной связи и центроидный метод могут дать иногда весьма специфические дендрограммы. Однако для анализа сходства дендрограмм предпочтительнее использовать пакет <code>dendextend</code>, который содержит несколько функций для сравнения результатов кластеризации, включая: <code>dend_diff()</code>, <code>tanglegram()</code>, <code>entanglement()</code>, <code>all.equal.dendrogram()</code>, <code>cor.dendlist()</code>. Выполним построение диаграммы типа “клубок”, показывающей различия двух дендрограмм:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dendextend)
+<span class="co"># Вычисляем 2 иерархические кластеризации</span>
+hc1 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)
+hc2 &lt;-<span class="st"> </span><span class="kw">hclust</span>(d, <span class="dt">method =</span> <span class="st">&quot;ward.D2&quot;</span>)
+<span class="co"># Создаем две дендрограммы</span>
+dend1 &lt;-<span class="st"> </span><span class="kw">as.dendrogram</span>(hc1)
+dend2 &lt;-<span class="st"> </span><span class="kw">as.dendrogram</span>(hc2)
+<span class="co"># На диаграмме типа &quot;клубок&quot; показываем цветом общие ветви</span>
+<span class="kw">tanglegram</span>(dend1, dend2, <span class="dt">common_subtrees_color_branches =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-8"></span>
+<img src="102-H-Clustering_files/figure-html/fig-10-8-1.png" alt="Диаграмма сравнения деревьев кластеризации `&quot;average&quot;`-`&quot;ward&quot;`" width="672" />
+<p class="caption">
+Рисунок 10.8: Диаграмма сравнения деревьев кластеризации <code>&quot;average&quot;</code>-<code>&quot;ward&quot;</code>
+</p>
+</div>
+<p>Для количественной оценки различий между вариантами кластеризации могут быть использованы кофенетическая корреляция (cophenetic correlation) или различные ранговые индексы. Кофенетическая дистанция определяет расстояние между двумя объектами на дендрограмме и отражает уровень внутригрупповых различий, при котором эти объекты были впервые объединены в один кластер (Ким и др., 1989). Все возможные пары таких дистанций образуют апостериорную матрицу расстояний между объектами по результатам кластеризации. Кофенетическая корреляция вычисляется как линейный коэффициент корреляции Пирсона (или ранговый коэффициент Спирмена) между всеми элементами двух таких матриц:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="kw">cor_cophenetic</span>(dend1, dend2), <span class="co"># кофенетическая корреляция</span>
+<span class="kw">cor_bakers_gamma</span>(dend1, dend2))  <span class="co"># корреляция Бейкера</span></code></pre></div>
+<pre><code>## [1] 0.8431430 0.8400675</code></pre>
+<p>Аналогично можно получить матрицу коэффициентов кофенетической корреляции для всех обсуждаемых методов иерархической кластеризации (рис. <a href="102-H-Clustering.html#fig:fig-10-9">10.9</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Создаем множество дендрограмм для сравнения</span>
+dend1 &lt;-<span class="st"> </span>d %&gt;%<span class="st"> </span><span class="kw">hclust</span>(<span class="st">&quot;com&quot;</span>) %&gt;%<span class="st"> </span>as.dendrogram
+dend2 &lt;-<span class="st"> </span>d %&gt;%<span class="st"> </span><span class="kw">hclust</span>(<span class="st">&quot;single&quot;</span>) %&gt;%<span class="st"> </span>as.dendrogram
+dend3 &lt;-<span class="st"> </span>d %&gt;%<span class="st"> </span><span class="kw">hclust</span>(<span class="st">&quot;ave&quot;</span>) %&gt;%<span class="st"> </span>as.dendrogram
+dend4 &lt;-<span class="st"> </span>d %&gt;%<span class="st"> </span><span class="kw">hclust</span>(<span class="st">&quot;centroid&quot;</span>) %&gt;%<span class="st"> </span>as.dendrogram
+dend5 &lt;-<span class="st"> </span>d %&gt;%<span class="st"> </span><span class="kw">hclust</span>(<span class="st">&quot;ward.D2&quot;</span>) %&gt;%<span class="st"> </span>as.dendrogram
+
+<span class="co"># Создаем список дендрограмм и корреляционную матрицу</span>
+dend_list &lt;-<span class="st"> </span><span class="kw">dendlist</span>(<span class="st">&quot;Complete&quot;</span> =<span class="st"> </span>dend1, <span class="st">&quot;Single&quot;</span> =<span class="st"> </span>dend2,
+     <span class="st">&quot;Average&quot;</span> =<span class="st"> </span>dend3, <span class="st">&quot;Centroid&quot;</span> =<span class="st"> </span>dend4, <span class="st">&quot;Ward.D2&quot;</span> =<span class="st"> </span>dend5)
+cors &lt;-<span class="st"> </span><span class="kw">cor.dendlist</span>(dend_list)
+<span class="kw">round</span>(cors, <span class="dv">2</span>)</code></pre></div>
+<pre><code>##          Complete Single Average Centroid Ward.D2
+## Complete     1.00   0.50    0.86     0.49    0.94
+## Single       0.50   1.00    0.58     0.71    0.49
+## Average      0.86   0.58    1.00     0.61    0.84
+## Centroid     0.49   0.71    0.61     1.00    0.49
+## Ward.D2      0.94   0.49    0.84     0.49    1.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(corrplot) <span class="co"># изображение корреляционной матрицы</span>
+<span class="kw">corrplot</span>(cors, <span class="st">&quot;pie&quot;</span>, <span class="st">&quot;lower&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-10-9"></span>
+<img src="102-H-Clustering_files/figure-html/fig-10-9-1.png" alt="Корреляция между кластеризациями на основе разных методов" width="576" />
+<p class="caption">
+Рисунок 10.9: Корреляция между кластеризациями на основе разных методов
+</p>
 </div>
 
 </div>
@@ -267,8 +332,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="101-Partitioning-Algos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="103-Clustering-Quality.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

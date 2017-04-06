@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="112-Descriptive-Stats.html">
+<link rel="next" href="114-Descriptive-Models.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,100 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
-</div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<div id="sec_11_3" class="section level2">
+<h2><span class="header-section-number">11.3</span> Построение и тестирование моделей классификации</h2>
+<p>С использованием интерактивной оболочки <code>rattle</code> можно построить шесть моделей классификации (вкладка <code>Model</code>), подробно описанных нами в главах <a href="031-Intro-to-Caret.html#ch_3">3</a>-<a href="081-Logit-for-Count.html#ch_8">8</a>: деревья решений (<code>Tree</code>), случайные леса и бустинг (<code>Forrest</code> и <code>Boost</code>), машину опорных векторов (<code>SVM</code>), линейную модель (<code>Linear</code>) и нейронную сеть (<code>Neural Net</code>).</p>
+<p>Для построения моделей разделим всю выборку на две части - обучающую и тестовую - в соотношении 70/30, т.е. отдельно проверочную выборку выделять не будем. Также заблокируем сопутствующие переменные <code>Date</code> и <code>Location</code>.</p>
+<p>Начнем с построения традиционных деревьев рекурсивного разделения <code>rpart</code> и построим модель прогнозирования дождя на следующий день <code>RainTomorrow</code> с использованием параметров, принятых по умолчанию:</p>
+<p><img src="figures/rattle_8.png" width="640px" style="display: block; margin: auto;" /></p>
+<p>Построенное дерево основано на трех переменных из 20: облачности (<code>Cloud3pm</code>), атмосферном давлении в 15:00 ч (<code>Pressure3pm</code>), а также количества часов яркого света за день (<code>Sunshine</code>).</p>
+<p>Для оценки эффективности модели переходим во вкладку <code>Evaluate</code>:</p>
+<p><img src="figures/rattle_9.png" width="540px" style="display: block; margin: auto;" /></p>
+<p>Построенную модель мы можем оценить по 9 группам показателей. Кроме того, тестирование можно выполнить как по всей выборке (<code>Full</code>), так и отдельно по обучающей (<code>Training</code>) и экзаменационной (<code>Testing</code>) последовательностям.</p>
+<p>Матрица неточностей (<code>Error Matrix</code>) является наиболее общим результатом выполненного анализа:</p>
+<p><img src="figures/rattle_10.png" width="540px" style="display: block; margin: auto;" /></p>
+<p>Другой подход к оценке эффективности бинарного классификатора заключается в построении кумулятивной версии ROC-кривой - диаграммы риска (<code>risk chart</code>), также известной как диаграмма полезности (<code>gain</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Summary Decision Tree <span class="kw">model</span> (rpart) on weather [test]
+by probability cutoffs.
+                Recall      Risk  Caseload Precision   Measure
+<span class="fl">0.0512820512821</span>   <span class="fl">1.00</span> <span class="fl">1.0000000</span> <span class="fl">1.0000000</span> <span class="fl">0.2272727</span> <span class="fl">0.0000000</span>
+<span class="fl">0.2</span>               <span class="fl">0.64</span> <span class="fl">0.6391960</span> <span class="fl">0.3272727</span> <span class="fl">0.4444444</span> <span class="fl">0.6246505</span>
+<span class="fl">0.6666666666667</span>   <span class="fl">0.60</span> <span class="fl">0.6221106</span> <span class="fl">0.2363636</span> <span class="fl">0.5769231</span> <span class="fl">0.7493833</span>
+<span class="fl">0.7407407407407</span>   <span class="fl">0.48</span> <span class="fl">0.5075377</span> <span class="fl">0.1727273</span> <span class="fl">0.6315789</span> <span class="fl">0.6420831</span>
+<span class="fl">1.0</span>               <span class="fl">0.00</span> <span class="fl">0.0000000</span> <span class="fl">0.0000000</span> <span class="fl">1.0000000</span> <span class="fl">0.0000000</span>
+Area under the <span class="kw">Recall</span> (green) curve:<span class="st"> </span><span class="dv">77</span>% (<span class="fl">0.771</span>)
+Area under the <span class="kw">Risk</span>   (red)   curve:<span class="st"> </span><span class="dv">78</span>% (<span class="fl">0.777</span>)</code></pre></div>
+<p><img src="figures/rattle_11.png" width="540px" style="display: block; margin: auto;" /></p>
+<p>Для построения диаграмм риска, как правило, используются дополнительно контрольные наборы данных (<code>audit dataset</code>). Так, для таблицы <code>weather</code> в обучении любой модели классификации могут участвовать две переменные: бинарный отклик <code>RainTomorrow</code> и переменная риска <code>RISK_MM</code>, связанная с мерой вероятности наступления прогнозируемого события, оцененная аудитом для каждого наблюдения.</p>
+<p>Наблюдения упорядочивают по убыванию предсказанных для них оценок риска <code>RISK_MM</code> и на оси абсцисс диаграммы последовательно откладывают доля наблюдений (<code>Case load</code>, %), а по оси ординат - доля удачных прогнозов (<code>Perfomance</code>) на основании построенной модели. Линия главной диагонали не связана с какой-либо моделью прогнозирования, т.е. для 50% наблюдений случайное угадывание окажется верным лишь в 50% случаев. Если использовать предсказанные деревом решений вероятности предстоящего дождя, то мы получим уже 73% случаев верного прогноза. Сканируя долю наблюдений от 0 до 100%, можно получить также сглаженную диаграмму изменения риска <code>RISK_MM</code> (показана красной пунктирной линией). Пунктирная синяя линия указывает на графике изменение специфичности (<code>precision</code>). Подробности анализа диаграмм риска и других показателей эффективности моделей представлены в монографии по <code>rattle</code> (Williams, 2009, 2011).</p>
+<p>Для оценки традиционной AUC можно построить ROC-кривую (ROC) и рассчитать такие критерии, как энтропия <code>H</code> и индекс Джини <code>Gini</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">H=<span class="fl">0.302928</span>, Gini=<span class="fl">0.475765</span>, AUC=<span class="fl">0.737882</span>,AUCH=<span class="fl">0.741647</span>, KS=<span class="fl">0.470588</span></code></pre></div>
+<p><img src="figures/rattle_12.png" width="540px" style="display: block; margin: auto;" /></p>
+<p>Точность остальных шести моделей прогнозирования оценивается по тому же принципу и столь подробно далее рассматриваться не будет. Мы приведем только основные характеристики построенных моделей, AUC и точность классификации на тестовой выборке, а в некоторых случаях также информацию о наиболее важных предикторах.</p>
+<p><strong>Деревья условного вывода (Сonditional Trees)</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Conditional inference tree with <span class="dv">4</span> terminal no1des
+Area under ROC curve for ctree model on weather [test] is <span class="fl">0.7379</span>
+Overall error:<span class="st"> </span><span class="dv">19</span>%, Averaged class error: 26%</code></pre></div>
+<p><img src="figures/rattle_13.png" width="540px" style="display: block; margin: auto;" /></p>
+<p><strong>Модель случайного леса (Random Forrest)</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">No. of variables tried at each split:<span class="st"> </span><span class="dv">4</span>
+        OOB estimate of  error rate:<span class="st"> </span><span class="fl">14.45</span>%
+Area under ROC curve for rf model on weather [test] is <span class="fl">0.9009</span>
+Overall error:<span class="st"> </span><span class="dv">11</span>%, Averaged class error: 22%
+
+Variable Importance
+                 No   Yes MeanDecreaseAccuracy MeanDecreaseGini
+Pressure3pm   <span class="fl">12.53</span> <span class="fl">10.96</span>                <span class="fl">15.42</span>             <span class="fl">5.45</span>
+Cloud3pm      <span class="fl">13.40</span>  <span class="fl">9.38</span>                <span class="fl">15.10</span>             <span class="fl">3.26</span>
+Sunshine      <span class="fl">13.10</span>  <span class="fl">7.59</span>                <span class="fl">14.40</span>             <span class="fl">4.16</span>
+WindGustSpeed <span class="fl">10.17</span>  <span class="fl">6.71</span>                <span class="fl">11.90</span>             <span class="fl">2.94</span>
+MaxTemp        <span class="fl">9.10</span> -<span class="fl">0.97</span></code></pre></div>
+<p><strong>Модель бустинга (Ada Boost)</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Loss:<span class="st"> </span>exponential Method:<span class="st"> </span>discrete   Iteration:<span class="st"> </span><span class="dv">50</span> 
+Train Error:<span class="st"> </span><span class="fl">0.047</span> 
+Out-Of-Bag Error:<span class="st">  </span><span class="fl">0.07</span>  iteration=<span class="st"> </span><span class="dv">37</span>
+Area under the ROC curve for ada model on weather [test] is <span class="fl">0.8593</span>
+Overall error:<span class="st"> </span><span class="dv">15</span>%, Averaged class error: 20%
+Frequency of variables actually used:
+<span class="st">     </span>Sunshine   Pressure3pm   Cloud3pm    Temp3pm WindGustSpeed 
+           <span class="dv">32</span>            <span class="dv">28</span>         <span class="dv">17</span>         <span class="dv">13</span>            <span class="dv">13</span></code></pre></div>
+<p><strong>Модель опорных векторов (Support Vector Machine)</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">SV type:<span class="st"> </span>C-<span class="kw">svc</span>  (classification)  parameter :<span class="st"> </span>cost C =<span class="st"> </span><span class="dv">1</span> 
+Gaussian Radial Basis kernel function. 
+ Hyperparameter :<span class="st"> </span>sigma =<span class="st">  </span><span class="fl">0.0379412611254591</span> 
+Number of Support Vectors :<span class="st"> </span><span class="dv">107</span> 
+Objective Function Value :<span class="st"> </span>-<span class="fl">59.5602</span> 
+Training error :<span class="st"> </span><span class="fl">0.100877</span>
+Area under ROC curve for ksvm model on weather[test] is <span class="fl">0.9248</span>
+Overall error:<span class="st"> </span><span class="dv">18</span>%, Averaged class error: 38%</code></pre></div>
+<p><strong>Модель логистической регрессии:</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Model:<span class="st"> </span>binomial, link:<span class="st"> </span>logit    Response:<span class="st"> </span>RainTomorrow
+Area under ROC curve for the glm model on weather [test] is <span class="fl">0.6597</span>
+Overall error:<span class="st"> </span><span class="dv">29</span>%, Averaged class error: 34%</code></pre></div>
+<p><img src="figures/rattle_14.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Analysis of Deviance Table
+              Df Deviance Resid. Df Resid. Dev     <span class="kw">Pr</span>(&gt;Chi)    
+<span class="ot">NULL</span>                            <span class="dv">227</span>    <span class="fl">205.456</span>                 
+MinTemp        <span class="dv">1</span>   <span class="fl">14.151</span>       <span class="dv">226</span>    <span class="fl">191.305</span>    <span class="fl">0.0001688</span> **<span class="er">*</span>
+MaxTemp        <span class="dv">1</span>    <span class="fl">2.131</span>       <span class="dv">225</span>    <span class="fl">189.175</span>    <span class="fl">0.1443620</span>    
+Rainfall       <span class="dv">1</span>    <span class="fl">0.022</span>       <span class="dv">224</span>    <span class="fl">189.152</span>    <span class="fl">0.8811792</span>    
+Evaporation    <span class="dv">1</span>    <span class="fl">0.012</span>       <span class="dv">223</span>    <span class="fl">189.141</span>    <span class="fl">0.9143115</span>    
+Sunshine       <span class="dv">1</span>   <span class="fl">25.223</span>       <span class="dv">222</span>    <span class="fl">163.918</span> <span class="fl">0.0000005108</span> **<span class="er">*</span>
+WindGustDir   <span class="dv">15</span>   <span class="fl">41.721</span>       <span class="dv">207</span>    <span class="fl">122.197</span>    <span class="fl">0.0002481</span> **<span class="er">*</span>
+WindGustSpeed  <span class="dv">1</span>    <span class="fl">7.516</span>       <span class="dv">206</span>    <span class="fl">114.681</span>    <span class="fl">0.0061156</span> **<span class="st"> </span>
+WindDir9am    <span class="dv">15</span>   <span class="fl">19.016</span>       <span class="dv">191</span>     <span class="fl">95.665</span>    <span class="fl">0.2130107</span>    
+...                                     ... 
+Pressure9am    <span class="dv">1</span>    <span class="fl">6.431</span>       <span class="dv">171</span>     <span class="fl">71.042</span>    <span class="fl">0.0112151</span> *<span class="st">  </span>
+Pressure3pm    <span class="dv">1</span>   <span class="fl">71.042</span>       <span class="dv">170</span>      <span class="fl">0.000</span>    &lt;<span class="st"> </span><span class="fl">2.2e-16</span> **<span class="er">*</span>
+...                                     ... 
+RainToday      <span class="dv">1</span>    <span class="fl">0.000</span>       <span class="dv">165</span>      <span class="fl">0.000</span>    <span class="fl">0.9998435</span></code></pre></div>
+<p><strong>Нейронная сеть прямого распространения</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Summary of the Neural Net <span class="kw">model</span> (built using nnet):
+A <span class="dv">62-10-1</span> network with <span class="dv">703</span> weights.
+Sum of Squares Residuals:<span class="st"> </span><span class="fl">0.0017</span>.
+Area under ROC curve for nnet model on weather [test] is <span class="fl">0.6766</span>
+Overall error:<span class="st"> </span><span class="dv">25</span>%, Averaged class error: 32%</code></pre></div>
+<p>При иных формах представления отклика (в метрической или счетной шкале) возможно также построение обычной или обобщенной модели на основе распределений Гаусса или Пуассона, а также логит- или пробит-моделей для откликов с несколькими классами.</p>
 
 </div>
             </section>
@@ -267,8 +329,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="112-Descriptive-Stats.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="114-Descriptive-Models.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

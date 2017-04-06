@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="021-Model-Quality-Criteria.html">
+<link rel="next" href="023-Models-for-Class-Prediction.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,129 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_2_2" class="section level2">
+<h2><span class="header-section-number">2.2</span> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</h2>
+<p>Фундаментальным для статистики является рассуждение о соотношении свойств случайных выборок и генеральной совокупности, из которых они были извлечены. Любой эксперимент в принципе ограничен некоторым (чаще всего, небольшим) множеством наблюдений, причем никакие сверхинтеллектуальные методы обработки не являются панацеей от влияния неучтенных факторов или систематических погрешностей. Один из возможных путей надежного оценивания свойств данных заключается в использовании компьютерно-интенсивных (computer-intensive) технологий, объединенных общим термином “численный ресэмплинг” (англ. resampling) или, как их иногда называют в русскоязычной литературе, “методов генерации повторных выборок” (Эфрон, 1988; Edgington, 1995; Davison, Hinkley, 2006). Ключевая особенность этой технологии заключается в том, что повторные выборки при классическом сценарии извлекаются из генеральной совокупности, а псевдоповторные выборки при выполнении ресэмплинга - из самой эмпирической выборки (хорошо известна фраза <em>“The population is to the sample as the sample is to the bootstrap samples”</em> из работы Fox, 2002).</p>
+<p>Ресэмплинг объединяет четыре разных подхода к обработке данных, отличающихся по алгоритму, но близких по сути: перекрестная проверка (cross-validation, CV), бутстреп (bootstrap), рандомизация, или перестановочный тест (permutation), и метод “складного ножа” (jackknife). Ниже рассматриваются два из них: перекрестная проверка для оптимизации параметров модели и бутстреп для оценивания доверительных интервалов критериев эффективности моделей.</p>
+<p>Минимизация ошибок на обучающем множестве, которое не бывает ни идеальным, ни бесконечно большим, неизбежно приводит к моделям, смещенным относительно истинной функции процесса, порождающего наблюдаемые данные. Преодолеть это смещение можно только с использованием “принципа внешнего дополнения”, т.е. блоков “свежих” данных, не участвовавших в построении модели.</p>
+<p>При отсутствии дополнительных блоков данных, специально предназначенных для тестирования, вполне естественно выглядит идея провести случайное разбиение исходной выборки на обучающее (train sample) и проверочное (test sample) подмножества, после чего оценить параметры модели только на обучающей выборке, тогда как оценку погрешности прогноза отклика <span class="math inline">\(\hat{y}_i\)</span> осуществить для значений из проверочной совокупности. Если подобные шаги выполняются многократно и каждое из наблюдений используется поочередно то для обучения, то для контроля, то такая процедура эмпирического оценивания моделей, построенных по прецедентам, называется <em>перекрестной проверкой</em>, или “кросс-проверкой”.</p>
+<p>Стандартной считается методика <span class="math inline">\(r \times k\)</span>-кратной кросс-проверки (<span class="math inline">\(r \times k\)</span>-fold cross-validation), когда исходная выборка случайным образом <span class="math inline">\(r\)</span> раз разбивается на <span class="math inline">\(k\)</span> блоков (folds) равной (или почти равной) длины. При реализации каждой повторности <span class="math inline">\(r\)</span> (replication) один из блоков по очереди становится проверочной совокупностью, а все остальные блоки - одной большой обучающей выборкой (рис. <a href="022-Resampling-Techniques.html#fig:fig-2-5">2.5</a>):</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-5"></span>
+<img src="figures/r_k_cv.png" alt="Пример 1x3-кратной кросс-проверки" width="600px" />
+<p class="caption">
+Рисунок 2.5: Пример 1x3-кратной кросс-проверки
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
+<p>При этом генерируется <span class="math inline">\(r \times k\)</span> значений отклика <span class="math inline">\(\hat{y}\)</span>, и ошибкой перекрестной проверки при использовании модели <span class="math inline">\(М\)</span> на исходной выборке <span class="math inline">\(X^n\)</span> называется средняя по всем <span class="math inline">\(k\)</span> разбиениям величина ошибки на контрольных подмножествах: <span class="math display">\[S_{CV} = \sqrt{\frac{1}{r \times n} \sum_{i=1}^{r \times n} (y_i - \hat{y}_i)^2}.\]</span></p>
+<p>Выполнить разбиение исходной выборки <code>y</code> на <code>k</code> блоков можно с использованием различных функций R, например, из пакета <code>caret</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">createDataPartition</span>(y, <span class="dt">p =</span> <span class="fl">0.5</span>) 
+<span class="kw">createFolds</span>(y, <span class="dt">k =</span> <span class="dv">10</span>)
+<span class="kw">createMultiFolds</span>(y, <span class="dt">k =</span> <span class="dv">10</span>, <span class="dt">times =</span> r)</code></pre></div>
+<p>Частным случаем является “скользящий контроль”, или перекрестная проверка с последовательным исключением одного наблюдения (leave-one-out CV, LOOCV), т.е. <span class="math inline">\(k = n\)</span>. При этом строится <span class="math inline">\(n\)</span> моделей по <span class="math inline">\((n – 1)\)</span> выборочным значениям, а исключенное наблюдение каждый раз используется для расчета ошибки прогноза. В. Н. Вапник (1984) теоретически обосновал применение скользящего контроля и показал, что если исходные выборки независимы, то средняя ошибка перекрестной проверки даёт несмещённую оценку ошибки модели. Это выгодно отличает её от средней ошибки на обучающей выборке, которая при переусложнении модели может оказаться оптимистично заниженной.</p>
+<p>В разделе <a href="#section_2_1">2.1</a> мы рассматривали пример выбора оптимального числа параметров полиномиальной регрессии с использованием информационных критериев. Попробуем достичь той же цели, выполнив перекрестную проверку моделей в режиме “leave-one-out” с использованием самостоятельно оформленной функции:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Функция скользящего контроля для модели y~poly(x, degree):</span>
+crossvalidate &lt;-<span class="st"> </span>function(x, y, degree) {
+    preds &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="kw">length</span>(x))
+    for (i in <span class="dv">1</span>:<span class="kw">length</span>(x)) {
+        x.in &lt;-<span class="st"> </span>x[-i]; x.out &lt;-<span class="st"> </span>x[i]
+        y.in &lt;-<span class="st"> </span>y[-i]; y.out &lt;-<span class="st"> </span>x[i]
+        m &lt;-<span class="st"> </span><span class="kw">lm</span>(y.in ~<span class="st"> </span><span class="kw">poly</span>(x.in, <span class="dt">degree =</span> degree) )
+        new &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x.in =</span> <span class="kw">seq</span>(-<span class="dv">3</span>, <span class="dv">3</span>, <span class="dt">by =</span> <span class="fl">0.1</span>))
+        preds[i] &lt;-<span class="st"> </span><span class="kw">predict</span>(m, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">x.in =</span> x.out))
+    }
+    <span class="co"># Тестовая статистика - сумма квадратов отклонений:</span>
+    <span class="kw">return</span>(<span class="kw">sum</span>((y -<span class="st"> </span>preds)^<span class="dv">2</span>))
+} 
+
+<span class="co"># Заполнение таблицы результатами кросс-проверки </span>
+<span class="co"># и сохранение квадрата ошибки в таблице &quot;a&quot;</span>
+a &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">cross =</span> <span class="kw">numeric</span>(max.poly))
+for (i in <span class="dv">1</span>:max.poly) {
+    a[i, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">crossvalidate</span>(x, y, <span class="dt">degree =</span> i)
+}
+
+<span class="co"># График суммы квадратов ошибки при кросс-проверке:</span>
+<span class="kw">qplot</span>(<span class="dv">1</span>:max.poly, cross, <span class="dt">data =</span> a, <span class="dt">geom =</span> <span class="kw">c</span>(<span class="st">&quot;line&quot;</span>)) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Степень полинома &quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Квадратичная ошибка&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-6"></span>
+<img src="022-Resampling-Techniques_files/figure-html/fig-2-6-1.png" alt="Поиск степени функции полиномиальной регрессии с использованием перекрестной проверки" width="672" />
+<p class="caption">
+Рисунок 2.6: Поиск степени функции полиномиальной регрессии с использованием перекрестной проверки
+</p>
 </div>
+<p>Как видно из графика на рис. <a href="022-Resampling-Techniques.html#fig:fig-2-6">2.6</a>, по мере усложнения модели от линейной регрессии с одним предиктором до полинома 7-й степени ошибка предсказаний на проверочном множестве (test error) сначала снижается, а затем после достижения некоторого минимума начинает возрастать. Такая <span class="math inline">\(U\)</span>-образная форма поведения ошибки является универсальной и справедлива практически для любых алгоритмов и методов создания предсказательных моделей. Повторный рост ошибки на проверочных данных является сигналом о том, что модель стала переобученной. Результаты, представленные на рис. <a href="021-Model-Quality-Criteria.html#fig:fig-2-4">2.4</a> и <a href="022-Resampling-Techniques.html#fig:fig-2-6">2.6</a>, говорят о том, что в нашем конкретном случае оба метода одинаково выбирают в качестве наилучшей модели полином 4-й степени.</p>
+<p>Проверим, является ли статистически значимым превышение качества полиномиальной модели над моделью с одним предиктором:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(M_poly &lt;-<span class="st"> </span><span class="kw">glm</span>(y ~<span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">4</span>)))</code></pre></div>
+<pre><code>## 
+## Call:  glm(formula = y ~ poly(x, 4))
+## 
+## Coefficients:
+## (Intercept)  poly(x, 4)1  poly(x, 4)2  poly(x, 4)3  poly(x, 4)4  
+##       4.360      -16.750        4.751        3.946       -3.371  
+## 
+## Degrees of Freedom: 127 Total (i.e. Null);  123 Residual
+## Null Deviance:       439.3 
+## Residual Deviance: 109.2     AIC: 354.9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(M_glm, M_poly, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: y ~ x
+## Model 2: y ~ poly(x, 4)
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1       126     158.71                          
+## 2       123     109.21  3   49.501 4.743e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Имеет место статистически значимое снижение ошибки модели.</p>
+<p>В среде R перекрестную проверку модели можно выполнить не только на основе самостоятельно оформленных процедур, но и с использованием нескольких общедоступных функций из известных пакетов:</p>
+<ul>
+<li><code>CVlm(df, form.lm, m = 3)</code> из пакета <code>DAAG</code>, где <code>df</code> - исходная таблица с данными, <code>form.lm</code> - формула линейной модели, <code>m</code> - число блоков (сюда подставляется значение <span class="math inline">\(k\)</span>);</li>
+<li><code>cv.glm(df, glmfit, K = n)</code> из пакета <code>boot</code>, где <code>df</code> - исходная таблица с данными, <code>glmfit</code> - объект обобщенной линейной модели типа <code>glm</code>, <code>K</code> - число блоков (т.е. по умолчанию выполняется скользящий контроль);</li>
+<li><code>cvLm(lmfit, folds = cvFolds(n, K, R), cost)</code> из пакета <code>cvTools</code>, где <code>lmfit</code> - объект обобщенной линейной модели <code>lm</code>, <code>K</code> - число блоков, <code>R</code> - число повторностей, <code>cost</code> - наименование одного из пяти разновидностей используемых критериев качества;</li>
+<li><code>train(form, df, method, trainControl, ...)</code> из пакета caret, где <code>df</code> - исходная таблица с данными, <code>form</code>, <code>method</code> - формула и метод построения модели, <code>trainControl</code> - объект, в котором прописываются все необходимые параметры перекрестной проверки.</li>
+</ul>
+<p>Бутстреп-процедура состоит в том, чтобы случайным образом многократно извлекать повторные выборки из эмпирического распределения. Конкретно, если мы имеем исходную выборку из <span class="math inline">\(n\)</span> членов <span class="math inline">\(x_1, x_2, \dots, x_{n - 1}, x_n\)</span>, то с помощью датчика случайных чисел, равномерно распределенных на интервале <span class="math inline">\([1, n]\)</span>, можем вытянуть из нее произвольный элемент <span class="math inline">\(x_k\)</span>, который снова вернем в исходную выборку для возможного повторного извлечения. Такая процедура повторяется <span class="math inline">\(n\)</span> раз и образуется бутстреп-выборка, в которой одни элементы могут повторяться два или более раз, тогда как другие элементы - отсутствовать. Например, при <span class="math inline">\(n = 6\)</span> одна из таких бутстреп-комбинаций имеет вид <span class="math inline">\(x_4, x_2, x_2, x_1, x_4, x_5\)</span>.</p>
+<p>В R бутстреп легко реализуется с помощью функции <code>sample(..., replace = TRUE)</code>, генерирующей любые случайные выборки с “возвращением”. Вероятность того, что конкретное наблюдение не войдет в бутстреп-выборку размера <span class="math inline">\(n\)</span>, равна <span class="math inline">\((1 - 1/n)n\)</span> и стремится к <span class="math inline">\(1/e = 0.368\)</span> при <span class="math inline">\(n \rightarrow \infty\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Nboot =<span class="st"> </span><span class="dv">1000</span>; n =<span class="st"> </span><span class="dv">100</span>
+<span class="kw">mean</span>(<span class="kw">replicate</span>(Nboot, <span class="kw">length</span>(<span class="kw">unique</span>(<span class="kw">sample</span>(n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)))))</code></pre></div>
+<pre><code>## [1] 63.432</code></pre>
+<p>Таким способом можно сформировать любое, сколь угодно большое число бутстреп-выборок (обычно 500-1000), каждая из которых содержит около 2/3 уникальных значений эмпирической совокупности.</p>
+<p>В результате легкой модификации частотного распределения реализаций исходных данных можно ожидать, что каждая следующая генерируемая псевдовыборка будет обладать значением оцениваемого параметра, немного отличающемся от вычисленного для первоначальной совокупности. На основе разброса значений анализируемого показателя, полученного в ходе такого процесса имитации, можно построить, например, доверительные интервалы оцениваемого параметра.</p>
+<p>В предыдущем разделе мы рассматривали использование информационных критериев для выбора оптимальной степени полинома. Осуществим оценку квантильных интервалов байесовского критерия <code>BIC</code> для каждой из модели-претендента:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">123</span>)
+Nboot =<span class="st"> </span><span class="dv">1000</span>
+BootMat &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span>:max.poly, function(k) 
+    <span class="kw">replicate</span>(Nboot, {
+        ind &lt;-<span class="st"> </span><span class="kw">sample</span>(n, <span class="dt">replace=</span>T)
+        <span class="kw">BIC</span>(<span class="kw">glm</span>(y[ind]~<span class="kw">poly</span>(x[ind],k)))
+    } )
+)
+<span class="kw">apply</span>(BootMat, <span class="dv">2</span>, mean)</code></pre></div>
+<pre><code>## [1] 311.5186 316.0324 305.9600 303.1222 304.7347 308.1959 305.3907</code></pre>
+<p>Искомые интервалы покажем на графике (рис. <a href="022-Resampling-Techniques.html#fig:fig-2-7">2.7</a>), подключив функцию <code>stat_summary()</code> из пакета <code>ggplot2</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(reshape) <span class="co"># для функции melt()</span>
+BootMat.df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">melt</span>(BootMat))
+<span class="kw">ggplot</span>(<span class="dt">data =</span> BootMat.df, <span class="kw">aes</span>(X2, value)) +
+<span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">width =</span> <span class="fl">0.1</span>), 
+                <span class="dt">alpha =</span> <span class="fl">0.2</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="co"># Добавляем средние значения в виде точек красного цвета:</span>
+<span class="st">    </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>,
+                 <span class="dt">size =</span> <span class="dv">5</span>)  +<span class="st"> </span>
+<span class="st">    </span><span class="co"># Добавляем отрезки, символизирующие 0.25 и 0.75 квантили:</span>
+<span class="st">    </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean,
+                 <span class="dt">fun.ymin =</span> function(x){<span class="kw">quantile</span>(x, <span class="dt">p =</span> <span class="fl">0.25</span>)},
+                 <span class="dt">fun.ymax =</span> function(x){<span class="kw">quantile</span>(x, <span class="dt">p =</span> <span class="fl">0.75</span>)},
+                 <span class="dt">geom =</span> <span class="st">&quot;errorbar&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;magenta&quot;</span>, <span class="dt">width =</span> <span class="fl">0.5</span>,
+                 <span class="dt">size =</span><span class="fl">1.5</span>) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Степень полинома&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Информационный критерий Байеса&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-2-7"></span>
+<img src="022-Resampling-Techniques_files/figure-html/fig-2-7-1.png" alt="Доверительные интервалы байесовского информационного критерия для разных степеней полинома" width="672" />
+<p class="caption">
+Рисунок 2.7: Доверительные интервалы байесовского информационного критерия для разных степеней полинома
+</p>
+</div>
+<p>Для оценки 95%-х доверительных интервалов методом процентилей достаточно установить значения <code>p = c(0.025, 0.975)</code> (мы это не сделали исключительно из эстетических соображений). Из результатов бутстрепа можно сделать содержательные выводы, например: если доверительные интервалы смежных степеней полинома будут пересекаться, то уменьшение BIC статистически незначимо и вполне можно ограничиться более простой моделью. Подробнее о различных возможностях ресэмплинга см. книгу В. Шитикова и Г. Розенберга (2014).</p>
 
 </div>
             </section>
@@ -267,8 +358,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="021-Model-Quality-Criteria.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="023-Models-for-Class-Prediction.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

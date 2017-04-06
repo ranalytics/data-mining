@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия, алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия, алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия, алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-03-23">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="052-Binary-Decision-Trees.html">
+<link rel="next" href="061-Binary-Classifiers.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных </a><ul>
+<li><a href="01-Data-Mining-Models-in-R.html#------data-mining"><em>От статистического анализа разового эксперимента к Data Mining</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#-----"><i class="fa fa-check"></i>Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#--"><i class="fa fa-check"></i>Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#-"><i class="fa fa-check"></i>Генетический алгоритм</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#------"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="" data-path="042-Regularization.html"><a href="042-Regularization.html#---"><i class="fa fa-check"></i>Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="" data-path="042-Regularization.html"><a href="042-Regularization.html#----pls"><i class="fa fa-check"></i>Метод частных наименьших квадратов (PLS)</a></li>
+<li><a href="042-Regularization.html#---k--">Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="" data-path="042-Regularization.html"><a href="042-Regularization.html#-------1"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#-----"><i class="fa fa-check"></i>Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#------"><i class="fa fa-check"></i>Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#-------2"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="" data-path="042-Regularization.html"><a href="042-Regularization.html#---"><i class="fa fa-check"></i>Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="" data-path="044-Ensembles.html"><a href="044-Ensembles.html#d091d183d181d182d0b8d0bdd0b3"><i class="fa fa-check"></i>Бустинг</a></li>
+<li class="chapter" data-level="" data-path="044-Ensembles.html"><a href="044-Ensembles.html#-------3"><i class="fa fa-check"></i>Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="052-Logic-Rules.html"><a href="052-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классфикаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Классификаторы с использованием нелинейных разделяющих поверхностей</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия, алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec_5_3" class="section level2">
+<h2><span class="header-section-number">5.3</span> Поиск логических закономерностей в данных</h2>
+<p>Основное требование к математическому аппарату Data Minning заключается не только в эффективности классификаторов, но и в интерпретируемости результатов. Методы поиска логических закономерностей в бинарных матрицах наблюдений (как и в некоторых классических методах многомерного анализа) апеллируют к информации, заключенной не в отдельных признаках, а в различных сочетаниях их значений. Для признаков, измеренных в альтернативных шкалах, их значения <span class="math inline">\(x_i = 0\)</span> или <span class="math inline">\(x_i = 1\)</span> рассматриваются как элементарные события, что позволяет сформулировать решающие правила на простом и понятном человеку языке логических высказываний, таких как <code>ЕСЛИ {(событие 1) и (событие 2) и ... и (событие N)} ТО ...</code>.</p>
+<p>Так, классификация лиц в рассмотренном примере рис. <a href="051-Association-Rules.html#fig:fig-5-1">5.1</a> может быть произведена, например, с помощью логических высказываний 1 и 2:</p>
+<ol style="list-style-type: decimal">
+<li><code>ЕСЛИ {(голова овальная) и (есть носогубная складка) и (есть очки) и (есть трубка)} ИЛИ {(глаза круглые) и (лоб без морщин) и (есть борода) и (есть серьга)} ТО (&quot;Патриот&quot;)</code></li>
+<li><code>ЕСЛИ {(нос круглый) и (лысый) и (есть усы) и (брови подняты кверху)} ИЛИ {(оттопыренные уши) и (толстые губы) и (нет родинки на щеке) и (есть бабочка)} ТО (&quot;Демократ&quot;)</code>.</li>
+</ol>
+<p>Математическая запись этих правил выглядит следующим образом: <span class="math inline">\([(x_1=0) \wedge (x_6=1) \wedge (x_{11}=1) \wedge (x_{16}=1)] \vee [(x_{4}=1) \wedge (x_{5}=0) \wedge (x_{10}=1) \wedge (x_{15}=1)] \Rightarrow \omega_1\)</span> <span class="math inline">\([(х_3=1) \wedge (х_8=0) \wedge (х_9=1) \wedge (х_{14}=1)] \vee [(х_2=1) \wedge (x_7=1) \wedge (х_{12}=0) \wedge (х_{13}=1)] \Rightarrow \omega_2\)</span>. Здесь значки <span class="math inline">\(\vee\)</span> - конъюнкция (“и”), <span class="math inline">\(\wedge\)</span> - дизъюнкция (“или”), <span class="math inline">\(\Rightarrow\)</span> - импликация (“если, то”).</p>
+<p>Будем использовать логический метод распознавания, известный под названием алгоритм “Кора”, который в свое время широко использовался в геологоразведочных работах и скрининге лекарственных препаратов (Бонгард, 1967; Вайнцвайг, 1973). В детерминистической версии алгоритма обучающая выборка <span class="math inline">\(\boldsymbol{x}\)</span>, предварительно разделенная на два класса (1 и 2), многократно просматривается и из всего множества высказываний выделяются так называемые непротиворечивые логические высказывания $(, ) $, покрывающие все множество примеров. Непротиворечивым высказыванием для каждого класса считается конъюнкция, которая встречается с вероятностью не менее <span class="math inline">\(\tau\)</span> только в одном классе и ни разу не встречается в другом.</p>
+<p>Представленный ниже скрипт выполняет перебор всех возможных комбинаций столбцов <span class="math inline">\(x_i\)</span>, <span class="math inline">\(i = 1, \dots, m = 16\)</span>, по 2, 3 и <code>maxKSize = 4</code> с использованием функции <code>combn()</code>. Для каждой комбинации столбцов перебираются все возможные варианты событий (<code>x_i = 0</code> или <code>x_i = 1</code>). Для сокращения объема вычислений подмножества исходной матрицы трансформировались в векторы символьных бинарных переменных, а комбинации значений <span class="math inline">\(x_i\)</span> выражались наборами “битовых масок” (например, <code>&quot;000&quot;</code>, <code>&quot;001&quot;</code>, <code>&quot;010&quot;</code>, <code>&quot;011&quot;</code>, <code>&quot;100&quot;</code>, <code>&quot;101&quot;</code>, <code>&quot;110&quot;</code>, <code>&quot;111&quot;</code>).</p>
+<p>В ходе перебора конъюнкции, отобранные по совокупности условий, будем сохранять в трех глобальных объектах класса <code>list</code>, для чего используем оператор глобального присваивания <code>&lt;&lt;-</code>. Определим предварительно несколько функций:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Преобразование числа в набор битов (5 -&gt; &quot;0101&quot;)</span>
+number2binchar &lt;-<span class="st"> </span>function(number, nBits) {
+    <span class="kw">paste</span>(<span class="kw">tail</span>(<span class="kw">rev</span>(<span class="kw">as.numeric</span>(<span class="kw">intToBits</span>(number))), nBits),
+          <span class="dt">collapse =</span> <span class="st">&quot;&quot;</span>)
+}
+
+<span class="co">#  Поиск конъюнкций по набору битовых масок </span>
+MaskCompare &lt;-<span class="st"> </span>function(Nclass, KSize, BitMask,
+                        vec_pos, vec_neg, ColCom) {
+    nK &lt;-<span class="st"> </span><span class="kw">sapply</span>(BitMask, function(x) {
+        if (<span class="kw">sum</span>(x ==<span class="st"> </span>vec_neg) &gt;<span class="st"> </span><span class="dv">0</span>) <span class="kw">return</span> (<span class="dv">0</span>)
+        if (minNum &gt;<span class="st"> </span>(<span class="dt">countK =</span> <span class="kw">sum</span>(x ==<span class="st"> </span>vec_pos))) <span class="kw">return</span>(<span class="dv">0</span>)
+        <span class="co">#  Cохранение конъюнкции в трех объектах list</span>
+        Value.list[[<span class="kw">length</span>(Value.list) +<span class="st"> </span><span class="dv">1</span>]] &lt;&lt;-
+<span class="st">            </span><span class="kw">list</span>(<span class="dt">Nclass =</span> Nclass, <span class="dt">KSize =</span> KSize, 
+                 <span class="dt">countK =</span> countK, <span class="dt">Bits =</span> x)
+        ColCom.list[[<span class="kw">length</span>(ColCom.list) +<span class="st"> </span><span class="dv">1</span>]] &lt;&lt;-<span class="st"> </span><span class="kw">list</span>(ColCom)
+        RowList.list[[<span class="kw">length</span>(RowList.list) +<span class="st"> </span><span class="dv">1</span>]] &lt;&lt;-
+<span class="st">            </span><span class="kw">list</span>(<span class="kw">which</span>(vec_pos %in%<span class="st"> </span>x))
+        <span class="kw">return</span>(countK) } )
+}</code></pre></div>
+<p>Зададим минимальную частоту встречаемости конъюнкций <code>minNum = 4</code> (т.е. <span class="math inline">\(\tau\)</span> = 50%) и выполним формирование всех логических правил для рассматриваемого примера:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DFace &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="dt">file =</span> <span class="st">&quot;data/Faces.txt&quot;</span>,
+                    <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)
+maxKSize &lt;-<span class="st"> </span><span class="dv">4</span>
+minNum &lt;-<span class="st"> </span><span class="dv">4</span>
+
+<span class="co">#  Списки для хранения результатов</span>
+Value.list &lt;-<span class="st"> </span><span class="kw">list</span>()   <span class="co"># Nclass, KSize, BitMask, countK</span>
+ColCom.list &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Наименования переменных ColCom</span>
+RowList.list &lt;-<span class="st"> </span><span class="kw">list</span>()  <span class="co"># Номера индексов строк RowList</span>
+
+<span class="co">#  Перебор конъюнкций разной длины</span>
+for (KSize in <span class="dv">2</span>:maxKSize) {
+    BitMask &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">0</span>:(<span class="dv">2</span>^KSize -<span class="st"> </span><span class="dv">1</span>),
+                      function(x) <span class="kw">number2binchar</span>(x, KSize))
+    cols &lt;-<span class="st">  </span><span class="kw">combn</span>(<span class="kw">colnames</span>(DFace[, -<span class="dv">17</span>]), KSize)
+    
+    for (i in <span class="dv">1</span>:<span class="kw">ncol</span>(cols))  {
+        SubArr &lt;-<span class="st"> </span>DFace[, (<span class="kw">names</span>(DFace) %in%<span class="st"> </span>cols[, i])]
+        vec1 &lt;-<span class="st"> </span><span class="kw">apply</span>(SubArr[DFace$Class ==<span class="st"> </span><span class="dv">1</span>, ],<span class="dv">1</span>,
+                      function(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;&quot;</span>))
+        vec2 &lt;-<span class="st"> </span><span class="kw">apply</span>(SubArr[DFace$Class ==<span class="st"> </span><span class="dv">2</span>,], <span class="dv">1</span>,
+                      function(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;&quot;</span>))
+        <span class="kw">MaskCompare</span>(<span class="dv">1</span>, KSize, BitMask, vec1, vec2, cols[, i])
+        <span class="kw">MaskCompare</span>(<span class="dv">2</span>, KSize, BitMask, vec2, vec1, cols[, i])
+    }
+}
+<span class="co">#  Создание результирующей таблицы</span>
+DFval =<span class="st"> </span><span class="kw">do.call</span>(rbind.data.frame, Value.list)
+nrow =<span class="st"> </span><span class="kw">length</span>(Value.list)
+DFvar &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">ncol =</span> maxKSize +<span class="st"> </span><span class="dv">1</span>, <span class="dt">nrow =</span> nrow,
+                              <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="dv">1</span>:nrow, <span class="kw">c</span>(
+                                  <span class="kw">paste</span>(<span class="st">&quot;L&quot;</span>, <span class="dv">1</span>:maxKSize, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>),
+                                  <span class="st">&quot;Объекты:&quot;</span>))))
+for (i in <span class="dv">1</span>:nrow) {
+    Varl &lt;-<span class="st"> </span><span class="kw">unlist</span>(ColCom.list[[i]])
+    DFvar[i, <span class="dv">1</span>:<span class="kw">length</span>( Varl)] &lt;-<span class="st"> </span>Varl
+    Objl &lt;-<span class="st"> </span><span class="kw">unlist</span>(RowList.list[[i]])
+    DFvar[i, maxKSize +<span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">paste</span>(Objl, <span class="dt">collapse =</span> <span class="st">&quot; &quot;</span>)
+}
+
+DFvar[<span class="kw">is.na</span>(DFvar)] &lt;-<span class="st"> &quot; &quot;</span>
+DFout &lt;-<span class="st"> </span><span class="kw">cbind</span>(DFval, DFvar)
+
+<span class="co">#  Вывод результатов</span>
+<span class="kw">print</span>(<span class="st">&quot;Конъюнкции класса 1&quot;</span>) </code></pre></div>
+<pre><code>## [1] &quot;Конъюнкции класса 1&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DFout[DFout$Nclass ==<span class="st"> </span><span class="dv">1</span>, ]</code></pre></div>
+<pre><code>##    Nclass KSize countK Bits L1  L2  L3  L4 Объекты:
+## 1       1     2      4   00 x2 x14          2 3 6 8
+## 2       1     2      4   00 x3  x7          1 3 5 7
+## 7       1     3      4  010 x2 x11 x14      2 3 6 8
+## 10      1     3      4  111 x4 x10 x15      2 5 7 8
+## 12      1     3      4  111 x6  x9 x11      1 3 6 8
+## 13      1     3      4  111 x6 x11 x16      1 3 4 6
+## 14      1     3      4  111 x9 x11 x13      1 3 6 8
+## 16      1     4      4 0111 x1  x6  x9 x11  1 3 6 8
+## 17      1     4      4 0111 x1  x6 x11 x16  1 3 4 6
+## 18      1     4      4 0111 x1  x9 x11 x13  1 3 6 8
+## 23      1     4      4 1011 x4  x5 x10 x15  2 5 7 8
+## 25      1     4      4 1111 x6  x9 x11 x13  1 3 6 8
+## 26      1     4      4 0101 x8  x9 x12 x13  1 6 7 8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&quot;Конъюнкции класса 2&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Конъюнкции класса 2&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DFout[DFout$Nclass ==<span class="st"> </span><span class="dv">2</span>, ] </code></pre></div>
+<pre><code>##    Nclass KSize countK Bits  L1  L2  L3  L4 Объекты:
+## 3       2     2      4   00  x6 x10          4 5 6 8
+## 4       2     2      4   00 x11 x15          1 3 5 7
+## 5       2     3      4  111  x2  x4  x7      5 6 7 8
+## 6       2     3      4  111  x2  x7 x13      2 5 7 8
+## 8       2     3      4  111  x3  x9 x14      1 3 4 6
+## 9       2     3      4  111  x4  x7 x16      5 6 7 8
+## 11      2     3      4  010  x6  x7 x10      4 5 6 8
+## 15      2     4      4 0101  x1  x4  x5 x16  1 6 7 8
+## 19      2     4      4 1110  x2  x4  x7 x12  5 6 7 8
+## 20      2     4      4 1111  x2  x4  x7 x16  5 6 7 8
+## 21      2     4      4 1101  x2  x7 x12 x13  2 5 7 8
+## 22      2     4      4 1011  x3  x8  x9 x14  1 3 4 6
+## 24      2     4      4 1101  x4  x7 x12 x16  5 6 7 8</code></pre>
+<p>Результат, содержащий логические высказывания для каждого класса (<code>Nclass</code>) будет выглядеть следующим образом, где <code>KSize</code> - длина коньюнкции, <code>Bits</code> - ее битовая маска, <code>L1</code>-<code>L4</code> - наименования исходных переменных, <code>countK</code> - встречаемость конъюнкции на объектах своего класса.</p>
+<p>Дальнейшая работа с выделенными логическими высказываниями сводится к следующему (реализация алгоритма в R находится в стадии доработки). Из генерируемого списка необходимо исключить подчиненные (или дочерние) конъюнкции, включающие более короткие претенденты: например, для класса 1 высказывание №7 является дочерним по отношению к конъюнкции №1 и должно было быть удалено. После такой операции поглощения ликвидируется избыточность решающего правила, в котором остаются конъюнкции минимального ранга, содержащие выделенные закономерности в концентрированной форме.</p>
+<p>Хорошим правилом было бы также исключить высказывания, которые по определенным критериям считаются “предрассудками”. К ним относятся конъюнкции, не связанные с объективным правилом классификации, но, в силу ограниченности выборки, получившие хорошие оценки на обучении. Для выделения признаков, склонных к предрассудкам, выполняют бутстреп-процедуру, в которой обучающая выборка многократно случайным образом разбивается на классы. Разбитая таким образом выборка является тестом, позволяющим присвоить каждому исходному признаку штрафные баллы за склонность к предрассудкам. Конъюнкции, набравшие сверхнормативное количество штрафных очков, из решающего правила исключаются.</p>
+<p>Описанием каждого класса является логическая сумма (дизъюнкция) некоторого количества непротиворечивых и продуктивных конъюнкций, прошедших описанные выше этапы отбора. Комбинация этих логических высказываний представляет собой своеобразную мозаично-фрагментарную разделяющую поверхность специального типа (в отличии, например, от линейной плоскости логита). Более общая версия алгоритма “Кора” предполагает выделение логических закономерностей для <span class="math inline">\(K\)</span> классов, <span class="math inline">\(K &gt; 2\)</span>. Среди конъюнкций выделяются те, которые верны на обучающей выборке чаще, чем некоторый порог 1, для одного из классов и не характерны для любого другого (верны реже, чем в доле случаев <span class="math inline">\(\tau_2\)</span>).</p>
+<p>Существует возможность использовать сгенерированные конъюнкции для экзамена тестируемых примеров по принципу голосования. Чтобы классифицировать новое наблюдение <span class="math inline">\(\boldsymbol{х}\)</span>, подсчитывается число отобранных конъюнкций <span class="math inline">\(L_k\)</span>, характерных для каждого <span class="math inline">\(k\)</span>-гo класса, которые верны для тестируемого бинарного вектора. Если <span class="math inline">\(L_k\)</span> является максимальным из всех, то принимается решение о принадлежности объекта <span class="math inline">\(k\)</span>-му классу.</p>
+<p>Алгоритм “Кора”, как и другие логические методы распознавания образов, является достаточно трудоемким, поскольку при отборе конъюнкций необходим полный или частично направленный перебор. Здесь может быть полезно использование процедур эволюционного поиска: генетический алгоритм (genetic algorithm), случайный поиск с адаптацией (СПА - см. книгу Г. С. Лбова, 1981 на сайте <a href="http://math.nsc.ru/AP/oteks/Russian/links/SPA/index.html">math.nsc.ru</a>) и др.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="052-Binary-Decision-Trees.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="061-Binary-Classifiers.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

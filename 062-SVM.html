@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="01-Data-Mining-Models-in-R.html">
+<link rel="prev" href="061-Binary-Classifiers.html">
+<link rel="next" href="063-Nonlinear-Borders.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -228,38 +228,146 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</h1>
-<h4 class="author"><em>Шитиков В. К., Мастицкий С. Э.</em></h4>
-<h4 class="date"><em>2017-04-06</em></h4>
+<div id="sec_6_2" class="section level2">
+<h2><span class="header-section-number">6.2</span> Дискриминантный анализ</h2>
+<p>Метод опорных векторов (support vector), называемый ранее алгоритмом “обобщенного портрета”, был разработан советскими математиками В. Н. Вапником и А. Я. Червоненкисом (1974) и с тех пор приобрел широкую популярность.</p>
+<p>Основная идея классификатора на опорных векторах заключается в том, чтобы строить разделяющую поверхность с использованием только небольшого подмножества точек, лежащих в зоне, критической для разделения, тогда как остальные верно классифицируемые наблюдения обучающей выборки вне этой зоны игнорируются (точнее, являются “резервуаром” для оптимизационного алгоритма).</p>
+<p>Если имеется два класса наблюдений и предполагается линейная форма границы между классами, то возможны два случая. Первый из них связан с возможностью идеального разделения данных при помощи некоторой гиперплоскости <span class="math inline">\(z_k(x) = \sum_{i=1}^p \beta_i x_i + \beta_0\)</span> (двумерный вариант представлен слева на рис. <a href="062-SVM.html#fig:fig-6-3">6.3</a>). Поскольку таких гиперплоскостей может быть множество, то оптимальной является разделяющая поверхность, которая максимально удалена от обучающих точек, т.е. имеющая максимальный зазор <span class="math inline">\(M\)</span> (margin).</p>
+<div class="figure" style="text-align: center"><span id="fig:fig-6-3"></span>
+<img src="figures/svm.png" alt="Классификаторы с минимальным зазором (слева) и на опорных векторах (справа)" width="720px" />
+<p class="caption">
+Рисунок 6.3: Классификаторы с минимальным зазором (слева) и на опорных векторах (справа)
+</p>
 </div>
-<p><img src="figures/cover_pic.jpg" width="480px" style="display: block; margin: auto;" /> <br> <br></p>
-<div id="d090d0bdd0bdd0bed182d0b0d186d0b8d18f" class="section level1 unnumbered">
-<h1>Аннотация</h1>
-<p><strong>Шитиков В. К., Мастицкий С. Э. (2017) Классификация, регрессия, алгоритмы Data Mining с использованием R. - Электронная книга, адрес доступа: <a href="https://github.com/ranalytics/data-mining" class="uri">https://github.com/ranalytics/data-mining</a></strong></p>
-<p><br> Описана широкая совокупность методов построения статистических моделей классификации и регрессии для откликов, измеренных в альтернативной, категориальной и метрической шкалах. Подробно рассматриваются деревья решений, машины опорных векторов с различными разделяющими поверхностями, нелинейные формы дискриминантного анализа, искусственные нейронные сети и т.д. Показана технология применения таких методов бутстреп-агрегирования деревьев решений, как бэггинг, случайный лес и бустинг. Представлены различные методы построения ансамблей моделей для коллективного прогнозирования. Особое внимание уделяется сравнительной оценке эффективности и поиску оптимальных областей значений гиперпараметров моделей с использованием пакета caret для статистической среды R. Рассматриваются такие алгоритмы Data Mining, как генерация ассоциативных правил и анализ последовательностей. Отдельная глава посвящена методам многомерной ординации данных и различным алгоритмам кластерного анализа.</p>
-<p>Описание методов статистического анализа сопровождается многочисленными примерами из различных областей на основе общедоступных исходных данных. Представлены несложные скрипты на языке R, дающие возможность читателю легко воспроизвести все расчеты.</p>
-<p>Книга может быть использована в качестве учебного пособия по статистическим методам для студентов и аспирантов высших учебных заведений.</p>
-<p><br> <br></p>
-<p><strong>Данная работа распространяется в рамках лицензии Creative Commons “Атрибуция - Некоммерческое использование - На тех же условиях 4.0 Всемирная”. Согласно этой лицензии, Вы можете свободно копировать, распространять и видоизменять данное произведение при условии точного указания его авторов и источника. При изменении этого произведения или использовании его в своих работах, Вы можете распространять результат только по такой же или подобной лицензии. Запрещается использовать эту работу в коммерческих целях без согласования с авторами. Более подробная информация о лицензии представлена на странице</strong> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru" class="uri">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ru</a></p>
-<p><br></p>
-<p><img src="figures/license.png" width="140px" style="display: block; margin: auto auto auto 0;" /></p>
-<p>© 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий<br />
-Иллюстрация на обложке худ. А. Банных (г. Владимир)</p>
-<p><br></p>
-<div align="right">
-<p><em>Контактная информация:</em></p>
-<p>В. К. Шитиков<br />
-Институт экологии Волжского бассейна РАН<br />
-г. Тольятти, ул. Комзина, 10<br />
-Самарская обл., 445003, Россия</p>
-<p>E-mail:<br />
-<a href="mailto:stok1946@gmail.com">stok1946@gmail.com</a>,<br />
-<a href="mailto:rtutorialsbook@gmail.com">rtutorialsbook@gmail.com</a></p>
-<p>Сайты авторов:<br />
-<a href="http://www.ievbras.ru/ecostat/Kiril" class="uri">http://www.ievbras.ru/ecostat/Kiril</a><br />
-<a href="http://r-analytics.blogspot.com" class="uri">http://r-analytics.blogspot.com</a></p>
-</div>
+<p>На рис. <a href="062-SVM.html#fig:fig-6-3">6.3</a> справа показан другой случай, когда облако точек перекрывается и оба класса линейно неразделимы. Собственно <em>опорными векторами</em> называются наблюдения, лежащие непосредственно на границе разделяющей полосы, либо на неправильной для своего класса стороне относительно границ зазора (такие точки отмечены <span class="math inline">\(\xi^*_J\)</span> на рис. 6.2). Для граничных и всех остальных точек принимается <span class="math inline">\(\xi^*_J = 0\)</span>.</p>
+<p>Оптимальную разделяющую гиперплоскость такого классификатора <span class="math inline">\(z_k(x) = \sum_{i=1}^p \beta_i x_i + \beta_0\)</span> также находят из условия максимизации ширины зазора <span class="math inline">\(M\)</span>, но при этом разрешается неверно классифицировать некоторую небольшую группу наблюдений, относящихся к опорным векторам. Для этого задаются дополнительным условием оптимизации <span class="math inline">\(\sum_j \leq \xi^*_J\)</span>, где <span class="math inline">\(C\)</span> - допустимое число нарушений границы зазора и их выраженность, которое обычно выбирается с использованием перекрестной проверки. Математически поиск решения сводится к удобной задаче квадратичной оптимизации с линейными ограничениями, которая гарантировано сходится к одному глобальному минимуму (Vapnik, 1995; Джеймс и др., 2016).</p>
+<p>Поскольку на расположение гиперплоскости оказывают влияние только те наблюдения, которые лежат на границах зазора или нарушают его, то решающее правило такого классификатора довольно устойчиво к выбросам большинства точек, расположенных вне “критической зоны” разделения. Это свойство отличает его от свойств других классификаторов. Например, разделяющая плоскость LDA на рис. <a href="061-Binary-Classifiers.html#fig:fig-6-2">6.2</a> проводится перпендикулярно дискриминационной функции <span class="math inline">\(z\)</span> и зависит от средних и ковариационной матрицы, вычисляемых по всем имеющимся наблюдениям.</p>
+<p>Для реализации метода опорных векторов в среде R обычно используется функция <code>svm()</code> из пакета <code>e1071</code>. Рассмотрим построение с помощью этой функции линейного классификатора для прогнозирования способа производства стекла по его химическому составу (см. разделы <a href="024-Projecting-Data-onto-a-Plane.html#sec_2_4">2.4</a>-<a href="025-MV-analysis.html#sec_2_5">2.5</a>, <a href="061-Binary-Classifiers.html#sec_6_1">6.1</a>). Для подбора параметров модели зададим перекрестную проверку с делением исходной выборки на 10 равных частей (<code>cross = 10</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;Glass.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>,
+                     <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass$FAC &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(DGlass$Class ==<span class="st"> </span><span class="dv">2</span>, <span class="st">&quot;C2&quot;</span>, <span class="st">&quot;C1&quot;</span>))
+svm.all &lt;-<span class="st">  </span><span class="kw">svm</span>(<span class="dt">formula =</span> FAC ~<span class="st"> </span>., <span class="dt">data =</span> DGlass[, -<span class="dv">10</span>], 
+                <span class="dt">cross =</span> <span class="dv">10</span>, <span class="dt">kernel =</span> <span class="st">&quot;linear&quot;</span>)  
+(<span class="kw">table</span>(Факт =<span class="st"> </span>DGlass$FAC, Прогноз =<span class="st"> </span><span class="kw">predict</span>(svm.all)))</code></pre></div>
+<pre><code>##     Прогноз
+## Факт C1 C2
+##   C1 72 15
+##   C2 27 49</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Acc =<span class="st"> </span><span class="kw">mean</span>(<span class="kw">predict</span>(svm.all) ==<span class="st"> </span>DGlass$FAC)
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=74.23%&quot;</code></pre>
+<p>Для подтверждения того, что <code>svm()</code> действительно проводила построение модели с применением кросс-проверки, выполним дополнительно скользящий контроль с использованием самостоятельно составленной функции:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#   Функция для вычисления ошибки перекрестной проверки  </span>
+<span class="kw">library</span>(e1071)    
+CVsvm &lt;-<span class="st"> </span>function(x, y) {
+    n &lt;-<span class="st"> </span><span class="kw">nrow</span>(x)
+    Err_S  &lt;-<span class="st"> </span><span class="dv">0</span> 
+    for(i in <span class="dv">1</span>:n) {
+        svm.temp &lt;-<span class="st"> </span><span class="kw">svm</span>(<span class="dt">x =</span> x[-i, ], <span class="dt">y =</span> y[-i],  <span class="dt">kernel =</span> <span class="st">&quot;linear&quot;</span>)
+        if (<span class="kw">predict</span>(svm.temp, <span class="dt">newdata =</span> x[i, ]) !=<span class="st"> </span>y[i]) 
+            Err_S &lt;-<span class="st"> </span>Err_S +<span class="st"> </span><span class="dv">1</span> }
+    Err_S/n }
+Acc &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span><span class="kw">CVsvm</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>], DGlass$FAC)
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Точность=71.17%&quot;</code></pre>
+<p>Ошибка предсказания не изменилась, поскольку перекрестная проверка уже выполнялась при построении модели.</p>
+<p>Определенным резервом повышения эффективности модели является выбор оптимального набора предикторов. Селекция переменных может быть выполнена несколькими способами:</p>
+<ul>
+<li>c помощью известной нам функции <code>stepclass()</code> из пакета <code>klaR</code>, но, в отличии от LDA, здесь необходимо использовать метод построения модели svmlight;</li>
+<li>c использованием алгоритма рекурсивного извлечения переменных SVM-RFE (Recursive Feature Extraction Algorithm; Guyon et al., 2002);</li>
+<li>на основе функций <code>penalizedSVM</code> или хорошо знакомого нам пакета <code>caret</code>.</li>
+</ul>
+<p>Для реализации функций <code>stepclass()</code> и <code>svmlight()</code> из пакета <code>klaR</code> необходимо скачать (<a href="http://svmlight.joachims.org" class="uri">http://svmlight.joachims.org</a>) и поместить в рабочую директорию бинарные исполняемые файлы метода <code>SVMlight</code> (Joachims, 1999), написанные на языке C (эти файлы включены в приложения к этой книге):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stepclass</span>(FAC ~<span class="st"> </span>., <span class="dt">data =</span> DGlass[, -<span class="dv">10</span>],
+          <span class="dt">method =</span> <span class="st">&quot;svmlight&quot;</span>, <span class="dt">pathsvm =</span> <span class="st">&quot;D:/R/SVMlight&quot;</span>)</code></pre></div>
+<p>Однако выполнение этой команды оказалось в наших условиях столь продолжительным, что мы не смогли продемонстрировать читателям эту возможность.</p>
+<p>Рекурсивное извлечение переменных SVM-RFE происходит с использованием специального критерия, оценивающего релевантность каждого предиктора по отношению к качеству полученного классификатора. Авторы метода (Guyon et al., 2002) написали и предоставили в открытый доступ (<a href="http://citeseer.ist.psu.edu" class="uri">http://citeseer.ist.psu.edu</a>) скрипт небольшой функции <code>svmrfeFeatureRanking()</code>, возвращающей ранжированный список переменных. Мы также включили файл с командами этой функции в наш набор скриптов, сопутствующих книге:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;scripts/SVM-RFE.r&quot;</span>)
+featureRankedList &lt;-<span class="st"> </span><span class="kw">svmrfeFeatureRanking</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>], DGlass$FAC)
+ErrSvm &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span>:<span class="dv">9</span>, function(nf)  {
+    svmModel &lt;-<span class="st"> </span><span class="kw">svm</span>(DGlass[, featureRankedList[<span class="dv">1</span>:nf]],
+                    DGlass$FAC, <span class="dt">kernel =</span> <span class="st">&quot;linear&quot;</span>) 
+    <span class="kw">mean</span>( <span class="kw">predict</span>(svmModel) !=<span class="st"> </span>DGlass$FAC )  }  )
+<span class="kw">data.frame</span>(<span class="dt">Index =</span> featureRankedList,
+           <span class="dt">NameFeat =</span> 
+               <span class="kw">names</span>(DGlass[, featureRankedList]), <span class="dt">ErrSvm =</span> ErrSvm)</code></pre></div>
+<p>Отметим, что метод опорных векторов слабо зависит от эффектов коллинеарности предикторов и, по сравнению с LDA, значительно меньше переменных было исключено из модели как малоинформативные. Построим гиперплоскость на основе 7 отобранных признаков:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DGlass.sel &lt;-<span class="st"> </span>DGlass[, <span class="kw">c</span>(featureRankedList[<span class="dv">1</span>:<span class="dv">7</span>], <span class="dv">11</span>)]
+(svm.sel &lt;-<span class="st"> </span><span class="kw">svm</span>(<span class="dt">formula =</span> FAC ~<span class="st"> </span>., <span class="dt">data =</span> DGlass.sel, <span class="dt">cross =</span> <span class="dv">10</span>,
+                <span class="dt">kernel =</span> <span class="st">&quot;linear&quot;</span>, <span class="dt">prob =</span> <span class="ot">TRUE</span>))
+<span class="kw">table</span>(Факт =<span class="st"> </span>DGlass.sel$FAC, Прогноз =<span class="st"> </span><span class="kw">predict</span>(svm.sel))
+Acc =<span class="st"> </span><span class="kw">mean</span>(<span class="kw">predict</span>(svm.all) ==<span class="st"> </span>DGlass$F )
+<span class="kw">paste</span>(<span class="st">&quot;Точность=&quot;</span>, <span class="kw">round</span>(<span class="dv">100</span>*Acc, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<p>Действительно, число правильно классифицированных образцов оказалось на 4 единицы больше, чем при полном наборе признаков.</p>
+<p>Рассмотрим процедуры селекции признаков и тестирования моделей с использованием пакета caret. Обратим внимание, что для построения модели опорных векторов здесь используется функция <code>svm()</code> из другого пакета - <code>kernlab</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">svmProfile &lt;-<span class="st"> </span><span class="kw">rfe</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>], DGlass$FAC, <span class="dt">sizes =</span> <span class="dv">2</span>:<span class="dv">9</span>,
+                  <span class="dt">rfeControl =</span> <span class="kw">rfeControl</span>(<span class="dt">functions =</span> caretFuncs,
+                                          <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>), <span class="dt">method =</span> <span class="st">&quot;svmLinear&quot;</span>)</code></pre></div>
+<p>Информативный набор предикторов, полученный методом рекурсивного исключения, состоит из 5 признаков.</p>
+<p>Выполним тестирование моделей на основе разного числа предикторов (9, 7 и 5) с использованием показателя AUC (площади под ROC-кривой - см. раздел <a href="024-Projecting-Data-onto-a-Plane.html#sec_2_4">2.4</a>), для чего в <code>trainControl()</code> зададим параметр <code>summaryFunction = twoClassSummary</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ctrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">repeats =</span> <span class="dv">5</span>,    
+                     <span class="dt">summaryFunction =</span> twoClassSummary, <span class="dt">classProbs =</span> <span class="ot">TRUE</span>)
+<span class="kw">print</span>(<span class="st">&quot; Модель на основе всех 9 предикторов &quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot; Модель на основе всех 9 предикторов &quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">train</span>(DGlass[, <span class="dv">1</span>:<span class="dv">9</span>], DGlass$FAC, <span class="dt">method =</span> <span class="st">&quot;svmLinear&quot;</span>,
+      <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>, <span class="dt">trControl =</span> ctrl) </code></pre></div>
+<pre><code>## Support Vector Machines with Linear Kernel 
+## 
+## 163 samples
+##   9 predictor
+##   2 classes: &#39;C1&#39;, &#39;C2&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold, repeated 5 times) 
+## Summary of sample sizes: 147, 147, 147, 146, 147, 146, ... 
+## Resampling results:
+## 
+##   ROC        Sens       Spec     
+##   0.7505109  0.7855556  0.5785714
+## 
+## Tuning parameter &#39;C&#39; was held constant at a value of 1
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&quot; Модель на основе 7 предикторов &quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot; Модель на основе 7 предикторов &quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">train</span>(DGlass[, <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>)], DGlass$FAC,
+      <span class="dt">method =</span> <span class="st">&quot;svmLinear&quot;</span>, <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>, <span class="dt">trControl =</span> ctrl)</code></pre></div>
+<pre><code>## Support Vector Machines with Linear Kernel 
+## 
+## 163 samples
+##   7 predictor
+##   2 classes: &#39;C1&#39;, &#39;C2&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold, repeated 5 times) 
+## Summary of sample sizes: 147, 147, 147, 146, 146, 147, ... 
+## Resampling results:
+## 
+##   ROC       Sens       Spec     
+##   0.766627  0.8041667  0.6267857
+## 
+## Tuning parameter &#39;C&#39; was held constant at a value of 1
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="st">&quot; Модель на основе 5 предикторов &quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot; Модель на основе 5 предикторов &quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">train</span>(DGlass[, <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">5</span>)], DGlass$FAC, <span class="dt">method =</span> <span class="st">&quot;svmLinear&quot;</span>,
+      <span class="dt">metric =</span> <span class="st">&quot;ROC&quot;</span>, <span class="dt">trControl =</span> ctrl)</code></pre></div>
+<pre><code>## Support Vector Machines with Linear Kernel 
+## 
+## 163 samples
+##   5 predictor
+##   2 classes: &#39;C1&#39;, &#39;C2&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold, repeated 5 times) 
+## Summary of sample sizes: 147, 147, 146, 147, 146, 148, ... 
+## Resampling results:
+## 
+##   ROC        Sens  Spec     
+##   0.7027629  0.78  0.5410714
+## 
+## Tuning parameter &#39;C&#39; was held constant at a value of 1
+## </code></pre>
+<p>Последняя модель на основе RFS-метода оказалась наименее качественной по AUC, но имеет наибольшую чувствительностью <code>Sens</code>.</p>
 
 </div>
             </section>
@@ -267,8 +375,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="01-Data-Mining-Models-in-R.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="061-Binary-Classifiers.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="063-Nonlinear-Borders.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>

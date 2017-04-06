@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Классификация, регрессия и другие алгоритмы Data Mining с использованием R</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Реализация алгоритмов Data Mining с использованием R">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://ranalytics.github.io/data-mining/" />
+  
+  <meta property="og:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  <meta name="github-repo" content="ranalytics/data-mining" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Классификация, регрессия и другие алгоритмы Data Mining с использованием R" />
+  
+  <meta name="twitter:description" content="Реализация алгоритмов Data Mining с использованием R" />
+  
+
+<meta name="author" content="Шитиков В. К., Мастицкий С. Э.">
+
+
+<meta name="date" content="2017-04-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="094-Ordination-Factors.html">
+<link rel="next" href="101-Partitioning-Algos.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Аннотация</a></li>
+<li class="chapter" data-level="1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html"><i class="fa fa-check"></i><b>1</b> Реализация моделей Data Mining в среде R (вместо предисловия)</a><ul>
+<li class="chapter" data-level="1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#section_1_1"><i class="fa fa-check"></i><b>1.1</b> Data Mining как направление анализа данных</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_1"><i class="fa fa-check"></i><b>1.1.1</b> От статистического анализа разового эксперимента к Data Mining</a></li>
+<li class="chapter" data-level="1.1.2" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_2"><i class="fa fa-check"></i><b>1.1.2</b> Принципиальная множественность моделей окружающего мира</a></li>
+<li class="chapter" data-level="1.1.3" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_3"><i class="fa fa-check"></i><b>1.1.3</b> Нарастающая множественность алгоритмов построения моделей</a></li>
+<li class="chapter" data-level="1.1.4" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_4"><i class="fa fa-check"></i><b>1.1.4</b> Типы и характеристики групп моделей Data Mining</a></li>
+<li class="chapter" data-level="1.1.5" data-path="01-Data-Mining-Models-in-R.html"><a href="01-Data-Mining-Models-in-R.html#sec_1_1_5"><i class="fa fa-check"></i><b>1.1.5</b> Природа многомерного отклика и его моделирование</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="012-R-Intro.html"><a href="012-R-Intro.html"><i class="fa fa-check"></i><b>1.2</b> Статистическая среда R и ее использование в Data Mining</a></li>
+<li class="chapter" data-level="1.3" data-path="013-What-This-Book-Is-About.html"><a href="013-What-This-Book-Is-About.html"><i class="fa fa-check"></i><b>1.3</b> О чем эта книга и чего в ней нет</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html"><i class="fa fa-check"></i><b>2</b> Статистические модели: критерии и методы оценивания их качества</a><ul>
+<li class="chapter" data-level="2.1" data-path="021-Model-Quality-Criteria.html"><a href="021-Model-Quality-Criteria.html#sec_2_1"><i class="fa fa-check"></i><b>2.1</b> Основные шаги построения и верификации моделей</a></li>
+<li class="chapter" data-level="2.2" data-path="022-Resampling-Techniques.html"><a href="022-Resampling-Techniques.html"><i class="fa fa-check"></i><b>2.2</b> Использование алгоритмов ресэмплинга для тестирования моделей и оптимизации их параметров</a></li>
+<li class="chapter" data-level="2.3" data-path="023-Models-for-Class-Prediction.html"><a href="023-Models-for-Class-Prediction.html"><i class="fa fa-check"></i><b>2.3</b> Модели для предсказания класса объектов</a></li>
+<li class="chapter" data-level="2.4" data-path="024-Projecting-Data-onto-a-Plane.html"><a href="024-Projecting-Data-onto-a-Plane.html"><i class="fa fa-check"></i><b>2.4</b> Проецирование многомерных данных на плоскости</a></li>
+<li class="chapter" data-level="2.5" data-path="025-MV-analysis.html"><a href="025-MV-analysis.html"><i class="fa fa-check"></i><b>2.5</b> Многомерный статистический анализ данных</a></li>
+<li class="chapter" data-level="2.6" data-path="026-Clustering-Methods.html"><a href="026-Clustering-Methods.html"><i class="fa fa-check"></i><b>2.6</b> Методы кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html"><i class="fa fa-check"></i><b>3</b> Пакет <code>caret</code> - инструмент построения статистических моделей в R</a><ul>
+<li class="chapter" data-level="3.1" data-path="031-Intro-to-Caret.html"><a href="031-Intro-to-Caret.html#---------caret"><i class="fa fa-check"></i><b>3.1</b> Универсальный интерфейс доступа к функциям машинного обучения в пакете <code id="sec_3_1">caret</code></a></li>
+<li class="chapter" data-level="3.2" data-path="032-Removing-Predictors.html"><a href="032-Removing-Predictors.html"><i class="fa fa-check"></i><b>3.2</b> Обнаружение и удаление “ненужных” предикторов</a></li>
+<li class="chapter" data-level="3.3" data-path="033-Preprocessing.html"><a href="033-Preprocessing.html"><i class="fa fa-check"></i><b>3.3</b> Предварительная обработка: преобразование и групповая трансформация переменных</a></li>
+<li class="chapter" data-level="3.4" data-path="034-Handling-Missing-Values.html"><a href="034-Handling-Missing-Values.html"><i class="fa fa-check"></i><b>3.4</b> Заполнение пропущенных значений в данных</a></li>
+<li class="chapter" data-level="3.5" data-path="035-The-train-Functions.html"><a href="035-The-train-Functions.html"><i class="fa fa-check"></i><b>3.5</b> Функция <code>train()</code> из пакета <code id="sec_3_5">caret</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html"><i class="fa fa-check"></i><b>4</b> Построение регрессионных моделей различного типа</a><ul>
+<li class="chapter" data-level="4.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1"><i class="fa fa-check"></i><b>4.1</b> Селекция оптимального набора предикторов линейной модели</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_1"><i class="fa fa-check"></i><b>4.1.1</b> Полная регрессионная модель и пошаговая процедура</a></li>
+<li class="chapter" data-level="4.1.2" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_2"><i class="fa fa-check"></i><b>4.1.2</b> Рекурсивное исключение переменных</a></li>
+<li class="chapter" data-level="4.1.3" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_3"><i class="fa fa-check"></i><b>4.1.3</b> Генетический алгоритм</a></li>
+<li class="chapter" data-level="4.1.4" data-path="041-Regression-Models.html"><a href="041-Regression-Models.html#sec_4_1_4"><i class="fa fa-check"></i><b>4.1.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="042-Regularization.html"><a href="042-Regularization.html"><i class="fa fa-check"></i><b>4.2</b> Регуляризация, частные наименьшие квадраты и kNN-регрессия</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_1"><i class="fa fa-check"></i><b>4.2.1</b> Регрессия по методу “лассо”</a></li>
+<li class="chapter" data-level="4.2.2" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_2"><i class="fa fa-check"></i><b>4.2.2</b> Метод частных наименьших квадратов (PLS)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_3"><i class="fa fa-check"></i><b>4.2.3</b> Регрессия по методу <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="4.2.4" data-path="042-Regularization.html"><a href="042-Regularization.html#sec_4_2_4"><i class="fa fa-check"></i><b>4.2.4</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html"><i class="fa fa-check"></i><b>4.3</b> Построение деревьев регрессии</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_1"><i class="fa fa-check"></i><b>4.3.1</b> Построение деревьев на основе рекурсивного разбиения</a></li>
+<li class="chapter" data-level="4.3.2" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_2"><i class="fa fa-check"></i><b>4.3.2</b> Построение деревьев с использованием алгортма условного вывода</a></li>
+<li class="chapter" data-level="4.3.3" data-path="043-Decision-Trees.html"><a href="043-Decision-Trees.html#sec_4_3_3"><i class="fa fa-check"></i><b>4.3.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="044-Ensembles.html"><a href="044-Ensembles.html"><i class="fa fa-check"></i><b>4.4</b> Ансамбли моделей: бэггинг, случайные леса, бустинг</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_1"><i class="fa fa-check"></i><b>4.4.1</b> Бэггинг и случайные леса</a></li>
+<li class="chapter" data-level="4.4.2" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_2"><i class="fa fa-check"></i><b>4.4.2</b> Бустинг</a></li>
+<li class="chapter" data-level="4.4.3" data-path="044-Ensembles.html"><a href="044-Ensembles.html#sec_4_4_3"><i class="fa fa-check"></i><b>4.4.3</b> Тестирование моделей с использованием дополнительного набора данных</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="045-Comparing-Trees.html"><a href="045-Comparing-Trees.html"><i class="fa fa-check"></i><b>4.5</b> Сравнение построенных моделей и оценка информативности предикторов</a></li>
+<li class="chapter" data-level="4.6" data-path="046-MV-Trees.html"><a href="046-MV-Trees.html"><i class="fa fa-check"></i><b>4.6</b> Деревья регрессии с многомерным откликом</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html"><i class="fa fa-check"></i><b>5</b> Бинарные матрицы и ассоциативные правила</a><ul>
+<li class="chapter" data-level="5.1" data-path="051-Association-Rules.html"><a href="051-Association-Rules.html#sec_5_1"><i class="fa fa-check"></i><b>5.1</b> Классификация в бинарных пространствах с использованием классических моделей</a></li>
+<li class="chapter" data-level="5.2" data-path="052-Binary-Decision-Trees.html"><a href="052-Binary-Decision-Trees.html"><i class="fa fa-check"></i><b>5.2</b> Бинарные деревья решений</a></li>
+<li class="chapter" data-level="5.3" data-path="053-Logic-Rules.html"><a href="053-Logic-Rules.html"><i class="fa fa-check"></i><b>5.3</b> Поиск логических закономерностей в данных</a></li>
+<li class="chapter" data-level="5.4" data-path="054-Association-Rules-Algos.html"><a href="054-Association-Rules-Algos.html"><i class="fa fa-check"></i><b>5.4</b> Алгоритмы выделения ассоциативных правил</a></li>
+<li class="chapter" data-level="5.5" data-path="055-Traminer.html"><a href="055-Traminer.html"><i class="fa fa-check"></i><b>5.5</b> Анализ последовательностей знаков или событий</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html"><i class="fa fa-check"></i><b>6</b> Бинарные классификаторы с различными разделяющими поверхностями</a><ul>
+<li class="chapter" data-level="6.1" data-path="061-Binary-Classifiers.html"><a href="061-Binary-Classifiers.html#sec_6_1"><i class="fa fa-check"></i><b>6.1</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.2" data-path="062-SVM.html"><a href="062-SVM.html"><i class="fa fa-check"></i><b>6.2</b> Дискриминантный анализ</a></li>
+<li class="chapter" data-level="6.3" data-path="063-Nonlinear-Borders.html"><a href="063-Nonlinear-Borders.html"><i class="fa fa-check"></i><b>6.3</b> Ядерные функции машины опорных векторов</a></li>
+<li class="chapter" data-level="6.4" data-path="064-Classification-Trees.html"><a href="064-Classification-Trees.html"><i class="fa fa-check"></i><b>6.4</b> Деревья классификации, случайный лес и логистическая регрессия</a></li>
+<li class="chapter" data-level="6.5" data-path="065-Comparing-Classifiers.html"><a href="065-Comparing-Classifiers.html"><i class="fa fa-check"></i><b>6.5</b> Процедуры сравнения эффективности моделей классификации</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html"><i class="fa fa-check"></i><b>7</b> Модели классификации для нескольких классов</a><ul>
+<li class="chapter" data-level="7.1" data-path="071-Multiclass-Classification.html"><a href="071-Multiclass-Classification.html#sec_7_1"><i class="fa fa-check"></i><b>7.1</b> Ирисы Фишера и метод <em>k</em> ближайших соседей</a></li>
+<li class="chapter" data-level="7.2" data-path="072-NBC.html"><a href="072-NBC.html"><i class="fa fa-check"></i><b>7.2</b> Наивный байесовский классификатор</a></li>
+<li class="chapter" data-level="7.3" data-path="073-In-Discriminant-Space.html"><a href="073-In-Discriminant-Space.html"><i class="fa fa-check"></i><b>7.3</b> Классификация в линейном дискриминантном пространстве</a></li>
+<li class="chapter" data-level="7.4" data-path="074-Nonlinear-Classifiers.html"><a href="074-Nonlinear-Classifiers.html"><i class="fa fa-check"></i><b>7.4</b> Нелинейные классификаторы в R</a></li>
+<li class="chapter" data-level="7.5" data-path="075-Multinomial-Logit.html"><a href="075-Multinomial-Logit.html"><i class="fa fa-check"></i><b>7.5</b> Модель мультиномиального логита</a></li>
+<li class="chapter" data-level="7.6" data-path="076-NN.html"><a href="076-NN.html"><i class="fa fa-check"></i><b>7.6</b> Классификаторы на основе искусственных нейронных сетей</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html"><i class="fa fa-check"></i><b>8</b> Моделирование порядковых и счетных переменных</a><ul>
+<li class="chapter" data-level="8.1" data-path="081-Logit-for-Count.html"><a href="081-Logit-for-Count.html#sec_8_1"><i class="fa fa-check"></i><b>8.1</b> Модель логита для порядковой переменной</a></li>
+<li class="chapter" data-level="8.2" data-path="082-NN-with-Caret.html"><a href="082-NN-with-Caret.html"><i class="fa fa-check"></i><b>8.2</b> Настройка параметров нейронных сетей средствами пакета <code id="sec_8_2">caret</code></a></li>
+<li class="chapter" data-level="8.3" data-path="083-Model-Complexes.html"><a href="083-Model-Complexes.html"><i class="fa fa-check"></i><b>8.3</b> Методы комплексации модельных прогнозов</a></li>
+<li class="chapter" data-level="8.4" data-path="084-GLM-for-Counts.html"><a href="084-GLM-for-Counts.html"><i class="fa fa-check"></i><b>8.4</b> Обобщенные линейные модели для счетных данных</a></li>
+<li class="chapter" data-level="8.5" data-path="085-ZIP-for-Counts.html"><a href="085-ZIP-for-Counts.html"><i class="fa fa-check"></i><b>8.5</b> ZIP- и барьерные модели счетных данных</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html"><i class="fa fa-check"></i><b>9</b> Методы многомерной ординации</a><ul>
+<li class="chapter" data-level="9.1" data-path="091-Data-Transformation.html"><a href="091-Data-Transformation.html#sec_9_1"><i class="fa fa-check"></i><b>9.1</b> Преобразование данных и вычисление матрицы расстояний</a></li>
+<li class="chapter" data-level="9.2" data-path="092-Distance-ANOVA.html"><a href="092-Distance-ANOVA.html"><i class="fa fa-check"></i><b>9.2</b> Непараметрический дисперсионный анализ матриц дистанций</a></li>
+<li class="chapter" data-level="9.3" data-path="093-Comparing-Diagrams.html"><a href="093-Comparing-Diagrams.html"><i class="fa fa-check"></i><b>9.3</b> Методы ординации объектов и переменных: построение и сравнение диаграмм</a></li>
+<li class="chapter" data-level="9.4" data-path="094-Ordination-Factors.html"><a href="094-Ordination-Factors.html"><i class="fa fa-check"></i><b>9.4</b> Оценка связи ординации с внешними факторами</a></li>
+<li class="chapter" data-level="9.5" data-path="095-NMDS.html"><a href="095-NMDS.html"><i class="fa fa-check"></i><b>9.5</b> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html"><i class="fa fa-check"></i><b>10</b> Кластерный анализ</a><ul>
+<li class="chapter" data-level="10.1" data-path="101-Partitioning-Algos.html"><a href="101-Partitioning-Algos.html#sec_10_1"><i class="fa fa-check"></i><b>10.1</b> Алгоритмы кластеризации, основанные на разделении</a></li>
+<li class="chapter" data-level="10.2" data-path="102-H-Clustering.html"><a href="102-H-Clustering.html"><i class="fa fa-check"></i><b>10.2</b> Иерархическая кластеризация</a></li>
+<li class="chapter" data-level="10.3" data-path="103-Clustering-Quality.html"><a href="103-Clustering-Quality.html"><i class="fa fa-check"></i><b>10.3</b> Оценка качества кластеризации</a></li>
+<li class="chapter" data-level="10.4" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html"><i class="fa fa-check"></i><b>10.4</b> Другие алгоритмы кластеризации</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_1"><i class="fa fa-check"></i><b>10.4.1</b> Иерархическая кластеризация на главные компоненты</a></li>
+<li class="chapter" data-level="10.4.2" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_2"><i class="fa fa-check"></i><b>10.4.2</b> Метод нечетких <em>k</em> средних (fuzzy analysis clustering)</a></li>
+<li class="chapter" data-level="10.4.3" data-path="104-Other-Clustering-Methods.html"><a href="104-Other-Clustering-Methods.html#sec_10_4_3"><i class="fa fa-check"></i><b>10.4.3</b> Статистическая модель кластеризации</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="105-Cohonen-Maps.html"><a href="105-Cohonen-Maps.html"><i class="fa fa-check"></i><b>10.5</b> Самоорганизующиеся карты Кохонена</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html"><i class="fa fa-check"></i><b>11</b> <code>rattle</code>: графический интерфейс R для реализации алгоритмов Data Mining</a><ul>
+<li class="chapter" data-level="11.1" data-path="111-Rattle-Intro.html"><a href="111-Rattle-Intro.html#----rattle"><i class="fa fa-check"></i><b>11.1</b> Начало работы с пакетом <code id="sec_11_1">rattle</code></a></li>
+<li class="chapter" data-level="11.2" data-path="112-Descriptive-Stats.html"><a href="112-Descriptive-Stats.html"><i class="fa fa-check"></i><b>11.2</b> Описательная статистика и визуализация данных</a></li>
+<li class="chapter" data-level="11.3" data-path="113-Model-Building.html"><a href="113-Model-Building.html"><i class="fa fa-check"></i><b>11.3</b> Построение и тестирование моделей классификации</a></li>
+<li class="chapter" data-level="11.4" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html"><i class="fa fa-check"></i><b>11.4</b> Дескриптивные модели (обучение без учителя)</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_1"><i class="fa fa-check"></i><b>11.4.1</b> Кластерный анализ</a></li>
+<li class="chapter" data-level="11.4.2" data-path="114-Descriptive-Models.html"><a href="114-Descriptive-Models.html#sec_11_4_2"><i class="fa fa-check"></i><b>11.4.2</b> Ассоциативные правила</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="120-References.html"><a href="120-References.html"><i class="fa fa-check"></i><b>12</b> Список рекомендуемой литературы</a></li>
+<li class="chapter" data-level="" data-path="130-Appendix.html"><a href="130-Appendix.html"><i class="fa fa-check"></i>Приложение: cправочная карта по Data Mining с использованием R</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Классификация, регрессия и другие алгоритмы Data Mining с использованием R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sec_9_5" class="section level2">
+<h2><span class="header-section-number">9.5</span> Неметрическое многомерное шкалирование и построение распределения чувствительности видов</h2>
+<p>Перспективным методом ординации, находящим все большее применение в различных предметных областях, является алгоритм неметрического многомерного шкалирования (NMDS, nonmetric multidimensional scaling – Краскел, 1986; McCune, Grace, 2002). Его главным преимуществом является то, что он не требует от исходных данных никаких априорных предположений о характере статистического распределения. Считается, что этот метод дает наиболее адекватные результаты, особенно для больших матриц с сильными “шумами”.</p>
+<p>Неметрическое шкалирование, как и метод главных координат, использует произвольную матрицу дистанций <span class="math inline">\(\mathbf{D}\)</span> и ставит задачу создать такую двумерную проекцию изучаемых объектов, на которой взаимные расстояния между этими объектами оказались бы наименее искажены по сравнению с исходным состоянием <span class="math inline">\(\mathbf{D}\)</span>. Главные оси геометрической метафоры данных в пространстве меньшей размерности обычно находят путем выполнения последовательности итераций для минимизации критерия <span class="math inline">\(\Delta\)</span>, оценивающего меру расхождений между исходной и моделируемой матрицами расстояний. Для этого обычно используют величину “стресса”:</p>
+<p><span class="math display">\[\Delta = \sum_{i,j=1}^n d_{ij}^{\alpha} |\hat{d}_{ij} - d_{ij}|^{\beta},\]</span></p>
+<p>где <span class="math inline">\(d_{ij}\)</span> и <span class="math inline">\(\hat{d}_{ij}\)</span> - расстояния между объектами <span class="math inline">\(i\)</span> и <span class="math inline">\(j\)</span> в исходном и редуцированном пространствах, <span class="math inline">\(\alpha\)</span> и <span class="math inline">\(\beta\)</span> - задаваемые коэффициенты.</p>
+<p>Пакет <code>vegan</code> содержит ряд функций для проведения расчетов методом NMDS и построения объясняющих ординаций. Рассмотрим пример, включающий наборы данных <code>varespec</code> и <code>varechem</code>, которые использовались нами в предыдущем разделе для ординации каноническим методом CCA, основанным на линейных преобразованиях. На первом этапе определим наилучшую метрику расстояния, рассчитав для каждого из ее вариантов коэффициент корреляции Спирмена между двумя матрицами дистанций (в пространствах видов растительности и химического состава почвы). Эту операцию выполняет функция <code>rankindex()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vegan)
+<span class="kw">data</span>(varechem)
+<span class="kw">data</span>(varespec)
+varespec.chi &lt;-<span class="st"> </span><span class="kw">decostand</span>(varespec, <span class="dt">method =</span> <span class="st">&quot;chi.square&quot;</span>)
+<span class="co"># Коэффициенты корреляции Спирмена для различных метрик </span>
+<span class="kw">rankindex</span>(varechem, varespec.chi, <span class="kw">c</span>(<span class="st">&quot;euc&quot;</span>, <span class="st">&quot;man&quot;</span>, <span class="st">&quot;bray&quot;</span>, <span class="st">&quot;jac&quot;</span>, <span class="st">&quot;kul&quot;</span>))</code></pre></div>
+<pre><code>##       euc       man      bray       jac       kul 
+## 0.2228233 0.1894385 0.3022988 0.3022988 0.3071600</code></pre>
+<p>Используем для расчета матрицы дистанций формулу Кульчицкого. Далее функция metaMDS() осуществляет неметрическое шкалирование и минимизацию стресса <span class="math inline">\(\Delta\)</span>, а функция <code>envfit()</code> - расчет коэффициентов корреляции каждого из показателей химического состава почвы с осями ординации <code>NMDS1</code>-<code>NMDS2</code> и оценку статистической значимости <span class="math inline">\(p\)</span> этих коэффициентов на основе перестановочного теста. Функция <code>MDSrotate()</code> вращает систему координат таким образом, чтобы совместить ось <code>NMDS1</code>, например, с осью концентрации алюминия:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vare.mds &lt;-<span class="st"> </span><span class="kw">metaMDS</span>(varespec,<span class="dt">distance =</span> <span class="st">&quot;kul&quot;</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span>) 
+ord.mds &lt;-<span class="st"> </span><span class="kw">MDSrotate</span>(vare.mds, varechem$Al)
+<span class="kw">set.seed</span>(<span class="dv">2</span>)
+ef &lt;-<span class="st"> </span><span class="kw">envfit</span>(vare.mds, varechem, <span class="dt">permu =</span> <span class="dv">999</span>)</code></pre></div>
+<p>Построим ординационные диаграммы с использованием стандартных графических средств R (как это можно сделать на основе <code>ggplot2</code> см. &lt;github.com/gavinsimpson/ggvegan&gt;, <a href="http://chrischizinski.github.io/rstats/2014/04/13/vegan-ggplot2">chrischizinski.github.io</a> или <a href="http://stackoverflow.com/questions/14711470/plotting-envfit-vectors-vegan-package-in-ggplot2">stackoverflow.com</a>). Первая диаграмма (рис. <a href="095-NMDS.html#fig:fig-9-13">9.13</a>) включает ординацию площадок и оси девяти внешних факторов, для которых <span class="math inline">\(p &lt; 0.1\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(vare.mds, <span class="dt">type =</span> <span class="st">&quot;t&quot;</span>, <span class="dt">disp =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">font =</span> <span class="dv">2</span>)  
+<span class="kw">points</span>(vare.mds, <span class="dt">disp =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">cex =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">3</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">3</span>)
+<span class="kw">plot</span>(ef, <span class="dt">p.max =</span> <span class="fl">0.1</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">font =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">cex =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-13"></span>
+<img src="095-NMDS_files/figure-html/fig-9-13-1.png" alt="Ординация площадок, полученная методом NMDS" width="576" />
+<p class="caption">
+Рисунок 9.13: Ординация площадок, полученная методом NMDS
+</p>
+</div>
+<p>Прежде чем построить вторую диаграмму, для концентрации <span class="math inline">\(y_{хэ}\)</span> в почве того или иного химического компонента по его эмпирическим значениям для каждой площадки подгонялись обобщенные аддитивные модели (Wood, 2006):</p>
+<p><span class="math display">\[y_{хэ} = s(\nu_1, \nu_2) + \epsilon, \quad (9.4)\]</span></p>
+<p>где <span class="math inline">\(s\)</span> - функция двумерного сплайна с <span class="math inline">\(k\)</span> степенями свободы от NMDS-координат <span class="math inline">\(\nu_1\)</span> и <span class="math inline">\(\nu_2\)</span>. Построение этой модели осуществляется функцией <code>ordisurf()</code>, которая параллельно отрисовывает изолинии трехмерной сглаживающей поверхности на ординационной диаграмме.</p>
+<p>Обратим особое внимание на отличие описываемого метода от обычных пространственных моделей кригинга в естественных географических координатах, которые сильно подвержены случайным флуктуациям свойств рельефа. Построение моделей сглаживания по проекциям матрицы отклика на плоскость с абстрактными осями, непосредственно связанными с изучаемой экологической структурой, обеспечивает получение более гладких и устойчивых поверхностей.</p>
+<p>На рис. <a href="095-NMDS.html#fig:fig-9-14">9.14</a> показано, как на ординацию видов растительности могут быть наложены изолинии по моделям сглаживания содержания <code>Al</code> и <code>Ca</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(vare.mds,  <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>) 
+<span class="kw">ordipointlabel</span>(vare.mds, <span class="dt">display =</span> <span class="st">&quot;sp&quot;</span>, <span class="dt">font =</span> <span class="dv">4</span>, <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">3</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">3</span>)
+<span class="kw">with</span>(varechem, <span class="kw">ordisurf</span>(vare.mds, Al, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="dv">2</span>))</code></pre></div>
+<pre><code>## 
+## Family: gaussian 
+## Link function: identity 
+## 
+## Formula:
+## y ~ s(x1, x2, k = 10, bs = &quot;tp&quot;, fx = FALSE)
+## 
+## Estimated degrees of freedom:
+## 4.77  total = 5.77 
+## 
+## REML score: 139.4294</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(varechem, <span class="kw">ordisurf</span>(vare.mds, Ca, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="dv">4</span>))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-14"></span>
+<img src="095-NMDS_files/figure-html/fig-9-14-1.png" alt="Ординация видов методом NMDS и изолинии сглаживающих поверхностей для `Al` и `Ca`" width="576" />
+<p class="caption">
+Рисунок 9.14: Ординация видов методом NMDS и изолинии сглаживающих поверхностей для <code>Al</code> и <code>Ca</code>
+</p>
+</div>
+<pre><code>## 
+## Family: gaussian 
+## Link function: identity 
+## 
+## Formula:
+## y ~ s(x1, x2, k = 10, bs = &quot;tp&quot;, fx = FALSE)
+## 
+## Estimated degrees of freedom:
+## 4.72  total = 5.72 
+## 
+## REML score: 156.6547</code></pre>
+<p>Вероятно, можно предположить (по крайней мере, в рамках имеющейся выборки), что каждая точка ординации, соответствующая тому или иному виду, определяет координаты наилучших природных условий существования этого вида, а прогнозное значение модели (9.4) оценивает его экологический оптимум по сглаживаемому фактору. Функция <code>calibrate(mod, newdata)</code>, аналогичная функции <code>predict()</code>, осуществляет с использованием модели mod вычисление для произвольной таблицы newdata прогнозных значений и их стандартных ошибок <code>se.fit</code>.</p>
+<p>Оценим экологические оптимумы <code>val</code> содержания алюминия <code>Al</code> в почве для каждого обнаруженного вида растительности. Вычислим также верхние 95%-ные доверительные границы предсказания <code>valC</code> по формуле <code>valC = val + tc*se.fit</code>, где <code>tc</code> - квантиль распределения Стьюдента при <span class="math inline">\(\alpha = 95\%\)</span>. Чтобы блокировать появление отрицательных значений, значение внешнего фактора предварительно прологарифмируем.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Al.log &lt;-<span class="st"> </span><span class="kw">log</span>(varechem$Al)
+fit.Al &lt;-<span class="st"> </span><span class="kw">ordisurf</span>(vare.mds, Al.log, <span class="dt">plot =</span> <span class="ot">FALSE</span>)
+a &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(vare.mds$species)
+Sp.Al &lt;-<span class="st"> </span><span class="kw">cbind</span>(a, <span class="kw">calibrate</span>(fit.Al, <span class="dt">newdata =</span> a, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>))
+Sp.Al$val &lt;-<span class="st"> </span><span class="kw">exp</span>(Sp.Al$fit)
+tc &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, <span class="kw">nrow</span>(Sp.Al) -<span class="st"> </span><span class="dv">1</span>)
+Sp.Al$valC &lt;-<span class="st"> </span><span class="kw">exp</span>(Sp.Al$fit) +<span class="st"> </span><span class="kw">exp</span>(Sp.Al$se.fit)*tc
+<span class="kw">head</span>(Sp.Al)</code></pre></div>
+<pre><code>##                 MDS1        MDS2      fit    se.fit        val      valC
+## Callvulg -0.14394845 -0.05558775 4.994819 0.1895819 147.646179 150.08384
+## Empenigr  0.01355070  0.06669567 4.667149 0.1949377 106.394015 108.84477
+## Rhodtome  0.88525555 -0.08405623 2.137824 0.5238554   8.480966  11.88620
+## Vaccmyrt  0.71804957 -0.08029688 2.509319 0.4298838  12.296553  15.39637
+## Vaccviti  0.02603872  0.08769089 4.656761 0.2004028 105.294429 107.75861
+## Pinusylv -0.01228925  0.31966150 5.090535 0.2580998 162.476707 165.08725</code></pre>
+<p>Одним из методов нормирования техногенных загрязнений на исследуемой территории является построение статистических моделей распределения чувствительности видов SSD (Species Sensitivity Distribution; Posthuma et al., 2001). Кривая SSD рассчитывается как интегральная функция некоторого теоретического распределения плотности вероятности встречаемости видов, параметры которого оцениваются по выборке того или иного показателя жизнедеятельности таксономических групп (чаще всего для этого используются показатели токсикометрии <span class="math inline">\(NOEC\)</span>, <span class="math inline">\(DС_{50}\)</span>, <span class="math inline">\(LС_{50}\)</span> и т.д.).</p>
+<p>Поскольку для травянистых растений параметры токсичности отсутствуют, то в качестве предположительно опасных значений содержания алюминия в почве для <span class="math inline">\(j\)</span>-го вида примем настолько большие его величины, которые маловероятны в рамках сглаживающей модели GAM, т.е. столбец <code>valC</code> сформированной таблицы <code>Sp.Al</code>. Если отсортировать этот показатель по его величине, то функция <code>ppoints()</code> сгенерирует последовательность эмпирических вероятностей <code>frac</code>, т.е. долю значений <code>valC</code>, которые не превышают величину <code>valC</code> для каждого <span class="math inline">\(j\)</span>-го вида.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Сортировка по возрастанию val </span>
+df &lt;-<span class="st"> </span>Sp.Al[, <span class="dv">5</span>:<span class="dv">6</span>]
+df &lt;-<span class="st"> </span>df[<span class="kw">order</span>(df$val), ]
+df$frac &lt;-<span class="st"> </span><span class="kw">ppoints</span>(df$val, <span class="fl">0.5</span>)
+<span class="kw">head</span>(df)</code></pre></div>
+<pre><code>##                val      valC       frac
+## Hylosple  5.384064  8.998957 0.01136364
+## Nepharct  6.286644 10.508728 0.03409091
+## Descflex  6.968646 10.326709 0.05681818
+## Rhodtome  8.480966 11.886201 0.07954545
+## Polycomm 10.540915 13.629360 0.10227273
+## Vaccmyrt 12.296553 15.396368 0.12500000</code></pre>
+<p>Для аппроксимации данных теоретическим распределением воспользуемся функцией <code>fitdist()</code> из пакета <code>fitdistplus</code>. Наилучшая аппроксимация, процедуру подбора которой мы опускаем, соответствует логнормальному распределению. Найдем параметры этого распределения, т.е. оценки среднего <code>meanlog</code> и дисперсии <code>sdlog</code>, а также некоторые квантильные значения <code>Al</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fitdistrplus)
+(fit &lt;-<span class="st"> </span><span class="kw">fitdistr</span>(df$valC, <span class="st">&quot;lognormal&quot;</span>))</code></pre></div>
+<pre><code>##     meanlog      sdlog  
+##   4.2881216   1.0052990 
+##  (0.1515545) (0.1071652)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ep1s &lt;-<span class="st"> </span>fit$estimate[<span class="dv">1</span>]
+ep2s &lt;-<span class="st"> </span>fit$estimate[<span class="dv">2</span>]
+(hcs &lt;-<span class="st"> </span><span class="kw">qlnorm</span>(<span class="kw">c</span>(<span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>), <span class="dt">meanlog =</span> ep1s, <span class="dt">sdlog =</span> ep2s))</code></pre></div>
+<pre><code>## [1] 13.93707 20.08110 31.25066</code></pre>
+<p>Для построения кривой распределения чувствительности видов (SSD) будем использовать скрипт, представленный в блоге “Data in Environmental Science and Ecotoxicology” (<a href="http://edild.github.io/ssd/" class="uri">http://edild.github.io/ssd/</a>, автор E. Szöcs). Оценка доверительных интервалов теоретической кривой может быть осуществлена с использованием <em>параметрического</em> бутстрепа, который использует предположение о том, что исходные выборочные данные представляют собой случайные реализации вероятностного процесса, определяемого параметрами заданного распределения (Davison, Hinkley, 2006). Подробные комментарии к тексту скрипта см. в нашей книге (Шитиков, 2016).</p>
+<p>Определим предварительно две функции, необходимые нам в основных расчетах и выполняющие генерацию псевдо-выборок:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 1. Функция для нахождения p-квантили случайной выборки из </span>
+<span class="co">#  логнормального распределения с параметрами  fit</span>
+myboot &lt;-<span class="st"> </span>function(fit, p){
+    xr &lt;-<span class="st"> </span><span class="kw">rlnorm</span>(fit$n, <span class="dt">meanlog =</span> fit$estimate[<span class="dv">1</span>], <span class="dt">sdlog =</span> fit$estimate[<span class="dv">2</span>])
+    fitr &lt;-<span class="st"> </span><span class="kw">fitdist</span>(xr, <span class="st">&#39;lnorm&#39;</span>)
+    hc5r &lt;-<span class="st"> </span><span class="kw">qlnorm</span>(p, <span class="dt">meanlog =</span> fitr$estimate[<span class="dv">1</span>], <span class="dt">sdlog =</span> fitr$estimate[<span class="dv">2</span>])
+    <span class="kw">return</span>(hc5r)
+}
+
+<span class="co"># 2. Функция, возвращающая значения вероятностей для случайной</span>
+<span class="co">#  выборки из логнормального распределения с параметрами  fit</span>
+myboot2 &lt;-<span class="st"> </span>function(fit, newxs){
+    xr &lt;-<span class="st"> </span><span class="kw">rlnorm</span>(fit$n, <span class="dt">meanlog =</span> fit$estimate[<span class="dv">1</span>], <span class="dt">sdlog =</span> fit$estimate[<span class="dv">2</span>])
+    fitr &lt;-<span class="st"> </span><span class="kw">fitdist</span>(xr, <span class="st">&#39;lnorm&#39;</span>)
+    pyr &lt;-<span class="st"> </span><span class="kw">plnorm</span>(newxs, <span class="dt">meanlog =</span> fitr$estimate[<span class="dv">1</span>], <span class="dt">sdlog =</span> fitr$estimate[<span class="dv">2</span>])
+    <span class="kw">return</span>(pyr)
+}</code></pre></div>
+<p>Выполним построение 1000 бутстреп-кривых из заданного распределения и определим координаты графиков основной функции распределения и ее 95%-ных доверительных огибающих:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(reshape2)
+<span class="kw">set.seed</span>(<span class="dv">1234</span>) <span class="co"># Установка генератора случайных чисел</span>
+
+<span class="co"># новые данные для построения плавной кривой</span>
+newxs &lt;-<span class="st"> </span><span class="dv">10</span>^(<span class="kw">seq</span>(<span class="kw">log10</span>(<span class="fl">0.01</span>), <span class="kw">log10</span>(<span class="kw">max</span>(df$valC)), <span class="dt">length.out =</span> <span class="dv">100</span>))
+
+<span class="co"># получение матрицы для построения 1000 кривых</span>
+boots &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">myboot2</span>(fit, newxs))
+bootdat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(boots)
+bootdat$newxs &lt;-<span class="st"> </span>newxs
+bootdat &lt;-<span class="st"> </span><span class="kw">melt</span>(bootdat, <span class="dt">id =</span> <span class="st">&#39;newxs&#39;</span>)
+
+<span class="co"># извлечение доверительных интервалов</span>
+cis &lt;-<span class="st"> </span><span class="kw">apply</span>(boots, <span class="dv">1</span>, quantile, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))
+<span class="kw">rownames</span>(cis) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;lwr&#39;</span>, <span class="st">&#39;upr&#39;</span>)
+
+<span class="co"># Формирование итоговой таблицы подогнанных значений и  cis</span>
+pdat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(newxs, 
+                   <span class="dt">py =</span> <span class="kw">plnorm</span>(newxs, <span class="dt">meanlog =</span> fit$estimate[<span class="dv">1</span>],
+                               <span class="dt">sdlog =</span> fit$estimate[<span class="dv">2</span>]))
+pdat &lt;-<span class="st"> </span><span class="kw">cbind</span>(pdat, <span class="kw">t</span>(cis))
+
+<span class="co"># координаты x для названия видов</span>
+df$fit &lt;-<span class="st"> </span><span class="dv">10</span>^(<span class="kw">log10</span>(<span class="kw">qlnorm</span>(df$frac, 
+                           <span class="dt">meanlog =</span> fit$estimate[<span class="dv">1</span>], 
+                           <span class="dt">sdlog =</span> fit$estimate[<span class="dv">2</span>])) -<span class="st"> </span><span class="fl">0.4</span>)</code></pre></div>
+<p>Осуществим вывод полноценного графика SSD с использованием пакета <code>ggplot2</code> (рис. <a href="095-NMDS.html#fig:fig-9-15">9.15</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">ggplot</span>() +
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">data =</span> bootdat, <span class="kw">aes</span>(<span class="dt">x =</span> newxs, <span class="dt">y =</span> value, <span class="dt">group =</span> variable), 
+              <span class="dt">col =</span> <span class="st">&#39;steelblue&#39;</span>, <span class="dt">alpha =</span> <span class="fl">0.05</span>) +
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> df, <span class="kw">aes</span>(<span class="dt">x =</span> valC, <span class="dt">y =</span> frac)) +
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">data =</span> pdat, <span class="kw">aes</span>(<span class="dt">x =</span> newxs, <span class="dt">y =</span> py), <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>) +
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">data =</span> pdat, <span class="kw">aes</span>(<span class="dt">x =</span> newxs, <span class="dt">y =</span> lwr), <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>) +
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">data =</span> pdat, <span class="kw">aes</span>(<span class="dt">x =</span> newxs, <span class="dt">y =</span> upr), <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>) +
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> df, <span class="kw">aes</span>(<span class="dt">x =</span> fit, <span class="dt">y =</span> frac, <span class="dt">label =</span> <span class="kw">rownames</span>(df)), 
+              <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">size =</span> <span class="dv">4</span>) +
+<span class="st">    </span><span class="kw">scale_x_log10</span>(<span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">5</span>,  <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">300</span>), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="kw">max</span>(df$valC))) +
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Содержание алюминия в почве&#39;</span>,
+         <span class="dt">y =</span> <span class="st">&#39;Доля видов с неблагоприятными условиями&#39;</span>) +<span class="st"> </span><span class="kw">theme_bw</span>()</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-9-15"></span>
+<img src="095-NMDS_files/figure-html/fig-9-15-1.png" alt="Распределение чувствительности видов в зависимости от содержания алюминия в почве" width="576" />
+<p class="caption">
+Рисунок 9.15: Распределение чувствительности видов в зависимости от содержания алюминия в почве
+</p>
+</div>
+<p>Если задаться произвольной критической вероятностью на оси ординат SSD (см. рис. <a href="095-NMDS.html#fig:fig-9-15">9.15</a>), то с использованием кумулятивной кривой распределения можно оценить величину потенциально опасного уровня воздействия внешнего фактора (Шитиков, 2016). Из представленных результатов следует, что уже при содержании алюминия в почве <code>Al = {13.9, 20.1 и 31.3}</code> из травянистого сообщества могут исчезнуть соответственно доли <code>р = {5, 10, и 20%}</code> видов от их общего числа.</p>
+<p>Конечно, мы здесь не собирались делать каких-либо конкретных выводов в отношении вредности для растений тех или иных ингредиентов в почве, и даже не исключаем, что алюминий полезен для травостоя. Мы только использовали этот пример, чтобы описать реализацию в R алгоритмов ординации многомерных данных, подбора параметров статистических распределений и оценки степени критичности воздействия внешнего фактора.</p>
+<p>Поскольку современные тенденции исследований связаны с интенсивным заимствованием методов и приемов из разнородных отраслей, описанные алгоритмы ординации, вероятно, пригодны для использования не только в экологических приложениях. Например, в социологических исследованиях виды растений можно вполне заменить наблюдаемыми предпочтениями избирателей в отношении потенциальных кандидатур на ту или иную должность. А интенсивность ремонта дорог может служить важным внешним фактором, обусловливающим вероятность победы на выборах желаемого кандидата.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="094-Ordination-Factors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="101-Partitioning-Algos.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
