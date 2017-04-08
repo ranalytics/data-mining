@@ -36,6 +36,18 @@
 
 © 2017, Владимир Кириллович Шитиков, Сергей Эдуардович Мастицкий
 
+<br>
+Книга распространяется совершенно бесплатно. Однако если она окажется вам полезной и вы сочтете уместным отблагодарить авторов за их работу, вы можете перечислить любую сумму, воспользовавшись следующей кнопкой (все транзакции выполняются через систему электронных платежей PayPal, наличие у вас аккаунта в этой системе необязательно):
+
+<center>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input name="cmd" type="hidden" value="_s-xclick" />
+<input name="hosted_button_id" type="hidden" value="S4PUCGVTAYUBE" />
+<input alt="PayPal — более безопасный и легкий способ оплаты через Интернет!" border="0" name="submit" src="https://s3-eu-west-1.amazonaws.com/public-links-and-html-elements/thanks_button.png" type="image" />
+<img alt="" border="0" height="1" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" />
+</form>
+</center>
+
 ## Контактная информация
 
 В.К. Шитиков  
